@@ -4,18 +4,20 @@ import numpy as np
 
 class Espectro(object):
 
-  """
-  :version: 0
-  :author: Santiago Agustin Maldonado Ochoa
-  """
+    """
+    :version: 0
+    :author: Santiago Agustin Maldonado Ochoa
+    """
 
-  """
-    Clase Acqus. Contine informacion de los parametros usados en la medicion.
+    """
+    Clase Espectro. Es la transformada de fourier de la fid. Estos objetos
+    pueden provenir de un procesamiento en TopSpin o bien de procesar una fid
+    externamente
 
 
     Parameteros
     -----------
-    path : str
+    directorio : str
         Es la carpeta donde se encuentran los datos de Bruker.
         Los atributos son los parametros mas usados para el analisis de datos.
 
@@ -32,26 +34,34 @@ class Espectro(object):
     P1 : float
         Potencia del primer pulso (dB)
 
-  """
-  def __init__(self, path):
-      size, real = ng.fileio.bruker.read_pdata_binary(path+'pdata/1/1r', big=False)
+    """
+    def __init__(self):
+        
+        self.real = 0
+        self.imag = 0
+        self.size = 1
+        
+    def set_real(self, real):
+        self.real = real
+    
+    def set_imag(self, imag):
+        self.imag = imag
+        
+    def set_size(self, size):
+        self.size = int(size)
+        
+    def abs(self):
+        """
+        @return  :
+        @author
+        """
+        complex = self.real + 1j * self.imag
+        return np.abs(complex)
 
-      self.size = int(size['FILE_SIZE'])
-      self.real = real
-      self.imag = ng.fileio.bruker.read_pdata_binary(path+'pdata/1/1i', big=False)[1]
-
-  def abs(self):
-    """
-    @return  :
-    @author
-    """
-    complex = self.real + 1j * self.imag
-    return np.abs(complex)
-
-  def complex(self):
-    """
-    @return  :
-    @author
-    """
-    complex = self.real + 1j * self.imag
-    return complex
+    def complex(self):
+        """
+        @return  :
+        @author
+        """
+        complex = self.real + 1j * self.imag
+        return complex

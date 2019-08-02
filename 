@@ -1,0 +1,14 @@
+creo la rama VersionPreliminar para empezar un
+nuevo diseno en la rama master.
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+#
+# On branch VersionPreliminar
+# Changes to be committed:
+#	new file:   __pycache__/Acqus.cpython-36.pyc
+#	new file:   __pycache__/Datos.cpython-36.pyc
+#	new file:   __pycache__/Espectro.cpython-36.pyc
+#	new file:   __pycache__/Procs.cpython-36.pyc
+#	new file:   __pycache__/PulseProg.cpython-36.pyc
+#	modified:   test.py
+#

@@ -9,22 +9,22 @@ from Espectro import *
 
 class Datos(object):
 
-  """
-  :version: 0
-  :author: Santiago Agustin Maldonado Ochoa
-  """
+    """
+    :version: 0
+    :author: Santiago Agustin Maldonado Ochoa
+    """
 
-  """
+    """
     Clase Datos.
 
     Parameteros
     -----------
-    path : str
+    directorio : str
         Es la carpeta donde se encuentran los datos de Bruker.
 
     Atributos
     ----------
-    path : str
+    directorio : str
         En este atributo guardamos el nombre de la carpeta
     acqus : Acqus
         Es un objeto de la clase Acqus. Contiene los parametros con los cuales se realizo la medicion.
@@ -32,31 +32,40 @@ class Datos(object):
         Es un objeto de la clase Procs. Contiene los parametros con los cuales se procesaron los datos en TopSpin.
     pulseprog : PulseProg
         Es un objeto de la clase Procs. Contine informacion sobre el programa de pulso utilizado
-  """
-  def __init__(self, path):
-    self.path = path
-    self.acqus = Acqus(path)
-    self.procs = Procs(path)
-    self.pulseprog = PulseProg(path)
+    """
+    def __init__(self, directorio):
+        
+        self.directorio = directorio
+        self.acqus = Acqus(directorio)
+        self.procs = Procs(directorio)
+        self.pulseprog = PulseProg(directorio)
 
-  def UnMetodo(self):
-    """
-    @return  :
-    @author
-    """
-    pass
+    def UnMetodo(self):
+        """
+        @return  :
+        @author
+        """
+        pass
 
 #----------------------------HERENCIAS------------------------------------------
 
 class DatosProcesados(Datos):
+    
+    def __init__(self, directorio):
+        Datos.__init__(self, directorio)
+        self.espectro = Espectro()
 
-  def __init__(self, path):
-    Datos.__init__(self, path)
-    self.espectro = Espectro(path)
-
-  def UnMetodo(self):
-    """
-    @return  :
-    @author
-    """
-    print('soy un metodo de DatosProcesados!')
+    def set_espectro(self):
+        """
+        @return
+        @author
+        """
+        path = self.directorio + 'pdata/1/1r'
+        size, real = ng.fileio.bruker.read_pdata_binary(path, big=False)
+        path = self.directorio + 'pdata/1/1i'
+        null, imag = ng.fileio.bruker.read_pdata_binary(path, big=False)                
+        
+        self.espectro = Espectro()
+        self.espectro.set_real(real)
+        self.espectro.set_imag(imag)
+        self.espectro.set_size(int(size['FILE_SIZE']))
