@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
 
-path  = "S:/Doctorado/Dendritas/116MHz/2019-06-26_Dendritas/15/"
+path  = "S:/Doctorado/Carbones/300MHz/2019-08-27_Carbones_Liberacion_CM7/1/"
 
 
-datos = DatosProcesados(path)
+datos = DatosProcesados1D(path)
 datos.set_espectro()
 
 

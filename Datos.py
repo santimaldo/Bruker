@@ -37,7 +37,7 @@ class Datos(object):
         
         self.directorio = directorio
         self.acqus = Acqus(directorio)
-        self.procs = Procs(directorio)
+        self.procs = Procs(directorio+'pdata/1/')
         self.pulseprog = PulseProg(directorio)
 
     def UnMetodo(self):
@@ -47,25 +47,36 @@ class Datos(object):
         """
         pass
 
-#----------------------------HERENCIAS------------------------------------------
-
+#----------------------------HERENCIAS------------------------------------------        
 class DatosProcesados(Datos):
     
     def __init__(self, directorio):
         Datos.__init__(self, directorio)
         self.espectro = Espectro()
-
+        self.set_espectro()
+        
     def set_espectro(self):
         """
         @return
         @author
-        """
-        path = self.directorio + 'pdata/1/1r'
-        size, real = ng.fileio.bruker.read_pdata_binary(path, big=False)
-        path = self.directorio + 'pdata/1/1i'
-        null, imag = ng.fileio.bruker.read_pdata_binary(path, big=False)                
-        
-        self.espectro = Espectro()
+        """            
+        dic, data = ng.fileio.bruker.read_pdata(self.directorio+'pdata/1/')
+        real = np.real(data)
+        imag = np.imag(data)
+                        
         self.espectro.set_real(real)
         self.espectro.set_imag(imag)
-        self.espectro.set_size(int(size['FILE_SIZE']))
+        self.espectro.set_size(real.shape)
+        self.espectro.set_ppmAxis(self.crear_ppmAxis())
+
+    def crear_ppmAxis(self):
+        ppm = self.procs.ppm
+        offset = self.procs.offset
+        FTsize = self.procs.FTsize
+        SpectralWidth = self.acqus.SW
+        
+        ultimo_ppm = offset - SpectralWidth
+        ppmAxis = np.linspace(offset, ultimo_ppm, FTsize)
+        return ppmAxis 
+
+        

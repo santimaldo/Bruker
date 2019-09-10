@@ -39,6 +39,7 @@ class Espectro(object):
         
         self.real = 0
         self.imag = 0
+        self.ppmAxis = 0
         self.size = 1
         
     def set_real(self, real):
@@ -48,7 +49,10 @@ class Espectro(object):
         self.imag = imag
         
     def set_size(self, size):
-        self.size = int(size)
+        self.size = size
+    
+    def set_ppmAxis(self, ppmAxis):
+        self.ppmAxis = ppmAxis
         
     def abs(self):
         """

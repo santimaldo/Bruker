@@ -33,8 +33,11 @@ class Procs(object):
 
   """
   def __init__(self, path):
-      pass
-
+      self.dic = ng.fileio.bruker.read_procs_file(path)['procs']
+      self.ppm = self.dic["SF"]
+      self.offset = self.dic["OFFSET"]
+      self.FTsize = self.dic["FTSIZE"]
+    
   def UnMetodo(self):
     """
     @return  :
