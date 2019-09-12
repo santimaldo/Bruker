@@ -50,17 +50,20 @@ class Datos(object):
 #----------------------------HERENCIAS------------------------------------------        
 class DatosProcesados(Datos):
     
-    def __init__(self, directorio):
+    def __init__(self, directorio, pdata=1):
         Datos.__init__(self, directorio)
+        self.pdata = pdata
         self.espectro = Espectro()
         self.set_espectro()
+        
         
     def set_espectro(self):
         """
         @return
         @author
         """            
-        dic, data = ng.fileio.bruker.read_pdata(self.directorio+'pdata/1/')
+        path = self.directorio + 'pdata/' + str(self.pdata) + '/'
+        dic, data = ng.fileio.bruker.read_pdata(path)
         real = np.real(data)
         imag = np.imag(data)
                         
