@@ -19,10 +19,11 @@ class Espectro(object):
     -----------
     directorio : str
         Es la carpeta donde se encuentran los datos de Bruker.
-        Los atributos son los parametros mas usados para el analisis de datos.
-
+        
     Atributos
     ----------
+    Los atributos son los parametros mas usados para el analisis de datos.
+
     dic : dictionary
         Diccionario que contiene todos los parametros de acqus
     NS : int
@@ -34,13 +35,29 @@ class Espectro(object):
     P1 : float
         Potencia del primer pulso (dB)
 
+    Medotos
+    -------
+    
+    abs():
+          return: array
+          devuelve el modulo del espectro.
+          
+    complex():
+          return: array
+          devuelve el expectro como numero complejo.
+
+    ppmSelect(ppmRange):
+          Redefine todos los parametros pero con el eje ppm recortado.
+          
+          parametros: list.
+                ppmRange = [ppmInicial, ppmFinal]
     """
     def __init__(self):
         
-        self.real = 0
-        self.imag = 0
-        self.ppmAxis = 0
-        self.size = 1
+        self.real = None
+        self.imag = None
+        self.ppmAxis = None
+        self.size = None
         
     def set_real(self, real):
         self.real = real
@@ -69,3 +86,6 @@ class Espectro(object):
         """
         complex = self.real + 1j * self.imag
         return complex
+  
+    def ppmSelect(self):
+        pass

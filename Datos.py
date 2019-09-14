@@ -37,7 +37,6 @@ class Datos(object):
         
         self.directorio = directorio
         self.acqus = Acqus(directorio)
-        self.procs = Procs(directorio+'pdata/1/')
         self.pulseprog = PulseProg(directorio)
 
     def UnMetodo(self):
@@ -51,10 +50,12 @@ class Datos(object):
 class DatosProcesados(Datos):
     
     def __init__(self, directorio, pdata=1):
-        Datos.__init__(self, directorio)
-        self.pdata = pdata
+        Datos.__init__(self, directorio)        
+        self.p_dir = p_dir
+        self.procs = Procs(directorio, p_dir)
         self.espectro = Espectro()
         self.set_espectro()
+        
         
         
     def set_espectro(self):
