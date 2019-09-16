@@ -6,6 +6,7 @@ from Procs import *
 from PulseProg import *
 # librerias para la clase DatosProcesados
 from Espectro import *
+from Fid import *
 
 class Datos(object):
 
@@ -47,12 +48,35 @@ class Datos(object):
         """
         pass
 
-#----------------------------HERENCIAS------------------------------------------        
+#----------------------------HERENCIAS-----------------------------------------
+class DatosCrudos(Datos):
+    def __init__(self, directorio):
+        Datos.__init__(self, directorio)
+        self.fid = Fid()
+        self.set_fid()
+    
+    def set_fid(self):
+        """
+        @return
+        @author
+        """                    
+        null, data = ng.fileio.bruker.read(self.directorio)                
+        real = np.real(data)
+        imag = np.imag(data)
+        
+        # elimino los primeros puntos del tiempo muerto
+        real = real[:,69:]
+        imag = imag[:,69:]
+                        
+        self.fid.set_real(real)
+        self.fid.set_imag(imag)
+        self.fid.set_size(real.shape)        
+        
 class DatosProcesados(Datos):
     
     def __init__(self, directorio, pdata=1):
         Datos.__init__(self, directorio)
-        self.pdata = pdata
+        self.pdata = pdata 
         self.espectro = Espectro()
         self.set_espectro()
         
@@ -62,11 +86,11 @@ class DatosProcesados(Datos):
         @return
         @author
         """            
-        path = self.directorio + 'pdata/' + str(self.pdata) + '/'
-        dic, data = ng.fileio.bruker.read_pdata(path)
-        real = np.real(data)
-        imag = np.imag(data)
-                        
+        path = self.directorio + 'pdata/' + str(self.pdata) + '/'                
+        null, data = ng.fileio.bruker.read_pdata(path, all_components=True)            
+
+        real = data[0]
+        imag = data[1]
         self.espectro.set_real(real)
         self.espectro.set_imag(imag)
         self.espectro.set_size(real.shape)
