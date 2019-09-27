@@ -5,6 +5,7 @@ Created on Mon Sep 23 16:06:23 2019
 @author: santi
 """
 import numpy as np
+import matplotlib.pyplot as plt
 import lmfit as lm
 
 
@@ -14,6 +15,7 @@ class VoigtFit:
         Esta clase sirva para hacer ajuste de picos de los espectros, usando
         la funcion Voigt. Puedo dar la opcion de no ajustar, para solo generar
         el modelo.
+
     
     Attributes
     ----------
@@ -41,11 +43,6 @@ class VoigtFit:
     generar_modelo():
         Como su nombre indica, genera el objeto Model. Lo que hace es agregar la
         cantidad de picos necesarios.
-        ===================COSAS A RESOLVER 24/09/2019==================
-        ==    Implementar:                                            ==
-        ==        Dar parametros iniciales                            ==
-        ==        Fijar parametros o rangos                           ==
-        ================================================================
     
     fit():
         Realiza el ajuste utilizando Model.fit(). El resultado se guarda en el
@@ -74,11 +71,18 @@ class VoigtFit:
         self.params = None
         self.ajuste = None
         
-        # ajusto:
+        
         self.generar_modelo()
+        # chequeo si le di parametros iniciales, en tal caso, se los aplico al
+        # modelo. Notar que los parámetros que no fueron dados, seran los
+        # aleatorios
+        if bool(self.parametros_iniciales):
+            self.generar_params()
+        # ajusto:
         if ajustar:        
             self.fit(fijar)
     
+    #----------------------------------Methods
     def generar_modelo(self):
         
         modelo_compuesto = None
@@ -106,12 +110,8 @@ class VoigtFit:
                 prefix_i+'height': y_max * np.random.random(),
                 prefix_i+'sigma': x_range/2/Npicos * np.random.random(),
                 prefix_i+'gamma': x_range/2/Npicos * np.random.random()
-            }            
-            # chequeo si le di parametros iniciales, sino, usa los defaults
-            if bool(self.parametros_iniciales):
-                model_params = model.make_params(**self.parametros_iniciales)
-            else:
-                model_params = model.make_params(**default_params)
+            }
+            model_params = model.make_params(**default_params)
             
             if params is None:
                 params = model_params
@@ -127,13 +127,32 @@ class VoigtFit:
         self.modelo = modelo_compuesto
         self.params = params
     #--------------------------------------------------------------------------
+    def generar_params(self):
+        """
+        La forma de darle los parametros inciales es, por ejemplo:
+            vf = VoigtFit(Npicos=3, sigma=[10,20,20], center={246,260,270})
+        """
+        p_ini = self.parametros_iniciales        
+        for parametro in p_ini:
+            valores = p_ini[parametro]
+            for i in range(len(valores)):
+                # ojo, esto elimina los LIMITES dados en generar_modelo()
+                self.params[f'm{i+1}_{parametro}'].set(value=valores[i])
         
+        
+        
+    #--------------------------------------------------------------------------        
     def fit(self, fijar):
         model = self.modelo
         params = self.params
         for param_fijo in fijar:
-            for i in range(self.Npicos):
+            # si hay un guin bajo, es porque solo se quiere fijar un pico.
+            if '_' in param_fijo:
                 params[f'm{i+1}_{param_fijo}'].vary = False
+            # si no, se fija ese parametro en todos los picos
+            else:
+                for i in range(self.Npicos):
+                    params[f'm{i+1}_{param_fijo}'].vary = False
             
         self.ajuste = model.fit(self.y, self.params, x=self.x)
         self.params = self.ajuste.params
@@ -148,5 +167,16 @@ class VoigtFit:
 
         return total, componentes
     #--------------------------------------------------------------------------
-    def plot(self):
+    def plot_ajuste(self):
         self.ajuste.plot()
+        
+    #--------------------------------------------------------------------------
+    def plot_modelo(self):
+        x = self.x
+        y = self.modelo.eval(x=x, params=self.params)
+        
+        plt.figure(0)
+        plt.plot(x,y)
+        plt.show()
+        
+
