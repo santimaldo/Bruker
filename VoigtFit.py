@@ -70,13 +70,20 @@ class VoigtFit:
         self.modelo = None
         self.params = None
         self.ajuste = None
-        
-        
+                                
         self.generar_modelo()
         # chequeo si le di parametros iniciales, en tal caso, se los aplico al
         # modelo. Notar que los parámetros que no fueron dados, seran los
         # aleatorios
         if bool(self.parametros_iniciales):
+            p_ini = self.parametros_iniciales
+            for parametro in p_ini:
+                # si el parametro inicial es una lista, queda.
+                if isinstance(p_ini[parametro], list):
+                    continue
+                # si tiene un solo elemento, lo transformo en lista
+                elif type(p_ini[parametro]) in [int, float, str]:                    
+                    p_ini[parametro] = [p_ini[parametro]]                
             self.generar_params()
         # ajusto:
         if ajustar:        
@@ -145,12 +152,24 @@ class VoigtFit:
     def fit(self, fijar):
         model = self.modelo
         params = self.params
+        p_ini = self.parametros_iniciales
+        
+        #si fijar no es una lista, lo convierto en una
+        if not isinstance(fijar, list):
+            fijar = [fijar]
+        
         for param_fijo in fijar:
-            # si hay un guin bajo, es porque solo se quiere fijar un pico.
+            # si hay un guion bajo, es porque solo se quiere fijar un pico.
+            # ej: m2_center
             if '_' in param_fijo:
-                params[f'm{i+1}_{param_fijo}'].vary = False
-            # si no, se fija ese parametro en todos los picos
-            else:
+                params[f'{param_fijo}'].vary = False
+            # si no se especifica en que pico, se fija ese parametro en todos 
+            # los picos a los cuales se les da un valor inicial. Si ningun pico
+            # tiene valor inicial, se fijan todos
+            elif param_fijo in p_ini:
+                for i in range(len(p_ini[param_fijo])):
+                    params[f'm{i+1}_{param_fijo}'].vary = False
+            elif param_fijo not in p_ini:
                 for i in range(self.Npicos):
                     params[f'm{i+1}_{param_fijo}'].vary = False
             
