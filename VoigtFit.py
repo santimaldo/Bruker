@@ -64,7 +64,7 @@ class VoigtFit:
         Grafica el resultado y los residuos.
     
     """
-    def __init__(self, x, y, Npicos=1, ajustar=True, **parametros_iniciales):
+    def __init__(self, x, y, Npicos=1, ajustar=True, fijar=[], **parametros_iniciales):
         
         self.x = x
         self.y = y
@@ -77,7 +77,7 @@ class VoigtFit:
         # ajusto:
         self.generar_modelo()
         if ajustar:        
-            self.fit()
+            self.fit(fijar)
     
     def generar_modelo(self):
         
@@ -98,7 +98,8 @@ class VoigtFit:
             model.set_param_hint('gamma', min=1e-6, max=x_range)
             model.set_param_hint('center', min=x_min, max=x_max)
             model.set_param_hint('height', min=1e-6, max=1.1*y_max)
-            model.set_param_hint('amplitude', min=1e-6)
+            model.set_param_hint('amplitude', min=1e-6)            
+            
             # default guess is horrible!! do not use guess()
             default_params = {
                 prefix_i+'center': x_min + x_range/2 + x_range/2 * (np.random.random()-0.5),
@@ -127,10 +128,16 @@ class VoigtFit:
         self.params = params
     #--------------------------------------------------------------------------
         
-    def fit(self):
-        model = self.modelo            
+    def fit(self, fijar):
+        model = self.modelo
+        params = self.params
+        for param_fijo in fijar:
+            for i in range(self.Npicos):
+                params[f'm{i+1}_{param_fijo}'].vary = False
+            
         self.ajuste = model.fit(self.y, self.params, x=self.x)
         self.params = self.ajuste.params
+                   
     #--------------------------------------------------------------------------    
     def componentes(self, x):
         total = self.modelo.eval(x=x, params=self.params)
