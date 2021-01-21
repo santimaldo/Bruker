@@ -35,12 +35,16 @@ class Acqus(object):
 
   """
   def __init__(self, directorio):
+        
       self.dic = ng.bruker.read_acqus_file(directorio)['acqus']
       self.NS = int(self.dic["NS"])      
       self.P1 = self.dic["P"][1]
       self.PL1 = self.dic["PL"][1]
       self.RG = int(self.dic["RG"])
       self.SW = self.dic["SW"]
+      self.SFO1 = self.dic["SFO1"]
+      
+      self.DW = 1e6/(2*self.SW*self.SFO1)
 
   def UnMetodo(self):
     """

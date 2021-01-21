@@ -61,21 +61,28 @@ class VoigtFit:
         Grafica el resultado y los residuos.
     
     """
-    def __init__(self, x, y, Npicos=1, ajustar=True, fijar=[], **parametros_iniciales):
+    def __init__(self, x, y, params = None, Npicos=1, ajustar=True, fijar=[], **parametros_iniciales):
         
         self.x = x
         self.y = y
         self.Npicos = Npicos                        
         self.parametros_iniciales = parametros_iniciales
         self.modelo = None
-        self.params = None
+        self.params = params
         self.ajuste = None
+        
+        if self.params is None:
+            # esto es verdad si no le doy de entrada un OBJETO params
+            NotInitParam = True
+        else:
+            NotInitParam = False
+        
                                 
         self.generar_modelo()
         # chequeo si le di parametros iniciales, en tal caso, se los aplico al
         # modelo. Notar que los parámetros que no fueron dados, seran los
         # aleatorios
-        if bool(self.parametros_iniciales):
+        if bool(self.parametros_iniciales) and NotInitParam:
             p_ini = self.parametros_iniciales
             for parametro in p_ini:
                 # si el parametro inicial es una lista, queda.
@@ -120,10 +127,11 @@ class VoigtFit:
             }
             model_params = model.make_params(**default_params)
             
-            if params is None:
-                params = model_params
-            else:
-                params.update(model_params)
+            if self.params is None:
+                if params is None:
+                    params = model_params
+                else:
+                    params.update(model_params)
                 
             if modelo_compuesto is None:
                 modelo_compuesto = model
@@ -132,7 +140,8 @@ class VoigtFit:
 
         # return:                
         self.modelo = modelo_compuesto
-        self.params = params
+        if self.params is None:
+            self.params = params
     #--------------------------------------------------------------------------
     def generar_params(self):
         """
@@ -172,8 +181,10 @@ class VoigtFit:
             elif param_fijo not in p_ini:
                 for i in range(self.Npicos):
                     params[f'm{i+1}_{param_fijo}'].vary = False
-            
-        self.ajuste = model.fit(self.y, self.params, x=self.x)
+        
+        print(params['m1_center'].value, params['m1_center'].value)
+        print(params['m1_sigma'].value, params['m1_gamma'].value)
+        self.ajuste = model.fit(self.y, params, x=self.x)
         self.params = self.ajuste.params
                    
     #--------------------------------------------------------------------------    

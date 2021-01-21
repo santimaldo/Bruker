@@ -32,9 +32,14 @@ class Procs(object):
     offset : float
         primer valor en el eje ppm.   
   """
-  def __init__(self, directorio, p_dir):
-      path = directorio + 'pdata/' + str(p_dir) + '/'
-      self.dic = ng.fileio.bruker.read_procs_file(path)['procs']
+  def __init__(self, directorio, p_dir, dim2 = False):
+      path = directorio + 'pdata/' + str(p_dir) + '/'      
+      
+      procs = 'procs'
+      if dim2:
+          procs = 'proc2s'
+          
+      self.dic = ng.fileio.bruker.read_procs_file(path)[procs]
       self.FTsize = self.dic["FTSIZE"]
       self.ppm = self.dic["SF"]
       self.offset = self.dic["OFFSET"]
