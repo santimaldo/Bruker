@@ -1,5 +1,6 @@
 # coding=UTF-8
 import nmrglue as ng
+import pathlib
 
 class Acqus(object):
 
@@ -32,19 +33,28 @@ class Acqus(object):
         Ganancia del Receptor        
     SW : float
         Ancho espectral en ppm.
+    DW : float
+        Dwell Time
 
   """
-  def __init__(self, directorio):
-        
-      self.dic = ng.bruker.read_acqus_file(directorio)['acqus']
+  def __init__(self, directorio, dim2=False):
+      if dim2:
+        acq_file='acqu2s'
+      else:
+        acq_file='acqus'
+      self.acq_file = f'{directorio}/{acq_file}'
+      self.dic = ng.bruker.read_acqus_file(directorio)[acq_file]
       self.NS = int(self.dic["NS"])      
       self.P1 = self.dic["P"][1]
       self.PL1 = self.dic["PL"][1]
       self.RG = int(self.dic["RG"])
       self.SW = self.dic["SW"]
       self.SFO1 = self.dic["SFO1"]
-      
-      self.DW = 1e6/(2*self.SW*self.SFO1)
+      sw_Hz = self.SW*self.SFO1      
+      self.DW = 1/(2*sw_Hz) # en segundos
+      self.fecha = None
+      self.hora  = None
+      self.getFechayHora()
 
   def UnMetodo(self):
     """
@@ -52,3 +62,8 @@ class Acqus(object):
     @author
     """
     pass
+
+
+  def getFechayHora(self):
+    FechayHora = pathlib.Path(self.acq_file).stat().st_mtime
+    self.hora = FechayHora

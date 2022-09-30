@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Created on Wed Jan  8 17:33:48 2020
@@ -23,8 +22,8 @@ class Exsy(object):
         """
         self.Npicos = Npicos
         self.spec = espectro.real
-        self.ppmGridDir = espectro.ppmGrid_Dir
-        self.ppmGridInd = espectro.ppmGrid_Ind     
+        self.ppmGridDir = espectro.ppmGridDir
+        self.ppmGridInd = espectro.ppmGridInd     
         self.regiones = self.crear_regiones(Npicos)
         self.integrales = None
         
@@ -42,23 +41,20 @@ class Exsy(object):
         return regiones
     
 #------------------------------------------------------------------------------    
-    def establecer_region(self, region, guess, delta_ppm=(0.6,0.6)):
+    def establecer_region(self, region, guess, delta_ppm=(1,1)):
         """
         este metodo establece la region de integracion para determinado pico.
         Inputs:
             region: tuple (n,m). Esto genera: self.regiones[n][m]
             guess: tuple(x,y). en que ppm se encuentra aproximadamente el pico
-            delta_ppm: timple(delta_x, delta_y). cuanto se corre del guess para
+            delta_ppm: tuple(delta_x, delta_y). cuanto se corre del guess para
                 buscar el maximo
         """        
         # obtengo los indices del centro del pico.
-        #xc, yc = self.encontrar_picos(guess, delta_ppm)
-        xc,yc = guess
-        x_index = find_nearest(self.ppmGridDir[0,:], xc)
-        y_index = find_nearest(self.ppmGridInd[:,0], yc)
+        xc, yc = self.encontrar_picos(guess, delta_ppm)
         # obtengo las coordenadas que determinan el rectangulo donde voy a
         # integrar.        
-        x_lims, y_lims = self.establecer_limites(x_index, y_index)
+        x_lims, y_lims = self.establecer_limites(xc, yc)
         
         xi,xf = x_lims
         yi,yf = y_lims
@@ -66,34 +62,9 @@ class Exsy(object):
         ppmGridDir = self.ppmGridDir[yi:yf, xi:xf]
         ppmGridInd = self.ppmGridInd[yi:yf, xi:xf]
         
-        # dado que la region se definio con las derivadas, el pico está a lo sumo en el borde.
-        # entonces en esta region busco el maximo y eso me define xc, yc.
-        # estos son indices en la matriz reducida
-        x_index = np.where(spec==np.max(spec))[1][0]
-        y_index = np.where(spec==np.max(spec))[0][0]
         
-        # ahora busco cuanto vale la coordenadas en esos indices para luego encontrar
-        # los indices en la matriz completa
-        xc = ppmGridDir[0,x_index]
-        yc = ppmGridInd[y_index,0]      
-        # estos son indices en la matriz completa
-        x_index = find_nearest(self.ppmGridDir[0,:], xc)
-        y_index = find_nearest(self.ppmGridInd[:,0], yc)        
-                            
-        # ahora repito el procedimiento para determinar la region, a partir de un nuevo xc, yc
-        x_lims, y_lims = self.establecer_limites(x_index, y_index)
-        
-        print(x_lims, y_lims)
-        
-        xi,xf = x_lims
-        yi,yf = y_lims
-        spec = self.spec[yi:yf, xi:xf]
-        ppmGridDir = self.ppmGridDir[yi:yf, xi:xf]
-        ppmGridInd = self.ppmGridInd[yi:yf, xi:xf]
-                
         n, m = region
         self.regiones[n][m] = Region(ppmGridDir, ppmGridInd, spec)
-        return 0
         
 #------------------------------------------------------------------------------    
     def encontrar_picos(self, guess, delta_ppm):
@@ -147,9 +118,6 @@ class Exsy(object):
         """
         esta funcion debe devolver dos tuplas (xi,xf), (yi,yf)
         """
-#        x_index = int(x_index)
-#        y_index = int(y_index)
-        
         spec_x = self.spec[y_index, :]
         spec_y = self.spec[:, x_index]
 
@@ -195,7 +163,6 @@ class Exsy(object):
         mean_x = []
         mean_array = []
         std_array = []
-        maximo = abs(array).max()
         
         index = inicio_index + 4*delta_n
         intervalo = array[index-delta_n : index+delta_n]
@@ -217,11 +184,10 @@ class Exsy(object):
                 break
             new = np.mean(intervalo)
             sgn_new = np.sign(new)              
-#            cond1 = sgn_new==sgn_old
-#             # cond2: es falsa cuando la desviacion es chica y esta cerca de cero)
-#            cond2 = not( abs(std)<0.01*maximo and abs(new)<0.01*maximo)
-#            condition = cond1 and cond2
-            condition = sgn_new==sgn_old
+            cond1 = sgn_new==sgn_old
+            # cond2: es falsa cuando la desviacion es chica y esta cerca de cero)
+            cond2 = not( std<100 and abs(new)<0.1*abs(array).max() )
+            condition = cond1 and cond2
         
         index_fin = index - delta_n
             
@@ -245,10 +211,9 @@ class Exsy(object):
                 break
             new = np.mean(intervalo)
             sgn_new = np.sign(new)
-#            cond1 = sgn_new==sgn_old
-#            cond2 = not( abs(std)<0.01*maximo and abs(new)<0.01*maximo)
-#            condition = cond1 and cond2
-            condition = sgn_new==sgn_old
+            cond1 = sgn_new==sgn_old
+            cond2 = not( std<100 and abs(new)<0.1*abs(array).max() )
+            condition = cond1 and cond2
             
         index_ini = index + delta_n
         
@@ -271,16 +236,14 @@ class Exsy(object):
         
         return index_ini, index_fin
 #------------------------------------------------------------------------------
-    def graficar_regiones(self, ax = None, Ncontour=30):
+    def graficar_regiones(self,fignum, Ncontour=30):
 
         # primero el contour del espectro entero        
-        # plt.figure(int(fignum))
-        if ax is None:
-              ax = plt.subplot(1,1,1)
-              
-        ax.contour(self.ppmGridDir, self.ppmGridInd, self.spec, Ncontour, cmap='binary')
-        
-
+        plt.figure(int(fignum))
+        plt.contour(self.ppmGridDir, self.ppmGridInd, self.spec, Ncontour, cmap='jet')
+        ax = plt.gca()
+        ax.invert_yaxis()
+        ax.invert_xaxis()
         
         for lista in self.regiones:
             for region in lista:        
@@ -288,11 +251,7 @@ class Exsy(object):
                     x = region.ppmGridDir
                     y = region.ppmGridInd
                     spec = region.spec
-                    ax.contourf(x,y,spec, cmap='jet')
-                    
-        ax = plt.gca()
-        ax.invert_yaxis()
-        ax.invert_xaxis()
+                    plt.contourf(x,y,spec, cmap='jet')
         return 0
 #------------------------------------------------------------------------------
     def integrar_regiones(self):

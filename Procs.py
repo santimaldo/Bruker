@@ -43,7 +43,7 @@ class Procs(object):
       self.FTsize = self.dic["FTSIZE"]
       self.ppm = self.dic["SF"]
       self.offset = self.dic["OFFSET"]
-      
+      self.phase = self.dic["PHC0"]
     
   def UnMetodo(self):
     """
