@@ -2,13 +2,15 @@
 import nmrglue as ng
 import numpy as np
 import matplotlib.pyplot as plt
-class Espectro(object):
-  """
-  :version: 0
-  :author: Santiago Agustin Maldonado Ochoa
-  """
 
-  """
+
+class Espectro(object):
+    """
+    :version: 0
+    :author: Santiago Agustin Maldonado Ochoa
+    """
+
+    """
   Clase Espectro. Es la transformada de fourier de la fid. Estos objetos
   pueden provenir de un procesamiento en TopSpin o bien de procesar una fid
   externamente
@@ -51,214 +53,225 @@ class Espectro(object):
         parametros: list.
               ppmRange = [ppmInicial, ppmFinal]
   """
-  def __init__(self, fid=None): #, rango=None
 
-      self.real = None
-      self.imag = None
-      self.spec = None
-      self.ppmAxis = None
-      self.ppmAxisInd = None
-      self.ppmGridDir = None
-      self.ppmGridInd = None
-      self.size = None
-      self.mask = None
-      # self.rango=rango
+    def __init__(self, fid=None):  # , rango=None
 
+        self.real = None
+        self.imag = None
+        self.spec = None
+        self.ppmAxis = None
+        self.ppmAxisInd = None
+        self.ppmGridDir = None
+        self.ppmGridInd = None
+        self.size = None
+        self.mask = None
+        # self.rango=rango
 
-      if fid is not None:
-        self.CrearEspectro(fid)
+        if fid is not None:
+            self.CrearEspectro(fid)
 
-      # print("RANGO::::", rango)
-      # if self.rango is not None:
-      #   if np.ndim(spec)==1:
-      #     self.ppmSelect(rango)
-      #   elif np.ndim(spec)==2:
-      #     self.ppmSelect2D(rango)
+        # print("RANGO::::", rango)
+        # if self.rango is not None:
+        #   if np.ndim(spec)==1:
+        #     self.ppmSelect(rango)
+        #   elif np.ndim(spec)==2:
+        #     self.ppmSelect2D(rango)
 
-  def set_real(self, real):
-      self.real = real
+    def set_real(self, real):
+        self.real = real
 
-  def set_imag(self, imag):
-      self.imag = imag
+    def set_imag(self, imag):
+        self.imag = imag
 
-  def set_spec(self, spec):
-      self.spec = spec
+    def set_spec(self, spec):
+        self.spec = spec
 
-  def set_size(self, size):
-      self.size = size
+    def set_size(self, size):
+        self.size = size
 
-  def set_ppmAxis(self, ppmAxis):
-      self.ppmAxis = ppmAxis
+    def set_ppmAxis(self, ppmAxis):
+        self.ppmAxis = ppmAxis
 
-  def set_ppmAxisInd(self, ppmAxisInd):
-      self.ppmAxisInd = ppmAxisInd
+    def set_ppmAxisInd(self, ppmAxisInd):
+        self.ppmAxisInd = ppmAxisInd
 
-  def abs(self):
-      """
-      @return  :
-      @author
-      """
-      complex = self.real + 1j * self.imag
-      return np.abs(complex)
+    def abs(self):
+        """
+        @return  :
+        @author
+        """
+        complex = self.real + 1j * self.imag
+        return np.abs(complex)
 
-  def complex(self):
-      """
-      @return  :
-      @author
-      """
-      complex = self.real + 1j * self.imag
-      return complex
+    def complex(self):
+        """
+        @return  :
+        @author
+        """
+        complex = self.real + 1j * self.imag
+        return complex
 
-  def ppmSelect(self, rango):
-      """
-      todavia no esta chequeado, no se si funciona
-      """
-      newppm = self.ppmAxis
-      newppm = newppm[newppm<=max(rango)]
-      newppm = newppm[newppm>=min(rango)]
-      ini = np.where(self.ppmAxis==newppm[0])[0][0]
-      fin = np.where(self.ppmAxis==newppm[-1])[0][0] + 1
-      self.ppmAxis = newppm
-      self.real = self.real[ini:fin]
-      self.imag = self.imag[ini:fin]
+    def ppmSelect(self, rango):
+        """
+        todavia no esta chequeado, no se si funciona
+        """
+        newppm = self.ppmAxis
+        newppm = newppm[newppm <= max(rango)]
+        newppm = newppm[newppm >= min(rango)]
+        ini = np.where(self.ppmAxis == newppm[0])[0][0]
+        fin = np.where(self.ppmAxis == newppm[-1])[0][0] + 1
+        self.ppmAxis = newppm
+        self.real = self.real[ini:fin]
+        self.imag = self.imag[ini:fin]
 
-  def ppmSelect2D(self, rango):
-      newppm = self.ppmAxis
-      newppm = newppm[newppm<=max(rango)]
-      newppm = newppm[newppm>=min(rango)]
-      dir_ini = np.where(self.ppmAxis==newppm[0] )[0][0]
-      dir_fin = np.where(self.ppmAxis==newppm[-1])[0][0] + 1
-      self.ppmAxis = newppm
+    def ppmSelect2D(self, rango):
+        newppm = self.ppmAxis
+        newppm = newppm[newppm <= max(rango)]
+        newppm = newppm[newppm >= min(rango)]
+        dir_ini = np.where(self.ppmAxis == newppm[0])[0][0]
+        dir_fin = np.where(self.ppmAxis == newppm[-1])[0][0] + 1
+        self.ppmAxis = newppm
 
-      newppm = self.ppmAxisInd
-      newppm = newppm[newppm<=max(rango)]
-      newppm = newppm[newppm>=min(rango)]
-      ind_ini = np.where(self.ppmAxisInd==newppm[0] )[0][0]
-      ind_fin = np.where(self.ppmAxisInd==newppm[-1])[0][0] + 1
-      self.ppmAxisInd = newppm
+        newppm = self.ppmAxisInd
+        newppm = newppm[newppm <= max(rango)]
+        newppm = newppm[newppm >= min(rango)]
+        ind_ini = np.where(self.ppmAxisInd == newppm[0])[0][0]
+        ind_fin = np.where(self.ppmAxisInd == newppm[-1])[0][0] + 1
+        self.ppmAxisInd = newppm
 
-      self.real = self.real[ind_ini:ind_fin, dir_ini:dir_fin]
-      self.imag = self.imag[ind_ini:ind_fin, dir_ini:dir_fin]
+        self.real = self.real[ind_ini:ind_fin, dir_ini:dir_fin]
+        self.imag = self.imag[ind_ini:ind_fin, dir_ini:dir_fin]
 
-      self.crear_ppmGrid()
+        self.crear_ppmGrid()
 
+    def IndirectDimensionSelect(self, rango):
+        """
+        Selecciono los espectros en la dimension indirecta (xf2)
 
-  def crear_ppmGrid(self):
+        rango : (int, int)
+        """
+        ini = int(rango[0])
+        fin = int(rango[1])
+        self.real = self.real[ini:fin, :]
+        self.imag = self.imag[ini:fin, :]
+        self.spec = self.real + 1j*self.imag
+        self.crear_ppmGrid()
 
-      Dir = self.ppmAxis
-      Ind = self.ppmAxisInd
+    def crear_ppmGrid(self):
 
-      Dir, Ind = np.meshgrid(Dir, Ind)
+        Dir = self.ppmAxis
+        Ind = self.ppmAxisInd
 
-      self.ppmGridDir = Dir
-      self.ppmGridInd = Ind
+        Dir, Ind = np.meshgrid(Dir, Ind)
 
-  def set_mask(self, mask):
-      """
-      todos valores menores que la mascara, se fuerzan a cero.
-      """
-      self.mask = mask
-      spec = self.real
-      spec[spec<=mask] = 0.0
-      self.real = spec
+        self.ppmGridDir = Dir
+        self.ppmGridInd = Ind
+
+    def set_mask(self, mask):
+        """
+        todos valores menores que la mascara, se fuerzan a cero.
+        """
+        self.mask = mask
+        spec = self.real
+        spec[spec <= mask] = 0.0
+        self.real = spec
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  def CrearEspectro(self, fid, figure=None, return_angle=True):
+    def CrearEspectro(self, fid, figure=None, return_angle=True):
+        """
+        Crear espectro a partir de una fid
+        """
+
+        # FID-----------------------------------------------------------------------
+        ppm = fid.ppm  # Hz
+        T2est = 0.14*1e-3  # T2est=0.14ms estimado con ancho de espectro. 2020-11-13
+        t = fid.timeAxis
+        signal = fid.signal
+        dw = t[1]-t[0]
+        NP = t.size
+
+        # FOURIER-------------------------------------------------------------------
+        freq = np.fft.fftshift(np.fft.fftfreq(NP, d=dw))
+        ppmAxis = freq/ppm
+        spec = np.fft.fftshift(np.fft.fft(signal))
+        # corrijo la fase:
+        spec, angle = autophase(ppmAxis, spec)
+
+        self.ppmAxis = ppmAxis
+        self.spec = spec
+        self.real = np.real(spec)
+        self.imag = np.imag(spec)
+
+        if figure:
+            plt.figure(figure)
+            plt.subplot(1, 2, 1)
+            plt.title('FID')
+            plt.plot(t*1e3, np.real(fid)/np.max(np.real(fid)), linewidth=2)
+            plt.xlabel('time [ms]')
+            plt.yticks([])
+            plt.subplot(1, 2, 2)
+            plt.title('Spectrum')
+            plt.plot(ppmAxis, np.real(spec)/np.max(np.real(spec)), linewidth=2)
+            plt.xlabel('ppmAxis')
+            plt.xlim([np.max(ppmAxis), np.min(ppmAxis)])
+            plt.yticks([])
+
+        if return_angle == True:
+            return ppmAxis, spec, angle
+        else:
+            return ppmAxis, spec
+
+
+def autophase(ppmAxis, complex_data, method='minIntImag', precision=1):
     """
-    Crear espectro a partir de una fid
+    Correccion automatica de fase, ya sea de espectro o de fid.
+
+    complex_data es un espectro o fid, de la forma real + 1j* imag
+    donde real, e imag son arrays del tipo float.
+
+    Usos:
+    spec, angle = autophase(ppmAxis, spec)
+    fid, angle = autophase(ppmAxis, fid, method='minIntImag')
+
+    Metodos:
+      + MinIntImagSpec (default)
+        - espectros
+        - minimiza el area de la parte imaginaria
+      +
+
     """
 
+    angle = np.arange(-180, 180, precision)
+    # angle=np.arange(180,-180,-precision)
+    angle = np.arange(0, 360, precision)
 
-    #FID-----------------------------------------------------------------------
-    ppm = fid.ppm # Hz
-    T2est = 0.14*1e-3 # T2est=0.14ms estimado con ancho de espectro. 2020-11-13
-    t = fid.timeAxis
-    signal = fid.signal
-    dw = t[1]-t[0]
-    NP = t.size
+    SPECS = []
+    IntImagSpec = []
+    IntRealSpec = []
+    for i in range(angle.size):
+        Sp_try = complex_data*np.exp(-1j*angle[i]*np.pi/180)
+        SPECS.append(Sp_try)
+        IntImagSpec.append(np.abs(np.trapz(np.imag(Sp_try), x=ppmAxis)))
+        IntRealSpec.append(np.abs(np.trapz(np.real(Sp_try), x=ppmAxis)))
+    IntImagSpec = np.array(IntImagSpec)
+    IntRealSpec = np.array(IntRealSpec)
+    if method == 'minIntImag':
+        # indice del minimo:
+        idx = np.argmin(IntImagSpec)
+        complex_data = SPECS[idx]
+        # ind_max = np.argmax(np.abs(np.real(complex_data)))
+        # if complex_data[ind_max]<0:
+        #   complex_data=-complex_data
+    if method == 'maxIntReal':
+        # indice del maximo:
+        idx = np.where(IntImagSpec == np.max(IntImagSpec))
+        idx = idx[0][0]
+        complex_data = SPECS[idx]
+        ind_max = np.argmax(np.abs(np.real(complex_data)))
+        # if complex_data[ind_max]<0:
+        #   complex_data=-complex_data
 
-
-    #FOURIER-------------------------------------------------------------------
-    freq = np.fft.fftshift(np.fft.fftfreq(NP, d=dw))
-    ppmAxis = freq/ppm
-    spec = np.fft.fftshift(np.fft.fft(signal))
-    # corrijo la fase:
-    spec, angle = autophase(ppmAxis,spec)
-
-    self.ppmAxis = ppmAxis
-    self.spec = spec
-    self.real = np.real(spec)
-    self.imag = np.imag(spec)
-
-    if figure:
-      plt.figure(figure)
-      plt.subplot(1,2,1)
-      plt.title('FID')
-      plt.plot(t*1e3, np.real(fid)/np.max(np.real(fid)), linewidth=2)
-      plt.xlabel('time [ms]')
-      plt.yticks([])
-      plt.subplot(1,2,2)
-      plt.title('Spectrum')
-      plt.plot(ppmAxis, np.real(spec)/np.max(np.real(spec)), linewidth=2)
-      plt.xlabel('ppmAxis')
-      plt.xlim([np.max(ppmAxis),np.min(ppmAxis)])
-      plt.yticks([])
-
-    if return_angle==True:
-      return ppmAxis, spec, angle
-    else:
-      return  ppmAxis, spec
-
-def autophase(ppmAxis, complex_data, method='minIntImag', precision = 1):
-  """
-  Correccion automatica de fase, ya sea de espectro o de fid.
-
-  complex_data es un espectro o fid, de la forma real + 1j* imag
-  donde real, e imag son arrays del tipo float.
-
-  Usos:
-  spec, angle = autophase(ppmAxis, spec)
-  fid, angle = autophase(ppmAxis, fid, method='minIntImag')
-
-  Metodos:
-    + MinIntImagSpec (default)
-      - espectros
-      - minimiza el area de la parte imaginaria
-    +
-
-  """
-
-  angle=np.arange(-180,180,precision)
-  # angle=np.arange(180,-180,-precision)
-  angle=np.arange(0,360,precision)
-
-  SPECS = []
-  IntImagSpec = []
-  IntRealSpec = []
-  for i in range(angle.size):
-      Sp_try= complex_data*np.exp(-1j*angle[i]*np.pi/180)
-      SPECS.append(Sp_try)
-      IntImagSpec.append(np.abs(np.trapz(np.imag(Sp_try),x=ppmAxis)))
-      IntRealSpec.append(np.abs(np.trapz(np.real(Sp_try),x=ppmAxis)))
-  IntImagSpec = np.array(IntImagSpec)
-  IntRealSpec = np.array(IntRealSpec)
-  if method=='minIntImag':
-    # indice del minimo:
-    idx = np.argmin(IntImagSpec)
-    complex_data = SPECS[idx]
-    # ind_max = np.argmax(np.abs(np.real(complex_data)))
-    # if complex_data[ind_max]<0:
-    #   complex_data=-complex_data
-  if method=='maxIntReal':
-    # indice del maximo:
-    idx = np.where(IntImagSpec==np.max(IntImagSpec))
-    idx=idx[0][0]
-    complex_data = SPECS[idx]
-    ind_max = np.argmax(np.abs(np.real(complex_data)))
-    # if complex_data[ind_max]<0:
-    #   complex_data=-complex_data
-
-  angle=angle[idx]
-  return  complex_data, angle
+    angle = angle[idx]
+    return complex_data, angle

@@ -2,14 +2,15 @@
 import nmrglue as ng
 import pathlib
 
+
 class Acqus(object):
 
-  """
-  :version: 0
-  :author: Santiago Agustin Maldonado Ochoa
-  """
+    """
+    :version: 0
+    :author: Santiago Agustin Maldonado Ochoa
+    """
 
-  """
+    """
     Clase Acqus. Contine informacion de los parametros usados en la medicion.
 
 
@@ -28,42 +29,48 @@ class Acqus(object):
     P1 : float
         Potencia del primer pulso (dB)
     PL1 : float
-        Duracion del primer pulso (us).    
+        Duracion del primer pulso (us).
     RG : int
-        Ganancia del Receptor        
+        Ganancia del Receptor
     SW : float
         Ancho espectral en ppm.
     DW : float
         Dwell Time
 
   """
-  def __init__(self, directorio, dim2=False):
-      if dim2:
-        acq_file='acqu2s'
-      else:
-        acq_file='acqus'
-      self.acq_file = f'{directorio}/{acq_file}'
-      self.dic = ng.bruker.read_acqus_file(directorio)[acq_file]
-      self.NS = int(self.dic["NS"])      
-      self.P1 = self.dic["P"][1]
-      self.PL1 = self.dic["PL"][1]
-      self.RG = int(self.dic["RG"])
-      self.SW = self.dic["SW"]
-      self.SFO1 = self.dic["SFO1"]
-      sw_Hz = self.SW*self.SFO1      
-      self.DW = 1/(2*sw_Hz) # en segundos
-      self.fecha = None
-      self.hora  = None
-      self.getFechayHora()
 
-  def UnMetodo(self):
-    """
-    @return  :
-    @author
-    """
-    pass
+    def __init__(self, directorio, dim2=False):
+        if dim2:
+            acq_file = 'acqu2s'
+        else:
+            acq_file = 'acqus'
+        self.acq_file = f'{directorio}/{acq_file}'
+        self.dic = ng.bruker.read_acqus_file(directorio)[acq_file]
+        self.TD = int(self.dic["TD"])
+        self.NS = int(self.dic["NS"])
+        self.D = self.dic["D"]
+        self.D1 = self.D[1]
+        self.P = self.dic["P"]
+        self.P1 = self.P[1]
+        self.PL1 = self.dic["PL"][1]
+        self.RG = int(self.dic["RG"])
+        self.SW = self.dic["SW"]
+        self.SFO1 = self.dic["SFO1"]
+        sw_Hz = self.SW*self.SFO1
+        self.DW = 1/(2*sw_Hz)  # en segundos
+        self.GPZ = self.dic["GPZ"]
+        self.gp = self.GPZ[6]  # gradiente de la secuencia STE
+        self.fecha = None
+        self.hora = None
+        self.getFechayHora()
 
+    def UnMetodo(self):
+        """
+        @return  :
+        @author
+        """
+        pass
 
-  def getFechayHora(self):
-    FechayHora = pathlib.Path(self.acq_file).stat().st_mtime
-    self.hora = FechayHora
+    def getFechayHora(self):
+        FechayHora = pathlib.Path(self.acq_file).stat().st_mtime
+        self.hora = FechayHora
