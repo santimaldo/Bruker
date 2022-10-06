@@ -11,22 +11,33 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
 import scipy.integrate as integrate
+import matplotlib.ticker as ticker
 
 
 # directorio de datos
-expn = 3
-path = f"S:/CNEA/Glicerol-Agua/116MHz/2022-09-29_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
+expn = 6
+path_local = "S:/CNEA/Glicerol-Agua/116MHz"
+path_bruker = f"/2022-09-29_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
+path = path_local + path_bruker
 # directorio de guradado
-savepath = "S:/tmp/"
-muestra = "tmp"  # '1H_M4-NaOH' # "LiTFSI-G2_100mM_bulk", "M4-NaOH", "M4-HF"
+savepath = "S:/CNEA/Glicerol-Agua/analisis/datos/"
+# Nmuestra es el n de Mn, ejemplo: M16 ---> Nmuestra = 16
+Nmuestra = 13
 
-save = False
+expnums = [3, 6]
+Nssssss = [16, 13]
+
+save = True
 # rango de integracion
 ppmRange = [-0.1, 0.2]
 
-datos = DatosProcesadosDiff(path)
-ppmAxis = datos.espectro.ppmAxis
 
+# --------------------------- grafico un espectro
+datos = DatosProcesadosDiff(path, factor_b=1)
+delta = datos.delta
+bigDelta = datos.bigDelta
+
+ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
 
 re = datos.espectro.real[1]
@@ -38,47 +49,81 @@ plt.plot(ppmAxis, re)
 # plt.plot(ppmAxis, im)
 plt.xlim(np.max(ppmAxis), np.min(ppmAxis))
 plt.axhline(0, color='k')
+# -----------------------------------------------
 
+# -----------------------------------------------
+# datos de la muestra
+muestra = f"M{Nmuestra}"
+N = Nmuestra-10
+# matriz es el medio: Bulk, Q30 o Q3
+if N < 3:
+    matriz = 'Q3'
+elif N < 6:
+    matriz = 'Q30'
+elif N < 9:
+    matriz = 'Bulk'
+# pc es el porcentaje de glicerol: 50%, 70% o 90%
+if N % 3 == 0:
+    pc = 50
+elif N % 3 == 1:
+    pc = 70
+elif N % 3 == 2:
+    pc = 90
+msg = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}"
+print(msg)
 # %%
 
-tau, signal = datos.get_Diffdata(ppmRange)
-tau_fit, signal_fit, residuals = datos.Diff1_fit()
+bvalue, signal = datos.get_Diffdata(ppmRange)
+bvalue_fit, signal_fit, residuals = datos.Diff1_fit()
 
+smax = np.max(signal)
+signal = signal/smax
+signal_fit = signal_fit/smax
+residuals = residuals/smax
 
-fig, axs = plt.subplots(2, 2)
-fig.suptitle(muestra)
+fig, axs = plt.subplots(2, 1, figsize=(6, 7))
+# fig.suptitle(muestra)
 # -------------
-axs[0, 0].plot(tau, signal, 'ko')
-axs[0, 0].plot(tau_fit, signal_fit, 'r-')
-# text = f"$T_1 =$ {datos.T1params[1]:.0f} ms \n A = {datos.T1params[0]:.2f} \n $y_0 =$ {datos.T1params[2]:.2f}"
-# axs[0, 0].text(tau[-1]*0.5, (signal[-1]-signal[0])*0.15+signal[0], text,
-#                multialignment="left")
-axs[0, 0].set(xlabel=r'$b_{value} [10^9 s^2/m]$', ylabel=r'$S$')
+titulo = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}\n" \
+         fr"$\Delta = {bigDelta}$ ms, $\delta = {delta}$ ms"
+axs[0].set_title(titulo)
+axs[0].plot(bvalue, signal, 'ko')
+axs[0].plot(bvalue_fit, signal_fit, 'r-')
+text = f"$D =$ {datos.fit_results[0]:.3f} $10^{{-9}}m^2/s$ \n " \
+       f"$u_D =$ {datos.fit_results[1]:.1g} \n " \
+       f"$r^2 =$ {datos.fit_results[2]:.5g}"
+axs[0].text(bvalue[-1]*0.6, 0.7*signal[0], text,
+            multialignment="left")
+axs[0].set(xlabel=r'$b_{value} [10^9 s^2/m]$', ylabel=r'$S$')
+axs[0].set_yscale('log')
+axs[0].yaxis.set_major_formatter(ticker.FormatStrFormatter('%.1g'))
+axs[0].yaxis.set_minor_formatter(ticker.FormatStrFormatter('%.1g'))
 # -------------
-axs[1, 0].plot(tau, residuals, 'ko')
-axs[1, 0].axhline(0, color='k', linestyle='--')
-axs[1, 0].set(xlabel=r'$b_{value} [10^9 s^2/m]$', ylabel=r'Residuos')
-# -------------
-axs[0, 1].plot(tau, signal, 'ko')
-axs[0, 1].plot(tau_fit, signal_fit, 'r-')
-axs[0, 1].set(xlabel=r'$b_{value} [10^9 s^2/m]$')
-axs[0, 1].set_yscale('log')
-# -------------
-axs[1, 1].plot(tau, residuals, 'ko')
-axs[1, 1].axhline(0, color='k', linestyle='--')
-axs[1, 1].set(xlabel=r'$b_{value} [10^9 s^2/m]$')
-axs[1, 1].set_yscale('log')
+axs[1].plot(bvalue, residuals, 'ko')
+axs[1].axhline(0, color='k', linestyle='--')
+axs[1].set(xlabel=r'$b_{value} [10^9 s^2/m]$', ylabel=r'Residuos')
+axs[1].set_yscale('symlog')
+ylim = 10**np.ceil(np.log10(np.max(abs(residuals))))
+axs[1].set_ylim([-ylim, ylim])
+
 
 for ax in axs.flat:
-    ax.label_outer()
+    # ax.label_outer()
+    ax.tick_params(direction='in', which='both')
+
 
 # guardo data:
 if save:
-    filename = f'{savepath}/{muestra}_T1.png'
+    filename0 = f"{muestra}_{pc}pc_{matriz}"
+
+    filename = f'{savepath}/{filename0}_Diff.png'
     fig.savefig(filename)   # save the figure to file
 
-    T1data = np.array([tau, signal]).T
-    np.savetxt(f"{savepath}/{muestra}_T1.dat", T1data)
+    header = f"Archivo de datos: {path_bruker}\n"\
+             f"Rango de integracion: {ppmRange} ppm\n"\
+             f"bvalue (10^-9 m^2/s)\t S (norm)"
+    Diffdata = np.array([bvalue, signal]).T
+    np.savetxt(f"{savepath}/{filename0}_Diff.dat", Diffdata, header=header)
 
     data = np.array([ppmAxis, re, im]).T
-    np.savetxt(f"{savepath}/{muestra}_ultimoEspectro.dat", data)
+    np.savetxt(f"{savepath}/{filename0}_primerEspectro.dat", data)

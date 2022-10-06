@@ -347,6 +347,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
       signal:  S vs b
       factor_b : factor de correccion del b value (calibracion de gradiente)
                  en unidades de 10^9 s^2/m
+      fit_results : [D, uD, r_squared]
 
     """
 
@@ -358,8 +359,9 @@ class DatosProcesadosDiff(DatosProcesados2D):
         self.factor_b = factor_b
 
         # parametros de la secuencia de gradiente
-        self.delta = 2*self.acqus.P[30]*1e-3  # ms - para STE bipolar es 2*P30
-        self.bigDelta = self.acqus.D[20]*1e3  # ms - para STE bipolar es D20
+        # para STE bipolar, delta es 2*P30 y bigDelta es D20
+        self.delta = 2*self.acqus.P[30]*1e-3  # ms - (originalmente en us)
+        self.bigDelta = self.acqus.D[20]*1e3  # ms - (originalmente en  s)
         self.Crear_bvalue()
 
         # quito el primer punto:
@@ -379,11 +381,12 @@ class DatosProcesadosDiff(DatosProcesados2D):
         gpmax = self.acqus.gp
         Npts = self.acqu2s.TD
         delta = self.delta*1e-3  # s
-        bigDelta = self.bigDelta  # s
+        bigDelta = self.bigDelta*1e-3  # s
         g0 = 12  # T/m
         gamma = self.gamma
 
         glist = np.linspace(0, g0*gpmax/100, Npts)
+        print(delta, bigDelta)
 
         # STE:
         bvalue = (gamma*glist*delta)**2 * (bigDelta-delta/3) * 1e-9
@@ -417,10 +420,13 @@ class DatosProcesadosDiff(DatosProcesados2D):
         residuals = self.signal - signal_fit
 
         D = -slope
+        uD = se
         r_squared = r**2
 
+        self.fit_results = [D, uD, r_squared]
+
         msg = f"Ajuste lineal de Difusion:\n \
-          D =  {D:.3f} 10^-9 m^2/s\n \
+          D =  {D:.8f} 10^-9 m^2/s\n \
           Rsquared = {r_squared:.6f}"
 
         print(msg)
