@@ -351,12 +351,14 @@ class DatosProcesadosDiff(DatosProcesados2D):
 
     """
 
-    def __init__(self, directorio, p_dir=1, factor_b=1):
+    def __init__(self, directorio, p_dir=1, factor_b=1, bmax=np.inf, bmin=0):
         DatosProcesados2D.__init__(self, directorio)
 
         self.bvalue = None
         self.signal = None
         self.factor_b = factor_b
+        self.bmax = bmax
+        self.bmin = bmin
 
         # parametros de la secuencia de gradiente
         # para STE bipolar, delta es 2*P30 y bigDelta es D20
@@ -404,6 +406,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
         if ppmRange is not None:
             self.ppmRange = ppmRange
             self.Integrar()
+        self.Recortar_datos()
         return self.bvalue, self.signal
 
     def Diff1_fit(self):
@@ -437,6 +440,24 @@ class DatosProcesadosDiff(DatosProcesados2D):
         except ValueError:
             return self.bvalue, self.signal_fit
 
+    def Recortar_datos(self):
+        """
+        Recorta los datos entre bmin y bmax.
+        Por default, bmin=0 y bmax=inf.
+        """
+        bmax = self.bmax
+        bmin = self.bmin
+        if bmax != np.inf or bmin != 0:
+            bvalue = self.bvalue
+            signal = self.signal
+
+            bmed = (bmax+bmin)/2.00
+            semiancho = (bmax-bmin)/2.00
+            condicion = np.abs(bvalue-bmed) <= semiancho
+            # guardo en atributos:
+            self.bvalue = bvalue[condicion]
+            self.signal = signal[condicion]
+        return 0
     # --------------------------------------------------------------Funciones
 # %%
 # plt.figure(1)

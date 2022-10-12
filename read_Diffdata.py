@@ -13,43 +13,31 @@ from Datos import *
 import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
+# Nmuestra es el n de Mn, ejemplo: M16 ---> Nmuestra = 16
+Nmuestra = 18
+# directorio de datos:
+fecha = '10-03'  # 'MM-DD'
+expn = 14
+# rango de integracion
+ppmRange = [-1, 1.5]
+save = False
+bmax = np.inf
 
-# directorio de datos
-expn = 6
+
+#-------------------- directorios
 path_local = "S:/CNEA/Glicerol-Agua/116MHz"
-path_bruker = f"/2022-09-29_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
+path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
 savepath = "S:/CNEA/Glicerol-Agua/analisis/datos/"
-# Nmuestra es el n de Mn, ejemplo: M16 ---> Nmuestra = 16
-Nmuestra = 13
-
-expnums = [3, 6]
-Nssssss = [16, 13]
-
-save = True
-# rango de integracion
-ppmRange = [-0.1, 0.2]
 
 
-# --------------------------- grafico un espectro
-datos = DatosProcesadosDiff(path, factor_b=1)
+# --------------------------- Extraigo datos
+datos = DatosProcesadosDiff(path, factor_b=1, bmax=bmax)
 delta = datos.delta
 bigDelta = datos.bigDelta
-
-ppmAxis = datos.espectro.ppmAxis
-spec = datos.espectro.real
-
-re = datos.espectro.real[1]
-im = datos.espectro.imag[1]
-
-
-plt.figure(7532)
-plt.plot(ppmAxis, re)
-# plt.plot(ppmAxis, im)
-plt.xlim(np.max(ppmAxis), np.min(ppmAxis))
-plt.axhline(0, color='k')
 # -----------------------------------------------
+
 
 # -----------------------------------------------
 # datos de la muestra
@@ -73,6 +61,31 @@ msg = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}"
 print(msg)
 # %%
 
+# --------------------------- grafico un espectro
+ppmAxis = datos.espectro.ppmAxis
+spec = datos.espectro.real
+
+re = datos.espectro.real[1]
+im = datos.espectro.imag[1]
+
+titulo = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}\n" \
+         fr"$\Delta = {bigDelta}$ ms, $\delta = {delta}$ ms"
+
+r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
+fig1d, ax1d = plt.subplots(1, 1, num=7532)
+ax1d.axvspan(r1, r2, alpha=0.2, color='red')
+ax1d.axhline(0, color='gray')
+ax1d.plot(ppmAxis, re/np.max(re), 'k', lw=2)
+ax1d.text(r1-1, 0.8, "Region de integracion (Diff)", color='r')
+ax1d.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
+ax1d.set_xlabel("NMR Shift [ppm]")
+ax1d.set_title(titulo)
+
+plt.axhline(0, color='k')
+# -----------------------------------------------
+
+# %%
+
 bvalue, signal = datos.get_Diffdata(ppmRange)
 bvalue_fit, signal_fit, residuals = datos.Diff1_fit()
 
@@ -90,7 +103,7 @@ axs[0].set_title(titulo)
 axs[0].plot(bvalue, signal, 'ko')
 axs[0].plot(bvalue_fit, signal_fit, 'r-')
 text = f"$D =$ {datos.fit_results[0]:.3f} $10^{{-9}}m^2/s$ \n " \
-       f"$u_D =$ {datos.fit_results[1]:.1g} \n " \
+       f"$u_D =$ {datos.fit_results[1]:.1g} $10^{{-9}}m^2/s$ \n " \
        f"$r^2 =$ {datos.fit_results[2]:.5g}"
 axs[0].text(bvalue[-1]*0.6, 0.7*signal[0], text,
             multialignment="left")
@@ -118,6 +131,9 @@ if save:
 
     filename = f'{savepath}/{filename0}_Diff.png'
     fig.savefig(filename)   # save the figure to file
+
+    filename = f'{savepath}/{filename0}_Diff-RegionIntegracion.png'
+    fig1d.savefig(filename)   # save the figure to file
 
     header = f"Archivo de datos: {path_bruker}\n"\
              f"Rango de integracion: {ppmRange} ppm\n"\
