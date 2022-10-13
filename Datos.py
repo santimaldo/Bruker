@@ -342,30 +342,31 @@ class DatosProcesadosDiff(DatosProcesados2D):
     """
     NO ESTA TERMINADO. Por ahora funciona para secuencia STEbp
 
-    atrubutos:
+    atributos:
       bvalue:  lista de b value
       signal:  S vs b
       factor_b : factor de correccion del b value (calibracion de gradiente)
-                 en unidades de 10^9 s^2/m
-      fit_results : [D, uD, r_squared]
+                 en unidades de 10^9 s/m^2
+      fit_results : [D, uD, r_squared] en unidades de 10^-9 m^2/s
 
     """
 
     def __init__(self, directorio, p_dir=1, factor_b=1, bmax=np.inf, bmin=0):
+        # Herencia:
         DatosProcesados2D.__init__(self, directorio)
 
+        # Inicializo atributos
         self.bvalue = None
         self.signal = None
         self.factor_b = factor_b
         self.bmax = bmax
         self.bmin = bmin
-
         # parametros de la secuencia de gradiente
         # para STE bipolar, delta es 2*P30 y bigDelta es D20
         self.delta = 2*self.acqus.P[30]*1e-3  # ms - (originalmente en us)
         self.bigDelta = self.acqus.D[20]*1e3  # ms - (originalmente en  s)
-        self.Crear_bvalue()
 
+        self.Crear_bvalue()
         # quito el primer punto:
         Npts = self.acqu2s.TD
         self.espectro.IndirectDimensionSelect([1, Npts])
