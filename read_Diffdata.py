@@ -13,6 +13,34 @@ from Datos import *
 import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
+
+def Diff1_fit(self):
+    """
+    Ajuste lineal de difusion
+    """
+    y = np.log(self.signal)
+    x = self.bvalue
+
+    slope, intercept, r, p, se = linregress(x, y)
+
+    yfit = slope*x+intercept
+    signal_fit = np.exp(yfit)
+    residuals = self.signal - signal_fit
+
+    D = -slope
+    uD = se
+    r_squared = r**2
+
+    self.fit_results = [D, uD, r_squared]
+
+    msg = f"Ajuste lineal de Difusion:\n \
+      D =  {D:.8f} 10^-9 m^2/s\n \
+      Rsquared = {r_squared:.6f}"
+
+    print(msg)
+
+    self.signal_fit = signal_fit
+
 # Nmuestra es el n de Mn, ejemplo: M16 ---> Nmuestra = 16
 Nmuestra = 18
 # directorio de datos:
