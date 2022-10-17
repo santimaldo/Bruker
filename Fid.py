@@ -32,6 +32,7 @@ class Fid(object):
         self.signal = 0
         self.size = 1
         self.ppm = 0
+        self.timeAxis = 0
 
     def set_real(self, real):
         self.real = real
