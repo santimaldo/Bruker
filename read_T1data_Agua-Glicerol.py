@@ -36,7 +36,7 @@ info = [10, '10-11', 11, [-4, 2]]
 # info = [10, '10-03', 21, [-5, 5]]
 # info = [10, '09-29', 15, [-5, 5]]
 
-save = True
+save = False
 Nmuestra, fecha, expn, ppmRange = info
 
 #-------------------- directorios

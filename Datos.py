@@ -131,6 +131,11 @@ class Datos(object):
             real = real[69:]
             imag = imag[69:]
             Npts = int(real.size)
+        # Normalizo por NS y RG
+        NS = self.acqus.NS
+        RG = self.acqus.RG
+        real = real/(NS*RG)
+        imag = imag/(NS*RG)
 
         # defino el eje de tiempo
         DW = self.acqus.DW

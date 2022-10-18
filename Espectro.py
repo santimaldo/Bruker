@@ -2,6 +2,7 @@
 import nmrglue as ng
 import numpy as np
 import matplotlib.pyplot as plt
+import scipy.integrate as integrate
 
 
 class Espectro(object):
@@ -224,12 +225,14 @@ class Espectro(object):
             return ppmAxis, spec
 
 
-def autophase(ppmAxis, complex_data, method='minIntImag', precision=1):
+def autophase(complex_data, x=None, method='minIntImag', precision=1):
     """
     Correccion automatica de fase, ya sea de espectro o de fid.
 
     complex_data es un espectro o fid, de la forma real + 1j* imag
     donde real, e imag son arrays del tipo float.
+
+    si el metodo incluye la palabra 'fid', solo se considera el primer punto
 
     Usos:
     spec, angle = autophase(ppmAxis, spec)
@@ -242,36 +245,60 @@ def autophase(ppmAxis, complex_data, method='minIntImag', precision=1):
       +
 
     """
+    x_old = x
+    complex_data_old = complex_data
 
-    angle = np.arange(-180, 180, precision)
-    # angle=np.arange(180,-180,-precision)
+    if x is None:
+        # defino el eje x:
+        x = np.linspace(complex_data.size)
+    else:
+        # ordeno el eje x:
+        sort = np.argsort(x)
+        x = x[sort]
+        complex_data = complex_data[sort]
+
     angle = np.arange(0, 360, precision)
 
     SPECS = []
     IntImagSpec = []
     IntRealSpec = []
+
+    if 'fid' in method.lower():
+        Nmax = int(complex_data.size/(2**8))
+        Nmax = 1
+        x = x[:Nmax]
+        complex_data = complex_data[:Nmax]
+
     for i in range(angle.size):
         Sp_try = complex_data*np.exp(-1j*angle[i]*np.pi/180)
         SPECS.append(Sp_try)
-        IntImagSpec.append(np.abs(np.trapz(np.imag(Sp_try), x=ppmAxis)))
-        IntRealSpec.append(np.abs(np.trapz(np.real(Sp_try), x=ppmAxis)))
+        if 'fid' in method.lower():
+            intReal = np.real(Sp_try)[0]
+            intImag = np.imag(Sp_try)[0]
+        else:
+            intReal = integrate.simps(np.real(Sp_try), x=x)
+            intImag = integrate.simps(np.imag(Sp_try), x=x)
+
+        IntRealSpec.append(intReal)
+        IntImagSpec.append(intImag)
     IntImagSpec = np.array(IntImagSpec)
     IntRealSpec = np.array(IntRealSpec)
-    if method == 'minIntImag':
+
+    if 'minintimag' in method.lower():
         # indice del minimo:
         idx = np.argmin(IntImagSpec)
-        complex_data = SPECS[idx]
         # ind_max = np.argmax(np.abs(np.real(complex_data)))
         # if complex_data[ind_max]<0:
         #   complex_data=-complex_data
-    if method == 'maxIntReal':
+    if 'maxintreal' in method.lower():
         # indice del maximo:
-        idx = np.where(IntImagSpec == np.max(IntImagSpec))
+        idx = np.where(IntRealSpec == np.max(IntRealSpec))
+        print(idx)
         idx = idx[0][0]
-        complex_data = SPECS[idx]
         ind_max = np.argmax(np.abs(np.real(complex_data)))
         # if complex_data[ind_max]<0:
         #   complex_data=-complex_data
 
-    angle = angle[idx]
-    return complex_data, angle
+    angle_opt = angle[idx]
+    complex_data = complex_data_old * np.exp(-1j*angle_opt*np.pi/180)
+    return complex_data, angle_opt
