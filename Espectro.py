@@ -112,13 +112,27 @@ class Espectro(object):
         complex = self.real + 1j * self.imag
         return complex
 
-    def ppmSelect(self, rango):
+    def ppmSelect(self, rango, centrado_en_maximo=False):
         """
-        todavia no esta chequeado, no se si funciona
+        Selecciona un rango de ppm
         """
+        centro=0
+        if centrado_en_maximo:
+          # # maximo del real
+          # centro = self.ppmAxis[self.real==np.max(self.real)] 
+          # maximo del abs
+          signal = np.abs(self.real+1j*self.imag)
+          centro = self.ppmAxis[signal==np.max(signal)] 
+          plt.figure(1111)
+          plt.plot(self.ppmAxis, signal)
+          plt.axvline(centro)
+          print(f"centro: {centro}")
+        
+        
         newppm = self.ppmAxis
-        newppm = newppm[newppm <= max(rango)]
-        newppm = newppm[newppm >= min(rango)]
+        newppm = newppm[newppm-centro<= max(rango)]
+        newppm = newppm[newppm-centro>= min(rango)]
+        print(f"'\t recorto entre {newppm[0]} y {newppm[-1]}")
         ini = np.where(self.ppmAxis == newppm[0])[0][0]
         fin = np.where(self.ppmAxis == newppm[-1])[0][0] + 1
         self.ppmAxis = newppm

@@ -30,6 +30,8 @@ info = [14, '10-03', 2, [-2.5, 2.5]]
 info = [15, '10-11', 2, [-5, 5]]
 # # # # Q3
 info = [10, '10-11', 11, [-4, 2]]
+info = [11, '10-20', 4, [-1,1]]
+
 
 # Q3 distintas fechas
 # info = [10, '10-11', 11, [-5, 5]]
@@ -40,7 +42,8 @@ save = False
 Nmuestra, fecha, expn, ppmRange = info
 
 #-------------------- directorios
-path_local = "S:/CNEA/Glicerol-Agua/116MHz"
+# path_local = "S:/CNEA/Glicerol-Agua/116MHz"
+path_local = "S:/PosDoc/Glicerol-Agua/116MHz"
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado

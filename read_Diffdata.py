@@ -29,11 +29,15 @@ info = [16, '09-29', 3, [-1, 1], 6]
 # info = [13, '09-29', 6, [-1.3, 0.7], 40]
 # info = [14, '10-03', 3, [-1.5, 0.8], 30]
 # info = [15, '10-11', 3, [-2.4, 1.17], np.inf]
+info = [11, '10-20', 20, [-1, 1], np.inf]
 
 save = False
 Nmuestra, fecha, expn, ppmRange, bmax = info
 #-------------------- directorios
 path_local = "S:/CNEA/Glicerol-Agua/116MHz"
+path_local = "S:/PosDoc/Glicerol-Agua/116MHz"
+
+
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
