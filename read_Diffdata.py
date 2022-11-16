@@ -22,23 +22,24 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expn, ppmRange, bmax]
 # Bulk:
+info = [24, '11-14', 4, [-0.5, 0.5], 4.5]
 # info = [16, '09-29', 3, [-1, 1], 6]
 # info = [17, '09-29', 10, [-1, 1], np.inf]
 # info = [18, '10-03', 14, [-1, 1], 80]
-info = [24, '11-14', 4, [-0.5, 0.5], 4.5]
 # Q30:
+# info = [22, '11-14', 12, [-4,4], 6]
 # info = [13, '09-29', 6, [-1.3, 0.7], 40]
 # info = [14, '10-03', 3, [-1.5, 0.8], 30]
 # info = [15, '10-11', 3, [-2.4, 1.17], np.inf]
-info = [22, '11-14', 12, [-4,4], 6]
 # Q3
+info = [21, '11-14', 23, [-2,2], 200]
 # info = [11, '10-20', 20, [-1, 1], np.inf]
 
 save = False
 Nmuestra, fecha, expn, ppmRange, bmax = info
 #-------------------- directorios
 path_local = "S:/CNEA/Glicerol-Agua/116MHz"
-path_local = "S:/PosDoc/Glicerol-Agua/116MHz"
+path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
 
 
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
@@ -73,7 +74,9 @@ elif N < 6:
 elif N < 9:
     matriz = 'Bulk'
 # pc es el porcentaje de glicerol: 50%, 70% o 90%
-if N % 3 == 0:
+if N > 10:
+    pc = 30
+elif N % 3 == 0:
     pc = 50
 elif N % 3 == 1:
     pc = 70

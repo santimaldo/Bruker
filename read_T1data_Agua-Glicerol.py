@@ -20,17 +20,18 @@ import scipy.integrate as integrate
 # bmax: maximo valor de bvalue utilizado para ajustar
 #
 # info = [Nmuestra, fecha, expn, ppmRange, bmax]
-# Bulk:
-info = [16, '09-29', 2, [-0.5, 0.5]]
-info = [17, '09-29', 9, [-0.5, 0.5]]
-info = [18, '10-03', 11, [-1, 1]]
-info = [24, '11-14', 2, [-0.5, 0.5]]
+# # # # Bulk:
+# info = [24, '11-14', 2, [-0.5, 0.5]]
+# info = [16, '09-29', 2, [-0.5, 0.5]]
+# info = [17, '09-29', 9, [-0.5, 0.5]]
+# info = [18, '10-03', 11, [-1, 1]]
 # # # # Q30:
+# info = [22, '11-14', 11, [-5,5]]
 # info = [13, '09-29', 5, [-5, 2.5]]
 # info = [14, '10-03', 2, [-2.5, 2.5]]
 # info = [15, '10-11', 2, [-5, 5]]
-info = [22, '11-14', 11, [-5,5]]
-# # # # # Q3
+# # # #  Q3:
+info = [21, '11-14', 21, [-6,5]]
 # info = [10, '10-11', 11, [-4, 2]]
 # info = [11, '10-20', 4, [-1,1]]
 
@@ -46,6 +47,9 @@ Nmuestra, fecha, expn, ppmRange = info
 #-------------------- directorios
 # path_local = "S:/CNEA/Glicerol-Agua/116MHz"
 path_local = "S:/PosDoc/Glicerol-Agua/116MHz"
+path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
+
+
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
@@ -76,7 +80,9 @@ elif N < 6:
 elif N < 9:
     matriz = 'Bulk'
 # pc es el porcentaje de glicerol: 50%, 70% o 90%
-if N % 3 == 0:
+if N > 10:
+    pc = 30
+elif N % 3 == 0:
     pc = 50
 elif N % 3 == 1:
     pc = 70

@@ -25,24 +25,26 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expni, expnf, ppmRange]
 # Q3
-info = [10, '10-11', 20, 29, [-1, 1]]
-info = [11, '10-20', 10, 28, [-0.5,0.5]]
+info = [21, '11-14', 30,37, [-5, 5]]
+# info = [10, '10-11', 20, 29, [-1, 1]]
+# info = [11, '10-20', 10, 28, [-0.5,0.5]]
 
 min_gp = 5
 
-FIDsignal = False
-ABSsignal = True # abs del espectro
+FIDsignal = True
+ABSsignal = False # abs del espectro
 centrado_en_maximo = True
 
-save = True
-save1d = True
+save = False
+save1d = False
 Nmuestra, fecha, expni, expnf, ppmRange= info
 expnums = np.arange(expni, expnf+1)
 # expnums = [28]
 
 #-------------------- directorios
 # path_local = "S:/CNEA/Glicerol-Agua/116MHz"
-path_local = "S:/Posdoc/Glicerol-Agua/116MHz"
+# path_local = "S:/Posdoc/Glicerol-Agua/116MHz"
+path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
 path = path_local + path_bruker
 # directorio de guradado
@@ -70,7 +72,9 @@ elif N < 6:
 elif N < 9:
     matriz = 'Bulk'
 # pc es el porcentaje de glicerol: 50%, 70% o 90%
-if N % 3 == 0:
+if N > 10:
+    pc = 30
+elif N % 3 == 0:
     pc = 50
 elif N % 3 == 1:
     pc = 70
@@ -130,13 +134,14 @@ for nn in range(len(expnums)):
     intensidades.append(integral)
 
     # calculo FID
-    datos.set_fid()
-    timeAxis = datos.fid.timeAxis
-    fid = datos.fid.real
-    fid = np.abs(datos.fid.real + 1j*datos.fid.imag)
-    npts = 4
-    intensidadFID = np.sum(fid[0:npts])
-    intensidadesFID.append(intensidadFID)
+    if FIDsignal:
+      datos.set_fid()
+      timeAxis = datos.fid.timeAxis
+      fid = datos.fid.real
+      fid = np.abs(datos.fid.real + 1j*datos.fid.imag)
+      npts = 4
+      intensidadFID = np.sum(fid[0:npts])
+      intensidadesFID.append(intensidadFID)
 
     # guardo:
     # header = "ppmAxis\t real (norm)\t imag (norm)\t real \t imag"
@@ -149,7 +154,8 @@ for nn in range(len(expnums)):
     axs[0].plot(ppmAxis, spec_integrado, linewidth=2, color=color[nn])
     axs[0].set_xlabel(f"{nucleo} NMR Shift [ppm]")
     # axs[0].set_xlim([np.max(ppmAxis), np.min(ppmAxis)])
-    axs[1].plot(timeAxis*1000, fid, 'o-', linewidth=2)
+    if FIDsignal:
+      axs[1].plot(timeAxis*1000, fid, 'o-', linewidth=2)
     axs[1].set_xlabel(f"time [ms]")
     if (datos.acqus.gp == min_gp):
         spec1d = re
