@@ -24,13 +24,15 @@ import scipy.integrate as integrate
 info = [16, '09-29', 2, [-0.5, 0.5]]
 info = [17, '09-29', 9, [-0.5, 0.5]]
 info = [18, '10-03', 11, [-1, 1]]
+info = [24, '11-14', 2, [-0.5, 0.5]]
 # # # # Q30:
-info = [13, '09-29', 5, [-5, 2.5]]
-info = [14, '10-03', 2, [-2.5, 2.5]]
-info = [15, '10-11', 2, [-5, 5]]
-# # # # Q3
-info = [10, '10-11', 11, [-4, 2]]
-info = [11, '10-20', 4, [-1,1]]
+# info = [13, '09-29', 5, [-5, 2.5]]
+# info = [14, '10-03', 2, [-2.5, 2.5]]
+# info = [15, '10-11', 2, [-5, 5]]
+info = [22, '11-14', 11, [-5,5]]
+# # # # # Q3
+# info = [10, '10-11', 11, [-4, 2]]
+# info = [11, '10-20', 4, [-1,1]]
 
 
 # Q3 distintas fechas
@@ -60,7 +62,14 @@ datos = DatosProcesadosT1(path)
 muestra = f"M{Nmuestra}"
 N = Nmuestra-10
 # matriz es el medio: Bulk, Q30 o Q3
-if N < 3:
+if N > 10:
+  if Nmuestra == 21:
+    matriz = 'Q3'
+  elif Nmuestra == 22:
+      matriz = 'Q30'
+  elif Nmuestra == 24:
+      matriz = 'Bulk'  
+elif N < 3:
     matriz = 'Q3'
 elif N < 6:
     matriz = 'Q30'

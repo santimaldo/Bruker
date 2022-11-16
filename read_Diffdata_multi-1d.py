@@ -56,7 +56,14 @@ savepath = "S:/Posdoc/Glicerol-Agua/M11-Q3-70pc"
 muestra = f"M{Nmuestra}"
 N = Nmuestra-10
 # matriz es el medio: Bulk, Q30 o Q3
-if N < 3:
+if N > 10:
+  if Nmuestra == 21:
+    matriz = 'Q3'
+  elif Nmuestra == 22:
+      matriz = 'Q30'
+  elif Nmuestra == 24:
+      matriz = 'Bulk'  
+elif N < 3:
     matriz = 'Q3'
 elif N < 6:
     matriz = 'Q30'
