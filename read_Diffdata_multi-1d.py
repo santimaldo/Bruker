@@ -25,13 +25,14 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expni, expnf, ppmRange]
 # Q3
-info = [21, '11-14', 30,37, [-5, 5]]
+# info = [21, '11-14', 30,45, [-1,1]]
 # info = [10, '10-11', 20, 29, [-1, 1]]
 # info = [11, '10-20', 10, 28, [-0.5,0.5]]
+info = [12, '11-14', 70,85, [-5,5]]
 
 min_gp = 5
 
-FIDsignal = True
+FIDsignal = False
 ABSsignal = False # abs del espectro
 centrado_en_maximo = True
 
@@ -133,15 +134,14 @@ for nn in range(len(expnums)):
     integral = scipy.integrate.simps(spec_integrado, x=-ppmAxis) / ancho
     intensidades.append(integral)
 
-    # calculo FID
-    if FIDsignal:
-      datos.set_fid()
-      timeAxis = datos.fid.timeAxis
-      fid = datos.fid.real
-      fid = np.abs(datos.fid.real + 1j*datos.fid.imag)
-      npts = 4
-      intensidadFID = np.sum(fid[0:npts])
-      intensidadesFID.append(intensidadFID)
+    # calculo FID    
+    datos.set_fid()
+    timeAxis = datos.fid.timeAxis
+    fid = datos.fid.real
+    fid = np.abs(datos.fid.real + 1j*datos.fid.imag)
+    npts = 8
+    intensidadFID = np.sum(fid[0:npts])
+    intensidadesFID.append(intensidadFID)
 
     # guardo:
     # header = "ppmAxis\t real (norm)\t imag (norm)\t real \t imag"
@@ -153,9 +153,8 @@ for nn in range(len(expnums)):
     print('graficando...', nucleo, muestra)
     axs[0].plot(ppmAxis, spec_integrado, linewidth=2, color=color[nn])
     axs[0].set_xlabel(f"{nucleo} NMR Shift [ppm]")
-    # axs[0].set_xlim([np.max(ppmAxis), np.min(ppmAxis)])
-    if FIDsignal:
-      axs[1].plot(timeAxis*1000, fid, 'o-', linewidth=2)
+    # axs[0].set_xlim([np.max(ppmAxis), np.min(ppmAxis)])    
+    axs[1].plot(timeAxis*1000, fid, 'o-', linewidth=2)
     axs[1].set_xlabel(f"time [ms]")
     if (datos.acqus.gp == min_gp):
         spec1d = re

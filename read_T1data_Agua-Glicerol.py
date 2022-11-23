@@ -30,16 +30,20 @@ import scipy.integrate as integrate
 # info = [13, '09-29', 5, [-5, 2.5]]
 # info = [14, '10-03', 2, [-2.5, 2.5]]
 # info = [15, '10-11', 2, [-5, 5]]
+# info = [13, '11-17', 121, [-2.5,2.5]] # re-medicion
 # # # #  Q3:
-info = [21, '11-14', 21, [-6,5]]
+# info = [21, '11-14', 21, [-6,5]]
 # info = [10, '10-11', 11, [-4, 2]]
 # info = [11, '10-20', 4, [-1,1]]
-
-
+# info = [12, '11-14', 61, [-10,10]]
 # Q3 distintas fechas
 # info = [10, '10-11', 11, [-5, 5]]
 # info = [10, '10-03', 21, [-5, 5]]
 # info = [10, '09-29', 15, [-5, 5]]
+# referencia:
+# info = [0, '11-17', 11, [-1,1]]
+#### Juguito de la Q13
+info = [0, '11-17', 31, [-1,2]]
 
 save = False
 Nmuestra, fecha, expn, ppmRange = info
@@ -72,7 +76,9 @@ if N > 10:
   elif Nmuestra == 22:
       matriz = 'Q30'
   elif Nmuestra == 24:
-      matriz = 'Bulk'  
+      matriz = 'Bulk'
+elif Nmuestra==0:
+    matriz = 'referencia LiCl 0.25 M'
 elif N < 3:
     matriz = 'Q3'
 elif N < 6:
@@ -82,6 +88,8 @@ elif N < 9:
 # pc es el porcentaje de glicerol: 50%, 70% o 90%
 if N > 10:
     pc = 30
+elif Nmuestra==0:
+    pc = 0
 elif N % 3 == 0:
     pc = 50
 elif N % 3 == 1:

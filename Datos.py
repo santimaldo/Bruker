@@ -353,10 +353,10 @@ class DatosProcesadosDiff(DatosProcesados2D):
       factor_b : factor de correccion del b value (calibracion de gradiente)
                  en unidades de 10^9 s/m^2
       fit_results : [D, uD, r_squared] en unidades de 10^-9 m^2/s
-
+      gpshape : str -- forma del pulso de gradientes. Opciones: 'rect', 'sin'
     """
 
-    def __init__(self, directorio, p_dir=1, factor_b=1, bmax=np.inf, bmin=0):
+    def __init__(self, directorio, p_dir=1, factor_b=1, bmax=np.inf, bmin=0, gpshape='sine'):
         # Herencia:
         DatosProcesados2D.__init__(self, directorio)
 
@@ -370,8 +370,9 @@ class DatosProcesadosDiff(DatosProcesados2D):
         # para STE bipolar, delta es 2*P30 y bigDelta es D20
         self.delta = 2*self.acqus.P[30]*1e-3  # ms - (originalmente en us)
         self.bigDelta = self.acqus.D[20]*1e3  # ms - (originalmente en  s)
+        self.gpmax = self.acqus.GPZ[6]
 
-        self.Crear_bvalue()
+        self.Crear_bvalue(gpshape)
         # quito el primer punto:
         Npts = self.acqu2s.TD
         self.espectro.IndirectDimensionSelect([1, Npts])
@@ -382,7 +383,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
 
         self.signal_fit = None
 
-    def Crear_bvalue(self):
+    def Crear_bvalue(self, gpshape):
         """
         crea la lista de bvalue
         """
@@ -396,8 +397,12 @@ class DatosProcesadosDiff(DatosProcesados2D):
         glist = np.linspace(0, g0*gpmax/100, Npts)
         print(delta, bigDelta)
 
-        # STE:
-        bvalue = (gamma*glist*delta)**2 * (bigDelta-delta/3) * 1e-9
+        # STE:        
+        if 'sin' in gpshape.lower():
+          bvalue = (gamma*glist*delta/np.pi)**2 * (4*bigDelta-delta/3) * 1e-9
+        if 'rect' in gpshape.lower():
+          bvalue = (gamma*glist*delta)**2 * (bigDelta-delta/3) * 1e-9
+          
         self.bvalue = bvalue * self.factor_b
         return 0
 
