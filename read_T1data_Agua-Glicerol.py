@@ -32,20 +32,20 @@ import scipy.integrate as integrate
 # info = [15, '10-11', 2, [-5, 5]]
 # info = [13, '11-17', 121, [-2.5,2.5]] # re-medicion
 # # # #  Q3:
-# info = [21, '11-14', 21, [-6,5]]
-# info = [10, '10-11', 11, [-4, 2]]
-# info = [11, '10-20', 4, [-1,1]]
-# info = [12, '11-14', 61, [-10,10]]
+info = [21, '11-14', 21, [-6,5]]
+info = [10, '09-29', 15, [-5, 5]]  
+# info = [11, '10-20', 4, [-10,10]]
+# info = [12, '11-14', 61, [-5,5]]
 # Q3 distintas fechas
 # info = [10, '10-11', 11, [-5, 5]]
 # info = [10, '10-03', 21, [-5, 5]]
-# info = [10, '09-29', 15, [-5, 5]]
+# info = [10, '09-29', 15, [-5, 5]]  
 # referencia:
 # info = [0, '11-17', 11, [-1,1]]
 #### Juguito de la Q13
-info = [0, '11-17', 31, [-1,2]]
+# info = [0, '11-17', 31, [-1,2]]
 
-save = False
+save = True
 Nmuestra, fecha, expn, ppmRange = info
 
 #-------------------- directorios
@@ -57,7 +57,7 @@ path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
-savepath = "S:/CNEA/Glicerol-Agua/analisis/"
+savepath = "G:/Otros ordenadores/Mi PC/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
 
 
 # --------------------------- Extraigo datos

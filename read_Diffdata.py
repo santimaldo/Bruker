@@ -14,6 +14,7 @@ import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
 
+
 # Nmuestra:  es el n de Mn, ejemplo: M16 ---> Nmuestra = 16
 # fecha: correspondiente al directorio de datos.  'MM-DD'
 # expn: numero de archivo
@@ -22,19 +23,20 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expn, ppmRange, bmax]
 # Bulk:
-# info = [24, '11-14', 4, [-0.5, 0.5], 4.5]
-# info = [16, '09-29', 3, [-1, 1], 6]
-# info = [17, '09-29', 10, [-1, 1], np.inf]
-# info = [18, '10-03', 14, [-1, 1], 80]
+# info = [24, '11-14', 4, [-0.5,0.5], 1.6]
+# info = [16, '09-29', 3, [-0.5,0.5], 3]
+# info = [17, '09-29', 10, [-0.5,0.5], np.inf]
+info = [18, '10-03', 14, [-1,1], 50]
 # Q30:
-# info = [22, '11-14', 12, [-4,4], 6]
-# info = [13, '09-29', 6, [-1.3, 0.7], 40]
+# info = [22, '11-14', 12, [-2.5,2.5], 2.5]
+# info = [13, '09-29', 6, [-1.3, 0.7], 20]
 # info = [13, '11-17', 122, [-1.3,0.7], 100] # re-medicion
-# info = [14, '10-03', 3, [-1.5, 0.8], 30]
-# info = [15, '10-11', 3, [-2.4, 1.17], np.inf]
+# info = [14, '10-03', 3, [-2.5,2.5], 14]
+# info = [15, '10-11', 3, [-2.5,2.5], np.inf]
 # Q3
 # info = [21, '11-14', 23, [-2,2], 200]
 # info = [11, '10-20', 20, [-1, 1], np.inf]
+
 ## referencia LiCl 0.25 M
 #### Gmax = 90%:
 # info = [0, '11-17', 4, [-2,2], 0.2] # bigDelta= 5ms, delta=0.5ms # nooooooo
@@ -46,10 +48,9 @@ import matplotlib.ticker as ticker
 # info = [0, '11-17', 3, [-0.5,0.5], 200]; factor_b = 1.88 # bigDelta=10ms, delta=2.0ms
 # info = [0, '11-17', 5, [-0.5,0.5], 200]; factor_b = 1.96 # bigDelta=50ms, delta=2.0ms
 # info = [0, '11-17', 6, [-0.5,0.5], 200]; factor_b = 1.75 # bigDelta=10ms, delta=4.0ms
-info = [0, '11-17', 7, [-0.5,0.5], 200]; factor_b = 1.97 # bigDelta=50ms, delta=4.0ms
+# info = [0, '11-17', 7, [-0.5,0.5], 200]; factor_b = 1.97 # bigDelta=50ms, delta=4.0ms
 #### Juguito de la Q13
 # info = [0, '11-17', 32, [-1,2],200]
-
 
 save = True
 Nmuestra, fecha, expn, ppmRange, bmax = info
@@ -64,7 +65,7 @@ path = path_local + path_bruker
 savepath = "G:/Otros ordenadores/Mi PC/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
 
 gpshape = 'sin'
-
+factor_b = 1
 
 # --------------------------- Extraigo datos
 # 1.7933

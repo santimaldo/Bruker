@@ -26,17 +26,18 @@ import matplotlib.ticker as ticker
 # info = [Nmuestra, fecha, expni, expnf, ppmRange]
 # Q3
 # info = [21, '11-14', 30,45, [-1,1]]
-# info = [10, '10-11', 20, 29, [-1, 1]]
-# info = [11, '10-20', 10, 28, [-0.5,0.5]]
-info = [12, '11-14', 70,85, [-5,5]]
+# info = [10, '10-11', 20, 29, [-3,3]]
+info = [11, '10-20', 10, 28, [-3,3]]
+# info = [12, '11-14', 70,85, [-3,3]]
 
 min_gp = 5
 
 FIDsignal = False
+NptsFid = 4
 ABSsignal = False # abs del espectro
 centrado_en_maximo = True
 
-save = False
+save = True
 save1d = False
 Nmuestra, fecha, expni, expnf, ppmRange= info
 expnums = np.arange(expni, expnf+1)
@@ -49,8 +50,7 @@ path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
 path = path_local + path_bruker
 # directorio de guradado
-# savepath = "S:/CNEA/Glicerol-Agua/analisis/"
-savepath = "S:/Posdoc/Glicerol-Agua/M11-Q3-70pc"
+savepath = "G:/Otros ordenadores/Mi PC/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
   
 
 
@@ -93,7 +93,7 @@ fig1d, axs = plt.subplots(nrows=1, ncols=2)  # create figure & 1 axis
 for nn in range(len(expnums)):
     expn = expnums[nn]
     print(expn)
-    if expn<15:
+    if True: # antes era "if expn<15:"
       color.append('k')
     else:
       color.append('b')
@@ -138,9 +138,8 @@ for nn in range(len(expnums)):
     datos.set_fid()
     timeAxis = datos.fid.timeAxis
     fid = datos.fid.real
-    fid = np.abs(datos.fid.real + 1j*datos.fid.imag)
-    npts = 8
-    intensidadFID = np.sum(fid[0:npts])
+    fid = np.abs(datos.fid.real + 1j*datos.fid.imag)    
+    intensidadFID = np.sum(fid[0:NptsFid])
     intensidadesFID.append(intensidadFID)
 
     # guardo:
@@ -223,7 +222,7 @@ axs[0].plot(bvalue_fit, signal_fit, 'r-')
 text = f"$D =$ {D:.4f} $10^{{-9}}m^2/s$ \n " \
        f"$u_D =$ {uD:.1g} $10^{{-9}}m^2/s$ \n " \
        f"$r^2 =$ {r_squared:.5g}"
-axs[0].text(bvalue[-1]*0.6, 0.7*(max(signal)-min(signal))+min(signal), text,
+axs[0].text(bvalue[-1]*0.6, 0.5*(max(signal)-min(signal))+min(signal), text,
             multialignment="left")
 axs[0].set(xlabel=r'$b_{value} [10^9 s/m^2]$', ylabel=r'$S$')
 axs[0].set_yscale('log')
