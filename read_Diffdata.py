@@ -14,7 +14,6 @@ import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
 
-
 # Nmuestra:  es el n de Mn, ejemplo: M16 ---> Nmuestra = 16
 # fecha: correspondiente al directorio de datos.  'MM-DD'
 # expn: numero de archivo
@@ -26,7 +25,7 @@ import matplotlib.ticker as ticker
 # info = [24, '11-14', 4, [-0.5,0.5], 1.6]
 # info = [16, '09-29', 3, [-0.5,0.5], 3]
 # info = [17, '09-29', 10, [-0.5,0.5], np.inf]
-info = [18, '10-03', 14, [-1,1], 50]
+info = [18, '10-03', 14, [-1, 1], 50]
 # Q30:
 # info = [22, '11-14', 12, [-2.5,2.5], 2.5]
 # info = [13, '09-29', 6, [-1.3, 0.7], 20]
@@ -37,29 +36,30 @@ info = [18, '10-03', 14, [-1,1], 50]
 # info = [21, '11-14', 23, [-2,2], 200]
 # info = [11, '10-20', 20, [-1, 1], np.inf]
 
-## referencia LiCl 0.25 M
-#### Gmax = 90%:
+# referencia LiCl 0.25 M
+# Gmax = 90%:
 # info = [0, '11-17', 4, [-2,2], 0.2] # bigDelta= 5ms, delta=0.5ms # nooooooo
 # info = [0, '11-17', 9, [-2,2], 0.3] # bigDelta= 5ms, delta=0.5ms # nooooooo
 # info = [0, '11-17', 10, [-2,2], 1.25] # bigDelta=20ms, delta=0.2ms # no
 # info = [0, '11-17', 12, [-2,2], 10] # bigDelta=20ms, delta=0.36ms # no
 # info = [0, '11-17', 14, [-1,1], 10] # bigDelta=20ms, delta=0.36ms
-#### Gmax < 16%:
-# info = [0, '11-17', 3, [-0.5,0.5], 200]; factor_b = 1.88 # bigDelta=10ms, delta=2.0ms
+# Gmax < 16%:
+info = [0, '11-17', 3, [-0.5, 0.5], 200]
+factor_b = 1.88  # bigDelta=10ms, delta=2.0ms
 # info = [0, '11-17', 5, [-0.5,0.5], 200]; factor_b = 1.96 # bigDelta=50ms, delta=2.0ms
 # info = [0, '11-17', 6, [-0.5,0.5], 200]; factor_b = 1.75 # bigDelta=10ms, delta=4.0ms
 # info = [0, '11-17', 7, [-0.5,0.5], 200]; factor_b = 1.97 # bigDelta=50ms, delta=4.0ms
-#### Juguito de la Q13
+# Juguito de la Q13
 # info = [0, '11-17', 32, [-1,2],200]
 
 save = True
 Nmuestra, fecha, expn, ppmRange, bmax = info
 #-------------------- directorios
 path_local = "S:/CNEA/Glicerol-Agua/116MHz"
-path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
+path_local = "S:/NMRdata/2022_Glicerol-Agua_CNEA/"
 
 
-path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
+path_bruker = f"2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
 savepath = "G:/Otros ordenadores/Mi PC/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
@@ -69,7 +69,8 @@ factor_b = 1
 
 # --------------------------- Extraigo datos
 # 1.7933
-datos = DatosProcesadosDiff(path, factor_b=factor_b, bmax=bmax, gpshape=gpshape)
+datos = DatosProcesadosDiff(path, factor_b=factor_b,
+                            bmax=bmax, gpshape=gpshape)
 delta = datos.delta
 bigDelta = datos.bigDelta
 gpmax = datos.gpmax
@@ -82,14 +83,14 @@ muestra = f"M{Nmuestra}"
 N = Nmuestra-10
 # matriz es el medio: Bulk, Q30 o Q3
 if N > 10:
-  if Nmuestra == 21:
-    matriz = 'Q3'
-  elif Nmuestra == 22:
-      matriz = 'Q30'
-  elif Nmuestra == 24:
-      matriz = 'Bulk'  
-elif Nmuestra==0:
-    matriz = 'referencia LiCl 0.25 M'      
+    if Nmuestra == 21:
+        matriz = 'Q3'
+    elif Nmuestra == 22:
+        matriz = 'Q30'
+    elif Nmuestra == 24:
+        matriz = 'Bulk'
+elif Nmuestra == 0:
+    matriz = 'referencia LiCl 0.25 M'
 elif N < 3:
     matriz = 'Q3'
 elif N < 6:
@@ -99,8 +100,8 @@ elif N < 9:
 # pc es el porcentaje de glicerol: 50%, 70% o 90%
 if N > 10:
     pc = 30
-elif Nmuestra==0:
-    pc = 0    
+elif Nmuestra == 0:
+    pc = 0
 elif N % 3 == 0:
     pc = 50
 elif N % 3 == 1:

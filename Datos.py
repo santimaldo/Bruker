@@ -397,12 +397,12 @@ class DatosProcesadosDiff(DatosProcesados2D):
         glist = np.linspace(0, g0*gpmax/100, Npts)
         print(delta, bigDelta)
 
-        # STE:        
+        # STE:
         if 'sin' in gpshape.lower():
-          bvalue = (gamma*glist*delta/np.pi)**2 * (4*bigDelta-delta/3) * 1e-9
+            bvalue = (gamma*glist*delta/np.pi)**2 * (4*bigDelta-delta) * 1e-9
         if 'rect' in gpshape.lower():
-          bvalue = (gamma*glist*delta)**2 * (bigDelta-delta/3) * 1e-9
-          
+            bvalue = (gamma*glist*delta)**2 * (bigDelta-delta/3) * 1e-9
+
         self.bvalue = bvalue * self.factor_b
         return 0
 
