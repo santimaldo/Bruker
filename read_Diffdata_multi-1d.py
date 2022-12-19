@@ -25,21 +25,24 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expni, expnf, ppmRange]
 # Q3
-# info = [21, '11-14', 30,45, [-1,1]]
-# info = [10, '10-11', 20, 29, [-3,3]]
-info = [11, '10-20', 10, 28, [-3,3]]
-# info = [12, '11-14', 70,85, [-3,3]]
+# info = [21, '11-14', 30, 45, [-3, 3]]
+# info = [10, '10-11', 20, 29, [-1, 1]]
+# info = [11, '10-20', 10, 25, [-1, 1]]
+info = [12, '11-14', 72, 85, [-3, 3]]
 
 min_gp = 5
 
+gpshape = 'sin'
+factor_b = 1
+
 FIDsignal = False
 NptsFid = 4
-ABSsignal = False # abs del espectro
+ABSsignal = False  # abs del espectro
 centrado_en_maximo = True
 
 save = True
 save1d = False
-Nmuestra, fecha, expni, expnf, ppmRange= info
+Nmuestra, fecha, expni, expnf, ppmRange = info
 expnums = np.arange(expni, expnf+1)
 # expnums = [28]
 
@@ -50,8 +53,8 @@ path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
 path = path_local + path_bruker
 # directorio de guradado
-savepath = "G:/Otros ordenadores/Mi PC/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
-  
+savepath_local = "S:/"  # Oficina
+savepath = f"{savepath_local}Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
 
 
 # -----------------------------------------------
@@ -60,12 +63,12 @@ muestra = f"M{Nmuestra}"
 N = Nmuestra-10
 # matriz es el medio: Bulk, Q30 o Q3
 if N > 10:
-  if Nmuestra == 21:
-    matriz = 'Q3'
-  elif Nmuestra == 22:
-      matriz = 'Q30'
-  elif Nmuestra == 24:
-      matriz = 'Bulk'  
+    if Nmuestra == 21:
+        matriz = 'Q3'
+    elif Nmuestra == 22:
+        matriz = 'Q30'
+    elif Nmuestra == 24:
+        matriz = 'Bulk'
 elif N < 3:
     matriz = 'Q3'
 elif N < 6:
@@ -93,10 +96,10 @@ fig1d, axs = plt.subplots(nrows=1, ncols=2)  # create figure & 1 axis
 for nn in range(len(expnums)):
     expn = expnums[nn]
     print(expn)
-    if True: # antes era "if expn<15:"
-      color.append('k')
+    if True:  # antes era "if expn<15:"
+        color.append('k')
     else:
-      color.append('b')
+        color.append('b')
     # extraigo:
     datos = DatosProcesados(f'{path}/{expn}/')
     nucleo = datos.nucleo
@@ -107,38 +110,38 @@ for nn in range(len(expnums)):
 
     # guardo espectros 1d
     if save1d:
-      filename0 = f"{muestra}_{pc}pc_{matriz}"
-      data = np.array([ppmAxis, re, im]).T
-      filename = f"{savepath}/datos_Diff/Espectros_vs_gpz/" \
-                 f"{filename0}_gpz{datos.acqus.gp:0>5.2f}.dat"
-      np.savetxt(filename, data)
-    
+        filename0 = f"{muestra}_{pc}pc_{matriz}"
+        data = np.array([ppmAxis, re, im]).T
+        filename = f"{savepath}/datos_Diff/Espectros_vs_gpz/" \
+                   f"{filename0}_gpz{datos.acqus.gp:0>5.2f}.dat"
+        np.savetxt(filename, data)
+
     # recorto para integrar
     datos.espectro.ppmSelect(ppmRange, centrado_en_maximo=centrado_en_maximo)
     re = datos.espectro.real
     im = datos.espectro.imag
     ppmAxis = datos.espectro.ppmAxis
-    
+
     # plt.figure(expn)
     # plt.axhline(0)
     # plt.plot(ppmAxis, re, 'k')
     # plt.plot(ppmAxis, im, 'r')
     # plt.plot(ppmAxis, np.abs(re+1j*im), 'orange')
     # plt.title(f"GP: {datos.acqus.gp:.2f} %")
-    
+
     if ABSsignal:
-      spec_integrado = np.abs(re+1j*im)
+        spec_integrado = np.abs(re+1j*im)
     else:
-      spec_integrado  = re
+        spec_integrado = re
     ancho = np.abs(ppmAxis[0]-ppmAxis[-1])
     integral = scipy.integrate.simps(spec_integrado, x=-ppmAxis) / ancho
     intensidades.append(integral)
 
-    # calculo FID    
+    # calculo FID
     datos.set_fid()
     timeAxis = datos.fid.timeAxis
     fid = datos.fid.real
-    fid = np.abs(datos.fid.real + 1j*datos.fid.imag)    
+    fid = np.abs(datos.fid.real + 1j*datos.fid.imag)
     intensidadFID = np.sum(fid[0:NptsFid])
     intensidadesFID.append(intensidadFID)
 
@@ -152,7 +155,7 @@ for nn in range(len(expnums)):
     print('graficando...', nucleo, muestra)
     axs[0].plot(ppmAxis, spec_integrado, linewidth=2, color=color[nn])
     axs[0].set_xlabel(f"{nucleo} NMR Shift [ppm]")
-    # axs[0].set_xlim([np.max(ppmAxis), np.min(ppmAxis)])    
+    # axs[0].set_xlim([np.max(ppmAxis), np.min(ppmAxis)])
     axs[1].plot(timeAxis*1000, fid, 'o-', linewidth=2)
     axs[1].set_xlabel(f"time [ms]")
     if (datos.acqus.gp == min_gp):
@@ -167,19 +170,22 @@ fig1d.suptitle(titulo)
 # %%
 # calculo bvalue:
 # gplist = np.loadtxt(f"{path}gp_list.dat")[:,1]
-gplist = np.array(gplist)
 bigDelta = datos.acqus.D[20]  # s
 delta = datos.acqus.P[30]*2 * 1e-6  # s
 gamma = 103.962e6  # rad/(s*T) ---> 7Li
 g0 = 12  # T/m
-bvalue = (gamma*gplist/100*g0*delta)**2*(bigDelta-delta/3) * 1e-9
-
+gplist = np.array(gplist)*g0/100
+if 'sin' in gpshape.lower():
+    bvalue = (gamma*gplist*delta/np.pi)**2 * (4*bigDelta-delta) * 1e-9
+elif 'rect' in gpshape.lower():
+    bvalue = (gamma*gplist*delta)**2 * (bigDelta-delta/3) * 1e-9
+bvalue = factor_b * bvalue
 # Senal:
 
 if FIDsignal:
-  signal = np.array(intensidadesFID)
+    signal = np.array(intensidadesFID)
 else:
-  signal = np.array(intensidades)
+    signal = np.array(intensidades)
 # Ajuste lineal----------------------------
 # Reordeno:
 signal = signal[bvalue[:].argsort()]

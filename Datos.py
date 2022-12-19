@@ -356,7 +356,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
       gpshape : str -- forma del pulso de gradientes. Opciones: 'rect', 'sin'
     """
 
-    def __init__(self, directorio, p_dir=1, factor_b=1, bmax=np.inf, bmin=0, gpshape='sine'):
+    def __init__(self, directorio, p_dir=1, factor_b=1, bmax=np.inf, bmin=0, gpshape='sin'):
         # Herencia:
         DatosProcesados2D.__init__(self, directorio)
 
@@ -400,7 +400,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
         # STE:
         if 'sin' in gpshape.lower():
             bvalue = (gamma*glist*delta/np.pi)**2 * (4*bigDelta-delta) * 1e-9
-        if 'rect' in gpshape.lower():
+        elif 'rect' in gpshape.lower():
             bvalue = (gamma*glist*delta)**2 * (bigDelta-delta/3) * 1e-9
 
         self.bvalue = bvalue * self.factor_b

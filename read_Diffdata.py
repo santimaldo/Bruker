@@ -22,18 +22,18 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expn, ppmRange, bmax]
 # Bulk:
-# info = [24, '11-14', 4, [-0.5,0.5], 1.6]
-# info = [16, '09-29', 3, [-0.5,0.5], 3]
-# info = [17, '09-29', 10, [-0.5,0.5], np.inf]
-info = [18, '10-03', 14, [-1, 1], 50]
+# info = [24, '11-14', 4, [-0.5, 0.5], 1.6]
+# info = [16, '09-29', 3, [-0.5, 0.5], 3]
+# info = [17, '09-29', 10, [-0.5, 0.5], np.inf]
+# info = [18, '10-03', 14, [-1, 1], 50]
 # Q30:
-# info = [22, '11-14', 12, [-2.5,2.5], 2.5]
+# info = [22, '11-14', 12, [-2.5, 2.5], 2.5]
 # info = [13, '09-29', 6, [-1.3, 0.7], 20]
 # info = [13, '11-17', 122, [-1.3,0.7], 100] # re-medicion
-# info = [14, '10-03', 3, [-2.5,2.5], 14]
-# info = [15, '10-11', 3, [-2.5,2.5], np.inf]
+# info = [14, '10-03', 3, [-2.5, 2.5], 14]
+# info = [15, '10-11', 3, [-2.5, 2.5], np.inf]
 # Q3
-# info = [21, '11-14', 23, [-2,2], 200]
+# info = [21, '11-14', 23, [-2, 2], 200]
 # info = [11, '10-20', 20, [-1, 1], np.inf]
 
 # referencia LiCl 0.25 M
@@ -44,25 +44,26 @@ info = [18, '10-03', 14, [-1, 1], 50]
 # info = [0, '11-17', 12, [-2,2], 10] # bigDelta=20ms, delta=0.36ms # no
 # info = [0, '11-17', 14, [-1,1], 10] # bigDelta=20ms, delta=0.36ms
 # Gmax < 16%:
-info = [0, '11-17', 3, [-0.5, 0.5], 200]
-factor_b = 1.88  # bigDelta=10ms, delta=2.0ms
-# info = [0, '11-17', 5, [-0.5,0.5], 200]; factor_b = 1.96 # bigDelta=50ms, delta=2.0ms
-# info = [0, '11-17', 6, [-0.5,0.5], 200]; factor_b = 1.75 # bigDelta=10ms, delta=4.0ms
-# info = [0, '11-17', 7, [-0.5,0.5], 200]; factor_b = 1.97 # bigDelta=50ms, delta=4.0ms
+# info = [0, '11-17', 3, [-0.5, 0.5], 200]
+# factor_b = 1.88  # bigDelta=10ms, delta=2.0ms
+# info = [0, '11-17', 3, [-0.5, 0.5], 200]  # bigDelta=10ms, delta=2.0ms
+# info = [0, '11-17', 6, [-0.5, 0.5], 200]  # bigDelta=10ms, delta=4.0ms
+# info = [0, '11-17', 5, [-0.5, 0.5], 200]  # bigDelta=50ms, delta=2.0ms
+# info = [0, '11-17', 7, [-0.5, 0.5], 200]  # bigDelta=50ms, delta=4.0ms
 # Juguito de la Q13
 # info = [0, '11-17', 32, [-1,2],200]
 
 save = True
 Nmuestra, fecha, expn, ppmRange, bmax = info
 #-------------------- directorios
-path_local = "S:/CNEA/Glicerol-Agua/116MHz"
+# path_local = "S:/CNEA/Glicerol-Agua/116MHz"
 path_local = "S:/NMRdata/2022_Glicerol-Agua_CNEA/"
-
-
 path_bruker = f"2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
-savepath = "G:/Otros ordenadores/Mi PC/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
+# savepath_local = "G:/Otros ordenadores/Mi PC/" # Acer
+savepath_local = "S:/"  # Oficina
+savepath = f"{savepath_local}Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
 
 gpshape = 'sin'
 factor_b = 1
