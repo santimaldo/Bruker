@@ -13,27 +13,60 @@ from Datos import *
 import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
-# info: fecha, expn, ppmRange, bmax
-info = ['12-20', 4, [-10,10], 50]
-save = False
 
-# datos de la muestra
-muestra = "Nombre de la muestra"
-# forma del gradiente
-gpshape = 'sin'
-# factor de correccion: Dref(medido)/Dref(literatura)
-factor_b = 1.95
+# Nmuestra:  es el n de Mn, ejemplo: M16 ---> Nmuestra = 16
+# fecha: correspondiente al directorio de datos.  'MM-DD'
+# expn: numero de archivo
+# ppmRange: rango de integracion
+# bmax: maximo valor de bvalue utilizado para ajustar
+#
+# info = [Nmuestra, fecha, expn, ppmRange, bmax]
+# Bulk:
+# info = [24, '11-14', 4, [-0.5, 0.5], 1.6]
+# info = [16, '09-29', 3, [-0.5, 0.5], 3]
+# info = [17, '09-29', 10, [-0.5, 0.5], np.inf]
+# info = [18, '10-03', 14, [-1, 1], 50]
+# Q30:
+# info = [22, '11-14', 12, [-2.5, 2.5], 2.5]
+# info = [13, '09-29', 6, [-1.3, 0.7], 20]
+# info = [13, '11-17', 122, [-1.3,0.7], 100] # re-medicion
+# info = [14, '10-03', 3, [-2.5, 2.5], 14]
+# info = [15, '10-11', 3, [-2.5, 2.5], np.inf]
+# Q3
+# info = [21, '11-14', 23, [-2, 2], 200]
+# info = [11, '10-20', 20, [-1, 1], np.inf]
 
+# referencia LiCl 0.25 M
+# Gmax = 90%:
+# info = [0, '11-17', 4, [-2,2], 0.2] # bigDelta= 5ms, delta=0.5ms # nooooooo
+# info = [0, '11-17', 9, [-2,2], 0.3] # bigDelta= 5ms, delta=0.5ms # nooooooo
+# info = [0, '11-17', 10, [-2,2], 1.25] # bigDelta=20ms, delta=0.2ms # no
+# info = [0, '11-17', 12, [-2,2], 10] # bigDelta=20ms, delta=0.36ms # no
+# info = [0, '11-17', 14, [-1,1], 10] # bigDelta=20ms, delta=0.36ms
+# Gmax < 16%:
+# info = [0, '11-17', 3, [-0.5, 0.5], 200]
+# factor_b = 1.88  # bigDelta=10ms, delta=2.0ms
+# info = [0, '11-17', 3, [-0.5, 0.5], 200]  # bigDelta=10ms, delta=2.0ms
+# info = [0, '11-17', 6, [-0.5, 0.5], 200]  # bigDelta=10ms, delta=4.0ms
+# info = [0, '11-17', 5, [-0.5, 0.5], 200]  # bigDelta=50ms, delta=2.0ms
+# info = [0, '11-17', 7, [-0.5, 0.5], 200]  # bigDelta=50ms, delta=4.0ms
+# Juguito de la Q13
+# info = [0, '11-17', 32, [-1,2],200]
+
+save = True
+Nmuestra, fecha, expn, ppmRange, bmax = info
 #-------------------- directorios
-fecha, expn, ppmRange, bmax = info
-
-path_local = "S:/NMRdata/2022_Polisulfuros/"
-path_bruker = f"2022-{fecha}_Diff_Polisulfuros-DME/{expn}/"
+# path_local = "S:/CNEA/Glicerol-Agua/116MHz"
+path_local = "S:/NMRdata/2022_Glicerol-Agua_CNEA/"
+path_bruker = f"2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
-savepath_local = "G:/Otros ordenadores/Mi PC/" # Acer
-# savepath_local = "S:/"  # Oficina
-savepath = f"{savepath_local}Posdoc/Li-S/Analisis/2022-12_Li2S6-DME/"
+# savepath_local = "G:/Otros ordenadores/Mi PC/" # Acer
+savepath_local = "S:/"  # Oficina
+savepath = f"{savepath_local}Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
+
+gpshape = 'sin'
+factor_b = 1
 
 # --------------------------- Extraigo datos
 # 1.7933
@@ -46,7 +79,37 @@ gpmax = datos.gpmax
 
 
 # -----------------------------------------------
-msg = f"muestra: {muestra}"
+# datos de la muestra
+muestra = f"M{Nmuestra}"
+N = Nmuestra-10
+# matriz es el medio: Bulk, Q30 o Q3
+if N > 10:
+    if Nmuestra == 21:
+        matriz = 'Q3'
+    elif Nmuestra == 22:
+        matriz = 'Q30'
+    elif Nmuestra == 24:
+        matriz = 'Bulk'
+elif Nmuestra == 0:
+    matriz = 'referencia LiCl 0.25 M'
+elif N < 3:
+    matriz = 'Q3'
+elif N < 6:
+    matriz = 'Q30'
+elif N < 9:
+    matriz = 'Bulk'
+# pc es el porcentaje de glicerol: 50%, 70% o 90%
+if N > 10:
+    pc = 30
+elif Nmuestra == 0:
+    pc = 0
+elif N % 3 == 0:
+    pc = 50
+elif N % 3 == 1:
+    pc = 70
+elif N % 3 == 2:
+    pc = 90
+msg = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}"
 print(msg)
 # %%
 
@@ -57,7 +120,7 @@ spec = datos.espectro.real
 re = datos.espectro.real[1]
 im = datos.espectro.imag[1]
 
-titulo = f"muestra: M{muestra}\n" \
+titulo = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}\n" \
          fr"$\Delta = {bigDelta}$ ms, $\delta = {delta}$ ms"
 
 r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
@@ -86,7 +149,7 @@ residuals = residuals/smax
 fig, axs = plt.subplots(2, 1, figsize=(6, 7))
 # fig.suptitle(muestra)
 # -------------
-titulo = f"muestra: M{muestra}\n" \
+titulo = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}\n" \
          fr"$\Delta = {bigDelta}$ ms, $\delta = {delta}$ ms, "\
          fr"$G_{{max}} = {gpmax:.2f} \%$"
 axs[0].set_title(titulo)
@@ -95,7 +158,7 @@ axs[0].plot(bvalue_fit, signal_fit, 'r-')
 text = f"$D =$ {datos.fit_results[0]:.4f} $10^{{-9}}m^2/s$ \n " \
        f"$u_D =$ {datos.fit_results[1]:.1g} $10^{{-9}}m^2/s$ \n " \
        f"$r^2 =$ {datos.fit_results[2]:.5g}"
-axs[0].text(bvalue[-1]*0.6, 0.5, text,
+axs[0].text(bvalue[-1]*0.6, 0.7*signal[0], text,
             multialignment="left")
 axs[0].set(xlabel=r'$b_{value} [10^9 s/m^2]$', ylabel=r'$S$')
 axs[0].set_yscale('log')
