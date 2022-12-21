@@ -13,22 +13,29 @@ from Datos import *
 import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
-# info: fecha, expn, ppmRange, bmax
-info = ['12-20', 4, [-10,10], 50]
+# info: muestra, expn, ppmRange, bmax
+info = ['Li-Blanco', 3, [-2,2], 200]
+# info = ['Li-1.2mg', 12, [-2,2], 200]
+# info = ['F-Blanco', 7, [-2,2], 200]
+# info = ['F-1.2mg', 15, [-2,2], 200]
+info = ['Li-0.6mg', 22, [-2,2], 200]
 save = False
 
-# datos de la muestra
-muestra = "Nombre de la muestra"
 # forma del gradiente
 gpshape = 'sin'
 # factor de correccion: Dref(medido)/Dref(literatura)
-factor_b = 1.95
+factor_b = 1
 
 #-------------------- directorios
-fecha, expn, ppmRange, bmax = info
+muestra, expn, ppmRange, bmax = info
+# Polisulfuros
+# path_local = "S:/NMRdata/2022_Polisulfuros/"
+# path_bruker = f"2022-{fecha}_Diff_Polisulfuros-DME/{expn}/"
+# Silicio
+path_local = "S:/NMRdata/2022_Silicio/"
+path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
 
-path_local = "S:/NMRdata/2022_Polisulfuros/"
-path_bruker = f"2022-{fecha}_Diff_Polisulfuros-DME/{expn}/"
+
 path = path_local + path_bruker
 # directorio de guradado
 savepath_local = "G:/Otros ordenadores/Mi PC/" # Acer
@@ -57,7 +64,7 @@ spec = datos.espectro.real
 re = datos.espectro.real[1]
 im = datos.espectro.imag[1]
 
-titulo = f"muestra: M{muestra}\n" \
+titulo = f"muestra: {muestra}\n" \
          fr"$\Delta = {bigDelta}$ ms, $\delta = {delta}$ ms"
 
 r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
@@ -86,7 +93,7 @@ residuals = residuals/smax
 fig, axs = plt.subplots(2, 1, figsize=(6, 7))
 # fig.suptitle(muestra)
 # -------------
-titulo = f"muestra: M{muestra}\n" \
+titulo = f"muestra: {muestra}\n" \
          fr"$\Delta = {bigDelta}$ ms, $\delta = {delta}$ ms, "\
          fr"$G_{{max}} = {gpmax:.2f} \%$"
 axs[0].set_title(titulo)
