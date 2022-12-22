@@ -15,10 +15,14 @@ import matplotlib.ticker as ticker
 
 # info: muestra, expn, ppmRange, bmax
 info = ['Li-Blanco', 3, [-2,2], 200]
-# info = ['Li-1.2mg', 12, [-2,2], 200]
 # info = ['F-Blanco', 7, [-2,2], 200]
+info = ['Li-1.2mg', 12, [-2,2], 200]
 # info = ['F-1.2mg', 15, [-2,2], 200]
-info = ['Li-0.6mg', 22, [-2,2], 200]
+# info = ['Li-0.6mg', 22, [-2,2], 200]
+# info = ['F-0.6mg', 25, [-2,2], 200]
+info = ['Li-2.4mg', 32, [-3,3], 1.1]
+info = ['Li-2.4mg', 37  , [-3,3], 3.6] # Repetición
+# info = ['F-2.4mg', 35, [-2,2], 200]
 save = False
 
 # forma del gradiente
