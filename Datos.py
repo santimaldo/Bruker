@@ -324,7 +324,7 @@ class DatosProcesadosT1(DatosProcesados2D):
         # calculo R^2
         residuals = signal - func(tau, *popt)
         ss_res = np.sum(residuals**2)
-        ss_tot = np.sum((-np.mean(signal))**2)
+        ss_tot = np.sum((signal-np.mean(signal))**2)
         r_squared = 1 - (ss_res / ss_tot)
 
         msg = f"Ajuste exponencial de T1:\n  " \

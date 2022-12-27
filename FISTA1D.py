@@ -50,11 +50,12 @@ from scipy.optimize import curve_fit
 
 def NLI_FISTA_1D(K, Z, alpha, S):
     '''
-    Inversión de Laplace 1D
+    Inversion de Laplace 1D
     '''
 
     Z = np.reshape(Z, (len(Z), 1))
     S = np.reshape(S, (len(S), 1))
+    # Z = np.zeros_like(S)
 
     KTK = K.T @ K # @: matrix multiplication: @ = np.dot()
     KTZ = K.T @ Z
@@ -107,6 +108,8 @@ def fitMag_1D(tau1, T1, S_1D):
 
 #%%
 # de antemano tengo las variables tau, signal, tau_fit
+
+# def ILT1D()
 
 
 Npts_L = 512
