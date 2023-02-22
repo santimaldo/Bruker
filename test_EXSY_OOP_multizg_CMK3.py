@@ -20,27 +20,6 @@ def Integrar(Matriz, x=None, y=None):
     return i
 
 
-path = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY/"
-savepath = "S:\temp/"
-
-# carbon + agua
-mT = [1, 5, 10, 25, 50, 100]
-nexp = [25, 29, 26, 31, 27, 30]
-picos = [1.9, -3.0]
-
-guardar = False
-# carbon
-mT = [1, 25, 50, 75, 100]
-nexp = [9, 15, 10, 13, 14]
-#picos = [0, -4.0]
-
-
-path = "S:/Doctorado/Carbones/300MHz/2021-12-27_Carbones_MAS/"
-savepath = "S:/temp/"
-mT = [10, 20, 50, 100, 200, 500, 1000]
-nexp = [25, 27, 24, 23, 21, 26, 22]
-
-
 # ###############################################################################
 # path  ="S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
 # savepath = "S:/temp/"
@@ -78,14 +57,12 @@ nexp = [25, 27, 24, 23, 21, 26, 22]
 # modulo=False
 ###############################################################################
 
-# ###############################################################################
-# ###############################################################################
-# #####################################
-# CMK3ACTB 1H  ### muestra "B". con cantidad de bulk correcta
-path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
-path = "S:/CarbonesSofi/300MHz/2022-05-12_Carbones_CMK3ACT/"  # compu Ofi
+# #############################################################################
+# #############################################################################
+# ###################CMK3ACTB 1H  # muestra "B". con cantidad de bulk correcta
+# path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
+path = "S:/NMRdata/2021_Carbones_Sofi/2022-05-12_Carbones_CMK3ACT/"  # compu Ofi
 # savepath = "S:/tmp"
-savepath = "S:/Doctorado/Carbones/analisis/2022-05_Carbones_Sofi/CMK3_act_B_EXSY_1H/"
 savepath = "S:/tmp/"
 mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
       50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
@@ -102,12 +79,12 @@ semiancho = 0.5
 
 
 filename = f"1H_EXSY_CMK3-ACT_semiancho{semiancho}"
-rango = (-5, 5)
+rango = (-10, 10)
 
 modulo = False
 
 
-# ###############################################################################
+##############################################################################
 # ###CMK3ACTB 1H  ### muestra "A". con MUCHA cantidad de bulk
 # path  ="S:/CarbonesSofi/300MHz/2022-05-06_Carbones_CMK3ACT/" # compu Ofi
 # savepath = "S:/CarbonesSofi/Analisis/2022-09_EXSY/"
@@ -157,25 +134,25 @@ modulo = False
 
 # ###############################################################################
 # M4 carbones HOracio    CARBON Y agua
-# path  = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
+# path = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
 # savepath = "S:/temp/"
 
-# mT =   [1 , 5 , 10, 25, 50, 100]
-# nexp = [25, 29, 26, 31, 27, 30 ]
+# mT = [1, 5, 10, 25, 50, 100]
+# nexp = [25, 29, 26, 31, 27, 30]
 # # reordeno - -------------------
 # zipped_list = zip(mT, nexp)
 # sorted_list = sorted(zipped_list)
 # mT, nexp = np.array(sorted_list).T
 # # fin reordeno - ---------------
-# picos = [4.5,1.8,-2.8]
+# picos = [4.5, 1.8, -2.8]
 # # parametrps -------------------
 # # semiancho de integracion (ppm)
 # semiancho = 1
 
 # filename = f"1H_EXSY_M4_semiancho{semiancho}"
-# rango = (-5,8)
+# rango = (-5, 8)
 
-# modulo=False
+# modulo = False
 # ###############################################################################
 
 # determino numero de filas y columnas del grafico-----------------------------
@@ -209,6 +186,7 @@ if any(dists < 2*semiancho):
     msj = f"{msj1}\n{msj2}"
     raise Exception(msj)
 # ------------------------------------------------------------------------------
+fig_specs, ax_specs = plt.subplots(nrows=3, ncols=3, num=78945975413)
 
 espectros1d = []
 integrales = []
@@ -266,6 +244,22 @@ for n in range(len(nexp)):
             ax.set_yticks([])
 
             Int_n[i, j] = Integrar(spec_tmp, x=ppmx_tmp, y=ppmy_tmp)
+
+            # Grafico espectros 1D
+            axx = ax_specs[i, j]
+            if i == j:
+                idx_y = find_nearest(ppm_y, picos[i])
+                spec1d = spec[idx_y, :]
+                ppmaxis = ppm_y
+                axx.set_title(f"Horizontal, pico {i+1}")
+            else:
+                idx_x = find_nearest(ppm_x, picos[j])
+                spec1d = spec[:, idx_x]
+                ppmaxis = ppm_x
+                axx.set_title(f"Vertical, pico {j+1}")
+            axx.plot(spec1d, label=f"{mT[n]:.0f} ms")
+            if j == 0 and i == 2:
+                axx.legend(ncol=3)
 
     integrales.append(Int_n)
     # if mT[n]>=120: stop
@@ -390,6 +384,15 @@ for n in range(len(espectros1d)):
     plt.plot(ppm_x, np.abs(spec1d)/np.max(np.abs(spec1d)),
              label=f"mixing time: {mT[n]:.0f} ms")
 plt.legend()
+
+# %% Guardo picos diagonales
+
+header = "Picos Diagonales\n mixingTimes [ms]\t Bulk\t Meso\t Micro"
+data = np.array([mT, integrales[:, 0, 0],
+                integrales[:, 1, 1], integrales[:, 2, 2]]).T
+np.savetxt("S:/tmp/EXSY-CHierarch-PicosDiagonales.dat", data, header=header)
+
+
 # %% guardo matrices intensidad
 # np.savetxt(f"{savepath}/mixingTimes.dat", mT.T, header="mixig times [ms]" )
 # for n in range(len(integrales)):
