@@ -37,54 +37,85 @@ def Integrar(Matriz, x=None, y=None):
 
 
 ##############################################################################
-# ###CMK3ACTB Li
+# CMK3ACTB Li
 # path  ="S:/Doctorado/Carbones/300MHz/2022-05-19_Carbones_CMK3ACT/"
-# savepath = path
-# filename = "7Li_EXSY"
-# mT = [1000, 300,100,600,1,25,1250,50,450,200,800,10, 150, 1500, 700, 375]
-# nexp = np.arange(5,5+2*len(mT),2)
-# # reordeno - -------------------
-# zipped_list = zip(mT, nexp)
-# sorted_list = sorted(zipped_list)
-# mT, nexp = np.array(sorted_list).T
-# # fin reordeno - ---------------
-# picos   = [-1.57,-3.75]
-# # picos   = [-1.6,-2.8,-3.7]
-# # parametrps -------------------
-# # semiancho de integracion (ppm)
-# semiancho = 0.5
-# rango = (-7,0)
-# modulo=False
+path = "S:/NMRdata/2021_Carbones_Sofi/2022-05-19_Carbones_CMK3ACT/"  # compu Ofi
+savepath = path
+filename = "7Li_EXSY"
+mT = [1000, 300, 100, 600, 1, 25, 1250, 50,
+      450, 200, 800, 10, 150, 1500, 700, 375]
+nexp = np.arange(5, 5+2*len(mT), 2)
+# reordeno - -------------------
+zipped_list = zip(mT, nexp)
+sorted_list = sorted(zipped_list)
+mT, nexp = np.array(sorted_list).T
+# fin reordeno - ---------------
+picos = [-1.57, -3.75]
+# picos   = [-1.6,-2.8,-3.7]
+# parametrps -------------------
+# semiancho de integracion (ppm)
+semiancho = 0.5
+rango = (-7, 0)
+modulo = False
 ###############################################################################
 
 # #############################################################################
 # #############################################################################
 # ###################CMK3ACTB 1H  # muestra "B". con cantidad de bulk correcta
 # path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
-path = "S:/NMRdata/2021_Carbones_Sofi/2022-05-12_Carbones_CMK3ACT/"  # compu Ofi
-# savepath = "S:/tmp"
-savepath = "S:/tmp/"
-mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
-      50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
-nexp = np.arange(22, 22+2*len(mT), 2)
-# reordeno - -------------------
-zipped_list = zip(mT, nexp)
-sorted_list = sorted(zipped_list)
-mT, nexp = np.array(sorted_list).T
-# fin reordeno - ---------------
-picos = [3.61, 0.63, -3.3]
-# parametrps -------------------
-# semiancho de integracion (ppm)
-semiancho = 0.5
+# path = "S:/NMRdata/2021_Carbones_Sofi/2022-05-12_Carbones_CMK3ACT/"  # compu Ofi
+# # savepath = "S:/tmp"
+# savepath = "S:/tmp/"
+# mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
+#       50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
+# nexp = np.arange(22, 22+2*len(mT), 2)
+# # reordeno - -------------------
+# zipped_list = zip(mT, nexp)
+# sorted_list = sorted(zipped_list)
+# mT, nexp = np.array(sorted_list).T
+# # fin reordeno - ---------------
+# picos = [3.61, 0.63, -3.3]
+# # parametrps -------------------
+# # semiancho de integracion (ppm)
+# semiancho = 0.5
 
+# # nexp = [24]
 
-filename = f"1H_EXSY_CMK3-ACT_semiancho{semiancho}"
-rango = (-10, 10)
+# filename = f"1H_EXSY_CMK3-ACT_semiancho{semiancho}"
+# rango = (-10, 10)
 
-modulo = False
-
-
+# modulo = False
 ##############################################################################
+
+
+# #############################################################################
+# ###################CMK3 sin activar
+# ATENCIOOOON: NO IMPLEMENTADO AUN!!!!
+# path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
+# path = "S:/NMRdata/2021_Carbones_Sofi/2022-05-12_Carbones_CMK3ACT/"  # compu Ofi
+# # savepath = "S:/tmp"
+# savepath = "S:/tmp/20230224"
+# mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
+#       50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
+# nexp = np.arange(22, 22+2*len(mT), 2)
+# # reordeno - -------------------
+# zipped_list = zip(mT, nexp)
+# sorted_list = sorted(zipped_list)
+# mT, nexp = np.array(sorted_list).T
+# # fin reordeno - ---------------
+# picos = [3.61, 0.63, -3.3]
+# # parametrps -------------------
+# # semiancho de integracion (ppm)
+# semiancho = 0.5
+
+# # nexp = [24]
+
+# filename = f"1H_EXSY_CMK3_semiancho{semiancho}"
+# rango = (-10, 10)
+
+# modulo = False
+# #############################################################################
+
 # ###CMK3ACTB 1H  ### muestra "A". con MUCHA cantidad de bulk
 # path  ="S:/CarbonesSofi/300MHz/2022-05-06_Carbones_CMK3ACT/" # compu Ofi
 # savepath = "S:/CarbonesSofi/Analisis/2022-09_EXSY/"
@@ -217,8 +248,8 @@ for n in range(len(nexp)):
     print(f"mixing time: {mT[n]} ms")
     ax.set_title(f"mixing time: {mT[n]} ms")
     # plt.contour(ppm_x_grid, ppm_y_grid, spec, 30)
-    ax.contour(ppm_x_grid, ppm_y_grid, spec, 30, colors=['k'])
-    # ax.pcolormesh(ppm_x_grid, ppm_y_grid, spec, vmax=0.1*np.max(spec))
+    # ax.contour(ppm_x_grid, ppm_y_grid, spec, 30, colors=['k'])
+    ax.pcolormesh(ppm_x_grid, ppm_y_grid, spec, vmax=0.1*np.max(spec))
 
     ax.set_xlim((rango[1], rango[0]))
     ax.set_ylim((rango[1], rango[0]))
@@ -375,31 +406,23 @@ for i in range(len(picos)):
     plt.ylabel("Norm. Diag. Peaks")
     plt.legend()
 # %% espectros 1d
-plt.figure(951623)
-ppm_x = Espectro1D.ppmAxis
-for n in range(len(espectros1d)):
-    spec1d = espectros1d[n]
-    # x_norm =
-    # norm_factor = spec1d[np.abs(ppm_x-x_norm)]
-    plt.plot(ppm_x, np.abs(spec1d)/np.max(np.abs(spec1d)),
-             label=f"mixing time: {mT[n]:.0f} ms")
-plt.legend()
-
-# %% Guardo picos diagonales
-
-header = "Picos Diagonales\n mixingTimes [ms]\t Bulk\t Meso\t Micro"
-data = np.array([mT, integrales[:, 0, 0],
-                integrales[:, 1, 1], integrales[:, 2, 2]]).T
-np.savetxt("S:/tmp/EXSY-CHierarch-PicosDiagonales.dat", data, header=header)
-
+# plt.figure(951623)
+# ppm_x = Espectro1D.ppmAxis
+# for n in range(len(espectros1d)):
+#     spec1d = espectros1d[n]
+#     # x_norm =
+#     # norm_factor = spec1d[np.abs(ppm_x-x_norm)]
+#     plt.plot(ppm_x, np.abs(spec1d)/np.max(np.abs(spec1d)),
+#              label=f"mixing time: {mT[n]:.0f} ms")
+# plt.legend()
 
 # %% guardo matrices intensidad
-# np.savetxt(f"{savepath}/mixingTimes.dat", mT.T, header="mixig times [ms]" )
-# for n in range(len(integrales)):
-#   matriz = integrales[n]
-#   filename = f'matrizI_mT{mT[n]:.0f}ms'
-#   data = np.array(matriz)
-#   np.savetxt(f"{savepath}/{filename}.dat", data)
+np.savetxt(f"{savepath}/mixingTimes.dat", mT.T, header="mixig times [ms]")
+for n in range(len(integrales)):
+    matriz = integrales[n]
+    filename = f'matrizI_mT{mT[n]:.0f}ms'
+    data = np.array(matriz)
+    np.savetxt(f"{savepath}/{filename}.dat", data)
 
 
 # np.savetxt(f"{savepath}DATA2D_mT120.dat", spec)
@@ -409,4 +432,5 @@ np.savetxt("S:/tmp/EXSY-CHierarch-PicosDiagonales.dat", data, header=header)
 # re = datos.espectro.real
 # im = datos.espectro.imag
 # mod = np.abs(re+1j*im)
+# np.savetxt(f"{savepath}DATA2D_mT120_ABS.dat", mod)
 # np.savetxt(f"{savepath}DATA2D_mT120_ABS.dat", mod)

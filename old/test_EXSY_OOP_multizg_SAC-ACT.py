@@ -31,8 +31,7 @@ def find_nearest(array, value):
 # SAC
 path = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/"
 path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-23_Carbones_MAS/"  # oficina
-
-savepath = "S:/tmp/"
+savepath = "S:/Posdoc/CarbonesSofi/Analisis/2023-02_EXSY-Cmicro/"  # oficina
 # savepath = "S:/Doctorado/Carbones/analisis/2022-05_Carbones_Sofi/CMK3_act_B_EXSY_1H/"
 mT = [1, 50, 100, 250, 500, 750, 1000, 2000]
 nexp = [18, 12, 13, 14, 15, 16, 17, 20]
@@ -149,8 +148,8 @@ for n in range(len(nexp)):
                 spec1d = spec[:, picos[j]]
                 ax.set_title(f"Vertical, pico {j+1}")
             ax.plot(spec1d, label=f"mixing time: {mT[n]:.0f} ms")
-            if j < i:
-                ax.legend()
+            # if j < i:
+            # ax.legend()
 
     integrales.append(Int_n)
     # if mT[n]>=120: stop
@@ -267,3 +266,12 @@ plt.show()
 # im = datos.espectro.imag
 # mod = np.abs(re+1j*im)
 # np.savetxt(f"{savepath}DATA2D_mT120_ABS.dat", mod)
+
+# %% guardo matrices intensidad
+savepath = "S:/Posdoc/CarbonesSofi/Analisis/2023-02_EXSY-Cmicro/MatricesIntensidad/"
+np.savetxt(f"{savepath}/mixingTimes.dat", mT.T, header="mixig times [ms]")
+for n in range(len(integrales)):
+    matriz = integrales[n]
+    filename = f'matrizI_mT{mT[n]:.0f}ms'
+    data = np.array(matriz)
+    np.savetxt(f"{savepath}/{filename}.dat", data)
