@@ -23,6 +23,8 @@ info = ['Li-1.2mg', 12, [-2,2], 200]
 info = ['Li-2.4mg', 32, [-3,3], 1.1]
 info = ['Li-2.4mg', 37  , [-3,3], 3.6] # Repetición
 # info = ['F-2.4mg', 35, [-2,2], 200]
+
+info = ['LiCl-250mM', 102, [-1,1], 0.9]
 save = False
 
 # forma del gradiente
@@ -37,7 +39,8 @@ muestra, expn, ppmRange, bmax = info
 # path_bruker = f"2022-{fecha}_Diff_Polisulfuros-DME/{expn}/"
 # Silicio
 path_local = "S:/NMRdata/2022_Silicio/"
-path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
+# path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
+path_bruker = f"2023-02-15_Diff_LiTFSI-SiO2/{expn}/"
 
 
 path = path_local + path_bruker

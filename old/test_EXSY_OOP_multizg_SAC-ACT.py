@@ -34,7 +34,7 @@ mT, nexp = np.array(sorted_list).T
 picos = [69,318]
 # parametrps -------------------
 # semiancho de integracion (ppm)
-semiancho = 20
+semiancho = 50
 
 filename = f"1H_EXSY_SAC"
 
