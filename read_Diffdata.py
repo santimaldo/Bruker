@@ -14,39 +14,28 @@ import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
 # info: muestra, expn, ppmRange, bmax
-info = ['Li-Blanco', 3, [-2,2], 200]
-# info = ['F-Blanco', 7, [-2,2], 200]
-info = ['Li-1.2mg', 12, [-2,2], 200]
-# info = ['F-1.2mg', 15, [-2,2], 200]
-# info = ['Li-0.6mg', 22, [-2,2], 200]
-# info = ['F-0.6mg', 25, [-2,2], 200]
-info = ['Li-2.4mg', 32, [-3,3], 1.1]
-info = ['Li-2.4mg', 37  , [-3,3], 3.6] # Repetición
-# info = ['F-2.4mg', 35, [-2,2], 200]
-
-info = ['LiCl-250mM', 102, [-1,1], 0.9]
-save = False
+info = ['Li2S6-50mM-DME', 4, [-2, 2], 1.25]
+save = True
 
 # forma del gradiente
 gpshape = 'sin'
 # factor de correccion: Dref(medido)/Dref(literatura)
-factor_b = 1
+factor_b = 1.95
 
 #-------------------- directorios
 muestra, expn, ppmRange, bmax = info
 # Polisulfuros
-# path_local = "S:/NMRdata/2022_Polisulfuros/"
-# path_bruker = f"2022-{fecha}_Diff_Polisulfuros-DME/{expn}/"
+path_local = "S:/NMRdata/2022_Polisulfuros/"
+path_bruker = f"2022-12-20_Diff_Polisulfuros-DME/{expn}/"
 # Silicio
-path_local = "S:/NMRdata/2022_Silicio/"
+# path_local = "S:/NMRdata/2022_Silicio/"
 # path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
-path_bruker = f"2023-02-15_Diff_LiTFSI-SiO2/{expn}/"
 
 
 path = path_local + path_bruker
 # directorio de guradado
-savepath_local = "G:/Otros ordenadores/Mi PC/" # Acer
-# savepath_local = "S:/"  # Oficina
+# savepath_local = "G:/Otros ordenadores/Mi PC/"  # Acer
+savepath_local = "S:/"  # Oficina
 savepath = f"{savepath_local}Posdoc/Li-S/Analisis/2022-12_Li2S6-DME/"
 
 # --------------------------- Extraigo datos
@@ -131,12 +120,12 @@ for ax in axs.flat:
 
 # guardo data:
 if save:
-    filename0 = f"{muestra}_{pc}pc_{matriz}"
+    filename0 = f"{muestra}"
 
-    filename = f'{savepath}/datos_Diff/figuras/{filename0}_Diff.png'
+    filename = f'{savepath}{filename0}_Diff.png'
     fig.savefig(filename)   # save the figure to file
 
-    filename = f'{savepath}/datos_Diff/figuras/' \
+    filename = f'{savepath}' \
                f'{filename0}_Diff-RegionIntegracion.png'
     fig1d.savefig(filename)   # save the figure to file
 
@@ -144,10 +133,10 @@ if save:
              f"Rango de integracion: {ppmRange} ppm\n"\
              f"bvalue (10^-9 m^2/s)\t S (norm)"
     Diffdata = np.array([bvalue, signal]).T
-    np.savetxt(f"{savepath}/datos_Diff/{filename0}_Diff.dat",
+    np.savetxt(f"{savepath}{filename0}_Diff.dat",
                Diffdata, header=header)
 
-    data = np.array([ppmAxis, re, im]).T
-    filename = f"{savepath}/datos_Diff/primerEspectro/" \
-               f"{filename0}_primerEspectro.dat"
-    np.savetxt(filename, data)
+    # data = np.array([ppmAxis, re, im]).T
+    # filename = f"{savepath}datos_Diff/primerEspectro/" \
+    #            f"{filename0}_primerEspectro.dat"
+    # np.savetxt(filename, data)
