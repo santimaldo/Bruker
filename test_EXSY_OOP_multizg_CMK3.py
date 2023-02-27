@@ -91,28 +91,25 @@ def Integrar(Matriz, x=None, y=None):
 # #############################################################################
 # ################### 1H CMK3 sin activar
 # #ATENCIOOOON: NO IMPLEMENTADO AUN!!!!
-path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
-path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-27_Carbones_MAS/"  # compu Ofi
+# path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
+# path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-27_Carbones_MAS/"  # compu Ofi
+# # savepath = "S:/tmp"
 # savepath = "S:/tmp"
-savepath = "S:/tmp"
-mT = [200, 1000, 100, 50, 10, 500, 20]  # 1H
-nexp = np.arange(21, 28)
-# reordeno - -------------------
-zipped_list = zip(mT, nexp)
-sorted_list = sorted(zipped_list)
-mT, nexp = np.array(sorted_list).T
-# fin reordeno - ---------------
-picos = [3.61, 0.63, -3.3]
-# parametrps -------------------
-# semiancho de integracion (ppm)
-semiancho = 0.5
+# mT = [200, 1000, 100, 50, 10, 500, 20]  # 1H
+# nexp = np.arange(21, 28)
+# # reordeno - -------------------
+# zipped_list = zip(mT, nexp)
+# sorted_list = sorted(zipped_list)
+# mT, nexp = np.array(sorted_list).T
+# # fin reordeno - ---------------
+# picos = [3.61, 0.63, -3.3]
+# # parametrps -------------------
+# # semiancho de integracion (ppm)
+# semiancho = 0.5
+# filename = f"1H_EXSY_CMK3_semiancho{semiancho}"
+# rango = (-10, 10)
 
-# nexp = [24]
-
-filename = f"1H_EXSY_CMK3_semiancho{semiancho}"
-rango = (-10, 10)
-
-modulo = False
+# modulo = False
 # #############################################################################
 
 # ###CMK3ACTB 1H  ### muestra "A". con MUCHA cantidad de bulk
