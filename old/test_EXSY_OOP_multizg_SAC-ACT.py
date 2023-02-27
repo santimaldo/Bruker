@@ -46,8 +46,40 @@ picos = [70, 320]
 semianchos = [20, 50]  # pico 1 y 2 respectivamente
 semiancho = max(semianchos)
 
+rangoDir = [300, 800]
+rangoInd = rangoDir
 
 filename = f"1H_EXSY_SAC"
+
+
+modulo = False
+###############################################################################
+
+
+###############################################################################
+# CMK3 1H
+path = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/"
+path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-27_Carbones_MAS/"  # compu Ofi
+savepath = path  # oficina
+
+mT = [200, 1000, 100, 50, 10, 500, 20]
+nexp = np.arange(21, 28)
+# reordeno - -------------------
+zipped_list = zip(mT, nexp)
+sorted_list = sorted(zipped_list)
+mT, nexp = np.array(sorted_list).T
+# fin reordeno - ---------------
+picos = [34, 10]
+# parametrps -------------------
+# semiancho de integracion (ppm)
+semianchos = [1, 1]  # pico 1 y 2 respectivamente
+semiancho = max(semianchos)
+
+rangoDir = [800, 1000]
+rangoInd = [200, 250]
+
+
+filename = f"1H_EXSY_CMK3"
 
 
 modulo = False
@@ -99,7 +131,7 @@ for n in range(len(nexp)):
     else:
         spec = datos.espectro.real
 
-    spec = spec[330:800, 330:800]
+    spec = spec[rangoInd[0]:rangoInd[1], rangoDir[0]:rangoDir[1]]
     x = np.arange(spec[0, :].size)
     y = np.arange(spec[0, :].size)
 
