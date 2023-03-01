@@ -62,29 +62,29 @@ def Integrar(Matriz, x=None, y=None):
 # #############################################################################
 # #############################################################################
 # ###################CMK3ACTB 1H  # muestra "B". con cantidad de bulk correcta
-# path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
+path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
 # path = "S:/NMRdata/2021_Carbones_Sofi/2022-05-12_Carbones_CMK3ACT/"  # compu Ofi
-# # savepath = "S:/tmp"
-# savepath = "S:/tmp/"
-# mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
-#       50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
-# nexp = np.arange(22, 22+2*len(mT), 2)
-# # reordeno - -------------------
-# zipped_list = zip(mT, nexp)
-# sorted_list = sorted(zipped_list)
-# mT, nexp = np.array(sorted_list).T
-# # fin reordeno - ---------------
-# picos = [3.61, 0.63, -3.3]
-# # parametrps -------------------
-# # semiancho de integracion (ppm)
-# semiancho = 0.5
+# savepath = "S:/tmp"
+savepath = "S:/tmp/"
+mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
+      50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
+nexp = np.arange(22, 22+2*len(mT), 2)
+# reordeno - -------------------
+zipped_list = zip(mT, nexp)
+sorted_list = sorted(zipped_list)
+mT, nexp = np.array(sorted_list).T
+# fin reordeno - ---------------
+picos = [3.61, 0.63, -3.3]
+# parametrps -------------------
+# semiancho de integracion (ppm)
+semiancho = 0.5
 
-# # nexp = [24]
+# nexp = [24]
 
-# filename = f"1H_EXSY_CMK3-ACT_semiancho{semiancho}"
-# rango = (-10, 10)
+filename = f"1H_EXSY_CMK3-ACT_semiancho{semiancho}"
+rango = (-10, 10)
 
-# modulo = False
+modulo = False
 ##############################################################################
 
 
@@ -137,25 +137,25 @@ def Integrar(Matriz, x=None, y=None):
 
 ##########################################
 ##### M4 carbones HOracio  carbones SIN AGUA
-path  = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
-savepath = "S:/temp/"
+# path  = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
+# savepath = "S:/temp/"
 
-mT =   [1,  5, 10, 25, 50, 75, 100]
-nexp = [9,  5,  7, 15, 10, 13,  14]
-# reordeno - -------------------
-zipped_list = zip(mT, nexp)
-sorted_list = sorted(zipped_list)
-mT, nexp = np.array(sorted_list).T
-# fin reordeno - ---------------
-picos = [0,-4.3]
-# parametrps -------------------
-# semiancho de integracion (ppm)
-semiancho = 1
+# mT =   [1,  5, 10, 25, 50, 75, 100]
+# nexp = [9,  5,  7, 15, 10, 13,  14]
+# # reordeno - -------------------
+# zipped_list = zip(mT, nexp)
+# sorted_list = sorted(zipped_list)
+# mT, nexp = np.array(sorted_list).T
+# # fin reordeno - ---------------
+# picos = [0,-4.3]
+# # parametrps -------------------
+# # semiancho de integracion (ppm)
+# semiancho = 1
 
-filename = f"1H_EXSY_M4_semiancho{semiancho}"
-rango = (-8,2)
+# filename = f"1H_EXSY_M4_semiancho{semiancho}"
+# rango = (-8,2)
 
-modulo=False
+# modulo=False
 # ###############################################################################
 
 
