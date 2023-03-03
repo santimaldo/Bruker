@@ -89,7 +89,7 @@ class ILT(object):
 
     # ----------------------------------------------------------------------------
 
-    def DoTheStuff(self, ydata, xdata, xfit=None, muestra=None):
+    def DoTheStuff(self, ydata, xdata, xfit=None, muestra=None, legend=False):
         print("#-------------------------------------")
         print("Calculando ILT ...")
         # data
@@ -110,6 +110,8 @@ class ILT(object):
         # 2) Graficar
         if self.figure is not None:
             self.plot()
+            if legend:
+                self.legend()
         # 3) Guardar
         if self.savepath is not None:
             self.save()
@@ -302,8 +304,6 @@ class ILT(object):
         fig.tight_layout()
         axs = [ax0, ax1, ax2]
 
-        if self.savepath:
-            fig.savefig(f"{self.savepath}{self.muestra}.png")
         return fig, axs
 
     def legend(self):
@@ -316,6 +316,9 @@ class ILT(object):
     # ---------------------------------------guardado---------------------------
 
     def save(self):
+        if self.figure is not None:
+            self.fig.savefig(f"{self.savepath}{self.muestra}.png")
+
         data = np.array([self.xilt, self.yilt]).T
         header = f"ILT Distribution\n"\
                  f"Kernel\t:\t{self.kernel.__name__} \n"\
