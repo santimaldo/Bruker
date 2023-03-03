@@ -20,7 +20,6 @@ for j in range(len(nexp)):
     print(path+str(nexp[j])+"/", "  mT=", str(mT[j]))
     datos = DatosProcesados2D(path+str(nexp[j])+"/")
     datos.espectro.ppmSelect2D([-20, 20])
-
     ppm_x = datos.espectro.ppmGridDir
     ppm_y = datos.espectro.ppmGridInd
     spec = datos.espectro.real

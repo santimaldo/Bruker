@@ -136,26 +136,26 @@ def Integrar(Matriz, x=None, y=None):
 # ##########################################
 
 ##########################################
-# M4 carbones HOracio  carbones SIN AGUA
-# path  = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
-# savepath = "S:/temp/"
+##### M4 carbones HOracio  carbones SIN AGUA
+path  = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
+savepath = "S:/temp/"
 
-# mT =   [1,  5, 10, 25, 50, 75, 100]
-# nexp = [9,  5,  7, 15, 10, 13,  14]
-# # reordeno - -------------------
-# zipped_list = zip(mT, nexp)
-# sorted_list = sorted(zipped_list)
-# mT, nexp = np.array(sorted_list).T
-# # fin reordeno - ---------------
-# picos = [0,-4.3]
-# # parametrps -------------------
-# # semiancho de integracion (ppm)
-# semiancho = 1
+mT =   [1,  5, 10, 25, 50, 75, 100]
+nexp = [9,  5,  7, 15, 10, 13,  14]
+# reordeno - -------------------
+zipped_list = zip(mT, nexp)
+sorted_list = sorted(zipped_list)
+mT, nexp = np.array(sorted_list).T
+# fin reordeno - ---------------
+picos = [0,-4.3]
+# parametrps -------------------
+# semiancho de integracion (ppm)
+semiancho = 1
 
-# filename = f"1H_EXSY_M4_semiancho{semiancho}"
-# rango = (-8,2)
+filename = f"1H_EXSY_M4_semiancho{semiancho}"
+rango = (-8,2)
 
-# modulo=False
+modulo=False
 # ###############################################################################
 
 

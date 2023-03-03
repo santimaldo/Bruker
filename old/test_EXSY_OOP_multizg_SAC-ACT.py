@@ -42,6 +42,7 @@ mT, nexp = np.array(sorted_list).T
 picos = [70, 320]
 # parametrps -------------------
 # semiancho de integracion (ppm)
+
 semianchos = [20, 50]  # pico 1 y 2 respectivamente
 semiancho = max(semianchos)
 
