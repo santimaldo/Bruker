@@ -32,7 +32,6 @@ def find_nearest(array, value):
 path = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/"
 path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-23_Carbones_MAS/"  # oficina
 savepath = "S:/Posdoc/CarbonesSofi/Analisis/2023-02_EXSY-Cmicro/"  # oficina
-# savepath = "S:/Doctorado/Carbones/analisis/2022-05_Carbones_Sofi/CMK3_act_B_EXSY_1H/"
 mT = [1, 50, 100, 250, 500, 750, 1000, 2000]
 nexp = [18, 12, 13, 14, 15, 16, 17, 20]
 # reordeno - -------------------
@@ -46,7 +45,7 @@ picos = [70, 320]
 semianchos = [20, 50]  # pico 1 y 2 respectivamente
 semiancho = max(semianchos)
 
-rangoDir = [300, 800]
+rangoDir = [330, 800]
 rangoInd = rangoDir
 
 filename = f"1H_EXSY_SAC"
@@ -56,33 +55,33 @@ modulo = False
 ###############################################################################
 
 
-###############################################################################
-# CMK3 1H
-path = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/"
-path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-27_Carbones_MAS/"  # compu Ofi
-savepath = path  # oficina
+# ###############################################################################
+# # CMK3 1H
+# path = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/"
+# path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-27_Carbones_MAS/"  # compu Ofi
+# savepath = path  # oficina
 
-mT = [200, 1000, 100, 50, 10, 500, 20]
-nexp = np.arange(21, 28)
-# reordeno - -------------------
-zipped_list = zip(mT, nexp)
-sorted_list = sorted(zipped_list)
-mT, nexp = np.array(sorted_list).T
-# fin reordeno - ---------------
-picos = [34, 10]
-# parametrps -------------------
-# semiancho de integracion (ppm)
-semianchos = [1, 1]  # pico 1 y 2 respectivamente
-semiancho = max(semianchos)
+# mT = [200, 1000, 100, 50, 10, 500, 20]
+# nexp = np.arange(21, 28)
+# # reordeno - -------------------
+# zipped_list = zip(mT, nexp)
+# sorted_list = sorted(zipped_list)
+# mT, nexp = np.array(sorted_list).T
+# # fin reordeno - ---------------
+# picos = [34, 10]
+# # parametrps -------------------
+# # semiancho de integracion (ppm)
+# semianchos = [1, 1]  # pico 1 y 2 respectivamente
+# semiancho = max(semianchos)
 
-rangoDir = [800, 1000]
-rangoInd = [200, 250]
-
-
-filename = f"1H_EXSY_CMK3"
+# rangoDir = [800, 1000]
+# rangoInd = [200, 250]
 
 
-modulo = False
+# filename = f"1H_EXSY_CMK3"
+
+
+# modulo = False
 ###############################################################################
 
 
