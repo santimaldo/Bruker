@@ -14,29 +14,32 @@ import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
 # info: muestra, expn, ppmRange, bmax
-info = ['Li2S6-50mM-DME', 4, [-2, 2], 1.25]
+info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
+info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
 save = True
 
 # forma del gradiente
 gpshape = 'sin'
 # factor de correccion: Dref(medido)/Dref(literatura)
-factor_b = 1.95
+factor_b = 1
 
 #-------------------- directorios
 muestra, expn, ppmRange, bmax = info
 # Polisulfuros
-path_local = "S:/NMRdata/2022_Polisulfuros/"
-path_bruker = f"2022-12-20_Diff_Polisulfuros-DME/{expn}/"
+# path_local = "S:/NMRdata/2022_Polisulfuros/"
+# path_bruker = f"2022-12-20_Diff_Polisulfuros-DME/{expn}/"
 # Silicio
 # path_local = "S:/NMRdata/2022_Silicio/"
 # path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
-
+# test
+path_local = "S:/NMRdata/2023_tests/"
+path_bruker = f"2023-02-17_Diff_Shimming/{expn}/"
 
 path = path_local + path_bruker
 # directorio de guradado
 # savepath_local = "G:/Otros ordenadores/Mi PC/"  # Acer
-savepath_local = "S:/"  # Oficina
-savepath = f"{savepath_local}Posdoc/Li-S/Analisis/2022-12_Li2S6-DME/"
+savepath_local = "S:/tmp/"  # Oficina
+savepath = f"{savepath_local}"
 
 # --------------------------- Extraigo datos
 # 1.7933
