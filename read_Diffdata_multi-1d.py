@@ -25,10 +25,11 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expni, expnf, ppmRange]
 # Q3
+info = [23, '2023-03-08', 20, 26, [-5, 3]]
 # info = [21, '11-14', 30, 45, [-3, 3]]
 # info = [10, '10-11', 20, 29, [-1, 1]]
 # info = [11, '10-20', 10, 25, [-1, 1]]
-info = [12, '11-14', 72, 85, [-3, 3]]
+# info = [12, '11-14', 72, 85, [-3, 3]]
 
 min_gp = 5
 
@@ -50,10 +51,11 @@ expnums = np.arange(expni, expnf+1)
 # path_local = "S:/CNEA/Glicerol-Agua/116MHz"
 # path_local = "S:/Posdoc/Glicerol-Agua/116MHz"
 path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
-path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
+path_bruker = f"/{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
 path = path_local + path_bruker
 # directorio de guradado
-savepath_local = "S:/"  # Oficina
+# savepath_local = "S:/"  # Oficina
+savepath_local = "G:/Otros ordenadores/Oficina/" # Acer
 savepath = f"{savepath_local}Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
 
 
@@ -63,7 +65,7 @@ muestra = f"M{Nmuestra}"
 N = Nmuestra-10
 # matriz es el medio: Bulk, Q30 o Q3
 if N > 10:
-    if Nmuestra == 21:
+    if Nmuestra == 21 or Nmuestra == 23:
         matriz = 'Q3'
     elif Nmuestra == 22:
         matriz = 'Q30'
@@ -76,7 +78,9 @@ elif N < 6:
 elif N < 9:
     matriz = 'Bulk'
 # pc es el porcentaje de glicerol: 50%, 70% o 90%
-if N > 10:
+if Nmuestra == 23:
+  pc = 0
+elif N > 10:
     pc = 30
 elif N % 3 == 0:
     pc = 50

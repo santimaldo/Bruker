@@ -21,6 +21,7 @@ import scipy.integrate as integrate
 #
 # info = [Nmuestra, fecha, expn, ppmRange, bmax]
 # # # # Bulk:
+info = [999, '2023-03-08', 11, [-4,2]]  
 # info = [24, '11-14', 2, [-0.5, 0.5]]
 # info = [16, '09-29', 2, [-0.5, 0.5]]
 # info = [17, '09-29', 9, [-0.5, 0.5]]
@@ -32,8 +33,8 @@ import scipy.integrate as integrate
 # info = [15, '10-11', 2, [-5, 5]]
 # info = [13, '11-17', 121, [-2.5,2.5]] # re-medicion
 # # # #  Q3:
-info = [21, '11-14', 21, [-6,5]]
-info = [10, '09-29', 15, [-5, 5]]  
+# info = [21, '11-14', 21, [-6,5]]
+# info = [10, '09-29', 15, [-5, 5]]  
 # info = [11, '10-20', 4, [-10,10]]
 # info = [12, '11-14', 61, [-5,5]]
 # Q3 distintas fechas
@@ -54,10 +55,10 @@ path_local = "S:/PosDoc/Glicerol-Agua/116MHz"
 path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
 
 
-path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
+path_bruker = f"/{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
-savepath = "G:/Otros ordenadores/Mi PC/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
+savepath = "G:/Otros ordenadores/Oficina/Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
 
 
 # --------------------------- Extraigo datos
@@ -70,7 +71,9 @@ datos = DatosProcesadosT1(path)
 muestra = f"M{Nmuestra}"
 N = Nmuestra-10
 # matriz es el medio: Bulk, Q30 o Q3
-if N > 10:
+if Nmuestra == 999:
+  matriz = 'bulk'
+elif N > 10:
   if Nmuestra == 21:
     matriz = 'Q3'
   elif Nmuestra == 22:
@@ -86,7 +89,9 @@ elif N < 6:
 elif N < 9:
     matriz = 'Bulk'
 # pc es el porcentaje de glicerol: 50%, 70% o 90%
-if N > 10:
+if Nmuestra == 999:
+  pc = 0
+elif N > 10:
     pc = 30
 elif Nmuestra==0:
     pc = 0
@@ -164,10 +169,10 @@ if save:
     filename0 = f"{muestra}_{pc}pc_{matriz}"
     folder0 = "datos_T1"
 
-    filename = f'{savepath}/{folder0}/figuras/{filename0}_T1.png'
+    filename = f'{savepath}{folder0}/figuras/{filename0}_T1.png'
     fig.savefig(filename)   # save the figure to file
 
-    filename = f'{savepath}/{folder0}/figuras/'\
+    filename = f'{savepath}{folder0}/figuras/'\
                f'{filename0}_T1-RegionIntegracion.png'
     fig1d.savefig(filename)   # save the figure to file
 
@@ -175,10 +180,10 @@ if save:
              f"Rango de integracion: {ppmRange} ppm\n"\
              f"tau (ms)\t S (norm)"
     T1data = np.array([tau, signal]).T
-    np.savetxt(f"{savepath}/{folder0}/{filename0}_T1.dat",
+    np.savetxt(f"{savepath}{folder0}/{filename0}_T1.dat",
                T1data, header=header)
 
     data = np.array([ppmAxis, re, im]).T
-    filename = f"{savepath}/{folder0}/ultimoEspectro/"\
+    filename = f"{savepath}{folder0}/ultimoEspectro/"\
                f"{filename0}_T1-ultimoEspectro.dat"
     np.savetxt(filename, data)
