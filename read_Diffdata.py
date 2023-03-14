@@ -16,8 +16,11 @@ import matplotlib.ticker as ticker
 # info: muestra, expn, ppmRange, bmax
 info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
 info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
-info = ['Li2S6-DME', 3, [-3, 2], 0.6]
-info = ['Li2S6-TEGDME', 7, [-3, 2], 100]
+info = ['Li2S6-DME-dia1', 3, [-3, 2], 0.6]  # 9/3/23
+info = ['Li2S6-DME-dia5', 12, [-3, 2], 0.6]  # 9/3/23
+info = ['Li2S6-TEGDME-dia1', 7, [-3, 2], 100]  # 14/3/23
+info = ['Li2S6-TEGDME-dia5', 15, [-3, 2], 100]  # 14/3/23
+info = ['Li2S6-TEGDME-dia5', 16, [-3, 2], 100]  # 14/3/23
 
 save = True
 
