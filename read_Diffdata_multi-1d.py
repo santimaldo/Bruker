@@ -25,10 +25,11 @@ import matplotlib.ticker as ticker
 #
 # info = [Nmuestra, fecha, expni, expnf, ppmRange]
 # Q3
-info = [23, '2023-03-08', 20, 26, [-5, 3]]
+# info = [23, '2023-03-08', 20, 35, [-5,3]]
 # info = [21, '11-14', 30, 45, [-3, 3]]
 # info = [10, '10-11', 20, 29, [-1, 1]]
 # info = [11, '10-20', 10, 25, [-1, 1]]
+info = [11, '2023-03-08', 102, 117, [-5, 5]] # REMEDICION
 # info = [12, '11-14', 72, 85, [-3, 3]]
 
 min_gp = 5
@@ -41,7 +42,7 @@ NptsFid = 4
 ABSsignal = False  # abs del espectro
 centrado_en_maximo = True
 
-save = True
+save = False
 save1d = False
 Nmuestra, fecha, expni, expnf, ppmRange = info
 expnums = np.arange(expni, expnf+1)

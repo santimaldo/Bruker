@@ -14,11 +14,11 @@ import scipy.integrate as integrate
 
 
 # directorio de datos
-expn = 102
-path = f"S:/Carbones/300MHz/2022-09-01_CarbonesCNEA_M4_LiTFSI/{expn}/"
-# directorio de guradado
-savepath = "S:/Carbones/analisis/2022-09_M4_LiTFSI-G2_100mM/filesT1/"
-muestra = "tmp"  # '1H_M4-NaOH' # "LiTFSI-G2_100mM_bulk", "M4-NaOH", "M4-HF"
+# expn = 102
+# path = f"S:/Carbones/300MHz/2022-09-01_CarbonesCNEA_M4_LiTFSI/{expn}/"
+# # directorio de guradado
+# savepath = "S:/Carbones/analisis/2022-09_M4_LiTFSI-G2_100mM/filesT1/"
+# muestra = "tmp"  # '1H_M4-NaOH' # "LiTFSI-G2_100mM_bulk", "M4-NaOH", "M4-HF"
 
 
 # directorio de datos  ### M4 HF muestra SIN MOLER
@@ -27,16 +27,28 @@ muestra = "tmp"  # '1H_M4-NaOH' # "LiTFSI-G2_100mM_bulk", "M4-NaOH", "M4-HF"
 # savepath = "S:/Carbones/analisis/2022-03_Glyme_AnalisisDatos2018/T1/"
 # muestra = "1H_M4-HF_SinMoler"
 
+# # directorio de datos ### M4 HF muestra MOLIDA
+# expn = 11
+# path = f"S:/CNEA/Carbones/300MHz/2018-11-28_Carbones_Glyma_MAS/{expn}/"
+# savepath = "S:/CNEA/Carbones/analisis/2022-03_Glyme_AnalisisDatos2018/T1/"
+# muestra = "1H_M4-HF_Molida"
+
+
 # directorio de datos ### M4 HF muestra MOLIDA
-expn = 11
-path = f"S:/CNEA/Carbones/300MHz/2018-11-28_Carbones_Glyma_MAS/{expn}/"
-savepath = "S:/CNEA/Carbones/analisis/2022-03_Glyme_AnalisisDatos2018/T1/"
-muestra = "1H_M4-HF_Molida"
+# expn = 2
+# muestra = "Li2S6-DME"
+
+expn = 6
+muestra = "Li2S6-TEGDME"
+
+path = f"S:/NMRdata/2022_Polisulfuros/2023-03-09_Diff_Polisulfuros/{expn}/"
+savepath = "S:/tmp/"
+
 
 
 save = False
 # rango de integracion
-ppmRange = [20, -30]
+ppmRange = [2, -2]
 
 datos = DatosProcesadosT1(path)
 ppmAxis = datos.espectro.ppmAxis
