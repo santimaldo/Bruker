@@ -20,7 +20,7 @@ info = ['Li2S6-DME', 3, [-3, 2], 0.6]
 info = ['Li2S6-TEGDME', 22, [-3, 2], 100]
 # info = ['Li2S6-DME-Delta-10ms', 4, [-1,1], 0.5]
 # info = ['Li2S6-DME-Delta-1000ms', 5, [-1,1], 100]
-
+info = ['Li2S6-TEGDME-Delta-100ms', 23, [-3, 2], 100]
 
 save = True
 
