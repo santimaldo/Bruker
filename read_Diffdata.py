@@ -17,7 +17,10 @@ import matplotlib.ticker as ticker
 info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
 info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
 info = ['Li2S6-DME', 3, [-3, 2], 0.6]
-info = ['Li2S6-TEGDME', 7, [-3, 2], 100]
+info = ['Li2S6-TEGDME', 22, [-3, 2], 100]
+# info = ['Li2S6-DME-Delta-10ms', 4, [-1,1], 0.5]
+# info = ['Li2S6-DME-Delta-1000ms', 5, [-1,1], 100]
+
 
 save = True
 
@@ -30,7 +33,7 @@ factor_b = 1
 muestra, expn, ppmRange, bmax = info
 # Polisulfuros
 path_local = "S:/NMRdata/2022_Polisulfuros/"
-path_bruker = f"/2023-03-09_Diff_Polisulfuros/{expn}/"
+path_bruker = f"/2023-03-28_Diff_Polisulfuros/{expn}/"
 # Silicio
 # path_local = "S:/NMRdata/2022_Silicio/"
 # path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
