@@ -207,7 +207,7 @@ class DatosProcesados2D(DatosProcesados):
 
         self.ppmRange = ppmRange
 
-    def Integrar(self):
+    def Integrar(self, absolute=False):
         """
         crea la lista de senales. Los datos ya tienen que estar procesados (xf2)
 
@@ -217,7 +217,10 @@ class DatosProcesados2D(DatosProcesados):
         ppmRange = self.ppmRange
 
         ppmAxis = self.espectro.ppmAxis
-        spec = self.espectro.real
+        if absolute:
+            spec = np.abs(self.espectro.spec)
+        else:
+            spec = self.espectro.real
         # defino rango de integracion
         if ppmRange is None:
             ppmRange = [self.espectro.ppmAxis[0], self.espectro.ppmAxis[-1]]
@@ -366,6 +369,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
         self.factor_b = factor_b
         self.bmax = bmax
         self.bmin = bmin
+        self.absolute = None
         # parametros de la secuencia de gradiente
         # para STE bipolar, delta es 2*P30 y bigDelta es D20
         self.delta = 2*self.acqus.P[30]*1e-3  # ms - (originalmente en us)
@@ -406,7 +410,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
         self.bvalue = bvalue * self.factor_b
         return 0
 
-    def get_Diffdata(self, ppmRange=None):
+    def get_Diffdata(self, ppmRange=None, absolute=False):
         """
         Devuelve el par de arrays Tau y Signal.
         Debo darle el rango de integracion.
@@ -414,9 +418,10 @@ class DatosProcesadosDiff(DatosProcesados2D):
 
         Atencion! Reescribe el atributo ppmRange
         """
+        self.absolute = absolute
         if ppmRange is not None:
             self.ppmRange = ppmRange
-            self.Integrar()
+            self.Integrar(absolute=absolute)
         self.Recortar_datos()
         return self.bvalue, self.signal
 

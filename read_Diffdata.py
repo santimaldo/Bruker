@@ -16,19 +16,31 @@ import matplotlib.ticker as ticker
 # info: muestra, expn, ppmRange, bmax
 info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
 info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
+<<<<<<< Updated upstream
 info = ['Li2S6-DME', 3, [-3, 2], 0.6]
 info = ['Li2S6-TEGDME', 22, [-3, 2], 100]
 # info = ['Li2S6-DME-Delta-10ms', 4, [-1,1], 0.5]
 # info = ['Li2S6-DME-Delta-1000ms', 5, [-1,1], 100]
 info = ['Li2S6-TEGDME-Delta-100ms', 23, [-3, 2], 100]
+=======
+info = ['Li2S6-DME-dia1', 3, [-1, 1], 1.5]  # 9/3/23
+info = ['Li2S6-DME-dia5', 12, [-0.5, 1], 100]  # 14/3/23
+
+info = ['Li2S6-DME-dia5', 12, [-1, 1], 1]  # 14/3/23
+
+
+# info = ['Li2S6-TEGDME-dia1', 7, [-2, 2], 100]  # 9/3/23
+# info = ['Li2S6-TEGDME-dia5', 15, [-0.5, 0.5], 100]  # 14/3/23
+# info = ['Li2S6-TEGDME-dia5', 16, [-0.6, 0.6], 100]  # 14/3/23
+>>>>>>> Stashed changes
 
 save = True
 
 # forma del gradiente
 gpshape = 'sin'
 # factor de correccion: Dref(medido)/Dref(literatura)
-factor_b = 1
-
+factor_b = 1.95
+modulo = False
 #-------------------- directorios
 muestra, expn, ppmRange, bmax = info
 # Polisulfuros
@@ -44,7 +56,7 @@ path_bruker = f"/2023-03-28_Diff_Polisulfuros/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
 # savepath_local = "G:/Otros ordenadores/Mi PC/"  # Acer
-savepath_local = "S:/tmp/"  # Oficina
+savepath_local = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/"  # Oficina
 savepath = f"{savepath_local}"
 
 # --------------------------- Extraigo datos
@@ -60,6 +72,7 @@ gpmax = datos.gpmax
 # -----------------------------------------------
 msg = f"muestra: {muestra}"
 print(msg)
+print(f"rango = {info[2]}")
 # %%
 
 # --------------------------- grafico un espectro
@@ -68,11 +81,14 @@ spec = datos.espectro.real
 
 re = datos.espectro.real[1]
 im = datos.espectro.imag[1]
+if modulo:
+    re = np.abs(re+1j*im)
 
 titulo = f"muestra: {muestra}\n" \
          fr"$\Delta = {bigDelta}$ ms, $\delta = {delta}$ ms"
 
 r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
+rango = [r1, r2]
 fig1d, ax1d = plt.subplots(1, 1)
 ax1d.axvspan(r1, r2, alpha=0.2, color='red')
 ax1d.axhline(0, color='gray')
@@ -87,7 +103,7 @@ plt.axhline(0, color='k')
 
 # %%
 
-bvalue, signal = datos.get_Diffdata(ppmRange)
+bvalue, signal = datos.get_Diffdata(ppmRange, absolute=modulo)
 bvalue_fit, signal_fit, residuals = datos.Diff1_fit()
 
 smax = np.max(signal)
