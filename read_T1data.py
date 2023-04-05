@@ -38,17 +38,19 @@ import scipy.integrate as integrate
 # expn = 2
 # muestra = "Li2S6-DME"
 
-expn = 6
-muestra = "Li2S6-TEGDME"
+expn = 12
+muestra = "Li2S6-TEGDME-DME_1-1_t_180"
 
-path = f"S:/NMRdata/2022_Polisulfuros/2023-03-09_Diff_Polisulfuros/{expn}/"
-savepath = "S:/tmp/"
+path = f"S:/NMRdata/2022_Polisulfuros/2023-04-05_Diff_Polisulfuros/{expn}/"
+
+savepath = "G:/Otros ordenadores/Oficina/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/Mezcla/T1/"  # Acer
+# savepath = "S:/tmp/"
 
 
 
-save = False
+save = True
 # rango de integracion
-ppmRange = [2, -2]
+ppmRange = [0.5,-0.5]
 
 datos = DatosProcesadosT1(path)
 ppmAxis = datos.espectro.ppmAxis

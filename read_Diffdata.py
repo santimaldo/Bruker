@@ -16,13 +16,6 @@ import matplotlib.ticker as ticker
 # info: muestra, expn, ppmRange, bmax
 info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
 info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
-<<<<<<< Updated upstream
-info = ['Li2S6-DME', 3, [-3, 2], 0.6]
-info = ['Li2S6-TEGDME', 22, [-3, 2], 100]
-# info = ['Li2S6-DME-Delta-10ms', 4, [-1,1], 0.5]
-# info = ['Li2S6-DME-Delta-1000ms', 5, [-1,1], 100]
-info = ['Li2S6-TEGDME-Delta-100ms', 23, [-3, 2], 100]
-=======
 info = ['Li2S6-DME-dia1', 3, [-1, 1], 1.5]  # 9/3/23
 info = ['Li2S6-DME-dia5', 12, [-0.5, 1], 100]  # 14/3/23
 
@@ -32,7 +25,14 @@ info = ['Li2S6-DME-dia5', 12, [-1, 1], 1]  # 14/3/23
 # info = ['Li2S6-TEGDME-dia1', 7, [-2, 2], 100]  # 9/3/23
 # info = ['Li2S6-TEGDME-dia5', 15, [-0.5, 0.5], 100]  # 14/3/23
 # info = ['Li2S6-TEGDME-dia5', 16, [-0.6, 0.6], 100]  # 14/3/23
->>>>>>> Stashed changes
+
+info = ['Li2S6_DME-TEGDME_1-1_t_20', 3, [-0.5,0.5], 100]  # 5/4/23
+info = ['Li2S6_DME-TEGDME_1-1_t_45', 5, [-0.5,0.5], 100]  # 5/4/23
+info = ['Li2S6_DME-TEGDME_1-1_t_60', 7, [-0.5,0.5], 100]  # 5/4/23
+info = ['Li2S6_DME-TEGDME_1-1_t_95', 9, [-0.5,0.5], 100]  # 5/4/23
+info = ['Li2S6_DME-TEGDME_1-1_t_120', 11, [-0.5,0.5], 100]  # 5/4/23
+info = ['Li2S6_DME-TEGDME_1-1_t_180', 13, [-0.5,0.5], 100]  # 5/4/23
+
 
 save = True
 
@@ -45,7 +45,7 @@ modulo = False
 muestra, expn, ppmRange, bmax = info
 # Polisulfuros
 path_local = "S:/NMRdata/2022_Polisulfuros/"
-path_bruker = f"/2023-03-28_Diff_Polisulfuros/{expn}/"
+path_bruker = f"/2023-04-05_Diff_Polisulfuros/{expn}/"
 # Silicio
 # path_local = "S:/NMRdata/2022_Silicio/"
 # path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
@@ -55,8 +55,8 @@ path_bruker = f"/2023-03-28_Diff_Polisulfuros/{expn}/"
 
 path = path_local + path_bruker
 # directorio de guradado
-# savepath_local = "G:/Otros ordenadores/Mi PC/"  # Acer
-savepath_local = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/"  # Oficina
+savepath_local = "G:/Otros ordenadores/Oficina/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/Mezcla/"  # Acer
+# savepath_local = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/Mezcla/"  # Oficina
 savepath = f"{savepath_local}"
 
 # --------------------------- Extraigo datos
