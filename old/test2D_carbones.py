@@ -13,15 +13,18 @@ def find_nearest(array, value):
 
 
 
-path  = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY/10/"
+path  = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/18/"
+savepath = "S:/tmp/"
+muestra = "SAC-1H-1ms"
+
 
 datos = DatosProcesados2D(path)
 
-datos.espectro.ppmSelect2D([-8, 8])
+datos.espectro.ppmSelect2D([-15,6])
 
 
-ppm_x = datos.espectro.ppmGrid_Dir
-ppm_y = datos.espectro.ppmGrid_Ind
+ppm_x = datos.espectro.ppmGridDir
+ppm_y = datos.espectro.ppmGridInd
 
 
 ppmDir = datos.espectro.ppmAxis
@@ -42,3 +45,9 @@ ax.invert_yaxis()
 ax.invert_xaxis()
 plt.show()
 
+
+
+
+np.savetxt(f"{savepath}{muestra}_data2D.dat", spec)
+np.savetxt(f"{savepath}{muestra}_ppmDir.dat", ppm_x)
+np.savetxt(f"{savepath}{muestra}_ppmInd.dat", ppm_y)
