@@ -69,7 +69,11 @@ class ILT(object):
         self.funciones = {"T1sat": self.T1sat}
 
         # Fit paremeters
-        self.xfit = None
+        self.xfit = xfit
+        # IMPLEMENTACION DE xfit:
+        if xfit is not None:
+            msg = "xfit no esta implementado todavia"
+            raise Warning(msg)
         self.yfit = None
         self.residuals = None
         self.r_squared = None
@@ -100,10 +104,11 @@ class ILT(object):
         self.ydata = ydata
         self.xdata = xdata
 
-        if xfit is None:
-            self.xfit = xdata
-        else:
+        if xfit is not None:
             self.xfit = xfit
+        else:
+            if self.xfit is None:
+                self.xfit = xdata
 
         # 1) Calcular
         self.Calculate()
@@ -223,7 +228,8 @@ class ILT(object):
 
         xfit = self.xfit
         M = []
-        for i in range(xdata.size):
+        # IMPLEMENTACION DE xfit: aca la suma deberia ser range(xfit.size)
+        for i in range(xfit.size):
             m = 0
             for j in range(xilt.size):
                 m += yilt[j] * self.kernel(xfit[i], xilt[j])
@@ -232,7 +238,7 @@ class ILT(object):
         self.yfit = yfit
 
         # calculo R^2
-        residuals = ydata - yfit
+        residuals = ydata - yfit  # IMPLEMENTACION DE xfit: ojo con las dims
         ss_res = np.sum(residuals**2)
         ss_tot = np.sum((ydata-np.mean(ydata))**2)
         r_squared = 1 - (ss_res / ss_tot)

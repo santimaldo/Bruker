@@ -33,22 +33,16 @@ import scipy.integrate as integrate
 # savepath = "S:/CNEA/Carbones/analisis/2022-03_Glyme_AnalisisDatos2018/T1/"
 # muestra = "1H_M4-HF_Molida"
 
+# Polisulfuros
+expn = 2
+muestra = "Li2S6-DME-Dia21"
+path = f"S:/NMRdata/2022_Polisulfuros/2023-03-28_Diff_Polisulfuros/{expn}/"
+# savepath = "S:/tmp/"
+savepath = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/T1/"
 
-# directorio de datos ### M4 HF muestra MOLIDA
-# expn = 2
-# muestra = "Li2S6-DME"
-
-expn = 6
-muestra = "Li2S6-TEGDME"
-
-path = f"S:/NMRdata/2022_Polisulfuros/2023-03-09_Diff_Polisulfuros/{expn}/"
-savepath = "S:/tmp/"
-
-
-
-save = False
+save = True
 # rango de integracion
-ppmRange = [2, -2]
+ppmRange = [-1, 1]
 
 datos = DatosProcesadosT1(path)
 ppmAxis = datos.espectro.ppmAxis

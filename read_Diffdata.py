@@ -16,23 +16,15 @@ import matplotlib.ticker as ticker
 # info: muestra, expn, ppmRange, bmax
 info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
 info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
-<<<<<<< Updated upstream
-info = ['Li2S6-DME', 3, [-3, 2], 0.6]
-info = ['Li2S6-TEGDME', 22, [-3, 2], 100]
-# info = ['Li2S6-DME-Delta-10ms', 4, [-1,1], 0.5]
-# info = ['Li2S6-DME-Delta-1000ms', 5, [-1,1], 100]
-info = ['Li2S6-TEGDME-Delta-100ms', 23, [-3, 2], 100]
-=======
-info = ['Li2S6-DME-dia1', 3, [-1, 1], 1.5]  # 9/3/23
-info = ['Li2S6-DME-dia5', 12, [-0.5, 1], 100]  # 14/3/23
 
-info = ['Li2S6-DME-dia5', 12, [-1, 1], 1]  # 14/3/23
-
+# info = ['Li2S6-DME-dia1', 3, [-1, 1], 1.5]  # 9/3/23
+# info = ['Li2S6-DME-dia5', 12, [-1, 1], 1]  # 14/3/23
+# info = ['Li2S6-DME-dia21', 3, [-1, 1], 100]  # 28/3/23
 
 # info = ['Li2S6-TEGDME-dia1', 7, [-2, 2], 100]  # 9/3/23
 # info = ['Li2S6-TEGDME-dia5', 15, [-0.5, 0.5], 100]  # 14/3/23
-# info = ['Li2S6-TEGDME-dia5', 16, [-0.6, 0.6], 100]  # 14/3/23
->>>>>>> Stashed changes
+info = ['Li2S6-TEGDME-dia21', 22, [-0.6, 0.6], 100]  # 28/3/23
+
 
 save = True
 
