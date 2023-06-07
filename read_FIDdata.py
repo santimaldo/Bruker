@@ -31,7 +31,7 @@ info = [15, '10-11', 1]
 info = [10, '10-03', 24]
 
 
-save = True
+save = False
 Nmuestra, fecha, expn = info
 #-------------------- directorios
 path_local = "S:/CNEA/Glicerol-Agua/116MHz"
