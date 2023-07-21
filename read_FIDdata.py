@@ -31,7 +31,7 @@ info = [15, '10-11', 1]
 info = [10, '10-03', 24]
 
 
-save = False
+save = True
 Nmuestra, fecha, expn = info
 #-------------------- directorios
 path_local = "S:/CNEA/Glicerol-Agua/116MHz"
@@ -110,8 +110,8 @@ plt.axhline(0, color='k')
 if save:
     filename0 = f"{muestra}_{pc}pc_{matriz}"
 
-    filename = f'{savepath}figuras/{filename0}_FID.png'
-    fig1d.savefig(filename)   # save the figure to file
+    # filename = f'{savepath}figuras/{filename0}_FID.png'
+    # fig1d.savefig(filename)   # save the figure to file
 
     header = f"Archivo de datos: {path_bruker}\n"\
              f"time (s)\t Real (raw)\t Imag (raw)\t Abs (raw)"
