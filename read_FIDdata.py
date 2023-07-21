@@ -37,11 +37,15 @@ Nmuestra, fecha, expn = info
 path_local = "S:/CNEA/Glicerol-Agua/116MHz"
 # path_local = "S:/PosDoc/Glicerol-Agua/116MHz"
 
+
 path_bruker = f"/2022-{fecha}_Diff_Silica_Agua-Glicerol-LiCl/{expn}/"
 path = path_local + path_bruker
+
 # directorio de guradado
 savepath = "S:/CNEA/Glicerol-Agua/analisis/7Li/datos_FID/"
 
+path = "S:/Doctorado/LiMetal/116MHz/2022-03-23_SMC_test/54/"
+savepath = "S:/tmp/"
 
 # --------------------------- Extraigo datos
 datos = Datos(path, set_fid=True)
