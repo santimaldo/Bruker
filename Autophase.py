@@ -33,6 +33,10 @@ def autophase(ppmAxis, real, imag, precision=1):
   dataArray = np.array([np.abs(IntImagSpec), IntRealSpec, angle]).T
   dataArray = dataArray[dataArray[:, 0].argsort()] # ordeno basandome en la primera columna
   
+  plt.figure(1)
+  plt.plot(angle, IntRealSpec)
+  plt.plot(angle, IntImagSpec)
+  
   for i in range(IntImagSpec.size):
     integralReal = dataArray[i,1]
     if integralReal<0:

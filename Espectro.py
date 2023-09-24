@@ -116,22 +116,21 @@ class Espectro(object):
         """
         Selecciona un rango de ppm
         """
-        centro=0
+        centro = 0
         if centrado_en_maximo:
-          # # maximo del real
-          # centro = self.ppmAxis[self.real==np.max(self.real)] 
-          # maximo del abs
-          signal = np.abs(self.real+1j*self.imag)
-          centro = self.ppmAxis[signal==np.max(signal)] 
-          plt.figure(1111)
-          plt.plot(self.ppmAxis, signal)
-          plt.axvline(centro)
-          print(f"centro: {centro}")
-        
-        
+            # # maximo del real
+            # centro = self.ppmAxis[self.real==np.max(self.real)]
+            # maximo del abs
+            signal = np.abs(self.real+1j*self.imag)
+            centro = self.ppmAxis[signal == np.max(signal)]
+            plt.figure(1111)
+            plt.plot(self.ppmAxis, signal)
+            plt.axvline(centro)
+            print(f"centro: {centro}")
+
         newppm = self.ppmAxis
-        newppm = newppm[newppm-centro<= max(rango)]
-        newppm = newppm[newppm-centro>= min(rango)]
+        newppm = newppm[newppm-centro <= max(rango)]
+        newppm = newppm[newppm-centro >= min(rango)]
         print(f"'\t recorto entre {newppm[0]} y {newppm[-1]}")
         ini = np.where(self.ppmAxis == newppm[0])[0][0]
         fin = np.where(self.ppmAxis == newppm[-1])[0][0] + 1
@@ -264,12 +263,13 @@ def autophase(complex_data, x=None, method='minIntImag', precision=1):
 
     if x is None:
         # defino el eje x:
-        x = np.linspace(complex_data.size)
+        x = np.arange(complex_data.real.size)
     else:
         # ordeno el eje x:
-        sort = np.argsort(x)
-        x = x[sort]
-        complex_data = complex_data[sort]
+        # sort = np.argsort(x)
+        # x = x[sort]
+        # complex_data = complex_data[sort]
+        pass
 
     angle = np.arange(0, 360, precision)
 
