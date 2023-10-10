@@ -19,13 +19,19 @@ path_bruker = "2023-05-12_LiMetal_in-situ/"
 savepath_local = "S:/Posdoc/InSitu/"
 savepath_especifico = "2023-05_test1/"
 
+
+path_local = "S:/Doctorado/LiMetal/116MHz/"
+path_bruker = "2022-03-23_SMC_test/54/"
+savepath_local = ""
+savepath_especifico = "S:/tmp/"
+
 # info: muestra, expn, ppmRange
 info = ['t11_ciclado_10mA', 8, None]
 
 nucleo = "7Li"
 muestra, expn, ppmRange = info
 
-
+expn = ""
 save = True
 
 

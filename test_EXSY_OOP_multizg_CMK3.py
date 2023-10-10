@@ -5,6 +5,8 @@ from Datos import *
 from Exsy import *
 from Espectro import autophase
 from scipy import integrate
+import matplotlib.cm
+
 
 from scipy.signal import savgol_filter
 
@@ -70,8 +72,10 @@ mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
       50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
 nexp = np.arange(22, 22+2*len(mT), 2)
 # reordeno - -------------------
-zipped_list = zip(mT, nexp)
+zipped_list = zip(mT[::2], nexp[::2])
+# zipped_list = zip(mT, nexp)
 sorted_list = sorted(zipped_list)
+# sorted_list = sorted(zipped_list, reverse=True)
 mT, nexp = np.array(sorted_list).T
 # fin reordeno - ---------------
 picos = [3.61, 0.63, -3.3]
@@ -79,6 +83,10 @@ picos = [3.61, 0.63, -3.3]
 # semiancho de integracion (ppm)
 semiancho = 0.5
 
+# cmap = matplotlib.cm.Wistia
+# cmap = matplotlib.cm.autumn
+# cmap = matplotlib.cm.autumn_r
+cmap = matplotlib.cm.YlOrBr_r
 # nexp = [24]
 
 filename = f"1H_EXSY_CMK3-ACT_semiancho{semiancho}"
@@ -136,7 +144,7 @@ modulo = False
 # ##########################################
 
 ##########################################
-##### M4 carbones HOracio  carbones SIN AGUA
+# M4 carbones HOracio  carbones SIN AGUA
 # path  = "S:/Doctorado/Carbones/300MHz/2019-10-24_Carbones_MAS_EXSY-reanalisis2022/"
 # savepath = "S:/temp/"
 
@@ -232,6 +240,7 @@ for n in range(len(nexp)):
         spec = np.abs(re+1j*im)
     else:
         spec = datos.espectro.real
+        im = datos.espectro.imag
 
     ppm_x = datos.espectro.ppmAxis
     ppm_y = datos.espectro.ppmAxisInd
@@ -273,18 +282,31 @@ for n in range(len(nexp)):
             Int_n[i, j] = Integrar(spec_tmp, x=ppmx_tmp, y=ppmy_tmp)
 
             # Grafico espectros 1D
+            color_index = n / (len(mT) - 1) * 0.9  # Normalized index
+            color = cmap(color_index)
+
             axx = ax_specs[i, j]
             if i == j:
                 idx_y = find_nearest(ppm_y, picos[i])
                 spec1d = spec[idx_y, :]
                 ppmaxis = ppm_y
                 axx.set_title(f"Horizontal, pico {i+1}")
+
+                if i == 0:
+                    spec1dim = im[idx_y, :]
+                    s1d, _ = autophase(spec1d+1j*spec1dim, x=ppm_x)
+                    plt.figure(45138745953548)
+                    plt.plot(ppm_x-3.6, s1d,
+                             label=f"{mT[n]:.0f} ms", color=color)
+                    plt.xlim([5, -15])
+                    plt.ylim([-200, 2000])
+                    plt.xlabel(r"$\Delta\delta$ [ppm]")
             else:
                 idx_x = find_nearest(ppm_x, picos[j])
                 spec1d = spec[:, idx_x]
                 ppmaxis = ppm_x
                 axx.set_title(f"Vertical, pico {j+1}")
-            axx.plot(spec1d, label=f"{mT[n]:.0f} ms")
+            axx.plot(spec1d, label=f"{mT[n]:.0f} ms", color=color)
             if j == 0 and i == 2:
                 axx.legend(ncol=3)
 

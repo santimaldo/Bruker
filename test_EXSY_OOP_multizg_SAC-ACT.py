@@ -302,7 +302,7 @@ plt.show()
 # np.savetxt(f"{savepath}DATA2D_mT120_ABS.dat", mod)
 
 # %% guardo matrices intensidad
-savepath = "S:/Posdoc/CarbonesSofi/Analisis/2023-02_EXSY-Cmicro/MatricesIntensidad/"
+# savepath = "S:/Posdoc/CarbonesSofi/Analisis/2023-02_EXSY-Cmicro/MatricesIntensidad/"
 np.savetxt(f"{savepath}/mixingTimes.dat", mT.T, header="mixig times [ms]")
 for n in range(len(integrales)):
     matriz = integrales[n]
