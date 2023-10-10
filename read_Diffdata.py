@@ -14,8 +14,8 @@ import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
 # info: muestra, expn, ppmRange, bmax
-info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
-info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
+# info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
+# info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
 
 # info = ['Li2S6-DME-dia1', 3, [-1, 1], 1.5]  # 9/3/23
 # info = ['Li2S6-DME-dia5', 12, [-1, 1], 1]  # 14/3/23
@@ -23,21 +23,30 @@ info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
 
 # info = ['Li2S6-TEGDME-dia1', 7, [-2, 2], 100]  # 9/3/23
 # info = ['Li2S6-TEGDME-dia5', 15, [-0.5, 0.5], 100]  # 14/3/23
-info = ['Li2S6-TEGDME-dia21', 22, [-0.6, 0.6], 100]  # 28/3/23
+# info = ['Li2S6-TEGDME-dia21', 22, [-0.6, 0.6], 100]  # 28/3/23
+
+# info = ['19F-M4-HF-LiTFSI-0', 7, [-2,2], 100]  # 10/10/23
+info = ['19F-M4-HF-LiTFSI-1', 100, [-2,2], 100]  # 10/10/23
 
 
 save = True
-
+normalizar = False
 # forma del gradiente
 gpshape = 'sin'
 # factor de correccion: Dref(medido)/Dref(literatura)
-factor_b = 1.95
+# factor_b = 1.95
+factor_b = 1
 modulo = False
 #-------------------- directorios
 muestra, expn, ppmRange, bmax = info
+
+
+# carbones CNEA
+path_local = "S:/NMRdata/2018_Carbones_CNEA/"
+path_bruker = f"2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
 # Polisulfuros
-path_local = "S:/NMRdata/2022_Polisulfuros/"
-path_bruker = f"/2023-03-28_Diff_Polisulfuros/{expn}/"
+# path_local = "S:/NMRdata/2022_Polisulfuros/"
+# path_bruker = f"2023-03-28_Diff_Polisulfuros/{expn}/"
 # Silicio
 # path_local = "S:/NMRdata/2022_Silicio/"
 # path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
@@ -48,7 +57,8 @@ path_bruker = f"/2023-03-28_Diff_Polisulfuros/{expn}/"
 path = path_local + path_bruker
 # directorio de guradado
 # savepath_local = "G:/Otros ordenadores/Mi PC/"  # Acer
-savepath_local = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/"  # Oficina
+# savepath_local = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/"  # Oficina
+savepath_local = "S:/tmp/"  # Oficina
 savepath = f"{savepath_local}"
 
 # --------------------------- Extraigo datos
@@ -98,7 +108,11 @@ plt.axhline(0, color='k')
 bvalue, signal = datos.get_Diffdata(ppmRange, absolute=modulo)
 bvalue_fit, signal_fit, residuals = datos.Diff1_fit()
 
-smax = np.max(signal)
+if normalizar:
+  smax = np.max(signal)
+else:
+  smax = 1
+
 signal = signal/smax
 signal_fit = signal_fit/smax
 residuals = residuals/smax

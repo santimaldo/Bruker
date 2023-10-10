@@ -29,8 +29,9 @@ import matplotlib.ticker as ticker
 # info = [21, '11-14', 30, 45, [-3, 3]]
 # info = [10, '10-11', 20, 29, [-1, 1]]
 # info = [11, '10-20', 10, 25, [-1, 1]]
-info = [11, '2023-03-08', 102, 117, [-3, 3]] # REMEDICION
+# info = [11, '2023-03-08', 102, 117, [-3, 3]] # REMEDICION
 # info = [12, '11-14', 72, 85, [-3, 3]]
+info = [11, '2023-03-08', 100, 103, [-10,10]]
 
 min_gp = 5
 
@@ -51,8 +52,11 @@ expnums = np.arange(expni, expnf+1)
 #-------------------- directorios
 # path_local = "S:/CNEA/Glicerol-Agua/116MHz"
 # path_local = "S:/Posdoc/Glicerol-Agua/116MHz"
-path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
-path_bruker = f"/{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
+# path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
+# path_bruker = f"/{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
+# carbones CNEA
+path_local = "S:/NMRdata/2018_Carbones_CNEA/"
+path_bruker = f"2023-10-10_CarbonesCNEA_M4_Diff/"
 path = path_local + path_bruker
 # directorio de guradado
 # savepath_local = "S:/"  # Oficina
