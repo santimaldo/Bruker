@@ -20,15 +20,15 @@ savepath_local = "S:/Posdoc/InSitu/"
 savepath_especifico = "2023-05_test1/"
 
 
-path_local = "S:/Doctorado/LiMetal/116MHz/"
-path_bruker = "2022-03-23_SMC_test/54/"
-savepath_local = ""
-savepath_especifico = "S:/tmp/"
+path_local = "S:/NMRdata/Cheva/190422_29Si_Q3/107/"
+path_bruker = ""
+savepath_local = path_local
+savepath_especifico = ""
 
 # info: muestra, expn, ppmRange
-info = ['t11_ciclado_10mA', 8, None]
+info = ['Q3', 107, None]
 
-nucleo = "7Li"
+nucleo = "29Si"
 muestra, expn, ppmRange = info
 
 expn = ""
@@ -36,7 +36,8 @@ save = True
 
 
 # extraigo:
-datos = DatosProcesados(f'{path_local}{path_bruker}{expn}/')
+# datos = DatosProcesados(f'{path_local}{path_bruker}{expn}/')
+datos = DatosProcesados(f'{path_local}')
 if ppmRange is not None:
     datos.espectro.ppmSelect(ppmRange)
 re = datos.espectro.real

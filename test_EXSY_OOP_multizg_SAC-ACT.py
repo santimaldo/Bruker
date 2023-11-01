@@ -29,13 +29,14 @@ def find_nearest(array, value):
 
 ###############################################################################
 # SAC
-path = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/"
+# path = "S:/Doctorado/Carbones/300MHz/2021-12-23_Carbones_MAS/"
 savepath = "S:/tmp/"
-# path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-23_Carbones_MAS/"  # oficina
+path = "S:/NMRdata/2021_Carbones_Sofi/2021-12-23_Carbones_MAS/"  # oficina
 # savepath = "S:/Posdoc/CarbonesSofi/Analisis/2023-02_EXSY-Cmicro/"  # oficina
 
 mT = [1, 50, 100, 250, 500, 750, 1000, 2000]
-nexp = [18, 12, 13, 14, 15, 16, 17, 20]
+nexp = [180, 12, 13, 14, 15, 16, 17, 20]
+# mt=1ms: 18 es con fase igual a los otros. 180 es con fase modificada # 2023-10-11
 # reordeno - -------------------
 zipped_list = zip(mT, nexp)
 sorted_list = sorted(zipped_list)
@@ -177,11 +178,21 @@ for n in range(len(nexp)):
 
             if i == j:
                 spec1d = spec[picos[i], :]
+                ppmAxis = datos.espectro.ppmAxis[rangoDir[0]:rangoDir[1]]
+                ppmAxis -= 3.6
                 ax.set_title(f"Horizontal, pico {i+1}")
+                ax.set_xlim([5,-13])
+                if i==0:
+                  data1d = np.array([ppmAxis, spec1d]).T
+                  np.savetxt(f"{savepath}/Cmic_EXSY_mT{mT[n]}.dat", 
+                             data1d,
+                             header="Espectro en funcion de Deltadelta.  \
+                               Slice en Deltadelta=0 de la dim indirecta.")
+                  
             else:
-                spec1d = spec[:, picos[j]]
-                ax.set_title(f"Vertical, pico {j+1}")
-            ax.plot(spec1d, label=f"mixing time: {mT[n]:.0f} ms")
+                ppmAxis = datos.espectro.ppmAxis[rangoInd[0]:rangoInd[1]]
+                ax.set_title(f"Vertical, pico {j+1}")            
+            ax.plot(ppmAxis,spec1d, label=f"mixing time: {mT[n]:.0f} ms")
             # if j < i:
             # ax.legend()
 

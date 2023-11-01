@@ -33,17 +33,28 @@ import scipy.integrate as integrate
 # savepath = "S:/CNEA/Carbones/analisis/2022-03_Glyme_AnalisisDatos2018/T1/"
 # muestra = "1H_M4-HF_Molida"
 
+###------------------------------- Carbnnes CNEA 2023
+## directorio de datos ### M4 HF LITFSI 10/10/2023
+# expn = 5
+# path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
+# savepath = "S:/tmp/"
+# muestra = "19F_M4-HF-LITFSI_T1"
 
-# # directorio de datos ### M4 HF LITFSI 10/10/2023
-expn = 5
+expn = 26 #2
 path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
-savepath = "S:/tmp/"
-muestra = "19F_M4-HF-LITFSI_T1"
-
-expn = 2
-path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
-savepath = "S:/tmp/"
 muestra = "7Li_M4-HF-LITFSI_T1"
+
+## directorio de datos ### M4 HF LITFSI 10/10/2023
+# expn = 6
+# path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-11_CarbonesCNEA_M4-HF-LiTF_Diff/{expn}/"
+# muestra = "19F_M4-HF-LITF_T1"
+
+# expn = 9
+# path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-11_CarbonesCNEA_M4-HF-LiTF_Diff/{expn}/"
+# muestra = "7Li_M4-HF-LITF_T1"
+
+savepath = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/T1/"
+###------------------------------- Carbnnes CNEA 2023
 
 
 # Polisulfuros
