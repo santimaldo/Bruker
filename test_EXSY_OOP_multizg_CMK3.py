@@ -65,15 +65,22 @@ def Integrar(Matriz, x=None, y=None):
 # #############################################################################
 # ###################CMK3ACTB 1H  # muestra "B". con cantidad de bulk correcta
 path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT/"  # Acer
+# path = "S:/Doctorado/Carbones/300MHz/2022-05-12_Carbones_CMK3ACT_reanalisis_09-2023/"  # Acer
 # path = "S:/NMRdata/2021_Carbones_Sofi/2022-05-12_Carbones_CMK3ACT/"  # compu Ofi
 # savepath = "S:/tmp"
 savepath = "S:/tmp/"
-mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
-      50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
-nexp = np.arange(22, 22+2*len(mT), 2)
+# mT = [1, 100, 350, 1000, 10, 35, 600, 5, 20, 200, 75, 275,
+#       50, 800, 150, 700, 900, 500, 420, 120, 1200, 1500]  # 1H
+# nexp = np.arange(22, 22+2*len(mT), 2)
+
+# para el slice a 0 ppm!!!:
+mT = [1, 5, 10, 50, 100, 200, 500, 100, 1500]  # 1H
+nexp = [22, 36, 30, 46, 24, 40, 56, 28, 64]
+
+
 # reordeno - -------------------
-zipped_list = zip(mT[::2], nexp[::2])
-# zipped_list = zip(mT, nexp)
+# zipped_list = zip(mT[::2], nexp[::2])
+zipped_list = zip(mT, nexp)
 sorted_list = sorted(zipped_list)
 # sorted_list = sorted(zipped_list, reverse=True)
 mT, nexp = np.array(sorted_list).T
@@ -227,7 +234,6 @@ espectros1d = []
 integrales = []
 espectros = []
 for n in range(len(nexp)):
-
     print(path+str(nexp[n])+"/", "  mT=", str(mT[n]))
     directorio = f"{path}{nexp[n]}/"
     datos = DatosProcesados2D(directorio)
@@ -294,7 +300,9 @@ for n in range(len(nexp)):
 
                 if i == 0:
                     spec1dim = im[idx_y, :]
-                    s1d, _ = autophase(spec1d+1j*spec1dim, x=ppm_x)
+                    # s1d, _ = autophase(spec1d+1j*spec1dim, x=ppm_x)
+                    fase = fases[n]
+                    s1d = (spec1d+1j*spec1dim)*np.exp(-1j*fase*np.pi/180)
                     plt.figure(45138745953548)
                     plt.plot(ppm_x-3.6, s1d,
                              label=f"{mT[n]:.0f} ms", color=color)
