@@ -23,14 +23,15 @@ import matplotlib.ticker as ticker
 # ppmRange: rango de integracion
 # bmax: maximo valor de bvalue utilizado para ajustar
 #
-# info = [muestra, expni, expnf, ppmRange]
-
-# M4 HF LiTFSI
-path_bruker = f"2023-10-10_CarbonesCNEA_M4_Diff/"
-info = ['7Li_M4-HF-LiTFSI', 10, 25, [-2,2]]
-
-
-
+# info = [Nmuestra, fecha, expni, expnf, ppmRange]
+# Q3
+# info = [23, '2023-03-08', 20, 35, [-5,3]]
+# info = [21, '11-14', 30, 45, [-3, 3]]
+# info = [10, '10-11', 20, 29, [-1, 1]]
+# info = [11, '10-20', 10, 25, [-1, 1]]
+# info = [11, '2023-03-08', 102, 117, [-3, 3]] # REMEDICION
+# info = [12, '11-14', 72, 85, [-3, 3]]
+info = [11, '2023-03-08', 10, 25, [-1,1]]
 
 min_gp = 5
 
@@ -38,27 +39,62 @@ gpshape = 'sin'
 factor_b = 1
 
 FIDsignal = True
-NptsFid = 
-ABSsignal = False  # abs del espectro
-centrado_en_maximo = False
+NptsFid = 20
+ABSsignal = True  # abs del espectro
+centrado_en_maximo = True
 
-save = True
+save = False
 save1d = False
-muestra, expni, expnf, ppmRange = info
+Nmuestra, fecha, expni, expnf, ppmRange = info
 expnums = np.arange(expni, expnf+1)
 # expnums = [28]
 
 #-------------------- directorios
+# path_local = "S:/CNEA/Glicerol-Agua/116MHz"
+# path_local = "S:/Posdoc/Glicerol-Agua/116MHz"
+# path_local = "S:/NMRdata/2022_Glicerol-agua_CNEA"
+# path_bruker = f"/{fecha}_Diff_Silica_Agua-Glicerol-LiCl/"
 # carbones CNEA
 path_local = "S:/NMRdata/2018_Carbones_CNEA/"
+path_bruker = f"2023-10-10_CarbonesCNEA_M4_Diff/"
 path = path_local + path_bruker
 # directorio de guradado
 # savepath_local = "S:/"  # Oficina
-# savepath_local = "G:/Otros ordenadores/Oficina/" # Acer
-# savepath = f"{savepath_local}Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
+savepath_local = "G:/Otros ordenadores/Oficina/" # Acer
+savepath = f"{savepath_local}Posdoc/CNEA/Glicerol-Agua/analisis/7Li/"
 
-savepath = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/Diff/"  # Oficina
 
+# -----------------------------------------------
+# datos de la muestra
+muestra = f"M{Nmuestra}"
+N = Nmuestra-10
+# matriz es el medio: Bulk, Q30 o Q3
+if N > 10:
+    if Nmuestra == 21 or Nmuestra == 23:
+        matriz = 'Q3'
+    elif Nmuestra == 22:
+        matriz = 'Q30'
+    elif Nmuestra == 24:
+        matriz = 'Bulk'
+elif N < 3:
+    matriz = 'Q3'
+elif N < 6:
+    matriz = 'Q30'
+elif N < 9:
+    matriz = 'Bulk'
+# pc es el porcentaje de glicerol: 50%, 70% o 90%
+if Nmuestra == 23:
+  pc = 0
+elif N > 10:
+    pc = 30
+elif N % 3 == 0:
+    pc = 50
+elif N % 3 == 1:
+    pc = 70
+elif N % 3 == 2:
+    pc = 90
+msg = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}"
+print(msg)
 
 # %%
 gplist = []
@@ -137,7 +173,7 @@ for nn in range(len(expnums)):
 
 bigDelta = datos.acqus.D[20]  # ms
 delta = datos.acqus.P[30]*2 * 1e-6  # ms
-titulo = f"muestra: {muestra}\n" \
+titulo = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}\n" \
          fr"$\Delta = {bigDelta*1e3}$ ms, $\delta = {delta*1e3}$ ms"
 fig1d.suptitle(titulo)
 # %%
@@ -192,7 +228,7 @@ residuals = residuals/smax
 
 fig, axs = plt.subplots(2, 1, figsize=(6, 7))
 # -------------
-titulo = f"muestra: {muestra}\n" \
+titulo = f"muestra: M{Nmuestra}, {pc}% glicerol, {matriz}\n" \
          fr"$\Delta = {bigDelta*1e3}$ ms, $\delta = {delta*1e3}$ ms"
 axs[0].set_title(titulo)
 # axs[0].plot(bvalue, signal, 'ko')
@@ -218,14 +254,13 @@ axs[1].set_ylim([-ylim, ylim])
 # %%
 # guardo data:
 if save:
-    filename0 = f"{muestra}"
+    filename0 = f"{muestra}_{pc}pc_{matriz}"
 
-    # filename = f'{savepath}/datos_Diff/figuras/{filename0}_Diff.png'
-    filename = f'{savepath}/{filename0}_Diff.png'
+    filename = f'{savepath}/datos_Diff/figuras/{filename0}_Diff.png'
     fig.savefig(filename)   # save the figure to file
 
-    # filename = f'{savepath}/datos_Diff/figuras/'\
-    filename = f'{savepath}/{filename0}_Diff-RegionIntegracion.png'
+    filename = f'{savepath}/datos_Diff/figuras/'\
+               f'{filename0}_Diff-RegionIntegracion.png'
     fig1d.savefig(filename)   # save the figure to file
 
     header = f"Archivo de datos: {path_bruker}\n" \
@@ -233,8 +268,7 @@ if save:
              f"bvalue (10^-9 m^2/s)\t S (norm)\n" \
              f"gpz (%)"
     Diffdata = np.array([bvalue, signal, gplist]).T
-    # np.savetxt(f"{savepath}/datos_Diff/{filename0}_Diff.dat",
-    np.savetxt(f"{savepath}/{filename0}_Diff.dat",
+    np.savetxt(f"{savepath}/datos_Diff/{filename0}_Diff.dat",
                Diffdata, header=header)
 
     # data = np.array([ppmAxis, spec1d, spec1d_im]).T

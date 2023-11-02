@@ -14,8 +14,8 @@ import scipy.integrate as integrate
 import matplotlib.ticker as ticker
 
 # info: muestra, expn, ppmRange, bmax
-info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
-info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
+# info = ['LiCl-Alcohol-200uL', 12, [-3, 2], 10]
+# info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
 
 # info = ['Li2S6-DME-dia1', 3, [-1, 1], 1.5]  # 9/3/23
 # info = ['Li2S6-DME-dia5', 12, [-1, 1], 1]  # 14/3/23
@@ -23,33 +23,55 @@ info = ['LiCl-Alcohol-500uL', 1022, [-3, 2], 10]
 
 # info = ['Li2S6-TEGDME-dia1', 7, [-2, 2], 100]  # 9/3/23
 # info = ['Li2S6-TEGDME-dia5', 15, [-0.5, 0.5], 100]  # 14/3/23
-info = ['Li2S6-TEGDME-dia21', 22, [-0.6, 0.6], 100]  # 28/3/23
+# info = ['Li2S6-TEGDME-dia21', 22, [-0.6, 0.6], 100]  # 28/3/23
 
+info = ['19F-M4-HF-LiTFSI', 8, [-2,2], 100]  # 10/10/23
+# info = ['19F-M4-HF-LiTFSI-0', 27, [-2.5,5], 100]  # 10/10/23
+# info = ['19F-M4-HF-LiTFSI-1', 28, [-2.5,5], 100]  # 10/10/23
+
+# info = ['19F-M4-HF-LiTF-D20-d0.3', 7, [0,2.5], 100]  # 11/10/23
+# info = ['19F-M4-HF-LiTF-D20-d1.0', 8, [0,2.5], 100]  # 11/10/23
+
+
+# calibracion gradiente
+# name = 'bigDelta-{:.1f}_delta-{:.2f}_gmax-{:.2f}'
+# # info = [name, 12, [-3.5, -3.9], 100]  
+# info = [name, 105, [-3.3, -3.7], 100]  
 
 save = True
-
+normalizar = True
 # forma del gradiente
 gpshape = 'sin'
 # factor de correccion: Dref(medido)/Dref(literatura)
-factor_b = 1.95
+# factor_b = 1.95
+factor_b = 1
 modulo = False
 #-------------------- directorios
 muestra, expn, ppmRange, bmax = info
+
+
+# carbones CNEA
+path_local = "S:/NMRdata/2018_Carbones_CNEA/"
+path_bruker = f"2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
+# path_bruker = f"2023-10-11_CarbonesCNEA_M4-HF-LiTF_Diff/{expn}/"
 # Polisulfuros
-path_local = "S:/NMRdata/2022_Polisulfuros/"
-path_bruker = f"/2023-03-28_Diff_Polisulfuros/{expn}/"
+# path_local = "S:/NMRdata/2022_Polisulfuros/"
+# path_bruker = f"2023-03-28_Diff_Polisulfuros/{expn}/"
 # Silicio
 # path_local = "S:/NMRdata/2022_Silicio/"
 # path_bruker = f"2022-12-19_Diff_LiTFSI-SiO2/{expn}/"
 # test
-# path_local = "S:/NMRdata/2023_tests/"
-# path_bruker = f"2023-02-17_Diff_Shimming/{expn}/"
+# path_local = "S:/NMRdata/2023-09-19_CalibracionDifusion_19F"
+# path_bruker = f"/{expn}/"
 
 path = path_local + path_bruker
 # directorio de guradado
 # savepath_local = "G:/Otros ordenadores/Mi PC/"  # Acer
-savepath_local = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/"  # Oficina
-savepath = f"{savepath_local}"
+# savepath_local = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/"  # Oficina
+# savepath_local = "S:/tmp/"  # Oficina
+savepath_local = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/Diff/"  # Oficina
+savepath = f"{savepath_local}/"
+# savepath = f"{path_local}/datos/2023-10-11/"
 
 # --------------------------- Extraigo datos
 # 1.7933
@@ -60,7 +82,7 @@ bigDelta = datos.bigDelta
 gpmax = datos.gpmax
 # -----------------------------------------------
 
-
+# muestra = name.format(bigDelta, delta, gpmax)
 # -----------------------------------------------
 msg = f"muestra: {muestra}"
 print(msg)
@@ -98,7 +120,13 @@ plt.axhline(0, color='k')
 bvalue, signal = datos.get_Diffdata(ppmRange, absolute=modulo)
 bvalue_fit, signal_fit, residuals = datos.Diff1_fit()
 
-smax = np.max(signal)
+gpvalue = datos.gpvalue
+
+if normalizar:
+  smax = np.max(signal)
+else:
+  smax = 1
+
 signal = signal/smax
 signal_fit = signal_fit/smax
 residuals = residuals/smax
@@ -148,8 +176,8 @@ if save:
 
     header = f"Archivo de datos: {path_bruker}\n"\
              f"Rango de integracion: {ppmRange} ppm\n"\
-             f"bvalue (10^-9 m^2/s)\t S (norm)"
-    Diffdata = np.array([bvalue, signal]).T
+             f"bvalue (10^-9 m^2/s)\t g/g0 (%)\t S (norm)"
+    Diffdata = np.array([bvalue, gpvalue, signal]).T
     np.savetxt(f"{savepath}{filename0}_Diff.dat",
                Diffdata, header=header)
 

@@ -108,6 +108,8 @@ class Datos(object):
             gamma = 70.761
         elif "31p" in nucleo:
             gamma = 108.291
+        elif "29si" in nucleo:
+            gamma = -53.190
         # -------------------
         gamma = gamma*1e6
         return gamma
@@ -375,6 +377,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
         self.delta = 2*self.acqus.P[30]*1e-3  # ms - (originalmente en us)
         self.bigDelta = self.acqus.D[20]*1e3  # ms - (originalmente en  s)
         self.gpmax = self.acqus.GPZ[6]
+        self.gpvalue = None
 
         self.Crear_bvalue(gpshape)
         # quito el primer punto:
@@ -397,8 +400,11 @@ class DatosProcesadosDiff(DatosProcesados2D):
         bigDelta = self.bigDelta*1e-3  # s
         g0 = 12  # T/m
         gamma = self.gamma
-
-        glist = np.linspace(0, g0*gpmax/100, Npts)
+        
+        # gp: gradiente porcentual; g: gradiente (T/m)
+        gplist = np.linspace(0, gpmax, Npts)
+        self.gpvalue = gplist[1:]
+        glist = gplist/100*g0
         print(delta, bigDelta)
 
         # STE:
@@ -461,7 +467,10 @@ class DatosProcesadosDiff(DatosProcesados2D):
         Recorta los datos entre bmin y bmax.
         Por default, bmin=0 y bmax=inf.
         """
-        bmax = self.bmax
+        if self.bmax == np.inf:
+          bmax = self.bvalue[-1]
+        else:
+          bmax = self.bmax
         bmin = self.bmin
         if bmax != np.inf or bmin != 0:
             bvalue = self.bvalue
@@ -472,6 +481,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
             condicion = np.abs(bvalue-bmed) <= semiancho
             # guardo en atributos:
             self.bvalue = bvalue[condicion]
+            self.gpvalue = self.gpvalue[condicion]
             self.signal = signal[condicion]
         return 0
     # --------------------------------------------------------------Funciones
