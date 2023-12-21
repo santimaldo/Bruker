@@ -33,18 +33,18 @@ import scipy.integrate as integrate
 # savepath = "S:/CNEA/Carbones/analisis/2022-03_Glyme_AnalisisDatos2018/T1/"
 # muestra = "1H_M4-HF_Molida"
 
-###------------------------------- Carbnnes CNEA 2023
-## directorio de datos ### M4 HF LITFSI 10/10/2023
+# ------------------------------- Carbnnes CNEA 2023
+# directorio de datos ### M4 HF LITFSI 10/10/2023
 # expn = 5
 # path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
 # savepath = "S:/tmp/"
 # muestra = "19F_M4-HF-LITFSI_T1"
 
-expn = 26 #2
-path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
-muestra = "7Li_M4-HF-LITFSI_T1"
+# expn = 26 #2
+# path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
+# muestra = "7Li_M4-HF-LITFSI_T1"
 
-## directorio de datos ### M4 HF LITFSI 10/10/2023
+# directorio de datos ### M4 HF LITFSI 10/10/2023
 # expn = 6
 # path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-11_CarbonesCNEA_M4-HF-LiTF_Diff/{expn}/"
 # muestra = "19F_M4-HF-LITF_T1"
@@ -53,8 +53,15 @@ muestra = "7Li_M4-HF-LITFSI_T1"
 # path = f"S:/NMRdata/2018_Carbones_CNEA/2023-10-11_CarbonesCNEA_M4-HF-LiTF_Diff/{expn}/"
 # muestra = "7Li_M4-HF-LITF_T1"
 
-savepath = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/T1/"
-###------------------------------- Carbnnes CNEA 2023
+
+expn = 1997
+path = f"S:/Doctorado/Carbones/300MHz/2018-09-25_Carbones_Glyma/{expn}/"
+muestra = "7Li_M4-NaOH-LITf_T1"
+
+
+# savepath = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/T1/"
+savepath = "S:/tmp/"
+# ------------------------------- Carbnnes CNEA 2023
 
 
 # Polisulfuros
@@ -67,6 +74,7 @@ savepath = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/T1/"
 save = True
 # rango de integracion
 ppmRange = [-1, 1]
+ppmRange = [0, -8]
 
 datos = DatosProcesadosT1(path)
 ppmAxis = datos.espectro.ppmAxis
@@ -82,6 +90,8 @@ plt.figure(7532)
 plt.plot(ppmAxis, re)
 # plt.plot(ppmAxis, im)
 plt.xlim(np.max(ppmAxis), np.min(ppmAxis))
+r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
+plt.axvspan(r1, r2, alpha=0.2, color='red')
 plt.axhline(0, color='k')
 
 # %%
