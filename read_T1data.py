@@ -54,9 +54,13 @@ import scipy.integrate as integrate
 # muestra = "7Li_M4-HF-LITF_T1"
 
 
-expn = 1997
-path = f"S:/Doctorado/Carbones/300MHz/2018-09-25_Carbones_Glyma/{expn}/"
-muestra = "7Li_M4-NaOH-LITf_T1"
+# expn = 1997
+# path = f"S:/Doctorado/Carbones/300MHz/2018-09-25_Carbones_Glyma/{expn}/"
+# muestra = "7Li_M4-NaOH-LITf_T1"
+
+expn = 4
+path = f"S:/NMRdata/2022_Polisulfuros/2023-04-05_Diff_Polisulfuros/{expn}/"
+muestra = "Li2S6-TEGDME-DME"
 
 
 # savepath = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/T1/"
