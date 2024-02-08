@@ -78,7 +78,7 @@ savepath = "S:/tmp/"
 save = True
 # rango de integracion
 ppmRange = [-1, 1]
-ppmRange = [0, -8]
+# ppmRange = [0, -8]
 
 datos = DatosProcesadosT1(path)
 ppmAxis = datos.espectro.ppmAxis

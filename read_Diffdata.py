@@ -25,20 +25,22 @@ import matplotlib.ticker as ticker
 # info = ['Li2S6-TEGDME-dia5', 15, [-0.5, 0.5], 100]  # 14/3/23
 # info = ['Li2S6-TEGDME-dia21', 22, [-0.6, 0.6], 100]  # 28/3/23
 
-info = ['19F-M4-HF-LiTFSI', 8, [-2,2], 100]  # 10/10/23
+# info = ['19F-M4-HF-LiTFSI', 8, [-2,2], 100]  # 10/10/23
 # info = ['19F-M4-HF-LiTFSI-0', 27, [-2.5,5], 100]  # 10/10/23
 # info = ['19F-M4-HF-LiTFSI-1', 28, [-2.5,5], 100]  # 10/10/23
 
 # info = ['19F-M4-HF-LiTF-D20-d0.3', 7, [0,2.5], 100]  # 11/10/23
 # info = ['19F-M4-HF-LiTF-D20-d1.0', 8, [0,2.5], 100]  # 11/10/23
 
+## Polisulfuros: G1+G4 Li2S6
+info = ['Li2S6-TEGDME-DME', 5, [-1,1], 100]  
 
 # calibracion gradiente
 # name = 'bigDelta-{:.1f}_delta-{:.2f}_gmax-{:.2f}'
 # # info = [name, 12, [-3.5, -3.9], 100]  
 # info = [name, 105, [-3.3, -3.7], 100]  
 
-save = True
+save = False
 normalizar = True
 # forma del gradiente
 gpshape = 'sin'
@@ -50,9 +52,14 @@ modulo = False
 muestra, expn, ppmRange, bmax = info
 
 
+
+
+path_local = "S:/NMRdata/2022_Polisulfuros/"
+path_bruker = f"2023-04-05_Diff_Polisulfuros/{expn}/"
+
 # carbones CNEA
-path_local = "S:/NMRdata/2018_Carbones_CNEA/"
-path_bruker = f"2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
+# path_local = "S:/NMRdata/2018_Carbones_CNEA/"
+# path_bruker = f"2023-10-10_CarbonesCNEA_M4_Diff/{expn}/"
 # path_bruker = f"2023-10-11_CarbonesCNEA_M4-HF-LiTF_Diff/{expn}/"
 # Polisulfuros
 # path_local = "S:/NMRdata/2022_Polisulfuros/"
