@@ -13,31 +13,25 @@ import numpy as np
 from Datos import *
 from Espectro import autophase
 
-path_local = "S:/NMRdata/2023_InSitu/"
-path_bruker = "2023-05-12_LiMetal_in-situ/"
 
-savepath_local = "S:/Posdoc/InSitu/"
-savepath_especifico = "2023-05_test1/"
-
-
-path_local = "S:/NMRdata/Cheva/190422_29Si_Q3/107/"
-path_bruker = ""
-savepath_local = path_local
+path_local = "S:/NMRdata/2024_Carbones_Fran/"
+path_bruker = "2024-04-17_carbones_Fran/"
+savepath_local = "G:/Otros ordenadores/Oficina/Posdoc/CarbonesFran/Datos_Bruker/"
 savepath_especifico = ""
 
 # info: muestra, expn, ppmRange
-info = ['Q3', 107, None]
+info = ['C_63pc_0kHz', 41, None]
 
-nucleo = "29Si"
+nucleo = "7Li"
 muestra, expn, ppmRange = info
 
-expn = ""
+
 save = True
 
 
 # extraigo:
-# datos = DatosProcesados(f'{path_local}{path_bruker}{expn}/')
-datos = DatosProcesados(f'{path_local}')
+datos = DatosProcesados(f'{path_local}{path_bruker}{expn}/')
+# datos = DatosProcesados(f'{path_local}')
 if ppmRange is not None:
     datos.espectro.ppmSelect(ppmRange)
 re = datos.espectro.real
