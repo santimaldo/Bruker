@@ -16,16 +16,14 @@ from Espectro import autophase
 
 path_local = "S:/NMRdata/2024_Carbones_Fran/"
 path_bruker = "2024-04-17_carbones_Fran/"
-savepath_local = "G:/Otros ordenadores/Oficina/Posdoc/CarbonesFran/Datos_Bruker/"
+savepath_local = "S:/Posdoc/CarbonesFran/Datos_Bruker/"
 savepath_especifico = ""
 
 # info: muestra, expn, ppmRange
-info = ['C_63pc_0kHz', 41, None]
+info = ['C_63pc_M1', 90, None]
 
-nucleo = "7Li"
+nucleo = "1H"
 muestra, expn, ppmRange = info
-
-
 save = True
 
 
