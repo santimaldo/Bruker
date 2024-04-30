@@ -135,8 +135,12 @@ class Espectro(object):
         ini = np.where(self.ppmAxis == newppm[0])[0][0]
         fin = np.where(self.ppmAxis == newppm[-1])[0][0] + 1
         self.ppmAxis = newppm
-        self.real = self.real[ini:fin]
-        self.imag = self.imag[ini:fin]
+        if self.real.ndim == 1:
+            self.real = self.real[ini:fin]
+            self.imag = self.imag[ini:fin]
+        else:  # esto sirve para pseudo 2D, como medidas de T1
+            self.real = self.real[:, ini:fin]
+            self.imag = self.imag[:, ini:fin]
 
     def ppmSelect2D(self, rango):
         newppm = self.ppmAxis

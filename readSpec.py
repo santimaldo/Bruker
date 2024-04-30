@@ -13,32 +13,19 @@ import numpy as np
 from Datos import *
 from Espectro import autophase
 
-path_local = "S:/NMRdata/2023_InSitu/"
-path_bruker = "2023-05-12_LiMetal_in-situ/"
 
-savepath_local = "S:/Posdoc/InSitu/"
-savepath_especifico = "2023-05_test1/"
-
-
-path_local = "S:/NMRdata/"
-path_bruker = "2023_InSitu/2024-02-28-LiMetal-BN_in-situ/"
-savepath_local = path_local
-savepath_especifico = path_bruker
+path_local = "S:/NMRdata/2024_Carbones_Fran/"
+path_bruker = "2024-04-17_carbones_Fran/"
+savepath_local = "G:/Otros ordenadores/Oficina/Posdoc/CarbonesFran/Datos_Bruker/"
+savepath_especifico = ""
 
 # info: muestra, expn, ppmRange
-info = ['LP-SM03_N-000-ciclos', 10, None]
-info = ['LP-SM04_N-000-ciclos', 11, None]
-info = ['LP-SM03_N-100-ciclos', 12, None]
-info = ['LP-SM04_N-100-ciclos', 13, None]
-info = ['LP-SM03_N-300-ciclos', 14, None]
-info = ['LP-SM04_N-300-ciclos', 15, None]
-info = ['LP-SM03_N-450-ciclos', 21, None]
-info = ['LP-SM04_N-450-ciclos', 20, None]
+info = ['C_63pc_0kHz', 41, None]
 
+nucleo = "7Li"
 muestra, expn, ppmRange = info
 
 
-nucleo = "7Li"
 save = True
 
 

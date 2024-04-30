@@ -58,86 +58,89 @@ import scipy.integrate as integrate
 # path = f"S:/Doctorado/Carbones/300MHz/2018-09-25_Carbones_Glyma/{expn}/"
 # muestra = "7Li_M4-NaOH-LITf_T1"
 
-expn = 4
-path = f"S:/NMRdata/2022_Polisulfuros/2023-04-05_Diff_Polisulfuros/{expn}/"
-muestra = "Li2S6-TEGDME-DME"
 
-
-# savepath = "S:/Posdoc/CNEA/Carbones/analisis/2023-10_Difusion/datos/T1/"
-savepath = "S:/tmp/"
-# ------------------------------- Carbnnes CNEA 2023
-
-
-# Polisulfuros
-# expn = 2
-# muestra = "Li2S6-DME-Dia21"
-# path = f"S:/NMRdata/2022_Polisulfuros/2023-03-28_Diff_Polisulfuros/{expn}/"
-# savepath = "S:/tmp/"
-# savepath = "S:/Posdoc/Li-S/Analisis/2023-03_Li2S6-Diff_DME-TEGDME/T1/"
+expn = 6
+path = f"S:/NMRdata/2024_Carbones_Fran/2024-04-17_carbones_Fran/{expn}/"
+muestra = "1H_0pc_T1"
+savepath = "G:/Otros ordenadores/Oficina/Posdoc/CarbonesFran/Datos_Bruker/T1/"
 
 save = True
+plotRange = [10, -5]
 # rango de integracion
-ppmRange = [-1, 1]
-# ppmRange = [0, -8]
+ppmRanges = [[7.5, -2.5],
+             [5, 4],
+             [2, 1.4],
+             [7, 8],
+             [9, 10],
+             [-2, -4.5]]
 
 datos = DatosProcesadosT1(path)
+datos.espectro.ppmSelect(plotRange)
 ppmAxis = datos.espectro.ppmAxis
-
-
 spec = datos.espectro.real
 
+# obtengo el espectro para el ultimo variable delay:
 re = datos.espectro.real[-1]
 im = datos.espectro.imag[-1]
 
+fig_spec, ax_spec = plt.subplots(num=17856)
+ax_spec.plot(ppmAxis, re)
 
-plt.figure(7532)
-plt.plot(ppmAxis, re)
-# plt.plot(ppmAxis, im)
-plt.xlim(np.max(ppmAxis), np.min(ppmAxis))
-r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
-plt.axvspan(r1, r2, alpha=0.2, color='red')
-plt.axhline(0, color='k')
+colors = ['k', 'b', 'r', 'forestgreen', 'cyan', 'magenta']
+Signals = []
+ii = -1
+# fig, axs = plt.subplots(2, 2)
+for ppmRange in ppmRanges:
+    ii += 1
+    color = colors[ii]
+    ax_spec.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
+    r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
+    ax_spec.axvspan(r1, r2, alpha=0.15, color=color)
+    ax_spec.axhline(0, color='k')
 
-# %%
+    tau, signal = datos.get_T1data(ppmRange)
+    tau_fit, signal_fit, residuals = datos.T1fit()
+    Signals.append(signal)
 
-tau, signal = datos.get_T1data(ppmRange)
-tau_fit, signal_fit, residuals = datos.T1fit()
+    fig, axs = plt.subplots(2, 2)
+    fig.suptitle(muestra)
+    # -------------
+    axs[0, 0].plot(tau, signal, 'o', color=color)
+    axs[0, 0].plot(tau_fit, signal_fit, '-', color=color)
+    text = f"$T_1 =$ {datos.T1params[1]:.0f} ms \n A = {datos.T1params[0]:.2f} \n $y_0 =$ {datos.T1params[2]:.2f}"
+    axs[0, 0].text(tau[-1]*0.5, (signal[-1]-signal[0])*0.15+signal[0], text,
+                   multialignment="left")
+    axs[0, 0].set(xlabel=r'$\tau$ [ms]', ylabel=r'$S_{norm}$')
+    # -------------
+    axs[1, 0].plot(tau, residuals, 'o', color=color)
+    axs[1, 0].axhline(0, color='k', linestyle='--')
+    axs[1, 0].set(xlabel=r'$\tau$ [ms]', ylabel=r'Residuos')
+    # -------------
+    axs[0, 1].plot(tau, signal, 'o', color=color)
+    axs[0, 1].plot(tau_fit, signal_fit, '-', color=color)
+    axs[0, 1].set(xlabel=r'$\tau$ [ms]')
+    axs[0, 1].set_xscale('log')
+    # -------------
+    axs[1, 1].plot(tau, residuals, 'o', color=color)
+    axs[1, 1].axhline(0, color='k', linestyle='--')
+    axs[1, 1].set(xlabel=r'$\tau$ [ms]')
+    axs[1, 1].set_xscale('log')
 
-
-fig, axs = plt.subplots(2, 2)
-fig.suptitle(muestra)
-# -------------
-axs[0, 0].plot(tau, signal, 'ko')
-axs[0, 0].plot(tau_fit, signal_fit, 'r-')
-text = f"$T_1 =$ {datos.T1params[1]:.0f} ms \n A = {datos.T1params[0]:.2f} \n $y_0 =$ {datos.T1params[2]:.2f}"
-axs[0, 0].text(tau[-1]*0.5, (signal[-1]-signal[0])*0.15+signal[0], text,
-               multialignment="left")
-axs[0, 0].set(xlabel=r'$\tau$ [ms]', ylabel=r'$S_{norm}$')
-# -------------
-axs[1, 0].plot(tau, residuals, 'ko')
-axs[1, 0].axhline(0, color='k', linestyle='--')
-axs[1, 0].set(xlabel=r'$\tau$ [ms]', ylabel=r'Residuos')
-# -------------
-axs[0, 1].plot(tau, signal, 'ko')
-axs[0, 1].plot(tau_fit, signal_fit, 'r-')
-axs[0, 1].set(xlabel=r'$\tau$ [ms]')
-axs[0, 1].set_xscale('log')
-# -------------
-axs[1, 1].plot(tau, residuals, 'ko')
-axs[1, 1].axhline(0, color='k', linestyle='--')
-axs[1, 1].set(xlabel=r'$\tau$ [ms]')
-axs[1, 1].set_xscale('log')
-
-for ax in axs.flat:
-    ax.label_outer()
+    for ax in axs.flat:
+        ax.label_outer()
 
 # guardo data:
 if save:
     filename = f'{savepath}/{muestra}_T1.png'
     fig.savefig(filename)   # save the figure to file
 
-    T1data = np.array([tau, signal]).T
-    np.savetxt(f"{savepath}/{muestra}_T1.dat", T1data)
+    Signals = np.array(Signals).T
+    tau = tau.reshape(tau.size, 1)
+    T1data = np.hstack((tau, Signals))
+    header = "tau [s]\t"
+    for ppmRange in ppmRanges:
+        header += f"{ppmRange} ppm\t"
+    np.savetxt(f"{savepath}/{muestra}_T1.dat", T1data, header=header)
 
     data = np.array([ppmAxis, re, im]).T
     np.savetxt(f"{savepath}/{muestra}_ultimoEspectro.dat", data)
