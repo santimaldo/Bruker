@@ -20,24 +20,31 @@ savepath_local = "S:/Posdoc/InSitu/"
 savepath_especifico = "2023-05_test1/"
 
 
-path_local = "S:/NMRdata/Cheva/190422_29Si_Q3/107/"
-path_bruker = ""
+path_local = "S:/NMRdata/"
+path_bruker = "2023_InSitu/2024-02-28-LiMetal-BN_in-situ/"
 savepath_local = path_local
-savepath_especifico = ""
+savepath_especifico = path_bruker
 
 # info: muestra, expn, ppmRange
-info = ['Q3', 107, None]
+info = ['LP-SM03_N-000-ciclos', 10, None]
+info = ['LP-SM04_N-000-ciclos', 11, None]
+info = ['LP-SM03_N-100-ciclos', 12, None]
+info = ['LP-SM04_N-100-ciclos', 13, None]
+info = ['LP-SM03_N-300-ciclos', 14, None]
+info = ['LP-SM04_N-300-ciclos', 15, None]
+info = ['LP-SM03_N-450-ciclos', 21, None]
+info = ['LP-SM04_N-450-ciclos', 20, None]
 
-nucleo = "29Si"
 muestra, expn, ppmRange = info
 
-expn = ""
+
+nucleo = "7Li"
 save = True
 
 
 # extraigo:
-# datos = DatosProcesados(f'{path_local}{path_bruker}{expn}/')
-datos = DatosProcesados(f'{path_local}')
+datos = DatosProcesados(f'{path_local}{path_bruker}{expn}/')
+# datos = DatosProcesados(f'{path_local}')
 if ppmRange is not None:
     datos.espectro.ppmSelect(ppmRange)
 re = datos.espectro.real

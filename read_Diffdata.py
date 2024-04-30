@@ -35,6 +35,7 @@ import matplotlib.ticker as ticker
 ## Polisulfuros: G1+G4 Li2S6
 info = ['Li2S6-TEGDME-DME', 5, [-1,1], 100]  
 
+
 # calibracion gradiente
 # name = 'bigDelta-{:.1f}_delta-{:.2f}_gmax-{:.2f}'
 # # info = [name, 12, [-3.5, -3.9], 100]  
