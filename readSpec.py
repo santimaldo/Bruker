@@ -20,9 +20,9 @@ savepath_local = "S:/Posdoc/CarbonesFran/Datos_Bruker/"
 savepath_especifico = ""
 
 # info: muestra, expn, ppmRange
-info = ['C_63pc_M1', 90, None]
+info = ['C_0pc', 4, None]
 
-nucleo = "1H"
+nucleo = "7Li"
 muestra, expn, ppmRange = info
 save = True
 

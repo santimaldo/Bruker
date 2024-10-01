@@ -374,9 +374,12 @@ if __name__ == "__main__":
         return np.exp(-x/tt)
 
     alpha = 1e-3
+    # Inicializo la clase ILT
     ilt = ILT(alpha=alpha, rango=(1e1, 1e5), kernel=T2, Nilt=100,
               figure=2, savepath='S:/tmp/')
+    # calculo la ILT para el conjunto de datos 1
     ilt.DoTheStuff(ydata1, xdata)
+    # calculo la ILT para el conjunto de datos 2
     ilt.DoTheStuff(ydata2, xdata, muestra="data_2")
     ilt.legend()
 
