@@ -182,9 +182,10 @@ class VoigtFit:
                 for i in range(self.Npicos):
                     params[f'm{i+1}_{param_fijo}'].vary = False
         
-        print(params['m1_center'].value, params['m1_center'].value)
-        print(params['m1_sigma'].value, params['m1_gamma'].value)
-        self.ajuste = model.fit(self.y, params, x=self.x)
+        #print(params['m1_center'].value, params['m1_center'].value)
+        #print(params['m1_sigma'].value, params['m1_gamma'].value)
+        self.ajuste = model.fit(self.y, params, x=self.x,
+                                fitkws={'tol':1e-12})
         self.params = self.ajuste.params
                    
     #--------------------------------------------------------------------------    
@@ -198,8 +199,12 @@ class VoigtFit:
         return total, componentes
     #--------------------------------------------------------------------------
     def plot_ajuste(self):
-        self.ajuste.plot()
-        
+        fig = self.ajuste.plot()
+        ii=0
+        for component in self.componentes(self.x)[1]:
+            ii+=1
+            fig.gca().plot(self.x, component, label=f'model {ii}')
+        return fig
     #--------------------------------------------------------------------------
     def plot_modelo(self):
         x = self.x

@@ -12,17 +12,18 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
 from Espectro import autophase
+from VoigtFit import VoigtFit
 
 
-path_local = "S:/NMRdata/2024_Carbones_Fran/"
-path_bruker = "2024-04-17_carbones_Fran/"
-savepath_local = "S:/Posdoc/CarbonesFran/Datos_Bruker/"
-savepath_especifico = ""
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/"
+path_bruker = "300old/2025-02-07_insitu-sync-start/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+savepath_especifico = "1Dspec"
 
 # info: muestra, expn, ppmRange
-info = ['C_0pc', 4, None]
+info = ['nexp48', 48, [15,-15]]
 
-nucleo = "7Li"
+nucleo = "19F"
 muestra, expn, ppmRange = info
 save = True
 
@@ -60,3 +61,13 @@ if save:
     # plt.close(fig)    # close the figure window
 
 plt.show()
+
+
+vfit=VoigtFit(ppmAxis, 
+              re, 
+              Npicos=4,
+              ajustar=True,
+              center=[0, 0,-1,-3]
+              )
+fig = vfit.plot_ajuste()
+fig.gca().set_xlim([8,-8])
