@@ -12,19 +12,17 @@ from Datos import *
 import scipy.integrate as integrate
 
 
-
-
 # directorio de datos
-expn = 122
-path  =f"S:/CarbonesSofi/300MHz/2022-05-12_Carbones_CMK3ACT/{expn}/" # compu Ofi
+expn = 68
+path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/{expn}/" # compu Ofi
 # directorio de guradado
-savepath= "S:/CarbonesSofi/Analisis/2022-09_EXSY/data2D/"
-muestra = "1H_EXSY_CMK3ACT_mT_001ms"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+muestra = "19F_chronoamperometry_0Vto1V"
 
 
 save = False
 #rango de integracion
-ppmRange = [50,-50]
+ppmRange = [40,-40]
 
 datos = DatosProcesados2D(path)
 datos.espectro.ppmSelect2D(ppmRange)

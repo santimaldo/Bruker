@@ -40,10 +40,11 @@ class Acqus(object):
   """
 
     def __init__(self, directorio, dim2=False):
-        if dim2:
-            acq_file = 'acqu2s'
-        else:
-            acq_file = 'acqus'
+        #if dim2:
+        #    acq_file = 'acqu2s'
+        #else:
+        #    acq_file = 'acqus'
+        acq_file = 'acqus'
         self.acq_file = f'{directorio}/{acq_file}'
         self.dic = ng.bruker.read_acqus_file(directorio)[acq_file]
         self.TD = int(self.dic["TD"])
