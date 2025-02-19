@@ -206,17 +206,18 @@ class DatosProcesados2D(DatosProcesados):
             self.crear_ppmAxis(self.proc2s, self.acqu2s))
         self.espectro.crear_ppmGrid()
         self.signal = None
+        self.directorio = directorio
 
         self.ppmRange = ppmRange
 
-    def Integrar(self, absolute=False):
+    def Integrar(self, ppmRange=None,absolute=False):
         """
         crea la lista de senales. Los datos ya tienen que estar procesados (xf2)
 
         Para ello utiliza una rango de ppms: 'ppmRange'. Si ninguno es provisto,
         utiliza todo el rango.
         """
-        ppmRange = self.ppmRange
+    
 
         ppmAxis = self.espectro.ppmAxis
         if absolute:
@@ -225,12 +226,16 @@ class DatosProcesados2D(DatosProcesados):
             spec = self.espectro.real
         # defino rango de integracion
         if ppmRange is None:
-            ppmRange = [self.espectro.ppmAxis[0], self.espectro.ppmAxis[-1]]
+            if self.ppmRange is not None:
+                ppmRange = self.ppmRange
+            else:
+                print("WARNING: No se ha definido rango de integracion")
+                ppmRange = [self.espectro.ppmAxis[0], self.espectro.ppmAxis[-1]]
 
         midRange = (ppmRange[1]+ppmRange[0])/2
-        semiRange = np.abs(ppmRange[1]-ppmRange[0])/2
+        semiRange = abs(ppmRange[1]-ppmRange[0])/2
 
-        condicion = np.abs(ppmAxis-midRange) < semiRange
+        condicion = abs(ppmAxis-midRange) < semiRange
         newppm = ppmAxis[condicion]
 
         signal = []
@@ -239,11 +244,23 @@ class DatosProcesados2D(DatosProcesados):
             spec1d = spec1d[condicion]
             # el signo menos de la integral es porque ppmAxis va
             # de mayor a menor.
-            signal.append(-integrate.simps(spec1d, x=newppm))
+            signal.append(-integrate.simpson(spec1d, x=newppm))
 
-        self.signal = np.array(signal)
+        # Here I convert the list signal to a np array:
+        signal = np.array(signal)
+        self.signal = signal
 
-        return 0
+        return signal
+    
+    def get_vdlist(self):
+        """
+        lee la lista de delays vdlist y los devuelve en ms
+        """
+        directorio = self.directorio
+        # Extraigo la lista de delays
+        vdlist = np.loadtxt(f"{directorio}/vdlist")
+        vdlist = vdlist*1000 # paso a ms
+        return vdlist
 
 
 class DatosProcesadosT1(DatosProcesados2D):

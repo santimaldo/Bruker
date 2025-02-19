@@ -3,6 +3,8 @@
 Created on Thu Sep 15 12:10:32 2022
 
 @author: Santi
+
+this is for TRUE 2D data
 """
 
 import nmrglue as ng
@@ -13,6 +15,7 @@ import scipy.integrate as integrate
 
 
 # directorio de datos
+# note: This 
 expn = 68
 path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/{expn}/" # compu Ofi
 # directorio de guradado
