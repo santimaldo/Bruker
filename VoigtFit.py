@@ -185,7 +185,7 @@ class VoigtFit:
         #print(params['m1_center'].value, params['m1_center'].value)
         #print(params['m1_sigma'].value, params['m1_gamma'].value)
         self.ajuste = model.fit(self.y, params, x=self.x,
-                                fitkws={'tol':1e-12})
+                                fitkws={'tol':1e-15})
         self.params = self.ajuste.params
                    
     #--------------------------------------------------------------------------    

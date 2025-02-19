@@ -21,7 +21,7 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Su
 savepath_especifico = "1Dspec"
 
 # info: muestra, expn, ppmRange
-info = ['nexp48', 48, [15,-15]]
+info = ['nexp67', 67, [15,-15]]
 
 nucleo = "19F"
 muestra, expn, ppmRange = info
