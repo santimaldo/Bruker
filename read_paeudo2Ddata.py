@@ -13,32 +13,75 @@ from Datos import *
 import scipy.integrate as integrate
 
 # directorio de datos
-expn = 68
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/{expn}/" # compu Ofi
+expn_before = 100
+expn_pseudo2d = 101
+expn_after = 69
+
+path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 muestra = "19F_chronoamperometry_0Vto1V"
 
-
 save = False
-plotRange = [2, -10]
+plotRange = [5, -10]
 # rango de integracion
-ppmRanges = [[1, -1],
-             [-2, -2.5],
-             [-3, -4]
+ppmRanges = [[4, -9],
+             [4, -1],
+             [-1, -2.5],
+             [-2.5, -9]            
             ]
 
-datos = DatosProcesados2D(path)
+#=====================================================================
+# Ajuste de espectro antes del experimento 1D (before)
+#=====================================================================
+datos = DatosProcesados(f'{path}/{expn_before}/')
+datos.espectro.ppmSelect(plotRange)
+ppmAxis = datos.espectro.ppmAxis
+re = datos.espectro.real
+ppmAxis = datos.espectro.ppmAxis
+# find the ppm of the maximum in the range < ppm_trershold ppm
+ppm_treshold = -1.9
+re_in_ROI = re[ppmAxis < ppm_treshold] # re in Region Of Interest
+ppmAxis_in_ROI = ppmAxis[ppmAxis < ppm_treshold]
+max_index = np.argmax(re_in_ROI)
+ppm_of_max_in_equilibrium = ppmAxis_in_ROI[max_index]
+
+
+#=====================================================================
+# Ajuste de espectro antes del experimento 2D
+#=====================================================================
+# rango de integracion
+datos = DatosProcesados2D(f'{path}/{expn_pseudo2d}/')
 datos.espectro.ppmSelect(plotRange)
 ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
 
+tau = datos.get_vdlist()/1000  # en segundos
+
 # grafico todos los espectros juntos
 fig_spec, ax_spec = plt.subplots(num=17856)
+ax_spec.axvline(x=ppm_treshold, color='k', linestyle='--')
+ppm_of_max = []
 for ii in range(datos.espectro.size[0]):
     re = datos.espectro.real[ii]
     im = datos.espectro.imag[ii]
     ax_spec.plot(ppmAxis, re)
+    # find the ppm of the maximum in the range < ppm_treshold ppm
+    re_in_ROI = re[ppmAxis < ppm_treshold] # re in Region Of Interest
+    ppmAxis_in_ROI = ppmAxis[ppmAxis < ppm_treshold]
+    max_index = np.argmax(re_in_ROI)
+    ppm_of_max_in_equilibrium = ppmAxis_in_ROI[max_index]
+    ppm_of_max.append(ppm_of_max_in_equilibrium)
+ppm_of_max = np.array(ppm_of_max)
+
+
+fig,ax = plt.subplots(num=1785731)
+ax.plot(tau, ppm_of_max[:tau.size], 'o-')
+ax.axhline(ppm_of_max_in_equilibrium, color='k', linestyle='--')
+ax.set_xlabel('variable delay [s]')
+ax.set_ylabel(r'in-pore $\Delta\delta$ [ppm]')
+ax.set_xscale('log')
+
 
 colors = ['k', 'b', 'r', 'forestgreen', 'cyan', 'magenta']
 Signals = []
@@ -53,7 +96,6 @@ for ppmRange in ppmRanges:
     ax_spec.axhline(0, color='k')
 
     signal = datos.Integrar(ppmRange=ppmRange)
-    tau = datos.get_vdlist()/1000
     #tau_fit, signal_fit, residuals = datos.T1fit()
     Signals.append(signal)
 

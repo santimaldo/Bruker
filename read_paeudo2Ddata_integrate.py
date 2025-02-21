@@ -1,33 +1,23 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wen 19/02/2025
+Created on Thu Sep 15 12:10:32 2022
+
 
 @author: Santi
-
-Experimentos pseudo 2D:
-chronoamperometrias y espectros en funcion del tiempo 
-de espera guardado en vdlist.
-
-Primero ajustamos el espectro antes del experimento 2D.
-Luego, los parametros obtenidos en cada espectro son
-usados para el guess del espectro siguiente
-
-
-NO FUNCIONAAAAAA
-
 """
 
+import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
-from VoigtFit import VoigtFit
-from scipy.signal import find_peaks
-
+import scipy.integrate as integrate
 
 # directorio de datos
-expn_before = 67
-expn_pseudo2d = 68
+expn_before = 70
+expn_pseudo2d = 71
 expn_after = 69
+
+ppm_treshold = -3
 
 path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
 # directorio de guradado
@@ -35,90 +25,64 @@ savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps
 muestra = "19F_chronoamperometry_0Vto1V"
 
 save = False
-ppmRange = [10, -10]
-
-Npeaks = 4
-center_guess = [0, 0, -3, -5]
-sigma_guess = [0.2, 0.5, 0.3, 0.8]
+plotRange = [5, -10]
+# rango de integracion
+ppmRanges = [[4, -9],
+             [4, -1],
+             [-1, -2.5],
+             [-2.5, -9]            
+            ]
 
 #=====================================================================
 # Ajuste de espectro antes del experimento 1D (before)
 #=====================================================================
-datos = DatosProcesados2D(f'{path}/{expn_pseudo2d}/')
-datos.espectro.ppmSelect(ppmRange)
+datos = DatosProcesados(f'{path}/{expn_before}/')
+datos.espectro.ppmSelect(plotRange)
 ppmAxis = datos.espectro.ppmAxis
-spec = datos.espectro.real
-re = spec[15,:]
+re = datos.espectro.real
 ppmAxis = datos.espectro.ppmAxis
+# find the ppm of the maximum in the range < ppm_trershold ppm
+re_in_ROI = re[ppmAxis < ppm_treshold] # re in Region Of Interest
+ppmAxis_in_ROI = ppmAxis[ppmAxis < ppm_treshold]
+max_index = np.argmax(re_in_ROI)
+ppm_of_max_in_equilibrium = ppmAxis_in_ROI[max_index]
 
-vfit=VoigtFit(ppmAxis, 
-              re, 
-              Npicos=Npeaks,
-              ajustar=True,
-              center=center_guess,
-              sigma=sigma_guess 
-              )
-fig = vfit.plot_ajuste()
-fig.gca().set_xlim(ppmRange)
 
 #=====================================================================
 # Ajuste de espectro antes del experimento 2D
 #=====================================================================
 # rango de integracion
 datos = DatosProcesados2D(f'{path}/{expn_pseudo2d}/')
-datos.espectro.ppmSelect(ppmRange)
+datos.espectro.ppmSelect(plotRange)
 ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
-vfit2d = vfit
 
-vdlist = datos.get_vdlist()
+tau = datos.get_vdlist()/1000  # en segundos
+
 # grafico todos los espectros juntos
-centers = []
-centers_error = []
-areas = []
-for ii in range(vdlist.size):
-# for ii in range(5):
-    #fig_spec, ax_spec = plt.subplots(num=ii)
+fig_spec, ax_spec = plt.subplots(num=17856)
+ax_spec.axvline(x=ppm_treshold, color='k', linestyle='--')
+ppm_of_max = []
+for ii in range(datos.espectro.size[0]):
     re = datos.espectro.real[ii]
     im = datos.espectro.imag[ii]
-    #ax_spec.plot(ppmAxis, re)
+    ax_spec.plot(ppmAxis, re)
+    # find the ppm of the maximum in the range < ppm_treshold ppm
+    re_in_ROI = re[ppmAxis < ppm_treshold] # re in Region Of Interest
+    ppmAxis_in_ROI = ppmAxis[ppmAxis < ppm_treshold]
+    max_index = np.argmax(re_in_ROI)
+    ppm_of_max_in_equilibrium = ppmAxis_in_ROI[max_index]
+    ppm_of_max.append(ppm_of_max_in_equilibrium)
+ppm_of_max = np.array(ppm_of_max)
 
 
-    #center_guess = [vfit2d.params[f'm{jj+1}_center'].value for jj in range(Npeaks)]
-    #sigma_guess = [vfit2d.params[f'm{jj+1}_sigma'].value for jj in range(Npeaks)]
-    vfit2d=VoigtFit(ppmAxis, 
-                    re, 
-                    Npicos=Npeaks,
-                    ajustar=True,
-                    fijar=["m1_center", "m2_center", "m1_sigma", "m2_sigma", "m4_center"],
-                    center=center_guess,
-                    sigma=sigma_guess
-                    )
-    fig = vfit2d.plot_ajuste()
-    fig.gca().set_xlim(ppmRange)
-    centers.append([vfit2d.params[f'm{jj+1}_center'].value for jj in range(Npeaks)])
-    centers_error.append([vfit2d.params[f'm{jj+1}_center'].stderr for jj in range(Npeaks)])
-    areas.append([vfit2d.params[f'm{jj+1}_amplitude'].value for jj in range(Npeaks)])
+fig,ax = plt.subplots(num=1785731)
+ax.plot(tau, ppm_of_max[:tau.size], 'o-')
+ax.axhline(ppm_of_max_in_equilibrium, color='k', linestyle='--')
+ax.set_xlabel('variable delay [s]')
+ax.set_ylabel(r'in-pore $\Delta\delta$ [ppm]')
+ax.set_xscale('log')
 
-centers = np.array(centers)
-centers_error = np.array(centers_error)
-areas = np.array(areas)
-
-# reordeno filtrando los que tienen mucho error.
-# creating a mask
-# elements_to_delete = abs(centers/centers_error)>1
-# centers[elements_to_delete] = np.nan
-
-
-plt.figure(1111111)
-plt.title("Centers")
-plt.plot(centers[:,2],'o-')
-for ii in range(Npeaks):
-
-    plt.figure(1111112)
-    plt.title("Areas")
-    plt.plot(areas[:,ii],'o-')
-stop
 
 colors = ['k', 'b', 'r', 'forestgreen', 'cyan', 'magenta']
 Signals = []
@@ -133,7 +97,6 @@ for ppmRange in ppmRanges:
     ax_spec.axhline(0, color='k')
 
     signal = datos.Integrar(ppmRange=ppmRange)
-    tau = datos.get_vdlist()/1000
     #tau_fit, signal_fit, residuals = datos.T1fit()
     Signals.append(signal)
 
