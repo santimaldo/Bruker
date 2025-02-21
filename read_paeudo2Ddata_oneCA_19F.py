@@ -13,11 +13,11 @@ from Datos import *
 plt.rcParams['font.size'] = 14
 
 # 0 V to 1 V
-expn_pos_before = 86    # Li
-expn_pos_pseudo2d = 87 # Li
+expn_pos_before = 81   # Li
+expn_pos_pseudo2d = 82 # Li
 # 0 V to -1 V
-expn_neg_before = 88   # Li
-expn_neg_pseudo2d = 89  # Li
+expn_neg_before = 83    # Li
+expn_neg_pseudo2d = 84  # Li
 
 # Data paths
 path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
@@ -36,7 +36,7 @@ titles = [r"0 V $\rightarrow$ 1 V", r"0 V $\rightarrow$ -1 V"]
 fig, axs = plt.subplots(2, 1, figsize=(8, 10), sharex=False)
 for ax in axs:
     ax.axhline(y=0, color='grey', linestyle='-')
-    ax.set_xlabel(r"$^7$Li $\Delta\delta$ [ppm]")
+    ax.set_xlabel(r"$^{19}$F $\Delta\delta$ [ppm]")
 for idx, (colormap, expn_before, expn_pseudo2d, ax) in enumerate(zip(colormaps, expn_before_list, expn_pseudo2d_list, axs)):
     # Load 1D experiment data
     datos = DatosProcesados(f'{path}/{expn_before}/')
@@ -49,7 +49,9 @@ for idx, (colormap, expn_before, expn_pseudo2d, ax) in enumerate(zip(colormaps, 
     datos.espectro.ppmSelect(plotRange)
     spec = datos.espectro.real
     ppmAxis = datos.espectro.ppmAxis
-    vdlist = datos.acqus.D1 * np.arange(datos.acqu2s.TD)  # Convert to seconds
+    # The vdlist starts at 10 s because the first point was not acquired
+    vdlist = datos.acqus.D1 * np.arange(1, datos.acqu2s.TD+1)  # Convert to seconds
+
 
     num_curves = vdlist.size
     cmap = cm.get_cmap(colormap, num_curves)  # Discrete colormap
