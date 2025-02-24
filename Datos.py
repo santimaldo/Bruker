@@ -300,6 +300,7 @@ class DatosProcesadosT1(DatosProcesados2D):
         # Extraigo el factor vd------------------------
         pulseprog = f"{directorio}/pulseprogram"
         data = []
+        factor_vd = None
         with open(pulseprog, 'rt') as f:
             for line in f:
                 if line.lstrip().startswith('vd*'):
@@ -307,6 +308,9 @@ class DatosProcesadosT1(DatosProcesados2D):
                     factor_vd = float(factor_vd[1])
                 else:
                     continue
+        if factor_vd is None:
+            print("WARNING: No se ha encontrado el factor vd. Seteando factor_vd = 1")
+            factor_vd = 1
         self.factor_vd = factor_vd
         # ------------------------------------------------------------------------------
 
@@ -339,7 +343,7 @@ class DatosProcesadosT1(DatosProcesados2D):
         signal = self.signal
         tau = self.tau
         func = ExpDec1
-        bounds = ([-np.infty, 0, -np.infty], [0, np.infty, np.infty])
+        bounds = ([-np.inf, 0, -np.inf], [0, np.inf, np.inf])
         guess = (-signal[-1], self.factor_vd*1e3, signal[-1])  # A, T1, y0
         popt, pcov = curve_fit(func, tau, signal, guess, bounds=bounds)
 
