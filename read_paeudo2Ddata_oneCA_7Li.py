@@ -51,11 +51,16 @@ for idx, (colormap, expn_before, expn_pseudo2d, ax) in enumerate(zip(colormaps, 
     ppmAxis = datos.espectro.ppmAxis
     vdlist = datos.acqus.D1 * np.arange(datos.acqu2s.TD)  # Convert to seconds
 
+    # Define colormap and colors for each curve
     num_curves = vdlist.size
-    cmap = cm.get_cmap(colormap, num_curves)  # Discrete colormap
-    bounds = np.arange(num_curves + 1) - 0.5  # Boundaries
-    norm = mcolors.BoundaryNorm(bounds, cmap.N)
-    sm = cm.ScalarMappable(cmap=cmap, norm=norm)
+    cmap = cm.get_cmap(colormap)  # Get full colormap
+    color_range = np.linspace(0.05, 0.7, num_curves)  # Define the specific range of the colormap to use
+    colors = [cmap(i) for i in color_range]  # Extract the exact colors used for plotting
+    # Create a discrete colormap matching the plotted colors
+    discrete_cmap = mcolors.ListedColormap(colors)
+    bounds = np.arange(num_curves + 1) - 0.5
+    norm = mcolors.BoundaryNorm(bounds, num_curves)
+    sm = cm.ScalarMappable(cmap=discrete_cmap, norm=norm)
 
     colors = [cmap(i) for i in np.linspace(0.05, 0.6, num_curves)]
 
