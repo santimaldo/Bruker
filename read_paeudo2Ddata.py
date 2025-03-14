@@ -13,8 +13,8 @@ from Datos import *
 import scipy.integrate as integrate
 
 # directorio de datos
-expn_before = 100
-expn_pseudo2d = 101
+expn_before = 81
+expn_pseudo2d = 82
 expn_after = 69
 
 path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
@@ -26,9 +26,8 @@ save = False
 plotRange = [5, -10]
 # rango de integracion
 ppmRanges = [[4, -9],
-             [4, -1],
-             [-1, -2.5],
-             [-2.5, -9]            
+             [4, -0.5],
+             [-0.5, -9]            
             ]
 
 #=====================================================================
@@ -56,7 +55,11 @@ datos.espectro.ppmSelect(plotRange)
 ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
 
-tau = datos.get_vdlist()/1000  # en segundos
+try:
+    tau = datos.get_vdlist()/1000  # en segundos
+except:
+    tau = datos.acqus.D1 * np.arange(1, datos.acqu2s.TD+1)  # Convert to seconds
+
 
 # grafico todos los espectros juntos
 fig_spec, ax_spec = plt.subplots(num=17856)

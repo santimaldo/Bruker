@@ -63,6 +63,10 @@ class ILT(object):
         self.xilt = None
         self.yilt = None
 
+        # Plot parameters
+        self.figure = figure
+        self.labels = labels
+
         # Kernel
         # Funciones disponibles para el kernel:
         self.kernel = kernel
@@ -79,14 +83,9 @@ class ILT(object):
         self.r_squared = None
 
         # graficos:
-        self.figure = figure
-        fig = plt.figure(num=figure, figsize=(12, 8))
-        ax0 = plt.subplot2grid((3, 2), (0, 0), rowspan=2)
-        ax1 = plt.subplot2grid((3, 2), (2, 0))
-        ax2 = plt.subplot2grid((3, 2), (0, 1), rowspan=3)
-        self.fig = fig
-        self.axes = [ax0, ax1, ax2]
-        self.labels = labels
+        if figure is not None:
+            self.initialize_plot()
+
 
         if ydata is not None and xdata is not None:
             self.DoTheStuff(ydata, xdata, xfit=None, muestra=muestra)
@@ -216,6 +215,18 @@ class ILT(object):
         self.fit()
 
         return self.xilt, self.yilt
+    
+    def initialize_plot(self):
+        """
+        Metodo para inicializar el grafico
+        """
+        fig = plt.figure(num=self.figure, figsize=(12, 8))
+        ax0 = plt.subplot2grid((3, 2), (0, 0), rowspan=2)
+        ax1 = plt.subplot2grid((3, 2), (2, 0))
+        ax2 = plt.subplot2grid((3, 2), (0, 1), rowspan=3)
+        self.fig = fig
+        self.axes = [ax0, ax1, ax2]
+        return fig, [ax0, ax1, ax2]
 
     def fit(self):
         '''
@@ -297,7 +308,7 @@ class ILT(object):
         ax1.text(0.6, 0.90, textstr, transform=ax1.transAxes, fontsize=14,
                  verticalalignment='top', bbox={'alpha': 1, 'facecolor': 'white'})
 
-        cumulative = integrate.cumtrapz(yilt[2:-1])
+        cumulative = integrate.cumulative_trapezoid(yilt[2:-1])
         cumulative = cumulative / cumulative.max()
 
         ax2.semilogx(xilt[3:-1], cumulative, 'k', lw=lw/2)
@@ -342,6 +353,36 @@ class ILT(object):
         filename = f'{self.savepath}{self.muestra}_ILT-fit.dat'
         np.savetxt(filename, data, header=header)
 
+    def ILTFT(self, ydata2d, xdata, Nsegments=32):
+
+        # First, we determine the length of the
+        # segments in the direct dimention
+        # we will use to calculate the ILT
+        Nind, Ndir = ydata2d.shape  # number of data points
+        segm_len = Ndir // Nsegments
+        Nilt = self.Nilt
+        iltft = np.zeros([Nilt, Nsegments])
+        ydata2d_reduced = np.zeros([Nind, Nsegments])
+        # set None to prevent multiple plots
+        self.figure = None
+        
+        # Compute the number of columns per segment
+        columns_per_segment = Ndir // Nsegments  # Integer division
+        # Trim extra columns if needed
+        trimmed_columns = columns_per_segment * Nsegments
+        ydata2d_trimmed = ydata2d[:, :trimmed_columns]  # Remove excess columns
+        # Reshape and compute the mean over the last dimension
+        ydata2d_reduced = ydata2d_trimmed.reshape(Nind, Nsegments, columns_per_segment).mean(axis=2)
+
+
+        for nseg in range(Nsegments):
+            print(f"Processing segment {nseg+1} of {Nsegments}")
+            ydata = ydata2d_reduced[:,nseg]
+            self.DoTheStuff(ydata, xdata)
+            iltft[:,nseg] = self.yilt
+
+        return iltft, ydata2d_reduced
+
     ##################### Funciones Kernel ####################################
     # xdata es el eje temporal de la senal.
     # xilt es la variable de la ILT, es decir, T1, T2, D o lo que corresponda.
@@ -373,10 +414,9 @@ if __name__ == "__main__":
     def T2(x, tt):
         return np.exp(-x/tt)
 
-    alpha = 1e-3
     # Inicializo la clase ILT
     ilt = ILT(alpha=alpha, rango=(1e1, 1e5), kernel=T2, Nilt=100,
-              figure=2, savepath='S:/tmp/')
+              figure=2, savepath='c:/tmp/')
     # calculo la ILT para el conjunto de datos 1
     ilt.DoTheStuff(ydata1, xdata)
     # calculo la ILT para el conjunto de datos 2
@@ -389,3 +429,37 @@ if __name__ == "__main__":
     yfit = ilt.yfit
     residuals = ilt.residuals
     r_squared = ilt.r_squared
+    #%%
+    data = np.loadtxt(r"c:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir\Nexp_72.dat")
+    xdata = data[:, 0]
+    ydata1 = -(data[:, 1]-1)
+
+    data = np.loadtxt(r"c:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir\Nexp_73.dat")
+    xdata = data[:, 0]
+    ydata2 = -(data[:, 1]-1)
+
+    data = np.loadtxt(r"c:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir\Nexp_74.dat")
+    xdata = data[:, 0]
+    ydata3 = -(data[:, 1]-1)
+
+    data = np.loadtxt(r"c:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir\Nexp_75.dat")
+    xdata = data[:, 0]
+    ydata4 = -(data[:, 1]-1)
+    # funcion de kernel
+    def T2(x, tt):
+        return np.exp(-x/tt)
+    
+    Npts_L = 256
+    alpha = 1e-2
+
+    # Inicializo la clase ILT
+    ilt = ILT(alpha=alpha, rango=(1e-2, 1e1), kernel=T2, Nilt=100,
+              figure=2, savepath='c:/tmp/')
+    # calculo la ILT para el conjunto de datos 1
+    ilt.DoTheStuff(ydata1, xdata, muestra="-1V")
+    # calculo la ILT para el conjunto de datos 2
+    ilt.DoTheStuff(ydata2, xdata, muestra="1V")
+    ilt.DoTheStuff(ydata3, xdata, muestra="0V")
+    ilt.DoTheStuff(ydata4, xdata, muestra="-1V again")
+    ilt.legend()
+# %%

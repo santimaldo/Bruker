@@ -13,16 +13,15 @@ from Datos import *
 
 
 # Data paths
-expn = 63
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/{expn}/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/T1/"
-muestra = "7Li_supercap_LiTFSI1M-aq"
+expn = 201
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-03-10_insitu-LiTFSIaq-supercap\{expn}/"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\sr/"
+muestra = f"Nexp{expn}"
 save = True
 plotRange = [4, -8]
 
 # rango de integracion
-ppmRanges = [[1,-1],
-             [-3.5,-6]
+ppmRanges = [[3,-6]
              ]
 
 datos = DatosProcesadosT1(path)

@@ -294,8 +294,8 @@ def autophase(complex_data, x=None, method='minIntImag', precision=1):
             intReal = np.real(Sp_try)[0]
             intImag = np.imag(Sp_try)[0]
         else:
-            intReal = integrate.simps(np.real(Sp_try), x=x)
-            intImag = integrate.simps(np.imag(Sp_try), x=x)
+            intReal = integrate.simpson(np.real(Sp_try), x=x)
+            intImag = integrate.simpson(np.imag(Sp_try), x=x)
 
         IntRealSpec.append(intReal)
         IntImagSpec.append(intImag)

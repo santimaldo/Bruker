@@ -13,11 +13,11 @@ from Datos import *
 plt.rcParams['font.size'] = 14
 
 # 0 V to 1 V
-expn_pos_before = 81   # Li
-expn_pos_pseudo2d = 82 # Li
+expn_pos_before = 81   # F
+expn_pos_pseudo2d = 82 # F
 # 0 V to -1 V
-expn_neg_before = 83    # Li
-expn_neg_pseudo2d = 84  # Li
+expn_neg_before = 83    # F
+expn_neg_pseudo2d = 84  # F
 
 # Data paths
 path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"

@@ -25,8 +25,8 @@ from scipy.signal import find_peaks
 
 
 # directorio de datos
-expn_before = 67
-expn_pseudo2d = 68
+expn_before = 81
+expn_pseudo2d = 82
 expn_after = 69
 
 path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
@@ -40,6 +40,7 @@ ppmRange = [10, -10]
 Npeaks = 4
 center_guess = [0, 0, -3, -5]
 sigma_guess = [0.2, 0.5, 0.3, 0.8]
+
 
 #=====================================================================
 # Ajuste de espectro antes del experimento 1D (before)
@@ -71,11 +72,16 @@ ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
 vfit2d = vfit
 
-vdlist = datos.get_vdlist()
+try:
+    vdlist = datos.get_vdlist()/1000  # en segundos
+except:
+    vdlist = datos.acqus.D1 * np.arange(1, datos.acqu2s.TD+1)  # Convert to seconds
+
 # grafico todos los espectros juntos
 centers = []
 centers_error = []
 areas = []
+redchis = []
 for ii in range(vdlist.size):
 # for ii in range(5):
     #fig_spec, ax_spec = plt.subplots(num=ii)
@@ -90,15 +96,17 @@ for ii in range(vdlist.size):
                     re, 
                     Npicos=Npeaks,
                     ajustar=True,
-                    fijar=["m1_center", "m2_center", "m1_sigma", "m2_sigma", "m4_center"],
+                    #fijar=["m1_center", "m2_center", "m1_sigma", "m2_sigma", "m4_center"],
                     center=center_guess,
                     sigma=sigma_guess
                     )
+    
     fig = vfit2d.plot_ajuste()
     fig.gca().set_xlim(ppmRange)
     centers.append([vfit2d.params[f'm{jj+1}_center'].value for jj in range(Npeaks)])
     centers_error.append([vfit2d.params[f'm{jj+1}_center'].stderr for jj in range(Npeaks)])
     areas.append([vfit2d.params[f'm{jj+1}_amplitude'].value for jj in range(Npeaks)])
+    redchis.append(vfit2d.ajuste.redchi)
 
 centers = np.array(centers)
 centers_error = np.array(centers_error)
@@ -133,7 +141,7 @@ for ppmRange in ppmRanges:
     ax_spec.axhline(0, color='k')
 
     signal = datos.Integrar(ppmRange=ppmRange)
-    tau = datos.get_vdlist()/1000
+
     #tau_fit, signal_fit, residuals = datos.T1fit()
     Signals.append(signal)
 
