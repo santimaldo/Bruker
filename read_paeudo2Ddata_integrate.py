@@ -13,24 +13,24 @@ from Datos import *
 import scipy.integrate as integrate
 
 # directorio de datos
-expn_before = 70
-expn_pseudo2d = 71
-expn_after = 69
+expn_before = 4
+expn_pseudo2d = 6
+expn_after = 8
 
-ppm_treshold = -3
+ppm_treshold = -1.5
 
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
+
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-03-10_insitu-LiTFSIaq-supercap/"
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
-muestra = "19F_chronoamperometry_0Vto1V"
+muestra = "7Li_chronoamperometry_0Vto1V"
 
 save = False
 plotRange = [5, -10]
 # rango de integracion
 ppmRanges = [[4, -9],
-             [4, -1],
-             [-1, -2.5],
-             [-2.5, -9]            
+             [4,ppm_treshold],
+             [ppm_treshold, -9]            
             ]
 
 #=====================================================================
@@ -57,7 +57,8 @@ datos.espectro.ppmSelect(plotRange)
 ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
 
-tau = datos.get_vdlist()/1000  # en segundos
+# tau = datos.get_vdlist()/1000  # en segundos
+tau = np.arange(spec.shape[0]) * datos.acqus.D1
 
 # grafico todos los espectros juntos
 fig_spec, ax_spec = plt.subplots(num=17856)
