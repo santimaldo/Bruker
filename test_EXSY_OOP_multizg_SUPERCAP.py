@@ -29,18 +29,19 @@ def Integrar(Matriz, x=None, y=None):
 # ###################CMK3ACTB 1H  # muestra "B". con cantidad de bulk correcta
 # #############################################################################
 # #############################################################################
-# -1 V
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-03-10_insitu-LiTFSIaq-supercap/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/-1V/"
-mT = [0.1, 1, 10, 100, 5, 50, 200, 20, 2, 80, 150]  # 1H
-nexp = np.arange(80,91)
-peaks = [0, -5.9]
-# 0 V
+# # -1 V
 # path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-03-10_insitu-LiTFSIaq-supercap/"
-# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/0V/"
+# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/-1V/"
+# savepath = r"C:\tmp/"
 # mT = [0.1, 1, 10, 100, 5, 50, 200, 20, 2, 80, 150]  # 1H
-# nexp = np.arange(20,31)
-# peaks = [0, -5]
+# nexp = np.arange(80,91)
+# peaks = [0, -5.9]
+# 0 V
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-03-10_insitu-LiTFSIaq-supercap/"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/0V/"
+mT = [0.1, 1, 10, 100, 5, 50, 200, 20, 2, 80, 150]  # 1H
+nexp = np.arange(20,31)
+peaks = [0, -5]
 semiancho = 1
 
 
@@ -61,11 +62,11 @@ sorted_list = sorted(zipped_list)
 # sorted_list = sorted(zipped_list, reverse=True)
 mT, nexp = np.array(sorted_list).T
 
-
+cmap = matplotlib.cm.turbo
 # cmap = matplotlib.cm.Wistia
 # cmap = matplotlib.cm.autumn
 # cmap = matplotlib.cm.autumn_r
-cmap = matplotlib.cm.YlOrBr_r
+# cmap = matplotlib.cm.YlOrBr_r
 # nexp = [24]
 
 filename = f"0V_semiwidth_{semiancho}"
@@ -175,10 +176,10 @@ for n in range(len(nexp)):
 
             axx = ax_specs[i, j]
             if i == j:
-                idx_y = find_nearest(ppm_y, peaks[i])
-                spec1d = spec[idx_y, :]
+                idx_x = find_nearest(ppm_x, peaks[i])
+                spec1d = spec[:, idx_x]
                 ppmaxis = ppm_y
-                axx.set_title(f"Horizontal, pico {i+1}")
+                axx.set_title(f"Along indirect dimension, peak{i+1}")
 
                 # if i == 0:
                 #     spec1dim = im[idx_y, :]
@@ -193,13 +194,17 @@ for n in range(len(nexp)):
                 #     # plt.ylim([-200, 2000])
                 #     plt.xlabel(r"$\Delta\delta$ [ppm]")
             else:
-                idx_x = find_nearest(ppm_x, peaks[j])
-                spec1d = spec[:, idx_x]
+                idx_y = find_nearest(ppm_y, peaks[j])
+                spec1d = spec[idx_y, :]
                 ppmaxis = ppm_x
-                axx.set_title(f"Vertical, pico {j+1}")
-            axx.plot(spec1d, label=f"{mT[n]:.0f} ms", color=color)
+                axx.set_title(f"Along direct dimension, peak {j+1}")
+            axx.plot(ppmaxis, spec1d, label=f"{mT[n]:.0f} ms", color=color)
+            axx.set_xlim([max(ppmaxis), min(ppmaxis)])
+            axx.axhline(0, color='k', ls='--')
+            # axx.set_ylim([-0.25, 1])
             if j == 0 and i == 2:
                 axx.legend(ncol=3)
+                
 
     integrales.append(Int_n)
     # if mT[n]>=120: stop
@@ -217,6 +222,7 @@ for n in range(len(nexp)):
     espectros1d.append(Espectro1D.real)
     # espectros1d.append(np.sum(np.real(spec), axis=0)) ### espectro 1D como integral del espectro 2D
 
+fig_specs.tight_layout()
     # %%
 
 integrales = np.array(integrales)

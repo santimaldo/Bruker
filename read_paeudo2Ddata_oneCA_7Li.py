@@ -21,13 +21,15 @@ expn_neg_pseudo2d = 89  # Li
 
 # Data paths
 path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles\1Dspec\7Li_ONE-CA/"
+muestra = "7Li_"
 muestra = "7Li_"
 save = False
 plotRange = [4, -8]
 
 # Define colormaps and experiments
 colormaps = ["Reds_r", "Blues_r"]
+savefiles = ["Positive", "Negative"]
 expn_before_list = [expn_pos_before, expn_neg_before]
 expn_pseudo2d_list = [expn_pos_pseudo2d, expn_neg_pseudo2d]
 titles = [r"0 V $\rightarrow$ 1 V", r"0 V $\rightarrow$ -1 V"]
@@ -67,7 +69,12 @@ for idx, (colormap, expn_before, expn_pseudo2d, ax) in enumerate(zip(colormaps, 
     # Plot each spectrum in its corresponding subplot
     for i, (re, color) in enumerate(zip(datos.espectro.real, colors)):
         ax.plot(ppmAxis, re, color=color)
+        savedata = np.array([ppmAxis, re]).T
+        np.savetxt(f"{savepath}/{savefiles[idx]}_t-{vdlist[i]:.0f}s.dat", savedata)
+
     ax.plot(ppmAxis1d, re1d, '--', color="black", label="Before pseudo-2D")
+    savedata = np.array([ppmAxis1d, re1d]).T
+    np.savetxt(f"{savepath}/{savefiles[idx]}_BeforePseud2D.dat", savedata)
 
     ax.set_xlim(plotRange)
     ax.text(0.05, 0.9, titles[idx], transform=ax.transAxes, fontsize=16, verticalalignment='top')
