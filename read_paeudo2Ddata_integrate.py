@@ -20,7 +20,7 @@ expn_after = 8
 ppm_treshold = -1.5
 
 
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-03-10_insitu-LiTFSIaq-supercap/"
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-04-29_IMEC_eLi-sym_LP40-OCV/"
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 muestra = "7Li_chronoamperometry_0Vto1V"

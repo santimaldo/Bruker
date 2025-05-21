@@ -16,15 +16,44 @@ from VoigtFit import VoigtFit
 
 
 path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/"
-path_bruker = "300old/2025-02-07_insitu-sync-start/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
-savepath_especifico = "1Dspec"
+path_bruker = "400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025-04-28_CP/"
+savepath_especifico = "1Dspec/bsms_field_-5850/"
 
-# info: muestra, expn, ppmRange
-info = ['nexp67', 67, [15,-15]]
 
-nucleo = "19F"
-muestra, expn, ppmRange = info
+
+sample = "IMEC"
+
+# info: nucleus,muestra, expn, ppmRange
+# info = ["1H", "IMECdendrites_KBr", 52, [350,100]]
+# info = ["1H", "LiOH", 48, [350,100]]
+# info = ["1H", "LiOH.H20", 31, [350,100]]
+# info = ["1H", "LiOH_after-one-day", 41999, [350,100]]
+#info = ["1H", "eLi_CP_ct-01ms_d1-2s", 1699801, [350,100]]
+# info = ["1H", "eLi_CP_ct-10ms_d1-2s", 1699601, [350,100]]
+# info = ["1H", "eLi_uW-OFF", 26, [350,100]]
+# info = ["1H", "eLi_uW-ON", 17, [350,100]]
+# reference_value = -1.5 # ppm    
+# reference_measured = 226.7633
+########### 7Li
+# info = ["7Li", "eLi_uW-OFF", 55, [-225, -320]]
+# info = ["7Li", "eLi_uW-ON", 19, [-225, -320]]
+# info = ["7Li", "LiOH", 40, [-225, -320]]
+# info = ["7Li", "LiOH.H20", 30, [-225, -320]]
+# reference_value = 0.4# ppm    
+# reference_measured = -273.9571081
+# - - - - - - no baselinsubstraction
+# info = ["7Li", "eLi_uW-OFF", 55, [-114, -600]]
+# info = ["7Li", "eLi_uW-ON", 19, [-114, -600]]
+# # info = ["7Li", "LiOH", 40, [100, -600]]
+# # info = ["7Li", "LiOH.H20_no-basline-subs", 30, [100, -600]]
+info = ["7Li", "eLi_o1-metal_uW-OFF", 25, [200,-500]]
+# info = ["7Li", "eLi_o1-metal_uW-ON", 13, [200,-500]]
+reference_value = 0.4# ppm    
+reference_measured = -273.9
+
+ppmCorrection = reference_value - reference_measured
+nucleo, muestra, expn, ppmRange = info
 save = True
 
 
@@ -38,7 +67,7 @@ im = datos.espectro.imag
 re_norm = re/np.max(re)
 im_norm = im/np.max(re)
 ppmAxis = datos.espectro.ppmAxis
-
+ppmAxis = ppmAxis + ppmCorrection  # ppm axis correction
 
 # grafico para guardar:
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
@@ -63,11 +92,11 @@ if save:
 plt.show()
 
 
-vfit=VoigtFit(ppmAxis, 
-              re, 
-              Npicos=4,
-              ajustar=True,
-              center=[0, 0,-1,-3]
-              )
-fig = vfit.plot_ajuste()
-fig.gca().set_xlim([8,-8])
+# vfit=VoigtFit(ppmAxis, 
+#               re, 
+#               Npicos=4,
+#               ajustar=True,
+#               center=[0, 0,-1,-3]
+#               )
+# fig = vfit.plot_ajuste()
+# fig.gca().set_xlim([8,-8])

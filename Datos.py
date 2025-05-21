@@ -43,11 +43,14 @@ class Datos(object):
         de pulso utilizado
     """
 
-    def __init__(self, directorio, set_fid=False):
+    def __init__(self, directorio, set_fid=False,
+                 read_pp=True):
 
         self.directorio = directorio
         self.acqus = Acqus(directorio)
-        self.pulseprog = self.getPulseProg()
+        self.pulseprog = None
+        if read_pp:
+            self.pulseprog = self.getPulseProg() 
         self.title = self.get_title()
         self.fid = Fid()
 
@@ -155,8 +158,9 @@ class Datos(object):
 
 class DatosProcesados(Datos):
 
-    def __init__(self, directorio, p_dir=1):
-        Datos.__init__(self, directorio)
+    def __init__(self, directorio, p_dir=1,
+                 read_pp=False):
+        Datos.__init__(self, directorio, read_pp=read_pp)
         self.p_dir = p_dir
         self.procs = Procs(directorio, p_dir)
         self.espectro = Espectro()
@@ -198,8 +202,9 @@ class DatosProcesados2D(DatosProcesados):
     signal: lista de integrales de los espectros (en la dmension directa)
     """
 
-    def __init__(self, directorio, p_dir=1, ppmRange=None):
-        DatosProcesados.__init__(self, directorio)
+    def __init__(self, directorio, p_dir=1, ppmRange=None,
+                 read_pp=False):
+        DatosProcesados.__init__(self, directorio, read_pp=read_pp)
         self.proc2s = Procs(directorio, p_dir, dim2=True)
         self.acqu2s = Acqus(directorio, dim2=True)
         self.espectro.set_ppmAxisInd(
