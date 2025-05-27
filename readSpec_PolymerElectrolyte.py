@@ -22,49 +22,51 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Po
 savepath_especifico = ""
 # info: muestra, expn, ppmRange
 nucleo = "1H"
-infos = [['PEO-LiTFSI_6kHz', 3, None],
-         ['PEO-LiTFSI_10kHz', 4, None],
-         ['PEO-LiTFSI_15kHz', 12, None],
-         ['PEO-LiTFSI_20kHz', 13, None],
-         ['PEO-LiTFSI_25kHz', 14, None],
-         ['PEO-LiTFSI_30kHz', 15, None],
+ppmRange = None
+infos = [['PEO-LiTFSI_6kHz', 3],
+         ['PEO-LiTFSI_10kHz', 4],
+         ['PEO-LiTFSI_15kHz', 12],
+         ['PEO-LiTFSI_20kHz', 13],
+         ['PEO-LiTFSI_25kHz', 14],
+         ['PEO-LiTFSI_30kHz', 15],
          
-         ['PEO-PTT-LiTFSI_20kHz', 46, None],
-         ['PEO-PTT-LiTFSI_30kHz', 84, None]
+         ['PEO-PTT-LiTFSI_20kHz', 46],
+         ['PEO-PTT-LiTFSI_30kHz', 84]
          ]
 
 
 # info: muestra, expn, ppmRange
 nucleo = "7Li"
-infos = [['PEO-LiTFSI_10kHz', 25, None], # compare with 7 --> before fast spinning
-         ['PEO-LiTFSI_20kHz', 23, None],
-         ['PEO-LiTFSI_30kHz', 19, None],
+ppmRange = None
+infos = [['PEO-LiTFSI_10kHz', 25], # compare with 7 --> before fast spinning
+         ['PEO-LiTFSI_20kHz', 23],
+         ['PEO-LiTFSI_30kHz', 19],
          
-         ['PEO-PTT-LiTFSI_10kHz', 34, None],
-         ['PEO-PTT-LiTFSI_15kHz', 40, None],
-         ['PEO-PTT-LiTFSI_20kHz', 42, None],
-         ['PEO-PTT-LiTFSI_25kHz', 80, None],
-         ['PEO-PTT-LiTFSI_30kHz', 82, None]
+         ['PEO-PTT-LiTFSI_10kHz', 34],
+         ['PEO-PTT-LiTFSI_15kHz', 40],
+         ['PEO-PTT-LiTFSI_20kHz', 42],
+         ['PEO-PTT-LiTFSI_25kHz', 80],
+         ['PEO-PTT-LiTFSI_30kHz', 82]
          ]
 
 # info: muestra, expn, ppmRange
 nucleo = "19F"
-infos = [['PEO-LiTFSI_10kHz', 26, None], # compare with 7 --> before fast spinning
-         ['PEO-LiTFSI_20kHz', 24, None],
-         ['PEO-LiTFSI_30kHz', 21, None],
+ppmRange = None #[-85,-75]
+infos = [['PEO-LiTFSI_10kHz', 26], # compare with 7 --> before fast spinning
+         ['PEO-LiTFSI_20kHz', 24],
+         ['PEO-LiTFSI_30kHz', 21],
          
-         ['PEO-PTT-LiTFSI_10kHz', 36, None],
-         ['PEO-PTT-LiTFSI_15kHz', 37, None],
-         ['PEO-PTT-LiTFSI_20kHz', 41, None],
-         ['PEO-PTT-LiTFSI_25kHz', 81, None],
-         ['PEO-PTT-LiTFSI_30kHz', 83, None]
+         ['PEO-PTT-LiTFSI_10kHz', 36],
+         ['PEO-PTT-LiTFSI_15kHz', 37],
+         ['PEO-PTT-LiTFSI_20kHz', 41],
+         ['PEO-PTT-LiTFSI_25kHz', 81],
+         ['PEO-PTT-LiTFSI_30kHz', 83]
          ]
-
 
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
-    muestra, expn, ppmRange = info
+    muestra, expn = info
     save = True
 
 
