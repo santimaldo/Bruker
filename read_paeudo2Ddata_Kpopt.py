@@ -35,6 +35,32 @@ def read_bsms_field(path_archivo):
                 return x
     raise ValueError("No se encontro una linea que empiece con 'x='.")
 
+
+def integrate_around_peak(ppmAxis, spectrum, window_width):
+    """
+    Integra un espectro en un rango centrado en el máximo dentro del ancho especificado.
+
+    Parámetros:
+    - ppmAxis (np.array): eje de ppm (decreciente, tipo Bruker)
+    - spectrum (np.array): espectro real correspondiente
+    - window_width (float): ancho de integración en ppm
+
+    Retorna:
+    - float: valor de la integral en el rango centrado en el máximo
+    """
+    max_index = np.argmax(np.abs(spectrum))
+    center_ppm = ppmAxis[max_index]
+
+    r1 = center_ppm - window_width / 2
+    r2 = center_ppm + window_width / 2
+
+    # Adaptar a orden decreciente del eje ppm
+    lower, upper = sorted([r1, r2], reverse=True)
+    mask = (ppmAxis <= lower) & (ppmAxis >= upper)
+
+    return -integrate.simpson(spectrum[mask], x=ppmAxis[mask])
+
+
 #%%                
     return np.array(data)
 ################## end Functions #######################
@@ -42,20 +68,22 @@ def read_bsms_field(path_archivo):
 
 
 # directorio de datos
-expns = [28, 29, 17]
-expns = [71]
+expns = [28, 29]
+# expns = [71]
 absolute = False
+autoph = True 
 path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\InSitu_May_2025/"
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
 muestra = ""
 save = False
-plotRange = [200,-200]
+plotRange = [200,-300]
 # rango de integracion
-ppmRanges = [[200,-200]
+ppmRanges = [[200,-300]
             #[300, 150],
             #[-0.5, -9]            
             ]
+window_width = 50  # ancho de cada ventana desde el mínimo local
 
 
 #=====================================================================
@@ -96,6 +124,9 @@ for expn in expns:
             abs_spec = np.abs(spec1d + 1j*speci1d)
             spec[kk,:]  = abs_spec
             spec1d = abs_spec
+        elif autoph:
+            spec1d = ng.proc_autophase.autops(spec1d+1j*speci1d, "acme") 
+            spec[kk,:]  = ng.process.proc_bl.cbf(spec1d.real, last=100)
         ax_spec.plot(ppmAxis, spec1d)
 
         
@@ -115,7 +146,10 @@ for expn in expns:
         ax_spec.axvspan(r1, r2, alpha=0.15, color=color)
         ax_spec.axhline(0, color='k')
 
-        signal = datos.Integrar(ppmRange=ppmRange)
+        # signal = datos.Integrar(ppmRange=ppmRange)
+        signal = np.zeros(spec.shape[0])
+        for kk in range(spec.shape[0]):
+            signal[kk] = integrate_around_peak(ppmAxis, spec[kk, :], window_width)
         #tau_fit, signal_fit, residuals = datos.T1fit()
         Signals = np.append(Signals, signal)
 
@@ -128,36 +162,11 @@ for expn in expns:
         all_Signals = np.concatenate((all_Signals, Signals))
         all_bsms_field = np.concatenate((all_bsms_field, bsms_field))
 
-    for kk in range(Signals.size):
-        np.savetxt(f"{savepath}/{muestra}_bsms_{bsms_field[kk]}.dat",
-                   np.array([ppmAxis, spec[kk,:]]).T,
-                   header="ppmAxis\treal")
+    if save:
+        for kk in range(Signals.size):
+            np.savetxt(f"{savepath}/{muestra}_bsms_{bsms_field[kk]}.dat",
+                    np.array([ppmAxis, spec[kk,:]]).T,
+                    header="ppmAxis\treal")
     ax_popt.plot(bsms_field, Signals, 'o')#, color=color, label="Rising Edge")
 
 print(np.array([all_bsms_field, all_Signals]).T)
-
-#%%   
-# guardo data:
-if save:
-    filename = f'{savepath}/{muestra}_T1.png'
-    fig.savefig(filename)   # save the figure to file
-
-    Signals = np.array(Signals).T
-    tau = tau.reshape(tau.size, 1)
-    T1data = np.hstack((tau, Signals))
-    header = "tau [s]\t"
-    for ppmRange in ppmRanges:
-        header += f"{ppmRange} ppm\t"
-    np.savetxt(f"{savepath}/{muestra}_T1.dat", T1data, header=header)
-
-    data = np.array([ppmAxis, re, im]).T
-    np.savetxt(f"{savepath}/{muestra}_ultimoEspectro.dat", data)
-
-
-# fig,ax = plt.subplots(num=1785731)
-# ax.plot(bsms_fieldlist[:ppm_of_max.size], ppm_of_max, 'o-')
-# ax.axhline(ppm_of_max_in_equilibrium, color='k', linestyle='--')
-# ax.set_xlabel('Contact Time [s]')
-# ax.set_ylabel(r'something')
-# ax.set_xscale('log')
-# %%

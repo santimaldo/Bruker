@@ -17,16 +17,24 @@ from VoigtFit import VoigtFit
 
 path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 
-path_bruker = "3.2mm-Santi-VERAdendrites-2025-03-20/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2025-03_VERA_sample/"
-savepath_especifico = ""
+path_bruker = "InSitu_May_2025/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-05_mesh/"
+# savepath_especifico = "spec1d/"
+# # info: muestra, expn, ppmRange
+# infos = [['uW-ON_mesh', 31, None],
+#          ['uW-ON-off-field_mesh', 33, None],
+#          ['uW-OFF--cool_mesh', 23, None],
+#          ['uW-OFF--warm_mesh_AFTER', 35, None],
+#          ['uW-OFF--warm_mesh_BEFORE', 11, None]
+#          ]
+
+
+savepath_especifico = "spec1d-LFP/"
 # info: muestra, expn, ppmRange
-infos = [['uW-OFF_o1-metal', 43, None],
-         ['uW-ON_o1-metal', 33, None],
-         ['uW-ON-offset_o1-metal', 10, None],
-         ['uW-OFF_o1-diamgnetic', 44, None],
-         ['uW-ON_o1-diamagnetic', 37, None],
-         ['uW-ON-offset_o1-diamagnetic', 41, None],
+infos = [['uW-ON_mesh-lfp', 58, None],
+         ['uW-ON-off-field_mesh-lfp', 59, None],
+         ['uW-OFF--warm_mesh_AFTER-lfp', 81, None],
+         ['uW-OFF--warm_mesh_BEFORE-lfp', 51, None]
          ]
 
 # path_bruker = "3.2mm-Santi-IMECdendrites-2025-03-21/"

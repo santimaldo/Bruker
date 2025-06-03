@@ -7,18 +7,13 @@ Created on Thu Apr  7 17:34:06 2022
 Corrijo automaticamente la fase, utilizando el método de minimizar el area
 de la parte imaginaria:   case{'MinIntImagSpec'}
 """
-import numpy as np
-from scipy.integrate import simpson
-import matplotlib.pyplot as plt
-
 
 import numpy as np
 from scipy.integrate import simpson
 import matplotlib.pyplot as plt
 
-def autophase(ppmAxis, real, imag, precision=1, plot=False):
-    spec = real + 1j * imag
-    
+
+def autophase(ppmAxis, spec, precision=1, plot=False, method='maxReal'):
     # Create sorted copies for integration
     sort_idx = ppmAxis.argsort()
     ppm_sorted = ppmAxis[sort_idx]
@@ -29,15 +24,13 @@ def autophase(ppmAxis, real, imag, precision=1, plot=False):
     IntRealSpec = []
 
     for a in angle:
-        Sp_try = spec_sorted * np.exp(-1j * a * np.pi / 180)
+        Sp_try = spec_sorted * np.exp(1j * a * np.pi / 180)
         IntImagSpec.append(simpson(np.imag(Sp_try), x=ppm_sorted))
         IntRealSpec.append(simpson(np.real(Sp_try), x=ppm_sorted))
 
     IntImagSpec = np.array(IntImagSpec)
     IntRealSpec = np.array(IntRealSpec)
 
-    dataArray = np.array([np.abs(IntImagSpec), IntRealSpec, angle]).T
-    dataArray = dataArray[dataArray[:, 0].argsort()]
 
     if plot:
         plt.figure()
@@ -46,18 +39,23 @@ def autophase(ppmAxis, real, imag, precision=1, plot=False):
         plt.xlabel("Phase angle (°)")
         plt.legend()
         plt.title("Autophasing evaluation")
-
-    for _, real_integral, angulo in dataArray:
-        if real_integral >= 0:
-            anguloOptimo = angulo
-            break
-    else:
-        raise ValueError("No suitable phase angle found.")
-
+    if 'min' in method:
+        dataArray = np.array([np.abs(IntImagSpec), IntRealSpec, angle]).T
+        dataArray = dataArray[dataArray[:, 0].argsort()]
+        for _, real_integral, angulo in dataArray:
+            if real_integral >= 0:
+                anguloOptimo = angulo
+                break
+        else:
+            raise ValueError("No suitable phase angle found.")
+    elif 'max' in method:
+        print("Using maximum of real integral method")
+        # Find the maximum of the imaginary integral
+        max_index = np.argmax(IntRealSpec)
+        anguloOptimo = angle[max_index]
     # Apply optimal phase correction using original data
-    spec_phased = spec * np.exp(-1j * anguloOptimo * np.pi / 180)
-
-    return np.real(spec_phased), np.imag(spec_phased), anguloOptimo
+    spec_phased = spec * np.exp(1j * anguloOptimo * np.pi / 180)
+    return spec_phased, anguloOptimo
 
 
 # old:

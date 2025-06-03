@@ -95,10 +95,11 @@ ax_spec.set_xlim(plotRange)
 
 Signals = np.array([integrals_1, integrals_2]).T
 
-for kk in range(Signals.shape[0]):
-    np.savetxt(f"{savepath}/{muestra}_bsms_{bsms_field[kk]}.dat",
-               np.array([ppmAxis, spec[kk, :]]).T,
-               header="ppmAxis\treal")
+if save:
+    for kk in range(Signals.shape[0]):
+        np.savetxt(f"{savepath}/{muestra}_bsms_{bsms_field[kk]}.dat",
+                np.array([ppmAxis, spec[kk, :]]).T,
+                header="ppmAxis\treal")
 
 ax_popt.plot(bsms_field, integrals_1, 'o', label="Peak 1")
 ax_popt.plot(bsms_field, integrals_2, 's', label="Peak 2")
