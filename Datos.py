@@ -113,6 +113,8 @@ class Datos(object):
             gamma = 108.291
         elif "29si" in nucleo:
             gamma = -53.190
+        elif "79Br" in nucleo:
+            gamma = 6.7256
         # -------------------
         gamma = gamma*1e6
         return gamma

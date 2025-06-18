@@ -13,26 +13,24 @@ import numpy as np
 from Datos import *
 import scipy.integrate as integrate
 
-# directorio de datos
-expns = [20, 21, 22, 23]#,6]
+# metal
+expns = [1,2]# directorio de datos
+plotRange = [500, 100]
+ppmRange = [400,200]   # rango de integracion   
 
 absolute= False
 autoph = False
+save = False
 
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-05-24_in-situ_IMEC-LFP/"
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-17_3.2mm_IMECdendrites_KBr-T1-while-mw-ON/"
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\in-situ\2025-05_eLI-LFP_LP40/"
-muestra = "7Li_eLi-LFP-cell_LP40"
+muestra = "eLi-KBr"
 
-save = False
-plotRange = [500, 100]
-# rango de integracion
-ppmRange = [400,200]          
+
+     
             
-#### diamagnetic            
-plotRange = [100, -100]
-# rango de integracion
-ppmRange = [50,-50]
+
 #=====================================================================
 # Ajuste de espectro antes del experimento 1D (before)
 #=====================================================================
@@ -91,7 +89,7 @@ for jj, expn in enumerate(expns):
                                             disp=False)
         else:
             spec1d = re 
-            phase = 0
+            phase = [0]
         # spec1d_re = ng.proc_bl.cbf(spec1d.real)
         if absolute:
             spec1d_re = np.abs(spec1d)
