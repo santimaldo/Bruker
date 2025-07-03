@@ -165,7 +165,17 @@ class VoigtFit:
         
         #si fijar no es una lista, lo convierto en una
         if not isinstance(fijar, list):
-            fijar = [fijar]
+            fijar = [fijar] 
+
+        if fijar == []:
+            self.anyfixed=False
+            # si no se fijan parametros, se dejan todos los parametros como
+            # variables. Esto es, se ajusta todo.
+            for param in params:
+                params[param].vary = True
+        else:
+            self.anyfixed=True
+
         
         for param_fijo in fijar:
             # si hay un guion bajo, es porque solo se quiere fijar un pico.
