@@ -31,32 +31,53 @@ def find_popt_subfolders(expn, path):
                 continue
     return np.array(sorted(experiment_numbers, reverse=True))
 
-def extract_popt_parameters(subfile, parameter, path=".", expn=1):
-    """
-    Extracts the specified parameter from the popt.protocol file.
-    The parameter is specified as a string.
+import numpy as np
 
-    typical options are:
-    "P 15" for CP contact time
+def extract_popt_parameters(parameter="p15", group=0, path=".", expn=1):
     """
-    filename = f"{path}/{expn}/popt.protocol.{subfile}"
-    data = []
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-        start_reading = False
-        column_index = None
-        for line in lines:
-            if line.startswith("Experiment") and parameter in line:
-                headers = re.split(r'\s{2,}', line)
-                column_index = headers.index(parameter)
-                start_reading = True
+    Extracts and concatenates parameter arrays from a popt.protocol file.
+
+    Each matching line (Step:) filtered by group and parameter is used to
+    generate a np.linspace array from 'desde' to 'hasta' with 'num_puntos' points.
+    All such arrays are concatenated into one 1D numpy array.
+
+    Parameters:
+        subfile (str): suffix of the file to read (path/expn/popt.protocol.subfile)
+        parameter (str): parameter name to filter lines (default 'p15')
+        group (int): group number to filter lines (default 0)
+        path (str): base directory (default '.')
+        expn (int): experiment subfolder (default 1)
+
+    Returns:
+        np.ndarray: concatenated 1D array of parameter values.
+    """
+    filename = f"{path}/{expn}/popt.array"
+    arrays = []
+
+    with open(filename, 'r') as f:
+        for line in f:
+            if not line.startswith("Step:"):
                 continue
-            if start_reading:
-                columns = line.split()
-                if columns == [] or columns[0].isdigit() == False:
-                    break
-                
-                data.append(float(columns[column_index]))
+            parts = line.strip().split()
+            try:
+                line_group = int(parts[1])
+                line_param = parts[2]
+                desde = float(parts[4])
+                hasta = float(parts[5])
+                num_puntos = int(parts[6])
+            except (ValueError, IndexError):
+                print(f"Skipping line due to parsing error: {line.strip()}")
+                continue
+
+            if line_group == group and line_param == parameter:
+                arr = np.linspace(desde, hasta, num_puntos)
+                arrays.append(arr)
+
+    if arrays:
+        return np.concatenate(arrays)
+    else:
+        return np.array([])
+
 #%%                
     return np.array(data)
 ################## end Functions #######################
@@ -105,13 +126,24 @@ def extract_popt_parameters(subfile, parameter, path=".", expn=1):
 # # rango de integracion
 # ppmRanges = [[-240, -300]]
 ##----------------------------------------------------------
+# # directorio de datos: LiOH (anhydrous)
+expn = 21
+Npopts = 1
+parameter = "p15"
+path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-17_3.2mm_IMECdendrites/"
+# directorio de guradado
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-ON/"
+sample = "IMECeLi"
+savefile = f"{sample}_cpHtoLi_uW-ON_P15"
+save = False
+plotRange = [50,-50]
+# rango de integracion
+ppmRanges = [[10, -10]]
 ####################### end Select experiment #######################
 
 #=====================================================================
 # 2D experiments
 #=====================================================================
-popt_subfiles = np.arange(999, 999-Npopts, -1) # 999, 998, ..., 1000-n.
-popt_parlist = np.array([])
 
 Signals = np.array([])
 # grafico todos los espectros juntos
@@ -124,10 +156,9 @@ datos.espectro.ppmSelect(plotRange)
 ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
 
-for popt_subfile in popt_subfiles:
-    popt_par = extract_popt_parameters(popt_subfile, parameter, path=path, expn=expn)
-    # complete the par list with zeros if the size is not equal to the number of spectra
-    popt_parlist = np.append(popt_parlist, popt_par)
+
+popt_parlist = extract_popt_parameters(parameter=parameter, group=0, path=path, expn=expn)
+# complete the par list with zeros if the size is not equal to the number of spectra
 popt_parlist = np.append(popt_parlist, np.zeros(spec.shape[0] - popt_parlist.size))
 # Plot the 1D spectra
 for kk in range(spec.shape[0]):
@@ -165,28 +196,3 @@ ax_popt.xaxis.set_major_locator(plt.MultipleLocator(1))
 ax_popt.set_xlabel("Contact Time [ms]")
 ax_popt.set_ylabel("Integral [a.u.]")
 ax_popt.set_title(r"$^1$H $\rightarrow$ $^7$Li CP - LiOH")
-#%%   
-# guardo data:
-if save:
-    filename = f'{savepath}/{sample}_T1.png'
-    fig.savefig(filename)   # save the figure to file
-
-    Signals = np.array(Signals).T
-    tau = tau.reshape(tau.size, 1)
-    T1data = np.hstack((tau, Signals))
-    header = "tau [s]\t"
-    for ppmRange in ppmRanges:
-        header += f"{ppmRange} ppm\t"
-    np.savetxt(f"{savepath}/{sample}_T1.dat", T1data, header=header)
-
-    data = np.array([ppmAxis, re, im]).T
-    np.savetxt(f"{savepath}/{sample}_ultimoEspectro.dat", data)
-
-
-# fig,ax = plt.subplots(num=1785731)
-# ax.plot(popt_parlist[:ppm_of_max.size], ppm_of_max, 'o-')
-# ax.axhline(ppm_of_max_in_equilibrium, color='k', linestyle='--')
-# ax.set_xlabel('Contact Time [s]')
-# ax.set_ylabel(r'something')
-# ax.set_xscale('log')
-# %%

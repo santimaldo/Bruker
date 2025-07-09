@@ -17,39 +17,33 @@ from VoigtFit import VoigtFit
 
 path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 
-path_bruker = "InSitu_May_2025/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-05_mesh/"
-# savepath_especifico = "spec1d/"
+path_bruker = "2025-06-17_3.2mm_IMECdendrites/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025_06_IMEC/"
+
+
+# savepath_especifico = "CP_7Li-1H_uW-OFF/"
+# nucleo = "1H"
 # # info: muestra, expn, ppmRange
-# infos = [['uW-ON_mesh', 31, None],
-#          ['uW-ON-off-field_mesh', 33, None],
-#          ['uW-OFF--cool_mesh', 23, None],
-#          ['uW-OFF--warm_mesh_AFTER', 35, None],
-#          ['uW-OFF--warm_mesh_BEFORE', 11, None]
+# infos = [['uwOFF_p15-3000us', 110, None],
+#          ['uwOFF_p15-1000us', 111, None],
+#          ['uwOFF_p15-0500us', 112, None],
+#          ['uwOFF_p15-0400us', 113, None],
+#          ['uwOFF_p15-0300us', 114, None],
+#          ['uwOFF_p15-0200us', 115, None],
+#          ['uwOFF_p15-0100us', 116, None],
+#          ['uwOFF_p15-0050us', 117, None],
 #          ]
 
 
-savepath_especifico = "spec1d-LFP/"
+savepath_especifico = ""
+nucleo = "1H"
 # info: muestra, expn, ppmRange
-infos = [['uW-ON_mesh-lfp', 58, None],
-         ['uW-ON-off-field_mesh-lfp', 59, None],
-         ['uW-OFF--warm_mesh_AFTER-lfp', 81, None],
-         ['uW-OFF--warm_mesh_BEFORE-lfp', 51, None]
+infos = [['hanecho', 100, None],
+         ['cp_mwON_bsms_-2400_p15_1500us', 37, None],
+         ['cp_mwON_bsms_9999_p15_1500us', 55, None],
          ]
 
-# path_bruker = "3.2mm-Santi-IMECdendrites-2025-03-21/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2025-03_IMEC_sample/"
-# savepath_especifico = ""
-# # info: muestra, expn, ppmRange
-# infos = [['uW-OFF_o1-metal', 17, None],
-#          ['uW-ON_o1-metal', 9, None],
-#          ['uW-ON-offset_o1-metal', 12, None],
-#          ['uW-OFF_o1-diamgnetic', 19, None],
-#          ['uW-ON_o1-diamagnetic', 11, None],
-#          ['uW-ON-offset_o1-diamagnetic', 13, None],
-#          ]
 
-nucleo = "7Li"
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
     muestra, expn, ppmRange = info
@@ -72,7 +66,7 @@ for info in infos:
     ax.set_title(muestra)
     ax.set_xlabel(f"{nucleo} NMR Shift [ppm]")
     # ax.set_xlim([np.max(ppmAxis), np.min(ppmAxis)])
-
+    ax.set_xlim([50,-50])
     if save:
         savepath = f"{savepath_local}{savepath_especifico}"
         # guardo:

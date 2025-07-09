@@ -63,21 +63,21 @@ def extract_popt_parameters(subfile, parameter, path=".", expn=1):
 
 
 ################## Select Experiment #######################
-# directorio de datos
-expn = 16
-parameter = "P 15"
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
-# directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-ContactTime/"
-sample = "IMECdendrites_KBr"
-save = False
-mults = [1, 1.3, 1.5, 1.6] # Why did I not use the same number of spectra for all experiments???????? This is related to the experement being stored in different 2d sets. But anything to do with ND? I don't think so.
-plotRange = [265, 200]
-# rango de integracion
-ppmRanges = [[245, 215]
-            #[300, 150],
-            #[-0.5, -9]            
-            ]
+# # directorio de datos
+# expn = 16
+# parameter = "P 15"
+# path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-ContactTime/"
+# sample = "IMECdendrites_KBr"
+# save = False
+# mults = [1, 1.3, 1.5, 1.6] # Why did I not use the same number of spectra for all experiments???????? This is related to the experement being stored in different 2d sets. But anything to do with ND? I don't think so.
+# plotRange = [265, 200]
+# # rango de integracion
+# ppmRanges = [[245, 215]
+#             #[300, 150],
+#             #[-0.5, -9]            
+#             ]
 ###----------------------------------------------------------
 # directorio de datos
 # expn = 62
@@ -94,12 +94,28 @@ ppmRanges = [[245, 215]
 #             #[-0.5, -9]            
 #             ]
 # mults = [2, 1] # Why did I not use the same number of spectra for all experiments???????? This is related to the experement being stored in different 2d sets. But anything to do with ND? I don't think so.
+
+###----------------------------------------------------------
+expn = 71
+Npopts = 2
+parameter = "P 15"
+path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-16_3.2mm_IMECdendrites/"
+# directorio de guradado
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-OFF/NS16/"
+sample = "IMECeLi"
+savefile = f"{sample}_cpHtoLi_uW-OFF_P15"
+save = False
+plotRange = [50,-50]
+# rango de integracion
+ppmRanges = [[15, -15]]
+mults = [1,1]
 ####################### end Select experiment #######################
 
 #=====================================================================
 # 2D experiments
 #=====================================================================
-popt_subfiles = find_popt_subfolders(expn, path)
+# popt_subfiles = find_popt_subfolders(expn, path) ### automatically find subfolders
+popt_subfiles = np.arange(999, 999-Npopts, -1) # 999, 998, ..., 1000-n.
 popt_parlist = np.array([])
 Signals = np.array([])
 multipliers = np.array([])
@@ -166,28 +182,24 @@ np.savetxt(f"{savepath}/popt_parlist.dat", popt_parlist)
 np.savetxt(f"{savepath}/multipliers.dat", multipliers)
 fig_popt, ax_popt = plt.subplots(num=382910)
 ax_popt.plot(popt_parlist, Signals, 'o')#, color=color, label="Rising Edge")
-#%%   
-# guardo data:
-if save:
-    filename = f'{savepath}/{sample}_T1.png'
-    fig.savefig(filename)   # save the figure to file
+np.savetxt(f"{savepath}/cp_curve.dat", np.column_stack((popt_parlist, Signals)), header="popt_parlist\tSignals")
+# %%
+contact_times = popt_parlist / 1000  # Convert to milliseconds
+# Definimos la función para ajustar
+def cp_signal(t, I0, T_IS, T_1rho):
+    return I0 * (1 - np.exp(-t / T_IS)) * np.exp(-t / T_1rho)
+# Ajuste con curve_fit
+p0 = [7e6, 0.2, 2]  # Valores iniciales para I0, T_IS y T_1rho
+params, covariance = curve_fit(cp_signal, contact_times, Signals, p0=p0)
 
-    Signals = np.array(Signals).T
-    tau = tau.reshape(tau.size, 1)
-    T1data = np.hstack((tau, Signals))
-    header = "tau [s]\t"
-    for ppmRange in ppmRanges:
-        header += f"{ppmRange} ppm\t"
-    np.savetxt(f"{savepath}/{sample}_T1.dat", T1data, header=header)
+I0_fit, T_IS_fit, T_1rho_fit = params
 
-    data = np.array([ppmAxis, re, im]).T
-    np.savetxt(f"{savepath}/{sample}_ultimoEspectro.dat", data)
+print(f"Fit results:\nI0 = {I0_fit:.3f}\nT_IS = {T_IS_fit:.3f} ms\nT_1rho = {T_1rho_fit:.3f} ms")
 
+# Graficar datos y ajuste
+t_fit = np.linspace(0, max(contact_times), 100)
+signal_fit = cp_signal(t_fit, *params)
 
-# fig,ax = plt.subplots(num=1785731)
-# ax.plot(popt_parlist[:ppm_of_max.size], ppm_of_max, 'o-')
-# ax.axhline(ppm_of_max_in_equilibrium, color='k', linestyle='--')
-# ax.set_xlabel('Contact Time [s]')
-# ax.set_ylabel(r'something')
-# ax.set_xscale('log')
+plt.scatter(contact_times, Signals, label='Datos experimentales')
+plt.plot(t_fit, signal_fit, 'r-', label='Ajuste')
 # %%
