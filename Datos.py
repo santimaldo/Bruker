@@ -161,11 +161,13 @@ class Datos(object):
 class DatosProcesados(Datos):
 
     def __init__(self, directorio, p_dir=1,
+                 ppmRange=None,
                  read_pp=False):
         Datos.__init__(self, directorio, read_pp=read_pp)
         self.p_dir = p_dir
         self.procs = Procs(directorio, p_dir)
         self.espectro = Espectro()
+        self.ppmRange = ppmRange
         self.set_espectro()
 
     def set_espectro(self):
@@ -195,6 +197,45 @@ class DatosProcesados(Datos):
         ultimo_ppm = offset - SpectralWidth
         ppmAxis = np.linspace(offset, ultimo_ppm, FTsize)
         return ppmAxis
+    
+    def Integrar(self, ppmRange=None,absolute=False):
+        """
+        Calcula la señal integrada de un espectro 1D en el rango de ppm especificado.
+
+        Si no se proporciona 'ppmRange', se utiliza el rango completo o el definido en el atributo de la clase.
+        """
+        ppmAxis = self.espectro.ppmAxis
+        if absolute:
+            spec = np.abs(self.espectro.spec)
+        else:
+            spec = self.espectro.real
+        # defino rango de integracion
+        if ppmRange is None:
+            if self.ppmRange is not None:
+                ppmRange = self.ppmRange
+            else:
+                print("WARNING: No se ha definido rango de integracion")
+                ppmRange = [self.espectro.ppmAxis[0], self.espectro.ppmAxis[-1]]
+
+        midRange = (ppmRange[1]+ppmRange[0])/2
+        semiRange = abs(ppmRange[1]-ppmRange[0])/2
+
+        condicion = abs(ppmAxis-midRange) < semiRange
+        newppm = ppmAxis[condicion]
+
+        signal = []
+        
+        spec1d = spec
+        spec1d = spec1d[condicion]
+        # el signo menos de la integral es porque ppmAxis va
+        # de mayor a menor.
+        signal = -integrate.simpson(spec1d, x=newppm)
+
+        # Here I convert the list signal to a np array:
+        signal = np.array(signal)
+        self.signal = signal
+
+        return signal
 
 
 class DatosProcesados2D(DatosProcesados):
