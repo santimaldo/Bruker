@@ -17,7 +17,7 @@ from VoigtFit import VoigtFit
 
 path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 
-path_bruker = "2025-06-17_3.2mm_IMECdendrites/"
+path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
 savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025_06_IMEC/"
 
 
@@ -41,6 +41,18 @@ nucleo = "1H"
 infos = [['hanecho', 100, None],
          ['cp_mwON_bsms_-2400_p15_1500us', 37, None],
          ['cp_mwON_bsms_9999_p15_1500us', 55, None],
+         ['cp_mwOFF_bsms_-2400_p15_1500us', 101, None],
+         ]
+
+savepath_especifico = ""
+nucleo = "7Li"
+# info: muestra, expn, ppmRange
+infos = [#['hanecho', 100, None],
+         ['cp_mwON_bsms_-2400_p15_1500us', 102, None],
+         #['cp_mwON_bsms_9999_p15_1500us', 55, None],
+          ['zg_mwON_bsms_-2400_p15_1500us', 101, None],
+          ['zg_mwOFF_bsms_-2400_p15_1500us', 3, None],
+
          ]
 
 

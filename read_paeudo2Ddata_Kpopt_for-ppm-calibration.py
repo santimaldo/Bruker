@@ -79,11 +79,12 @@ def refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max):
 ################## end Functions #######################
 
 # Parámetros
-expns = [45]
-absolute = False
+# expns = [45] # 1H
+expns = [55] # 7Li
+absolute = True
 autoph = False
 path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-16_3.2mm_IMECdendrites/"
-plotRange = [40, -40]
+plotRange = [80, -20]
 
 # Gráficos
 fig_spec, ax_spec = plt.subplots(num=17856)
@@ -232,11 +233,11 @@ def get_SR(bsms, reference_ppm):
     return sr0
 
 #%%
-srs = []
-for bsms in bsms_field:
-    get_SR(bsms, 1.89)  # Ajusta el valor de referencia_ppm según sea necesario
-    srs.append(get_SR(bsms, 1.89))
-plt.figure(num=123456)
-plt.plot(bsms_field, srs, 'o', color='darkblue', label='SR calculado')
+# srs = []
+# for bsms in bsms_field:
+#     get_SR(bsms, 1.89)  # Ajusta el valor de referencia_ppm según sea necesario
+#     srs.append(get_SR(bsms, 1.89))
+# plt.figure(num=123456)
+# plt.plot(bsms_field, srs, 'o', color='darkblue', label='SR calculado')
 
 # %%
