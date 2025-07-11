@@ -4,6 +4,10 @@ Created on Thu Sep 15 12:10:32 2022
 
 
 @author: Santi
+
+
+
+CORREGIR: TIEMPOS Y FASES
 """
 
 import nmrglue as ng
@@ -89,7 +93,7 @@ def nmr_time_to_cycle_time(t):
 
 
 # directorio de datos
-expns = np.arange(11,310)
+expns = np.arange(11,463)
 
 Nominal_duration_of_experiment = 430 # seconds (7 minutes 10 seconds)
 absolute= False
@@ -101,7 +105,7 @@ savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\I
 muestra = "7Li_eLi-Li-cell_LP40"
 
 save = False
-plotRange = [400, 100]
+plotRange = [350, 150]
 # rango de integracion
 ppmRange = [300,200]
 
@@ -191,7 +195,6 @@ for jj, expn in enumerate(expns):
 fig,ax = plt.subplots(num=1785731, figsize=(8, 3))
 figph,axph = plt.subplots(num=178573111, figsize=(8, 3))
 fig_int, ax_int = plt.subplots(num=382910, figsize=(8, 3))
-fig_int.suptitle(muestra)
 
 
 tau_real, tau_continuo = nmr_time_to_cycle_time(tau)  # convert NMR time to cycle time
@@ -199,6 +202,7 @@ tau_real, tau_continuo = nmr_time_to_cycle_time(tau)  # convert NMR time to cycl
 ax_int.plot(tau_continuo, signals/signals[0], 'o')
 ax_int.set_xlabel('Time [h]')
 ax_int.set_ylabel('Normalized area')
+ax_int.set_xlim([-5, 70])
 
 ax.plot(tau_continuo, ppm_of_max, 'o-')
 ax.set_xlabel('Time [h]')
@@ -209,6 +213,7 @@ axph.plot(tau_continuo, phases, 'o-')
 axph.set_xlabel('Time [h]')
 axph.set_ylabel('Phase [deg]')
 # axph.set_xlim(0, 90)
+
 
 #%%
 # Asegurarse de que sean 2D arrays de coordenadas
