@@ -414,6 +414,44 @@ class DatosProcesadosT1(DatosProcesados2D):
             return self.tau_fit, self.signal_fit, residuals
         except ValueError:
             return self.tau_fit, self.signal_fit
+        
+
+    def T2fit(self):
+        """
+        Ajuste exponencial de T2
+
+        solo implementado monoexponencial
+        """
+        def ExpDec1(tau, A, T1, y0, n=1):
+            S = y0 + A * np.exp(-tau/T1)
+            return S
+
+        signal = self.signal
+        tau = self.tau
+        func = ExpDec1
+        bounds = ([0, 0, -np.inf], [np.inf, np.inf, np.inf])
+        guess = (signal[0], self.factor_vd*1e3, 0)  # A, T1, y0
+        popt, pcov = curve_fit(func, tau, signal, guess, bounds=bounds)
+
+        # calculo R^2
+        residuals = signal - func(tau, *popt)
+        ss_res = np.sum(residuals**2)
+        ss_tot = np.sum((signal-np.mean(signal))**2)
+        r_squared = 1 - (ss_res / ss_tot)
+
+        msg = f"Ajuste exponencial de T2:\n  " \
+              f"T2 =  {popt[1]:.0f} ms\n  "    \
+              f"Rsquared = {r_squared:.6f}"
+
+        print(msg)
+
+        self.tau_fit = np.linspace(0, self.tau[-1], 512)
+        self.signal_fit = func(self.tau_fit, *popt)
+        self.T1params = popt
+        try:
+            return self.tau_fit, self.signal_fit, residuals
+        except ValueError:
+            return self.tau_fit, self.signal_fit   
 
 
 # ------------------------------------------------------------------------------

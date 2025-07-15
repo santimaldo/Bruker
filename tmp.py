@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+    # -*- coding: utf-8 -*-
 """
 Created on Thu Sep 15 12:10:32 2022
 
@@ -17,17 +17,10 @@ import VoigtFit as vf
 
 # metal
 # expns = np.concatenate([np.arange(1, 60), np.arange(61, 100)])  # directorio de datos
-expns = np.arange(1, 22)
-expns = np.arange(31, 34)
-# expns = np.concatenate([np.arange(1, 22), np.arange(31, 33)])  # directorio de datos
+expns = [1,2]
+
 plotRange = [350,150]
 ppmIntegrationWidth = 60  # ancho de la ventana de integracion
-
-
-# expns = np.arange(40, 55)
-# plotRange = [500, 300]
-# ppmIntegrationWidth = 60  # ancho de la ventana de integracion
-
 
 # for the initial fit:
 center_gues = 36.2  # ppm
@@ -44,7 +37,10 @@ path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\in-situ\2025-05_eLI-LFP_LP40/"
 muestra = "eLi-KBr"
- 
+
+
+     
+            
 
 #=====================================================================
 # Ajuste de espectro antes del experimento 1D (before)
@@ -56,7 +52,11 @@ ppm_of_max_list = []  # lista de ppm del maximo de cada espectro
 colors = ['k', 'b', 'r', 'g', 'c', 'm', 'y']
 # grafico todos los espectros juntos
 # fig_spec, axs_spec = plt.subplots(num=17856, nrows=len(expns), figsize=(6, len(expns)*2))
-for jj, expn in enumerate(expns):
+# for jj, expn in enumerate(expns):
+
+jj=-1
+for expn in expns:
+    jj += 1
     datos = DatosProcesadosT1(f'{path}/{expn}/')    
     datos.espectro.ppmSelect(plotRange)
     #+++++++++++++++++++++++++++++++
@@ -75,6 +75,7 @@ for jj, expn in enumerate(expns):
                 ppm_of_maximum + ppmIntegrationWidth/2]  # region of interest
     # spec1d, phase = ng.proc_autophase.autops(re+1j*im,
     #                                         "acme",
+
     #                                         return_phases=True,
     #                                         disp=False)
     # re = spec1d.real
@@ -89,9 +90,23 @@ for jj, expn in enumerate(expns):
     ax1d.text(r1-np.abs(0.1*r1), 0.8, "Region de integracion\n(T1)", color='b')
     ax1d.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
     ax1d.set_xlabel("NMR Shift [ppm]")
+    
+
+    # vfit = vf.VoigtFit(ppmAxis, re, Npicos=1, center=center_gues, sigma=sigma_guess,
+    #                     gamma=gamma_guess, height=height_guess)
+    # fig_vfit = vfit.plot_ajuste()
+    # ax_vfit = fig_vfit.gca()
+    # ax_vfit.set_xlim(ppmRange)
+    # ax_vfit.set_title(title)
+    # # center_guess = [vfit.params["m1_center"].value]
+    # # sigma_guess = [vfit.params["m1_sigma"].value]
+    # # gamma_guess = [vfit.params["m1_gamma"].value]
+    # # height_guess = [vfit.params["m1_amplitude"].value]
+    # ppm_of_max_list.append(vfit.params["m1_center"].value)  # guardo el ppm del maximo
 
     tau, signal = datos.get_T1data(ppmRange)
     tau_fit, signal_fit, residuals = datos.T2fit()
+
 
     fig, axs = plt.subplots(2, 2, figsize=(10, 7))
     fig.suptitle(title)
@@ -99,7 +114,8 @@ for jj, expn in enumerate(expns):
     axs[0, 0].plot(tau, signal, 'ko')
     axs[0, 0].plot(tau_fit, signal_fit, 'b-')
     text = f"$T_1 =$ {datos.T1params[1]:.0f} ms \n A = {datos.T1params[0]:.2f} \n $y_0 =$ {datos.T1params[2]:.2f}"
-    axs[0, 0].text(tau[-1]*0.5, (signal[-1]-signal[0])*0.15+signal[0], text, multialignment="left")
+    axs[0, 0].text(tau[-1]*0.5, (signal[-1]-signal[0])*0.15+signal[0], text,
+                multialignment="left")
     axs[0, 0].set(xlabel=r'$\tau$ [ms]', ylabel=r'$S_{norm}$')
     # -------------
     axs[1, 0].plot(tau, residuals, 'ko')
@@ -127,19 +143,27 @@ for jj, expn in enumerate(expns):
 times_list = np.array(times_list)
 T1_list = np.array(T1_list)
 ppm_of_max_list = np.array(ppm_of_max_list)
-#%%
-# Convert time to minutes, starting from zero
-time_minutes = (np.array(times_list) - np.min(times_list)) / 60
+# #%%
+# # Convert time to minutes, starting from zero
+# time_minutes = (np.array(times_list) - np.min(times_list)) / 60
 
+# # --------------------------------------
+# # Thurber empirical model for T1 vs T
+# # --------------------------------------
+# def thurber_model(T):
+#     """
+#     Empirical model by Thurber for T1 relaxation time as a function of temperature (K).
+#     """
+#     return 0.0145 + 5330 * T**-2 + 1.42e7 * T**-4 + 2.48e9 * T**-6
 
-# Plot: T2 vs time
-plt.figure(figsize=(6, 4))
-plt.plot(time_minutes, T1_list, 'o-', label='Experimental $T_1$')
-plt.xlabel("Time [min]")
-plt.ylabel(r"$T_2$ [ms]")
-plt.title(r"$T_2$ as a function of time")
-plt.grid(True)
-plt.tight_layout()
+# # Plot: T1 vs time
+# plt.figure(figsize=(6, 4))
+# plt.plot(time_minutes, T1_list, 'o-', label='Experimental $T_1$')
+# plt.xlabel("Time [min]")
+# plt.ylabel(r"$T_1$ [ms]")
+# plt.title(r"$T_1$ as a function of time")
+# plt.grid(True)
+# plt.tight_layout()
 
 # # Inverse interpolation: T1 → T
 # T = np.linspace(290, 350, 1000)
@@ -221,5 +245,3 @@ plt.tight_layout()
 # plt.tight_layout()
 
 
-
-# %%
