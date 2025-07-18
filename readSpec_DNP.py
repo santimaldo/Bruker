@@ -84,59 +84,59 @@ infos = [
          ['zg_mwON_bsms_-9999_2.2A_190K', 141, ppmRange],
          ]
 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-06-26_InSitu/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\LiDendrites-and-KBr"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-ppmRange = [550, -150]  # rango de ppm a integrar
-infos = [
-         ['hahnecho_mwON_bsms_9999_2.2A_190K', 22, ppmRange],
-         ['hahnecho_mwON_bsms_-2000_2.4A_190K', 34, ppmRange],
-         ['hahnecho_mwOFF_bsms_-2000_2.4A_190K', 38, ppmRange],
-         ['hahnecho_mwOFF_bsms_-2000_2.4A_290K', 40, ppmRange],
-         ]
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-06-26_InSitu/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\LiDendrites-and-KBr"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# ppmRange = [550, -150]  # rango de ppm a integrar
+# infos = [
+#          ['hahnecho_mwON_bsms_9999_2.2A_190K', 22, ppmRange],
+#          ['hahnecho_mwON_bsms_-2000_2.4A_190K', 34, ppmRange],
+#          ['hahnecho_mwOFF_bsms_-2000_2.4A_190K', 38, ppmRange],
+#          ['hahnecho_mwOFF_bsms_-2000_2.4A_290K', 40, ppmRange],
+#          ]
 
 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "InSitu_February_2025/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-perpendicular/"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-ppmRange = [300, -500]  # rango de ppm a integrar
-infos = [
-         ['OFF', 1, ppmRange],
-         ['ON', 8, ppmRange],
-         ['offNOE', 12, ppmRange]
-         ]
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "InSitu_February_2025/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-perpendicular/"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# ppmRange = [300, -500]  # rango de ppm a integrar
+# infos = [
+#          ['OFF', 1, ppmRange],
+#          ['ON', 8, ppmRange],
+#          ['offNOE', 12, ppmRange]
+#          ]
 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "InSitu_February_2025/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-perpendicular/"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-ppmRange = [300, -500]  # rango de ppm a integrar
-infos = [
-         ['OFF', 16, ppmRange],
-         ['ON', 20, ppmRange],
-         ['offNOE', 24, ppmRange]
-         ]
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "InSitu_February_2025/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-perpendicular/"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# ppmRange = [300, -500]  # rango de ppm a integrar
+# infos = [
+#          ['OFF', 16, ppmRange],
+#          ['ON', 20, ppmRange],
+#          ['offNOE', 24, ppmRange]
+#          ]
 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "InSitu_February_2025/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-parallele/"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-ppmRange = [300, -500]  # rango de ppm a integrar
-infos = [
-         ['OFF', 28, ppmRange],
-         ['ON', 34, ppmRange],
-         ['offNOE', 39, ppmRange]
-         ]
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "InSitu_February_2025/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-parallele/"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# ppmRange = [300, -500]  # rango de ppm a integrar
+# infos = [
+#          ['OFF', 28, ppmRange],
+#          ['ON', 34, ppmRange],
+#          ['offNOE', 39, ppmRange]
+#          ]
 
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
