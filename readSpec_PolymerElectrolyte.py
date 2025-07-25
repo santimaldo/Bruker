@@ -63,6 +63,15 @@ infos = [['PEO-LiTFSI_10kHz', 26], # compare with 7 --> before fast spinning
          ['PEO-PTT-LiTFSI_30kHz', 83]
          ]
 
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-07-16_PEO-solid-electrolyte_VT/"
+
+path_bruker = ""
+savepath_local = r""
+savepath_especifico = ""
+nucleo = "7Li"
+ppmRange = None #[-85,-75]
+infos = [['tmp', 111]]
+
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:

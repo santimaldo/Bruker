@@ -376,44 +376,67 @@ class DatosProcesadosT1(DatosProcesados2D):
         if ppmRange is not None:
             self.ppmRange = ppmRange
             self.Integrar()
+        size = min(self.tau.size, self.signal.size)
+        self.tau = self.tau[:size]
+        self.signal = self.signal[:size]
         return self.tau, self.signal
 
-    def T1fit(self):
+    def T1fit(self, model='mono'):
         """
         Ajuste exponencial de T1
 
-        solo implementado monoexponencial
+        model : 'mono' o 'bi'
+            - 'mono': y = y0 + A * exp(-tau/T1)
+            - 'bi'  : y = y0 + A1 * exp(-tau/T11) + A2 * exp(-tau/T12)
         """
-        def ExpDec1(tau, A, T1, y0, n=1):
-            S = y0 + A * np.exp(-tau/T1)
-            return S
-
         signal = self.signal
         tau = self.tau
-        func = ExpDec1
-        bounds = ([-np.inf, 0, -np.inf], [0, np.inf, np.inf])
-        guess = (-signal[-1], self.factor_vd*1e3, signal[-1])  # A, T1, y0
-        popt, pcov = curve_fit(func, tau, signal, guess, bounds=bounds)
 
-        # calculo R^2
-        residuals = signal - func(tau, *popt)
+        if model == 'mono':
+            def ExpDec(tau, A, T1, y0):
+                return y0 + A * np.exp(-tau / T1)
+            guess = (-signal[-1], self.factor_vd * 1e3, signal[-1])
+            bounds = ([-np.inf, 0, -np.inf], [0, np.inf, np.inf])
+            param_labels = ['A', 'T1', 'y0']
+
+        elif model == 'bi':
+            def ExpDec(tau, A1, T11, A2, T12, y0):
+                return y0 + A1 * np.exp(-tau / T11) + A2 * np.exp(-tau / T12)
+            guess = (-0.7*signal[-1], self.factor_vd * 0.5e3,
+                    -0.3*signal[-1], self.factor_vd * 2e3,
+                    signal[-1])
+            bounds = (
+                [-np.inf, 0, -np.inf, 0, -np.inf],
+                [0, np.inf, 0, np.inf, np.inf]
+            )
+            param_labels = ['A1', 'T11', 'A2', 'T12', 'y0']
+        else:
+            raise ValueError("model debe ser 'mono' o 'bi'")
+
+        # Ajuste
+        popt, pcov = curve_fit(ExpDec, tau, signal, guess, bounds=bounds)
+
+        # R^2
+        residuals = signal - ExpDec(tau, *popt)
         ss_res = np.sum(residuals**2)
-        ss_tot = np.sum((signal-np.mean(signal))**2)
+        ss_tot = np.sum((signal - np.mean(signal))**2)
         r_squared = 1 - (ss_res / ss_tot)
 
-        msg = f"Ajuste exponencial de T1:\n  " \
-              f"T1 =  {popt[1]:.0f} ms\n  "    \
-              f"Rsquared = {r_squared:.6f}"
-
-        print(msg)
-
-        self.tau_fit = np.linspace(0, self.tau[-1], 512)
-        self.signal_fit = func(self.tau_fit, *popt)
+        # === Salida y guardado ===
+        self.tau_fit = np.linspace(0, tau[-1], 512)
+        self.signal_fit = ExpDec(self.tau_fit, *popt)
         self.T1params = popt
-        try:
-            return self.tau_fit, self.signal_fit, residuals
-        except ValueError:
-            return self.tau_fit, self.signal_fit
+        self.T1stderr = np.sqrt(np.diag(pcov))
+        self.R2 = r_squared
+
+        # Mensaje
+        print(f"Ajuste {model}-exponencial de T1:")
+        for name, val in zip(param_labels, popt):
+            print(f"  {name} = {val:.2f}")
+        print(f"  R² = {r_squared:.6f}")
+
+        return self.tau_fit, self.signal_fit, residuals
+
         
 
     def T2fit(self):

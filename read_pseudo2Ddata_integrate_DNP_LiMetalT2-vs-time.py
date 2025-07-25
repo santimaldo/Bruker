@@ -18,8 +18,8 @@ import VoigtFit as vf
 # metal
 # expns = np.concatenate([np.arange(1, 60), np.arange(61, 100)])  # directorio de datos
 expns = np.arange(1, 22)
-expns = np.arange(31, 34)
-# expns = np.concatenate([np.arange(1, 22), np.arange(31, 33)])  # directorio de datos
+# expns = np.arange(31, 34)
+# expns = np.concatenate([np.arange(1, 22), np.arange(31, 34)])  # directorio de datos
 plotRange = [350,150]
 ppmIntegrationWidth = 60  # ancho de la ventana de integracion
 
@@ -44,7 +44,14 @@ path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\in-situ\2025-05_eLI-LFP_LP40/"
 muestra = "eLi-KBr"
- 
+
+
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-26_InSitu/"
+# expns = [37]
+# plotRange = [500,0]
+# muestra = "eLi-uwON"
+
+# directorio de guradado
 
 #=====================================================================
 # Ajuste de espectro antes del experimento 1D (before)
@@ -140,6 +147,7 @@ plt.ylabel(r"$T_2$ [ms]")
 plt.title(r"$T_2$ as a function of time")
 plt.grid(True)
 plt.tight_layout()
+plt.xlim([-2, 79])
 
 # # Inverse interpolation: T1 → T
 # T = np.linspace(290, 350, 1000)

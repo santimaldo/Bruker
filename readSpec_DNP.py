@@ -15,10 +15,10 @@ from Espectro import autophase
 from VoigtFit import VoigtFit
 
 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 
 # path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025_06_IMEC/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025_06_IMEC/"
 # savepath_especifico = "CP_7Li-1H_uW-OFF/"
 # nucleo = "1H"
 # # info: muestra, expn, ppmRange
@@ -42,47 +42,81 @@ from VoigtFit import VoigtFit
 #          ['cp_mwOFF_bsms_-2400_p15_1500us', 101, None],
 #          ]
 
+
+path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
+savepath_especifico = ""
+nucleo = "7Li"
+# info: muestra, expn, ppmRange
+infos = [#['hanecho', 100, None],
+         ['eLi_expn102_cp_mwOFF_bsms_-2400_p15_1500us', 102, None],
+         #['cp_mwON_bsms_9999_p15_1500us', 55, None],
+          ['eLi_expn31_zg_mwON_bsms_-2400', 31, None],
+          ['eLi_expn3_zg_mwOFF_bsms_-2400', 3, None],
+         ]
+
+path_bruker = "3.2mm-Santi-IMECdendrites-2025-04-28___cal/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
+savepath_especifico = ""
+nucleo = "7Li"
+# info: muestra, expn, ppmRange
+infos = [#['hanecho', 100, None],
+          ['LiOH_expn40_zg_mwOFF', 40, None],
+          ['LiOH.H20_expn30_zg_mwOFF', 30, None],
+         ]
+
+path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/1H/"
+savepath_especifico = ""
+nucleo = "1H"
+# info: muestra, expn, ppmRange
+infos = [#['hanecho', 100, None],
+         ['eLi_cp_mwOFF_bsms_-2400_p15_1500us', 101, None],
+         ['eLi_cp_mwON_bsms_-2400_p15_1500us', 37, None],
+         ['eLi_hahnecho_mwOFF_bsms_-2400', 100, None],
+         ['eLi_cp_mwON_bsms_-2400_p15_2000us', 2199903, None],
+         ['eLi_cp_mwON_bsms_-2400_p15_150us', 2199914, None],
+         ]
+
+# path_bruker = "3.2mm-Santi-IMECdendrites-2025-04-28___cal/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
 # savepath_especifico = ""
-# nucleo = "7Li"
+# nucleo = "1H"
 # # info: muestra, expn, ppmRange
 # infos = [#['hanecho', 100, None],
-#          ['cp_mwON_bsms_-2400_p15_1500us', 102, None],
-#          #['cp_mwON_bsms_9999_p15_1500us', 55, None],
-#           ['zg_mwON_bsms_-2400_p15_1500us', 101, None],
-#           ['zg_mwOFF_bsms_-2400_p15_1500us', 3, None],
+#           ['LiOH_hahnecho_mwOFF', 41999, None],
+#           ['LiOH.H20_hahnecho_mwOFF', 31, None],
 #          ]
 
 
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-06-27_InSitu/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# ppmRange = [550, -150]  # rango de ppm a integrar
+# infos = [
+#          ['zg_mwOFF_bsms_-2000_BYPASS', 1, ppmRange],
+#          ['zg_mwON_bsms_-2000_190K', 6, ppmRange],
+#          ['zg_mwON_bsms_-3550_190K', 18, ppmRange],
+#          ['zg_mwON_bsms_9999_190K', 24, ppmRange],
+#          ['zg_mwOFF_bsms_-2000_290K', 30, ppmRange],
+#          ]
 
-
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-06-27_InSitu/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-ppmRange = [550, -150]  # rango de ppm a integrar
-infos = [
-         ['zg_mwOFF_bsms_-2000_BYPASS', 1, ppmRange],
-         ['zg_mwON_bsms_-2000_190K', 6, ppmRange],
-         ['zg_mwON_bsms_-3550_190K', 18, ppmRange],
-         ['zg_mwON_bsms_9999_190K', 24, ppmRange],
-         ['zg_mwOFF_bsms_-2000_290K', 30, ppmRange],
-         ]
-
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-06-27_InSitu/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-ppmRange = [550, -150]  # rango de ppm a integrar
-infos = [
-         ['zg_mwOFF_bsms_0_2.4A_290K', 100, ppmRange],
-         ['zg_mwOFF_bsms_0_2.4A_190K', 107, ppmRange],
-         ['zg_mwON_bsms_1250_2.2A_190K', 135, ppmRange],
-         ['zg_mwON_bsms_-9999_2.2A_190K', 141, ppmRange],
-         ]
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-06-27_InSitu/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# ppmRange = [550, -150]  # rango de ppm a integrar
+# infos = [
+#          ['zg_mwOFF_bsms_0_2.4A_290K', 100, ppmRange],
+#          ['zg_mwOFF_bsms_0_2.4A_190K', 107, ppmRange],
+#          ['zg_mwON_bsms_1250_2.2A_190K', 135, ppmRange],
+#          ['zg_mwON_bsms_-9999_2.2A_190K', 141, ppmRange],
+#          ]
 
 # path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 # path_bruker = "2025-06-26_InSitu/"
@@ -137,6 +171,9 @@ infos = [
 #          ['ON', 34, ppmRange],
 #          ['offNOE', 39, ppmRange]
 #          ]
+
+
+
 
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
