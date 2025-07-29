@@ -392,14 +392,14 @@ class DatosProcesadosT1(DatosProcesados2D):
         signal = self.signal
         tau = self.tau
 
-        if model == 'mono':
+        if 'mono' in model.lower():
             def ExpDec(tau, A, T1, y0):
                 return y0 + A * np.exp(-tau / T1)
             guess = (-signal[-1], self.factor_vd * 1e3, signal[-1])
             bounds = ([-np.inf, 0, -np.inf], [0, np.inf, np.inf])
             param_labels = ['A', 'T1', 'y0']
 
-        elif model == 'bi':
+        elif 'bi' in model.lower():
             def ExpDec(tau, A1, T11, A2, T12, y0):
                 return y0 + A1 * np.exp(-tau / T11) + A2 * np.exp(-tau / T12)
             guess = (-0.7*signal[-1], self.factor_vd * 0.5e3,
