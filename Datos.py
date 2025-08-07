@@ -423,7 +423,9 @@ class DatosProcesadosT1(DatosProcesados2D):
         r_squared = 1 - (ss_res / ss_tot)
 
         # === Salida y guardado ===
-        self.tau_fit = np.linspace(0, tau[-1], 512)
+        self.tau_fit = np.logspace(np.log10(tau[0]),
+                                   np.log10(tau[-1]),
+                                   10*tau.size)
         self.signal_fit = ExpDec(self.tau_fit, *popt)
         self.T1params = popt
         self.T1stderr = np.sqrt(np.diag(pcov))

@@ -107,11 +107,11 @@ for T_nom, exp_base, exp_final in zip(T_nominal, expns_base, expns_final):
 
 #==================== GRAFICO T1 VS TEMPERATURA =========================
 plt.figure(figsize=(7, 5))
-plt.errorbar(T_real, T1mono_base_list, yerr=T1mono_base_err_list, fmt='o-', color='k', label='Inicial (expn base)')
+plt.errorbar(T_real, T1mono_base_list, yerr=T1mono_base_err_list, fmt='o-', color='k', label='Initial (expn base)')
 plt.errorbar(T_real, T1mono_final_list, yerr=T1mono_final_err_list, fmt='s--', color='r', label='Final (expn base + 7)')
-plt.xlabel("Temperatura [°C]")
+plt.xlabel("Temperature [°C]")
 plt.ylabel(r"$T_1$ [s]")
-plt.title("Relajación T1 vs Temperatura (ajuste monoexponencial)")
+plt.title("T1 vs Temperature")
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
@@ -119,11 +119,11 @@ plt.show()
 
 #==================== GRAFICO DESPLAZAMIENTO QUIMICO ====================
 plt.figure(figsize=(7, 5))
-plt.plot(T_real, ppm_max_base_list, 'o-', color='k', label='Inicial (expn base)')
+plt.plot(T_real, ppm_max_base_list, 'o-', color='k', label='Initial (expn base)')
 plt.plot(T_real, ppm_max_final_list, 's--', color='r', label='Final (expn base + 7)')
 plt.xlabel("Temperatura [°C]")
-plt.ylabel("Desplazamiento químico [ppm]")
-plt.title("Desplazamiento químico del máximo del espectro")
+plt.ylabel("Chemical Shift [ppm]")
+# plt.title("Desplazamiento químico del máximo del espectro")
 plt.gca().invert_xaxis()
 plt.legend()
 plt.grid(True)
@@ -144,51 +144,36 @@ for T, Tb, eb, pb, Tf, ef, pf in zip(T_real,
 
 ############# IMPLEMENTAR
 
-# # --------------------------------------
-# # Thurber empirical model for T1 vs T
-# # --------------------------------------
-# def thurber_model(T):
-#     """
-#     Empirical model by Thurber for T1 relaxation time as a function of temperature (K).
-#     """
-#     return 0.0145 + 5330 * T**-2 + 1.42e7 * T**-4 + 2.48e9 * T**-6
+# --------------------------------------
+# Thurber empirical model for T1 vs T
+# --------------------------------------
+def thurber_model(T):
+    """
+    Empirical model by Thurber for T1 relaxation time as a function of temperature (K).
+    """
+    return 0.0145 + 5330 * T**-2 + 1.42e7 * T**-4 + 2.48e9 * T**-6
 
 
-# T1_list = T1mono_base_list
+T1_list = np.array(T1mono_base_list)
 
-# # Inverse interpolation: T1 → T
-# T = np.linspace(290, 350, 1000)
-# T1_model = thurber_model(T)
-# T1_to_T = interp1d(T1_model, T, kind='linear', fill_value='extrapolate')
+# Inverse interpolation: T1 → T
+T = np.linspace(290, 350, 1000)
+T1_model = thurber_model(T)
+T1_to_T = interp1d(T1_model, T, kind='linear', fill_value='extrapolate')
 
-# # Temperature estimated from T1
-# T_from_T1_C = T1_to_T(T1_list / 1000) - 273.15  # in °C
+# Temperature estimated from T1
+T_from_T1_C = T1_to_T(T1_list) - 273.15  # in °C
 
-# plt.figure(figsize=(6, 4))
-# plt.plot(time_minutes, T_from_T1_C, 'o-', label='Estimated T from $T_1$')
-# plt.xlabel("Time [min]")
-# plt.ylabel("Estimated temperature [°C]")
+plt.figure(figsize=(6, 4))
+plt.plot(T_real, T_from_T1_C, 'o-', label='Estimated T from $T_1$')
+plt.plot(T_real, T_real, 'k--')
+plt.xlabel("VT Temperature [°C]")
+plt.ylabel("Calibrated Temperature [°C]")
 # plt.title("Temperature estimated from $T_1$")
-# plt.grid(True)
-# plt.tight_layout()
+plt.grid(True)
+plt.tight_layout()
 
-# # Plot: T1 vs Temperature (model vs experimental)
-# fig, ax = plt.subplots(figsize=(8, 4))
-# T_plot = np.linspace(20, 296, 1000)  # Temperature range fixed as requested
-# T1_plot = thurber_model(T_plot)
-
-# ax.plot(T_plot, T1_plot, label='Thurber model')
-# ax.plot(T1_to_T(T1_list / 1000), T1_list / 1000, 'o-', label='Experimental data')
-# ax.set_xlabel("Temperature [K]")
-# ax.set_ylabel(r"$T_1$ [s]")
-# ax.set_yscale('log')
-# ax.set_title(r"$T_1$ vs Temperature")
-# ax.legend()
-# ax.grid(True, which='both', linestyle='--', linewidth=0.5)
-# fig.tight_layout()
-
-
-# # --- Chemical shift to temperature calibration ---
+# --- Chemical shift to temperature calibration ---
 # ppm_valid = ppm_max_base_list
 
 # T_chemshift_slope = -0.025  # ppm/K
@@ -224,3 +209,5 @@ for T, Tb, eb, pb, Tf, ef, pf in zip(T_real,
 # plt.grid(True)
 # plt.tight_layout()
 # # %%
+
+# %%
