@@ -238,6 +238,52 @@ class DatosProcesados(Datos):
         return signal
 
 
+    def Mean_ppm(self, ppmRange=None,absolute=False):
+        """
+        Calcula el ppm promedio
+        integrando de un espectro 1D en el rango de ppm especificado.
+
+        mean_ppm = \int ppm * S(ppm) dppm / \int S(ppm) dppm
+        Si no se proporciona 'ppmRange', se utiliza el rango completo o el definido en el atributo de la clase.
+        """
+        ppmAxis = self.espectro.ppmAxis
+        if absolute:
+            spec = np.abs(self.espectro.spec)
+        else:
+            spec = self.espectro.real
+        # defino rango de integracion
+        if ppmRange is None:
+            if self.ppmRange is not None:
+                ppmRange = self.ppmRange
+            else:
+                print("WARNING: No se ha definido rango de integracion")
+                ppmRange = [self.espectro.ppmAxis[0], self.espectro.ppmAxis[-1]]
+
+        midRange = (ppmRange[1]+ppmRange[0])/2
+        semiRange = abs(ppmRange[1]-ppmRange[0])/2
+
+        condicion = abs(ppmAxis-midRange) < semiRange
+        newppm = ppmAxis[condicion]
+
+        integral = []
+        
+        spec1d = spec
+        spec1d = spec1d[condicion]
+        # el signo menos de la integral es porque ppmAxis va
+        # de mayor a menor.
+        integral = integrate.simpson(newppm*spec1d, x=newppm)
+        integral_total = integrate.simpson(spec1d, x=newppm) # pues no es una distribucion normalizada
+
+        mean = integral / integral_total
+
+        # Here I convert the list signal to a np array:
+        mean = np.array(mean)
+
+
+        return mean
+
+
+
 class DatosProcesados2D(DatosProcesados):
     """
     espectroscopia 2D: T1, Difusion, EXSY, etc.
