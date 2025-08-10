@@ -5,7 +5,7 @@ Created on Jul 29 2025
 @author: Santi
 
 Extrae y grafica espectros Bruker adquiridos a diferentes temperaturas
-(Variable Temperature experiment) usando un colormap tipo plasma.
+(Variable Temperature experiment)
 """
 
 import nmrglue as ng
@@ -15,21 +15,19 @@ from Datos import *
 
 # === Configuración general ===
 nucleo = "1H"
-nexp_base = 36
-T_nominal = np.arange(-20, 41, 10)
-T_real = np.array([-17.8, -9.9, 0, 10, 20, 30, 40])
-usar_Treal = True  # <--- Cambiar a False para usar T_nominal
+nexp_base = 22
+T_nominal = np.array([-19, -10, 0, 10, 20, 30, 40])
 
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-07-16_PEO-solid-electrolyte_VT/"
-save = False
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2025-07_VT/"
-savepath_especifico = ""
+path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-08-05_PEO-PTT-solid-electrolyte_VT/"
+save = True
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2025-08_500MHz_VT/"
+savepath_especifico = "LiTFSI-PEO-PTT"
 
-ppmRange = [20, -20]
+ppmRange = [80, 30]
 
 # === Generación de experimentos y temperaturas ===
 expns = [nexp_base + 10 * i for i in range(len(T_nominal))]
-temperaturas = T_real if usar_Treal else T_nominal
+temperaturas = T_nominal
 
 # === Preparar colores y figura ===
 cmap = plt.get_cmap("jet_r")
