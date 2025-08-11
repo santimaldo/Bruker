@@ -12,6 +12,7 @@ CORREGIR: TIEMPOS Y FASES
 
 import nmrglue as ng
 import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator
 plt.rcParams['font.size'] = 12
 import numpy as np
 from Datos import *
@@ -126,10 +127,12 @@ fig_int, ax_int = plt.subplots(num=382910, figsize=(8, 3))
 
 tau_real, tau_continuo = tau, tau
 
-ax_int.plot(tau_continuo, signals/signals[0], 'o')
+ax_int.plot(tau_continuo, signals/signals.max(), 'o')
+ax_int.yaxis.set_major_locator(MultipleLocator(0.1))  # línea cada 0.1 en Y
+ax_int.grid(axis='y')  # solo grilla en Y
 ax_int.set_xlabel('Time [h]')
 ax_int.set_ylabel('Normalized area')
-ax_int.set_xlim([-5, 70])
+#ax_int.set_xlim([-5, 70])
 
 ax.plot(tau_continuo, ppm_of_max, 'o-', label='ppm of max signal')
 ax.plot(tau_continuo, ppm_mean, 'o-', label='mean ppm in ROI')
