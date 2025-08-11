@@ -10,12 +10,13 @@ Extrae y grafica espectros Bruker adquiridos a diferentes temperaturas
 
 import nmrglue as ng
 import matplotlib.pyplot as plt
+plt.rcParams.update({'font.size': 12})
 import numpy as np
 from Datos import *
 
 # === Configuración general ===
-nucleo = "1H"
-nexp_base = 22
+nucleo = "19F"
+nexp_base = 27
 T_nominal = np.array([-19, -10, 0, 10, 20, 30, 40])
 
 path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-08-05_PEO-PTT-solid-electrolyte_VT/"
@@ -23,7 +24,7 @@ save = True
 savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2025-08_500MHz_VT/"
 savepath_especifico = "LiTFSI-PEO-PTT"
 
-ppmRange = [80, 30]
+ppmRange = [-10, -150]
 
 # === Generación de experimentos y temperaturas ===
 expns = [nexp_base + 10 * i for i in range(len(T_nominal))]
@@ -33,7 +34,7 @@ temperaturas = T_nominal
 cmap = plt.get_cmap("jet_r")
 colores = [cmap(i * 0.9 / (len(temperaturas) - 1)) for i in range(len(temperaturas))]
 
-fig, ax = plt.subplots(num=1, nrows=1, ncols=1)
+fig, ax = plt.subplots(num=1, nrows=1, ncols=1, figsize=(4,3.25))
 
 for i, (expn, temp) in enumerate(zip(np.flip(expns), np.flip(temperaturas))):
     datos = DatosProcesados(f'{path}{expn}/')
@@ -57,11 +58,14 @@ for i, (expn, temp) in enumerate(zip(np.flip(expns), np.flip(temperaturas))):
 
 # === Formato del gráfico ===
 ax.axhline(0, color='k', ls='--')
-ax.set_xlabel(f"{nucleo} NMR Shift [ppm]")
-ax.set_ylabel("Intensidad (u.a.)")
-ax.set_title("Variable Temperature NMR")
+ax.set_xlabel(f"{nucleo} Chemical Shift [ppm]")
+ax.set_ylabel("Intensity (a.u.)")
+# ax.set_title("Variable Temperature NMR")
 ax.invert_xaxis()
-ax.legend(title="Temperature")
+ax.set_yticks([])
+# ax.legend(title="Temperature")
+maximo = 1e3 
+ax.set_ylim(-0.05*maximo, 1.05*maximo)
 
 plt.tight_layout()
 plt.show()
