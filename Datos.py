@@ -51,7 +51,10 @@ class Datos(object):
         self.pulseprog = None
         if read_pp:
             self.pulseprog = self.getPulseProg() 
-        self.title = self.get_title()
+        try:
+            self.title = self.get_title()
+        except FileNotFoundError:
+            self.title = "No title file"
         self.fid = Fid()
 
         self.nucleo = self.acqus.dic["NUC1"]

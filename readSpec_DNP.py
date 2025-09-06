@@ -172,9 +172,33 @@ infos = [#['hanecho', 100, None],
 #          ['offNOE', 39, ppmRange]
 #          ]
 
-
-
-
+########## 31 julio 2025 - Li on Cu mesh ##########
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-07-31_InSitu/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh"
+savepath_especifico = ""
+nucleo = "7Li"
+# info: muestra, expn, ppmRange
+ppmRange = [550, -150]  # rango de ppm a integrar
+infos = [
+         ['zg_mwON_bsms_3850_2.2A_190K', 17, ppmRange],
+         ['zg_mwON_bsms_3100_2.2A_190K', 18, ppmRange],
+         ['zg_mwON_bsms_-9999_2.2A_190K', 22, ppmRange],
+         ['zg_mwOFF_bsms_0_2.2A_190K', 1, ppmRange],
+         ]
+##### 31 julio 2025 - Li on Cu mesh - Al mesh ######
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-07-31_InSitu/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh-Al-mesh/"
+savepath_especifico = ""
+nucleo = "7Li"
+# info: muestra, expn, ppmRange
+ppmRange = [550, -150]  # rango de ppm a integrar
+infos = [
+         ['zg_mwOFF_bsms_0_2.2A_RT', 30, ppmRange],
+         ['zg_mwON_bsms_0_2.2A_190K', 33, ppmRange],
+         ['zg_mwON_bsms_-6000_2.4A_190K', 54, ppmRange],
+         ]
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
