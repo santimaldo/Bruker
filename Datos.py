@@ -165,12 +165,14 @@ class DatosProcesados(Datos):
 
     def __init__(self, directorio, p_dir=1,
                  ppmRange=None,
-                 read_pp=False):
+                 read_pp=False,
+                 nomrmalize_NS=True):
         Datos.__init__(self, directorio, read_pp=read_pp)
         self.p_dir = p_dir
         self.procs = Procs(directorio, p_dir)
         self.espectro = Espectro()
         self.ppmRange = ppmRange
+        self.normalize_NS = nomrmalize_NS
         self.set_espectro()
 
     def set_espectro(self):
@@ -182,8 +184,12 @@ class DatosProcesados(Datos):
         null, data = ng.fileio.bruker.read_pdata(path, all_components=True)
         NS = self.acqus.NS
         RG = self.acqus.RG
-        real = data[0]/(NS*RG)
-        imag = data[1]/(NS*RG)
+        real = data[0]/(RG)
+        imag = data[1]/(RG)
+        if self.normalize_NS:
+            real = real/(NS)
+            imag = imag/(NS)    
+
         self.espectro.set_real(real)
         self.espectro.set_imag(imag)
         self.espectro.set_spec(real+1j*imag)
