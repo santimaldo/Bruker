@@ -88,7 +88,7 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 
 
 # directorio de datos
-expns = [56]
+expns = [16]
 absolute = False
 autoph = True 
 path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-07-31_InSitu/"
@@ -99,7 +99,7 @@ save = False
 plotRange = [1000,-400]
 # rango de integracion
 ppmRanges = [[800, 250],
-             [200,-200],
+             [80,-200],
             #[-0.5, -9]            
             ]
 window_width = 200  # ancho de cada ventana desde el mínimo local
@@ -141,7 +141,7 @@ for jj, expn in enumerate(expns):
         spec[kk,:] = spec1d
 
     ###### start integrating the spectra
-    colors = ['k', 'b', 'r', 'forestgreen', 'cyan', 'magenta']
+    colors = ['r', 'firebrick', 'r', 'forestgreen', 'cyan', 'magenta']
     for ii, ppmRange in enumerate(ppmRanges):
         color = colors[ii]
         ax_spec.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
@@ -159,10 +159,11 @@ for jj, expn in enumerate(expns):
     delta_delta = - 0.011672 * delta_bsms
     B0 = datos.acqus.SFO1*2*np.pi * 1e6/ datos.gamma
     delta_Bz = B0 * delta_delta * 1e-6 /1e-3 # en miliTesla
+    markers = ['o', '^', 's', 'D', 'v', 'x']
     for ii, ppmRange in enumerate(ppmRanges):
-        ax_popt.plot(delta_Bz, Signals[:,ii], 'o')#, color=color, label="Rising Edge")
+        ax_popt.plot(delta_Bz, Signals[:,ii], marker=markers[ii] , color=colors[ii], label="Rising Edge", linewidth=0)
     ax_popt.set_xlabel(r'$\Delta B_z$ [mT]')
-    ax_popt.set_xlim(np.max(delta_Bz)*1.1, np.min(delta_Bz)*1.1)
+    # ax_popt.set_xlim(np.max(delta_Bz)*1.1, np.min(delta_Bz)*1.1)
     ax_popt.set_ylabel("Signal [a.u.]")
 
     # Definimos la relación inversa entre x y x2
