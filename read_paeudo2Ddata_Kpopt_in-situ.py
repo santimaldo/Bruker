@@ -88,7 +88,7 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 
 
 # directorio de datos
-expns = [16]
+expns = [59]
 absolute = False
 autoph = True 
 path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-07-31_InSitu/"
@@ -99,7 +99,7 @@ save = False
 plotRange = [1000,-400]
 # rango de integracion
 ppmRanges = [[800, 250],
-             [80,-200],
+             [200,100],
             #[-0.5, -9]            
             ]
 window_width = 200  # ancho de cada ventana desde el mínimo local
