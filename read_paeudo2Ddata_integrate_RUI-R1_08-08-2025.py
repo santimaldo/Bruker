@@ -21,6 +21,7 @@ import scipy.integrate as integrate
 
 # directorio de datos
 expns = np.arange(30,234)
+expns = np.arange(100,110)
 
 absolute= False
 autoph = False

@@ -225,3 +225,175 @@ class VoigtFit:
         plt.show()
         
 
+# -*- coding: utf-8 -*-
+"""
+Clase para ajuste de picos con PseudoVoigt usando lmfit.
+Basado en la versión VoigtFit original.
+
+@author: santi
+"""
+
+
+class PseudoVoigtFit:
+    """
+    Ajuste de espectros usando una suma de funciones PseudoVoigt.
+
+    Attributes
+    ----------
+    x : array_like
+        Eje x
+    y : array_like
+        Eje y
+    Npicos : int
+        Número de picos a ajustar
+    modelo : lmfit.Model
+        Modelo compuesto
+    params : lmfit.Parameters
+        Parámetros del modelo
+    ajuste : lmfit.ModelResult
+        Resultado del ajuste
+
+    Methods
+    -------
+    generar_modelo():
+        Genera el modelo compuesto con Npicos.
+    generar_params():
+        Asigna parámetros iniciales desde self.parametros_iniciales.
+    fit(fijar):
+        Realiza el ajuste, fijando parámetros si se pide.
+    componentes(x):
+        Devuelve (total, componentes) del ajuste evaluado en x.
+    plot_ajuste():
+        Grafica ajuste y componentes.
+    plot_modelo():
+        Grafica solo el modelo con los parámetros actuales.
+    """
+
+    def __init__(self, x, y, params=None, Npicos=1, ajustar=True, fijar=None, **parametros_iniciales):
+        self.x = np.asarray(x)
+        self.y = np.asarray(y)
+        self.Npicos = Npicos
+        self.parametros_iniciales = parametros_iniciales
+        self.modelo = None
+        self.params = params
+        self.ajuste = None
+
+        if fijar is None:
+            fijar = []
+
+        # Si no se da un objeto params, lo inicializo
+        NotInitParam = self.params is None
+
+        self.generar_modelo()
+
+        if bool(self.parametros_iniciales) and NotInitParam:
+            self.generar_params()
+
+        if ajustar:
+            self.fit(fijar)
+
+    # ------------------------------------------------------------------
+    def generar_modelo(self):
+        modelo_compuesto = None
+        params = None
+        x_min, x_max = np.min(self.x), np.max(self.x)
+        x_range = x_max - x_min
+        y_max = np.max(self.y)
+
+        for i in range(self.Npicos):
+            prefix_i = f"m{i+1}_"
+            model = lm.models.PseudoVoigtModel(prefix=prefix_i)
+
+            # Hints de parámetros
+            model.set_param_hint("sigma", min=1e-6, max=x_range)
+            model.set_param_hint("center", min=x_min, max=x_max)
+            model.set_param_hint("height", min=1e-6, max=1.1 * y_max)
+            model.set_param_hint("amplitude", min=1e-6)
+            model.set_param_hint("fraction", min=0.0, max=1.0)
+
+            # Defaults aleatorios
+            default_params = {
+                prefix_i + "center": x_min + x_range * np.random.random(),
+                prefix_i + "height": y_max * np.random.random(),
+                prefix_i + "sigma": x_range / (2 * self.Npicos) * np.random.random(),
+                prefix_i + "fraction": np.random.random(),
+            }
+
+            model_params = model.make_params(**default_params)
+
+            if self.params is None:
+                if params is None:
+                    params = model_params
+                else:
+                    params.update(model_params)
+
+            if modelo_compuesto is None:
+                modelo_compuesto = model
+            else:
+                modelo_compuesto += model
+
+        self.modelo = modelo_compuesto
+        if self.params is None:
+            self.params = params
+
+    # ------------------------------------------------------------------
+    def generar_params(self):
+        """
+        Ejemplo:
+            pf = PseudoVoigtFit(x, y, Npicos=2, center=[100,120], sigma=[5,10])
+        """
+        p_ini = self.parametros_iniciales
+        for parametro, valores in p_ini.items():
+            if not isinstance(valores, (list, tuple)):
+                valores = [valores]
+            for i, val in enumerate(valores):
+                self.params[f"m{i+1}_{parametro}"].set(value=val)
+
+    # ------------------------------------------------------------------
+    def fit(self, fijar):
+        params = self.params
+        p_ini = self.parametros_iniciales
+
+        if not isinstance(fijar, list):
+            fijar = [fijar]
+
+        if fijar == []:
+            for param in params:
+                params[param].vary = True
+
+        else:
+            for param_fijo in fijar:
+                if "_" in param_fijo:
+                    params[param_fijo].vary = False
+                elif param_fijo in p_ini:
+                    for i in range(len(p_ini[param_fijo])):
+                        params[f"m{i+1}_{param_fijo}"].vary = False
+                else:
+                    for i in range(self.Npicos):
+                        params[f"m{i+1}_{param_fijo}"].vary = False
+
+        self.ajuste = self.modelo.fit(self.y, params, x=self.x)
+        self.params = self.ajuste.params
+
+    # ------------------------------------------------------------------
+    def componentes(self, x):
+        total = self.modelo.eval(x=x, params=self.params)
+        comps = self.ajuste.eval_components(x=x)
+        componentes = [comps[k] for k in sorted(comps.keys())]
+        return total, componentes
+
+    # ------------------------------------------------------------------
+    def plot_ajuste(self):
+        fig = self.ajuste.plot()
+        for ii, comp in enumerate(self.componentes(self.x)[1], start=1):
+            fig.gca().plot(self.x, comp, label=f"model {ii}")
+        fig.gca().legend()
+        return fig
+
+    # ------------------------------------------------------------------
+    def plot_modelo(self):
+        y = self.modelo.eval(x=self.x, params=self.params)
+        plt.figure()
+        plt.plot(self.x, y, label="modelo")
+        plt.legend()
+        plt.show()
