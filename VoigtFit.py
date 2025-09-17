@@ -269,13 +269,14 @@ class PseudoVoigtFit:
         Grafica solo el modelo con los parámetros actuales.
     """
 
-    def __init__(self, x, y, params=None, Npicos=1, ajustar=True, fijar=None, **parametros_iniciales):
+    def __init__(self, x, y, params=None, Npicos=1, ajustar=True, fijar=None, bounds=None, **parametros_iniciales):
         self.x = np.asarray(x)
         self.y = np.asarray(y)
         self.Npicos = Npicos
         self.parametros_iniciales = parametros_iniciales
         self.modelo = None
         self.params = params
+        self.bounds = bounds
         self.ajuste = None
 
         if fijar is None:
@@ -304,12 +305,25 @@ class PseudoVoigtFit:
             prefix_i = f"m{i+1}_"
             model = lm.models.PseudoVoigtModel(prefix=prefix_i)
 
+
             # Hints de parámetros
             model.set_param_hint("sigma", min=1e-3, max=x_range)
             model.set_param_hint("center", min=x_min, max=x_max)
             model.set_param_hint("height", min=1e-6, max=1.1 * y_max)
             model.set_param_hint("amplitude", min=1e-6)
             model.set_param_hint("fraction", min=0.0, max=1.0)
+
+                # --- Update bounds si existen ---
+            if self.bounds is not None:
+                for pname, limits in self.bounds.items():
+                    # ¿es un parámetro global? (ej. "center")
+                    if "_" not in pname:
+                        model.set_param_hint(pname, min=min(limits), max=max(limits))
+                    else:
+                        # ¿es un parámetro específico? (ej. "m2_amplitude")
+                        if pname.startswith(prefix_i):
+                            local_name = pname.replace(prefix_i, "")
+                            model.set_param_hint(local_name, min=min(limits), max=max(limits))
 
             # Defaults aleatorios
             default_params = {
@@ -385,8 +399,12 @@ class PseudoVoigtFit:
     # ------------------------------------------------------------------
     def plot_ajuste(self):
         fig = self.ajuste.plot()
+        colors = ['r', 'b', 'g', 'orange', 'darkviolet', 'cyan', 'magenta', 'yellow', 'brown', 'pink']
+        total = 0
         for ii, comp in enumerate(self.componentes(self.x)[1], start=1):
-            fig.gca().plot(self.x, comp, label=f"model {ii}")
+            fig.gca().plot(self.x, comp,color=colors[ii-1],label=f"model {ii}")
+            total += comp
+        fig.gca().plot(self.x, total, 'k', label='total fit')
         fig.gca().legend()
         return fig
 
