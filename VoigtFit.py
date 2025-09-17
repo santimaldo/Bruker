@@ -291,7 +291,7 @@ class PseudoVoigtFit:
 
         if ajustar:
             self.fit(fijar)
-
+ 
     # ------------------------------------------------------------------
     def generar_modelo(self):
         modelo_compuesto = None
@@ -305,7 +305,7 @@ class PseudoVoigtFit:
             model = lm.models.PseudoVoigtModel(prefix=prefix_i)
 
             # Hints de parámetros
-            model.set_param_hint("sigma", min=1e-6, max=x_range)
+            model.set_param_hint("sigma", min=1e-3, max=x_range)
             model.set_param_hint("center", min=x_min, max=x_max)
             model.set_param_hint("height", min=1e-6, max=1.1 * y_max)
             model.set_param_hint("amplitude", min=1e-6)
