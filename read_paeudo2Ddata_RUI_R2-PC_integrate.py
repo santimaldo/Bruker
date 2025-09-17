@@ -21,7 +21,7 @@ import scipy.integrate as integrate
 
 # directorio de datos
 expns = np.arange(30,234)
-expns = np.arange(100,110)
+expns = np.arange(10, 201)
 
 absolute= False
 autoph = False
@@ -141,7 +141,7 @@ ax.plot(tau_continuo, ppm_mean, 'o-', label='mean ppm in ROI')
 ax.set_xlabel('Time [h]')
 ax.set_ylabel(r'$\delta_{max}$ [ppm]')
 ax.legend()
-# ax.set_xlim(0, 90)
+ax.set_ylim(235.1, 259.9)
 
 axph.plot(tau_continuo, phases, 'o-')
 axph.set_xlabel('Time [h]')

@@ -18,13 +18,13 @@ import pandas as pd
 
 # directorio de datos
 # expns = np.arange(233, 232, -1)
-expns = np.arange(233, 29, -1)
+expns = np.arange(200, 10, -1)
 
 absolute= False
 autoph = False
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-08-08_ccATMC_Rui-R1_LFP-Cu_CC/"
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-08_R1/"
-muestra = "7Li_cellR1-CCprotocol"
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-08-10_ccATMC_Rui-R1_LFP-Cu_PC/"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-08_R2/"
+muestra = "7Li_cellR2-PCprotocol"
 
 save = False
 plotRange = [350, 150]
@@ -32,7 +32,6 @@ ppmRange = [300,200]
 
 peaks = [245, 260]
 range_of_peaks_to_save = [-50, -65]
-
 
 
 m0_center = 240
