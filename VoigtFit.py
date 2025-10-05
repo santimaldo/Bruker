@@ -313,18 +313,10 @@ class PseudoVoigtFit:
             model.set_param_hint("amplitude", min=1e-6)
             model.set_param_hint("fraction", min=0.0, max=1.0)
 
-                # --- Update bounds si existen ---
-            if self.bounds is not None:
-                for pname, limits in self.bounds.items():
-                    # ¿es un parámetro global? (ej. "center")
-                    if "_" not in pname:
-                        model.set_param_hint(pname, min=min(limits), max=max(limits))
-                    else:
-                        # ¿es un parámetro específico? (ej. "m2_amplitude")
-                        if pname.startswith(prefix_i):
-                            local_name = pname.replace(prefix_i, "")
-                            model.set_param_hint(local_name, min=min(limits), max=max(limits))
-
+            
+            if i > 0:
+                print("WARNING: sigma_i = sigma_1 for all peaks")
+                model.set_param_hint('sigma', expr='m1_sigma')
             # Defaults aleatorios
             default_params = {
                 prefix_i + "center": x_min + x_range * np.random.random(),
@@ -334,6 +326,18 @@ class PseudoVoigtFit:
             }
 
             model_params = model.make_params(**default_params)
+
+            # --- Update bounds si existen ---
+            if self.bounds is not None:
+                for pname, limits in self.bounds.items():
+                    if "_" not in pname:
+                        if pname in model_params:
+                            model_params[pname].min = min(limits)
+                            model_params[pname].max = max(limits)
+                    else:
+                        if pname in model_params:
+                            model_params[pname].min = min(limits)
+                            model_params[pname].max = max(limits)
 
             if self.params is None:
                 if params is None:

@@ -18,7 +18,7 @@ import pandas as pd
 
 # directorio de datos
 # expns = np.arange(233, 232, -1)
-expns = np.arange(90, 29, -1)
+expns = np.arange(30, 233, 1)
 
 absolute= False
 autoph = False
@@ -41,8 +41,8 @@ m0_fraction = 0.5
 m0_fwhm = 2.3548200*m0_sigma
 # initial guesses for PseudoVoigt fit
 # m1_amplitude, m2_amplitude = [4479075, 34970261]
-m1_center, m2_center =  [239.5, 245]
-m1_sigma, m2_sigma = [10, 10]
+m1_center, m2_center =  [240, 250]
+m1_sigma, m2_sigma = [7, 7]
 m1_fraction, m2_fraction = [0.5, 0.5]   # inicialización de fracción Gauss/Lorentz
 m1_fwhm, m2_fwhm = [2.3548200*m1_sigma, 2.3548200*m2_sigma]
 
@@ -73,6 +73,7 @@ colors = ['k', 'b', 'r', 'g', 'c', 'm', 'y']
 
 fig_spec, ax_spec = plt.subplots(num=17856, nrows=1, figsize=(6, 4))
 for jj, expn in enumerate(expns):
+    print(f"Processing expn. {expn} ({jj+1}/{expns.size})")
     #=====================================================================
     # Ajuste de espectros 1D
     #=====================================================================
@@ -103,10 +104,19 @@ for jj, expn in enumerate(expns):
         m2_amplitude = m0_amplitude/2
     m0_height = spec1d_re.max()
     m1_height = m2_height = m0_height/2
+
+    # selecciono región de interés (ROI)
+    spec1d_ROI = spec1d_re[spec1d_re > 0.05*spec1d_re.max()]
+    ppmAxis_ROI = ppmAxis[spec1d_re > 0.05*spec1d_re.max()]
+    ppm_of_max = ppmAxis[spec1d_re == spec1d_re.max()][0]
+    semiancho = 25
+    spec1d_ROI = spec1d_ROI[(ppmAxis_ROI > ppm_of_max-semiancho) & (ppmAxis_ROI < ppm_of_max+semiancho)]
+    ppmAxis_ROI = ppmAxis_ROI[(ppmAxis_ROI > ppm_of_max-semiancho) & (ppmAxis_ROI < ppm_of_max+semiancho)]
+
     # -------------------------------------------
     # -------- ajuste con 2 PseudoVoigts -------- 
     vfit = PseudoVoigtFit(
-        ppmAxis, spec1d_re,
+        ppmAxis_ROI, spec1d_ROI,
         Npicos=2,
         ajustar=True,
         amplitude=[m1_amplitude, m2_amplitude],
@@ -114,25 +124,27 @@ for jj, expn in enumerate(expns):
         sigma=[m1_sigma, m2_sigma],
         fraction=[m1_fraction, m2_fraction],
         height=[m1_height, m2_height],  # no hace falta si se usa amplitude
-        fwhm =  [m1_fwhm, m2_fwhm]#,  # no hace falta si se usa sigma 
-        #fijar = ['fraction']
+        fwhm =  [m1_fwhm, m2_fwhm],#,  # no hace falta si se usa sigma 
+        fijar = ['sigma'],
+        bounds={"fraction": [0.2, 1]}
     )
     fig = vfit.plot_ajuste()
     fig.gca().set_title(f"expn. {expn} - 2 peaks PseudoVoigt fit")
-    
+    fig.savefig(f"{savepath}/2peaksFit_{muestra}_expn{expn}.png", dpi=300)
+    plt.close(fig)
     #####redefino parámetros para la próxima vuelta
-    m1_amplitude = vfit.params["m1_amplitude"].value
-    m2_amplitude = vfit.params["m2_amplitude"].value
-    m1_center = vfit.params["m1_center"].value
-    m2_center = vfit.params["m2_center"].value
-    m1_sigma = vfit.params["m1_sigma"].value
-    m2_sigma = vfit.params["m2_sigma"].value
-    m1_fraction = vfit.params["m1_fraction"].value
-    m2_fraction = vfit.params["m2_fraction"].value
-    m1_fwhm = 2.3548200*m1_sigma
-    m2_fwhm = 2.3548200*m2_sigma
-    m1_height = vfit.params["m1_height"].value
-    m2_height = vfit.params["m2_height"].value
+    # m1_amplitude = vfit.params["m1_amplitude"].value
+    # m2_amplitude = vfit.params["m2_amplitude"].value
+    # m1_center = vfit.params["m1_center"].value
+    # m2_center = vfit.params["m2_center"].value
+    # m1_sigma = vfit.params["m1_sigma"].value
+    # m2_sigma = vfit.params["m2_sigma"].value
+    # m1_fraction = vfit.params["m1_fraction"].value
+    # m2_fraction = vfit.params["m2_fraction"].value
+    # m1_fwhm = 2.3548200*m1_sigma
+    # m2_fwhm = 2.3548200*m2_sigma
+    # m1_height = vfit.params["m1_height"].value
+    # m2_height = vfit.params["m2_height"].value
     # -------------------------------------------
     # -------------------------------------------
 
@@ -141,7 +153,7 @@ for jj, expn in enumerate(expns):
     # -------- ajuste con 1 PseudoVoigt --------
     m0_center = (vfit.params["m1_amplitude"].value * vfit.params["m1_center"].value + vfit.params["m2_amplitude"].value * vfit.params["m2_center"].value) / (vfit.params["m1_amplitude"].value + vfit.params["m2_amplitude"].value)
     vfit0 = PseudoVoigtFit(
-        ppmAxis, spec1d_re,
+        ppmAxis_ROI, spec1d_ROI,
         Npicos=1,
         ajustar=True,
         amplitude=[m0_amplitude],
@@ -149,11 +161,12 @@ for jj, expn in enumerate(expns):
         sigma=[m0_sigma],
         fraction=[m0_fraction],
         height=[m0_height],  # no hace falta si se usa amplitude
-        fwhm =  [m0_fwhm]#,  # no hace falta si
-        # fijar = ['fraction']
+        fwhm =  [m0_fwhm],  # no hace falta si
+        #fijar = ['fraction']
+        bounds={"fraction": [0.2, 1]}
     )
-    fig0 = vfit0.plot_ajuste()
-    fig0.gca().set_title(f"expn. {expn} - 1 peak PseudoVoigt fit")
+    # fig0 = vfit0.plot_ajuste()
+    # fig0.gca().set_title(f"expn. {expn} - 1 peak PseudoVoigt fit")
     # --------------------------------------------
     # --------------------------------------------
 
@@ -200,15 +213,31 @@ fig_int, ax_int = plt.subplots(num=382910, figsize=(8, 3))
 time = vfit_results['time'] - vfit_results['time'].min()
 time = time/3600  # hours
 
-signals = vfit_results['m1_amplitude'] + vfit_results['m2_amplitude']
-# m1_center = vfit_results[['m1_center', 'm2_center']].min(axis=1)
-# m2_center = vfit_results[['m1_center', 'm2_center']].max(axis=1)
-# m1_amplitude = vfit_results[['m1_amplitude', 'm2_amplitude']].min(axis=1)
-# m2_amplitude = vfit_results[['m1_amplitude', 'm2_amplitude']].max(axis=1)
-m1_center = vfit_results['m1_center']
-m2_center = vfit_results['m2_center']
-m1_amplitude = vfit_results['m1_amplitude']
-m2_amplitude = vfit_results['m2_amplitude']
+df = vfit_results[['m1_center', 'm2_center', 'm1_amplitude', 'm2_amplitude']]
+# Función para ordenar una fila
+def ordenar_picos(row):
+    # Emparejar center y area
+    pares = list(zip([row['m1_center'], row['m2_center']],
+                     [row['m1_amplitude'], row['m2_amplitude']]))
+    # Ordenar por center descendente
+    pares.sort(reverse=True, key=lambda x: x[0])
+    # Desempaquetar nuevamente
+    centers_sorted, areas_sorted = zip(*pares)
+    return pd.Series(list(centers_sorted) + list(areas_sorted))
+
+# Aplicar fila por fila
+df_sorted = df.apply(ordenar_picos, axis=1)
+df_sorted.columns = ['m1_center','m2_center','m1_amplitude','m2_amplitude']
+
+signals = df_sorted['m1_amplitude'] + df_sorted['m2_amplitude']
+# m1_center = df_sorted[['m1_center', 'm2_center']].min(axis=1)
+# m2_center = df_sorted[['m1_center', 'm2_center']].max(axis=1)
+# m1_amplitude = df_sorted[['m1_amplitude', 'm2_amplitude']].min(axis=1)
+# m2_amplitude = df_sorted[['m1_amplitude', 'm2_amplitude']].max(axis=1)
+m1_center = df_sorted['m1_center']
+m2_center = df_sorted['m2_center']
+m1_amplitude = df_sorted['m1_amplitude']
+m2_amplitude = df_sorted['m2_amplitude']
 
 
 ax_int.plot(time, vfit_results['m0_amplitude']/signals.max(), 'go-', label='total signal: 1 peak fit')

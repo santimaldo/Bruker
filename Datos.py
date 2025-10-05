@@ -104,6 +104,8 @@ class Datos(object):
         nucleo = self.nucleo.lower()
         if "h" in nucleo:
             gamma = 267.52218744
+        elif "6li" in nucleo:
+            gamma = 39.994
         elif "7li" in nucleo:
             gamma = 103.962
         elif "13c" in nucleo:

@@ -200,6 +200,25 @@ infos = [
 #          ['zg_mwON_bsms_-6000_2.4A_190K', 54, ppmRange],
 #          ]
 
+# ### 30 sep 2025 - Li polymer + KBr ---Kieran
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-09-30_Kieran_Li-polymer-KBr/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran/"
+savepath_especifico = ""
+ppmRange = [500, -150]  # rango de ppm a integrar
+nucleo = "7Li"
+# info: muestra, expn, ppmRange
+infos = [
+         ['7Li_mwON_bsms_-3500_2.2A', 20, ppmRange],
+         ['7Li_mwOFF_bsms_-3500_2.2A', 30, ppmRange],
+         ]
+# nucleo = "6Li"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['6Li_mwON_bsms_-3500_2.2A', 24, ppmRange],
+#          ['6Li_mwOFF_bsms_-3500_2.2A', 31, ppmRange]
+#          ]
+
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
     muestra, expn, ppmRange = info

@@ -112,6 +112,10 @@ for jj, expn in enumerate(expns):
     ax_spec.set_ylabel('Intensity [a.u.]')
     ax_spec.axhline(0, color='k')
 
+    np.savetxt(f'{savepath}/1dspectra/expn{expn}_time{tau[jj]:.3f}h.dat',
+            np.array([ppmAxis, spec1d_re]).T,
+            header='ppm, Intensity [a.u.]')
+
 
 
     signal = datos.Integrar(ppmRange=ppmRange)
