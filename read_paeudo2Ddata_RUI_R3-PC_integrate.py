@@ -20,7 +20,7 @@ import scipy.integrate as integrate
 
 
 # directorio de datos
-expns = np.arange(33,234)
+expns = np.arange(33,334)
 expns_to_skip = np.arange(50, 366, 20)
 expns = np.setdiff1d(expns, expns_to_skip)
 

@@ -20,8 +20,8 @@ import pandas as pd
 
 
 # directorio de datos
-expns = np.arange(33,234)
-expns_to_skip = np.arange(50, 366, 20)
+expns = np.arange(33,334)
+expns_to_skip = np.arange(50, 211, 20)
 expns = np.setdiff1d(expns, expns_to_skip)
 
 
@@ -47,7 +47,7 @@ m0_fraction = 0.5
 m0_fwhm = 2.3548200*m0_sigma
 
 # -------- parámetros iniciales 3 picos --------
-m1_center, m2_center, m3_center = [240, 245, 250]
+m1_center, m2_center, m3_center = [235, 245, 255]
 sigma = 6.5
 m1_sigma,  m2_sigma,  m3_sigma  = sigma, sigma, sigma
 m1_fraction, m2_fraction, m3_fraction = [0.5, 0.5, 0.5]
@@ -125,6 +125,7 @@ for jj, expn in enumerate(expns):
     ppmAxis_ROI = ppmAxis[(ppmAxis > ppm_of_max-semiancho) & (ppmAxis < ppm_of_max+semiancho)]
     # -------------------------------------------
     # -------- ajuste con 3 PseudoVoigts -------- 
+    semwidth = 5  # para límites en los centros de los picos
     vfit = PseudoVoigtFit(
         ppmAxis_ROI, spec1d_ROI,
         Npicos=3,
@@ -135,11 +136,11 @@ for jj, expn in enumerate(expns):
         fraction=[m1_fraction, m2_fraction, m3_fraction],
         height=[m1_height, m2_height, m3_height],
         fwhm=[m1_fwhm, m2_fwhm, m3_fwhm],
-        fijar = ["sigma"],
+        fijar = ["m2_sigma", "m3_sigma"],  # <--- aquí fijo sigma_2 y sigma_3
         bounds={"fraction": [0.2, 1],
-                "m1_center": [m1_center-2.5, m1_center+2.5],
-                "m2_center": [m2_center-2.5, m2_center+2.5],
-                "m3_center": [m3_center-2.5, m3_center+2.5]}  # <--- aquí pongo límites en los centros
+                "m1_center": [m1_center-semwidth, m1_center+semwidth],
+                "m2_center": [m2_center-semwidth, m2_center+semwidth],
+                "m3_center": [m3_center-semwidth, m3_center+semwidth]}  # <--- aquí pongo límites en los centros
     )
     fig = vfit.plot_ajuste()
     fig.gca().set_title(f"expn. {expn} - 3 peaks PseudoVoigt fit")
@@ -256,7 +257,7 @@ ax.plot(time, m2_center, 'bo', label='peak 2: 245 ppm')
 ax.plot(time, m3_center, 'go', label='peak 3: 254 ppm')
 ax.set_xlabel('Time [h]')
 ax.set_ylabel(r'$\delta$ [ppm]')
-ax.set_ylim(232, 258)
+# ax.set_ylim(232, 258)
 ax.legend()
 
 #%%
