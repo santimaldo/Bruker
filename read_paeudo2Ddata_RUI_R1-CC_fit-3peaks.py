@@ -21,13 +21,14 @@ from Datos import *
 import scipy.integrate as integrate
 from VoigtFit import PseudoVoigtFit   # <--- cambio aquí
 import pandas as pd
+import os
 
 
 # directorio de datos
 expns = np.arange(233, 29, -1)
 expns = np.arange(30, 233 )
 # expns = np.arange( 233, 30, -10)
-
+expns = np.arange(30, 56 )
 absolute= False
 autoph = False
 path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-08-08_ccATMC_Rui-R1_LFP-Cu_CC/"
@@ -146,6 +147,25 @@ for jj, expn in enumerate(expns):
     fig.gca().set_title(f"expn. {expn} - 3 peaks PseudoVoigt fit")
     fig.savefig(f"{savepath}/3peaksFit_{muestra}_expn{expn}.png", dpi=300)
     plt.close(fig)
+
+    # Get individual peak components
+    total_fit, componentes = vfit.componentes(ppmAxis_ROI)
+
+    # Stack all data into columns
+    data_to_save = np.column_stack((
+        ppmAxis_ROI, 
+        spec1d_ROI, 
+        total_fit,
+        componentes[0], 
+        componentes[1],
+        componentes[2]
+    ))
+    # Create directory if it doesn't exist
+    os.makedirs(f'{savepath}/fit-data', exist_ok=True)
+    
+    np.savetxt(f'{savepath}/fit-data/3peaksFit_{muestra}_expn{expn}.dat', data_to_save,
+               header='ppm Axis\tSpectrum\tFit_3peaks', fmt='%.6f')
+    
     ####redefino parámetros para la próxima vuelta
     # for k in [1,2,3]:
     #     globals()[f"m{k}_amplitude"] = vfit.params[f"m{k}_amplitude"].value

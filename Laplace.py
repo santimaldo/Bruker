@@ -42,7 +42,7 @@ class ILT(object):
                  alpha=1e-3, kernel="T1sat", rango=(1, 1e4), Nilt=100,  # ILT
                  ydata=None, xdata=None,  # data
                  xfit=None,  # FIT
-                 figure=None, labels=None,  # graficos
+                 figure=None, labels=None, yscale='linear',  # graficos
                  savepath=None, muestra=None):
         # Inicio listas de informacion:
         self.lista_de_muestras = []
@@ -55,6 +55,7 @@ class ILT(object):
         self.ydata = ydata
         self.xdata = xdata
         self.muestra = muestra
+        self.yscale = yscale
 
         # ILT parameters
         self.alpha = alpha
@@ -90,9 +91,15 @@ class ILT(object):
         if ydata is not None and xdata is not None:
             self.DoTheStuff(ydata, xdata, xfit=None, muestra=muestra)
 
+        ### Colors for plotting
+        # Obtener la paleta Set1 con 9 colores
+        cmap = plt.get_cmap("Set1")
+        colors = [cmap(i) for i in range(cmap.N)]  # cmap.N suele ser 9 para Set1
+        self.colors = colors
+        self.color_counter = 0
     # ----------------------------------------------------------------------------
 
-    def DoTheStuff(self, ydata, xdata, xfit=None, muestra=None, legend=False):
+    def DoTheStuff(self, ydata, xdata, xfit=None, muestra=None, legend=False, color=None):
         print("#-------------------------------------")
         print("Calculando ILT ...")
         # data
@@ -106,14 +113,15 @@ class ILT(object):
         if xfit is not None:
             self.xfit = xfit
         else:
-            if self.xfit is None:
-                self.xfit = xdata
+            # if self.xfit is None:
+                # self.xfit = xdata
+            self.xfit = xdata
 
         # 1) Calcular
         self.Calculate()
         # 2) Graficar
         if self.figure is not None:
-            self.plot()
+            self.plot(color=color)
             if legend:
                 self.legend()
         # 3) Guardar
@@ -261,11 +269,12 @@ class ILT(object):
 
     # -----------------------------Grafico--------------------------------------
 
-    def plot(self):
+    def plot(self, color=None):
         """
         Metodo para plotear la transformada
         """
-
+        if color is None:
+            color = self.colors[self.color_counter % len(self.colors)]
         plt.rcParams.update({'font.size': 16})
 
         if self.labels is None:
@@ -295,12 +304,13 @@ class ILT(object):
         else:
             fig.suptitle(self.muestra)
 
-        ax0.plot(xdata, ydata, 'o')
-        ax0.plot(xfit, yfit, 'r-', lw=lw)
+        ax0.plot(xdata, ydata, 'o-', color=color, alpha=0.3, lw=0.5)
+        ax0.plot(xfit, yfit, 'k--', lw=lw-1)
         ax0.set_xlabel(labels['xdata'])
         ax0.set_ylabel(labels['ydata'])
+        ax0.set_yscale(self.yscale)
 
-        ax1.plot(xfit, residuals, 'o')
+        ax1.plot(xfit, residuals, 'o', color=color, alpha=0.3)
         ax1.axhline(0, color='k')
         ax1.set_xlabel(labels['xdata'])
         ax1.set_ylabel(labels['yres'])
@@ -311,8 +321,8 @@ class ILT(object):
         cumulative = integrate.cumulative_trapezoid(yilt[2:-1])
         cumulative = cumulative / cumulative.max()
 
-        ax2.semilogx(xilt[3:-1], cumulative, 'k', lw=lw/2)
-        ax2.semilogx(xilt, yilt/yilt.max(), lw=lw, label=self.muestra)
+        ax2.semilogx(xilt[3:-1], cumulative, 'k', lw=lw/2, color=color, alpha=0.5)
+        ax2.semilogx(xilt, yilt/yilt.max(), lw=lw, label=self.muestra, color=color)
         ax2.set_xlabel(labels['xilt'])
         ax2.yaxis.tick_right()
         ax2.set_yticks(np.linspace(0, 1, 11))
@@ -320,7 +330,7 @@ class ILT(object):
 
         fig.tight_layout()
         axs = [ax0, ax1, ax2]
-
+        self.color_counter += 1
         return fig, axs
 
     def legend(self):

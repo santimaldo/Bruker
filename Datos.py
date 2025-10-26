@@ -11,7 +11,7 @@ from Fid import *
 import scipy.integrate as integrate
 from scipy.optimize import curve_fit
 from scipy.stats import linregress
-
+from pathlib import Path
 
 class Datos(object):
 
@@ -85,7 +85,28 @@ class Datos(object):
         """
         @return  : nombre del programa de pulsos
         """
-        ppfile = f"{self.directorio}/pulseprogram"
+        ##### busco el pulseprogram--------------------------------
+        # Buscar todos los archivos que contengan 'pulseprogram' en el nombre
+        files = list(Path(self.directorio).glob("*pulseprogram*"))
+
+        if not files:
+            raise FileNotFoundError(f"No se encontró ningún archivo que contenga 'pulseprogram' en {self.directorio}")
+
+        # Buscar coincidencia exacta con 'pulseprogram'
+        exact_match = [f for f in files if f.name == "pulseprogram"]
+
+        if len(exact_match) == 1:
+            ppfile = str(exact_match[0])
+        elif len(exact_match) > 1:
+            print("Warning: Se encontraron múltiples archivos llamados exactamente 'pulseprogram'. Se usará el primero.")
+            ppfile = str(exact_match[0])
+        else:
+            # Si no hay coincidencia exacta pero hay varios archivos
+            if len(files) > 1:
+                print("Warning: Se encontraron varios archivos que contienen 'pulseprogram', pero ninguno coincide exactamente.")
+            ppfile = str(files[0])
+        #----------------------------------------------------------
+
         with open(ppfile, 'r') as file:
             # me quedo con la segunda linea del archivo
             data = file.readlines()[1]
@@ -133,15 +154,16 @@ class Datos(object):
         real = np.real(data)
         imag = np.imag(data)
 
+        first_point = self.acqus.dic["GRPDLY"]+1
         # elimino los primeros puntos del tiempo muerto
         try:
-            real = real[:, 69:]
-            imag = imag[:, 69:]
+            real = real[:, first_point:]
+            imag = imag[:, first_point:]
             Npts = int(real[0, :].size)
         except IndexError:
-            print('Es un espectro 1D')
-            real = real[69:]
-            imag = imag[69:]
+            # print('Es un espectro 1D')
+            real = real[first_point:]
+            imag = imag[first_point:]
             Npts = int(real.size)
         # Normalizo por NS y RG
         NS = self.acqus.NS
@@ -303,7 +325,7 @@ class DatosProcesados2D(DatosProcesados):
     """
 
     def __init__(self, directorio, p_dir=1, ppmRange=None,
-                 read_pp=False):
+                 read_pp=False, extract_vdfactor=False):
         DatosProcesados.__init__(self, directorio, read_pp=read_pp)
         self.proc2s = Procs(directorio, p_dir, dim2=True)
         self.acqu2s = Acqus(directorio, dim2=True)
@@ -312,6 +334,7 @@ class DatosProcesados2D(DatosProcesados):
         self.espectro.crear_ppmGrid()
         self.signal = None
         self.directorio = directorio
+        self.extract_vdfactor = extract_vdfactor
 
         self.ppmRange = ppmRange
 
@@ -403,18 +426,21 @@ class DatosProcesadosT1(DatosProcesados2D):
         vdlist = vdlist*1000  # paso a ms
 
         # Extraigo el factor vd------------------------
-        pulseprog = f"{directorio}/pulseprogram"
-        data = []
-        factor_vd = None
-        with open(pulseprog, 'rt') as f:
-            for line in f:
-                if line.lstrip().startswith('vd*'):
-                    factor_vd = line.rstrip().split('*')
-                    factor_vd = float(factor_vd[1])
-                else:
-                    continue
-        if factor_vd is None:
-            print("WARNING: No se ha encontrado el factor vd. Seteando factor_vd = 1")
+        if self.extract_vdfactor:
+            pulseprog = f"{directorio}/pulseprogram"
+            data = []
+            factor_vd = None
+            with open(pulseprog, 'rt') as f:
+                for line in f:
+                    if line.lstrip().startswith('vd*'):
+                        factor_vd = line.rstrip().split('*')
+                        factor_vd = float(factor_vd[1])
+                    else:
+                        continue
+            if factor_vd is None:
+                print("WARNING: No se ha encontrado el factor vd. Seteando factor_vd = 1")
+                factor_vd = 1
+        else:
             factor_vd = 1
         self.factor_vd = factor_vd
         # ------------------------------------------------------------------------------

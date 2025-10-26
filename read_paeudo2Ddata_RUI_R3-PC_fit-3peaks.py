@@ -21,6 +21,7 @@ import pandas as pd
 
 # directorio de datos
 expns = np.arange(33,334)
+expns = np.arange(33,120)
 expns_to_skip = np.arange(50, 211, 20)
 expns = np.setdiff1d(expns, expns_to_skip)
 
