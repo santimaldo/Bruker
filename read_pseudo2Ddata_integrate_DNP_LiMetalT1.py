@@ -64,6 +64,7 @@ muestra = ""
 #=====================================================================
 
 T1_list = []
+T1_err_list = []
 ppm_of_max_list = []  # lista de ppm del maximo de cada espectro
 colors = ['k', 'b', 'r', 'g', 'c', 'm', 'y']
 # grafico todos los espectros juntos
@@ -137,7 +138,8 @@ for jj, expn in enumerate(expns):
     
 
     T1_list.append(datos.T1params[1])  # guardo T1
-
+    # T1_err_list.append(datos.T1params_err[1])
+    T1_err_list.append(datos.T1stderr[1])
 
 
 T1_list = np.array(T1_list)
@@ -146,20 +148,20 @@ ppm_of_max_list = np.array(ppm_of_max_list)
 # Plot: T1 vs time
 fig, ax = plt.subplots(figsize=(5, 4))
 ax.set_title(sample)
-bars = ax.bar(np.arange(T1_list.size), T1_list, label='Experimental $T_1$')
+bars = ax.bar(np.arange(T1_list.size), T1_list, yerr=T1_err_list, label='Experimental $T_1$', capsize=5)
 # ax.set_xlabel("nexp")
 ax.set_ylabel(r"$T_1$ [ms]")
 ax.grid(axis='y')
 ax.set_xticks(np.arange(T1_list.size))
 ax.set_xticklabels(xlabels)
-
 # add value labels above the bars
-if T1_list.size > 0:
-    pad = 0.02 * np.max(T1_list)  # vertical padding above bars
-    for bar in bars:
-        h = bar.get_height()
-        ax.text(bar.get_x() + bar.get_width() / 2, h + pad, f"{h:.0f}", ha='center', va='bottom')
-ax.set_ylim(0, 220)
+# if T1_list.size > 0:
+#     pad = 0.02 * np.max(T1_list)  # vertical padding above bars
+#     for bar in bars:
+#         h = bar.get_height()
+#         ax.text(bar.get_x() + bar.get_width() / 4,
+#                 h + pad, f"{h:.0f}", ha='center', va='bottom')
+# ax.set_ylim(0, 250)
 #%%=====================================================================
 ## T from T1
 # ## mw OFF calibration
@@ -185,23 +187,24 @@ plt.xlabel('T [K]')
 plt.ylabel(r'$T_1$ [s]')
 
 T_from_T1 = 43.4 / (T1_list/1000)
+T_err = np.abs(T_from_T1*(T1_err_list/T1_list))
 plt.scatter(T_from_T1, T1_list/1000, color='r', label='Experimental data ')
 
 
 #%%
 plt.figure(figsize=(5, 4))
 plt.title(sample)
-bars = plt.bar(np.arange(T1_list.size), T_from_T1)
+bars = plt.bar(np.arange(T1_list.size), T_from_T1, yerr=T_err, capsize=5)
 # plt.xlabel("nexp")
 plt.ylabel(r"$T$ [K]")
 plt.grid(axis='y')
 
 # add value labels above the bars
-if T_from_T1.size > 0:
-    pad = 0.01 * np.max(T_from_T1)  # vertical padding above bars
-    for bar, val in zip(bars, T_from_T1):
-        h = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2, h + pad, f"{val-273.15:.0f} "+r"$^{\circ}$C", ha='center', va='bottom')
+# if T_from_T1.size > 0:
+#     pad = 0.01 * np.max(T_from_T1)  # vertical padding above bars
+#     for bar, val in zip(bars, T_from_T1):
+#         h = bar.get_height() 
+#         plt.text(bar.get_x() + bar.get_width() / 2, h + pad, f"{val-273.15:.0f} "+r"$^{\circ}$C", ha='center', va='bottom')
 plt.ylim([0, 320])
 plt.tight_layout()
 plt.xticks(np.arange(T1_list.size), xlabels)

@@ -219,6 +219,40 @@ infos = [
 #          ['6Li_mwOFF_bsms_-3500_2.2A', 31, ppmRange]
 #          ]
 
+
+
+#### 27 Oct 2025 - Li on CU Mesh + PTFE holders --- Bruker
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-10-27_InSitu/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
+
+ppmRange = [1000, -200]  # rango de ppm a integrar
+nucleo = "7Li"
+savepath_especifico = "Angle_000deg"
+# info: muestra, expn, ppmRange
+infos = [
+         ['mwOFF_2.2A_bsms_0', 2, ppmRange],
+         ['mwON_2.2A_bsms_9999_ultra-off-OE', 15, ppmRange],
+         ['mwON_2.5A_bsms_9999_off-OE', 26, ppmRange],
+         ['mwON_2.2A_bsms_-4050_OE-metal', 22, ppmRange],
+         ['mwON_2.2A_bsms_-4450_OE-SEI', 23, ppmRange],
+         ]
+# savepath_especifico = "Angle_180deg"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.5A_bsms_0', 40, ppmRange],
+#          ['mwON_2.5A_bsms_50_OE-metal', 48, ppmRange],
+#          ['mwON_2.5A_bsms_-200_OE-SEI', 49, ppmRange],
+#          ]
+# savepath_especifico = "Angle_090deg"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.5A_bsms_-200', 60, ppmRange],
+#          ['mwON_2.5A_bsms_50_OE-metal', 70, ppmRange],
+#          ['mwON_2.5A_bsms_-200_OE-SEI', 69, ppmRange],
+#          ['mwOFF_2.5A_bsms_-200_next-day', 71, ppmRange]
+#          ]
+
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
     muestra, expn, ppmRange = info
