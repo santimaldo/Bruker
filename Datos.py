@@ -386,7 +386,11 @@ class DatosProcesados2D(DatosProcesados):
         """
         directorio = self.directorio
         # Extraigo la lista de delays
-        vdlist = np.loadtxt(f"{directorio}/vdlist")
+        if self.vdlist_path is None:
+            vdlist = np.loadtxt(f"{directorio}/vdlist")
+        else:
+            vdlist = np.loadtxt(f"{directorio}/{self.vdlist_path}")
+            print(f"vdlist leido de {directorio}/{self.vdlist_path}")
         vdlist = vdlist*1000 # paso a ms
         return vdlist
 
@@ -400,12 +404,13 @@ class DatosProcesadosT1(DatosProcesados2D):
       signal:  S vs t procesado en topspin
     """
 
-    def __init__(self, directorio, p_dir=1):
+    def __init__(self, directorio, p_dir=1, vdlist_path=None):
         DatosProcesados2D.__init__(self, directorio)
 
         self.tau = None
         self.signal = None
         self.factor_vd = None
+        self.vdlist_path = vdlist_path
 
         self.Crear_tau(directorio, p_dir)
         self.Integrar()
@@ -422,8 +427,7 @@ class DatosProcesadosT1(DatosProcesados2D):
         """
 
         # Extraigo la lista de delays
-        vdlist = np.loadtxt(f"{directorio}/vdlist")
-        vdlist = vdlist*1000  # paso a ms
+        vdlist = self.get_vdlist()
 
         # Extraigo el factor vd------------------------
         if self.extract_vdfactor:

@@ -15,6 +15,9 @@ from scipy.interpolate import interp1d
 import scipy.integrate as integrate
 import VoigtFit as vf
 
+
+
+
 # metal
 # expns = np.concatenate([np.arange(1, 60), np.arange(61, 100)])  # directorio de datos
 expns, sample = [106, 110,138], 'Li on Cu mesh + celgard + LFP'
