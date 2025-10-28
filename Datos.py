@@ -418,6 +418,7 @@ class DatosProcesadosT1(DatosProcesados2D):
         self.tau_fit = None
         self.signal_fit = None
         self.T1params = None
+        self.T1params_err = None
 
     def Crear_tau(self, directorio, p_dir):
         """
@@ -468,63 +469,65 @@ class DatosProcesadosT1(DatosProcesados2D):
         self.signal = self.signal[:size]
         return self.tau, self.signal
 
-    def T1fit(self, model='mono'):
-        """
-        Ajuste exponencial de T1
+def T1fit(self, model='mono'):
+    """
+    Ajuste exponencial de T1
 
-        model : 'mono' o 'bi'
-            - 'mono': y = y0 + A * exp(-tau/T1)
-            - 'bi'  : y = y0 + A1 * exp(-tau/T11) + A2 * exp(-tau/T12)
-        """
-        signal = self.signal
-        tau = self.tau
+    model : 'mono' o 'bi'
+        - 'mono': y = y0 + A * exp(-tau/T1)
+        - 'bi'  : y = y0 + A1 * exp(-tau/T11) + A2 * exp(-tau/T12)
+    """
+    signal = self.signal
+    tau = self.tau
 
-        if 'mono' in model.lower():
-            def ExpDec(tau, A, T1, y0):
-                return y0 + A * np.exp(-tau / T1)
-            guess = (-signal[-1], self.factor_vd * 1e3, signal[-1])
-            bounds = ([-np.inf, 0, -np.inf], [0, np.inf, np.inf])
-            param_labels = ['A', 'T1', 'y0']
+    if 'mono' in model.lower():
+        def ExpDec(tau, A, T1, y0):
+            return y0 + A * np.exp(-tau / T1)
+        guess = (-signal[-1], self.factor_vd * 1e3, signal[-1])
+        bounds = ([-np.inf, 0, -np.inf], [0, np.inf, np.inf])
+        param_labels = ['A', 'T1', 'y0']
 
-        elif 'bi' in model.lower():
-            def ExpDec(tau, A1, T11, A2, T12, y0):
-                return y0 + A1 * np.exp(-tau / T11) + A2 * np.exp(-tau / T12)
-            guess = (-0.7*signal[-1], self.factor_vd * 0.5e3,
-                    -0.3*signal[-1], self.factor_vd * 2e3,
-                    signal[-1])
-            bounds = (
-                [-np.inf, 0, -np.inf, 0, -np.inf],
-                [0, np.inf, 0, np.inf, np.inf]
-            )
-            param_labels = ['A1', 'T11', 'A2', 'T12', 'y0']
-        else:
-            raise ValueError("model debe ser 'mono' o 'bi'")
+    elif 'bi' in model.lower():
+        def ExpDec(tau, A1, T11, A2, T12, y0):
+            return y0 + A1 * np.exp(-tau / T11) + A2 * np.exp(-tau / T12)
+        guess = (-0.7*signal[-1], self.factor_vd * 0.5e3,
+                 -0.3*signal[-1], self.factor_vd * 2e3,
+                 signal[-1])
+        bounds = (
+            [-np.inf, 0, -np.inf, 0, -np.inf],
+            [0, np.inf, 0, np.inf, np.inf]
+        )
+        param_labels = ['A1', 'T11', 'A2', 'T12', 'y0']
+    else:
+        raise ValueError("model debe ser 'mono' o 'bi'")
 
-        # Ajuste
-        popt, pcov = curve_fit(ExpDec, tau, signal, guess, bounds=bounds)
+    # Ajuste
+    popt, pcov = curve_fit(ExpDec, tau, signal, guess, bounds=bounds)
 
-        # R^2
-        residuals = signal - ExpDec(tau, *popt)
-        ss_res = np.sum(residuals**2)
-        ss_tot = np.sum((signal - np.mean(signal))**2)
-        r_squared = 1 - (ss_res / ss_tot)
+    # R^2
+    residuals = signal - ExpDec(tau, *popt)
+    ss_res = np.sum(residuals**2)
+    ss_tot = np.sum((signal - np.mean(signal))**2)
+    r_squared = 1 - (ss_res / ss_tot)
 
-        # === Salida y guardado ===
-        self.tau_fit = np.logspace(np.log10(tau[0]),
-                                   np.log10(tau[-1]),
-                                   10*tau.size)
-        self.signal_fit = ExpDec(self.tau_fit, *popt)
-        self.T1params = popt
-        self.T1stderr = np.sqrt(np.diag(pcov))
-        self.R2 = r_squared
+    # === Salida y guardado ===
+    self.tau_fit = np.logspace(np.log10(tau[0]),
+                               np.log10(tau[-1]),
+                               10*tau.size)
+    self.signal_fit = ExpDec(self.tau_fit, *popt)
+    self.T1params = popt
+    self.T1stderr = np.sqrt(np.diag(pcov))
+    self.T1params_err = 1.96 * self.T1stderr  # errores 95% confianza
+    self.R2 = r_squared
 
-        # Mensaje
-        print(f"Ajuste {model}-exponencial de T1:")
-        for name, val in zip(param_labels, popt):
-            print(f"  {name} = {val:.2f}")
-        print(f"  R² = {r_squared:.6f}")
+    # Mensaje
+    print(f"Ajuste {model}-exponencial de T1:")
+    for name, val, err in zip(param_labels, popt, self.T1params_err):
+        print(f"  {name} = {val:.2f} ± {err:.2f}")
+    print(f"  R^2 = {r_squared:.6f}")
 
-        return self.tau_fit, self.signal_fit, residuals
+    return self.tau_fit, self.signal_fit, residuals
+
 
         
 
