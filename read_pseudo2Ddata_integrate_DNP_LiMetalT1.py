@@ -18,22 +18,29 @@ import VoigtFit as vf
 
 
 
-# metal
-# expns = np.concatenate([np.arange(1, 60), np.arange(61, 100)])  # directorio de datos
-expns, sample = [3, 6,27], 'Li on Cu mesh'
-vdlists =["/lists/vd/sm2974.T1-32"]*3
+####### metal
+# expns, sample = [3, 6,27], 'Li on Cu mesh'
+# vdlists =["/lists/vd/sm2974.T1-32"]*3
+# xlabels = [r'$\mu$w OFF - RT', r'$\mu$w OFF - LT', r'$\mu$w ON - LT']
+# # expns = np.arange(31, 34)
+# # expns = np.concatenate([np.arange(1, 22), np.arange(31, 34)])  # directorio de datos
+# plotRange = [400,200]
+# ppmIntegrationWidth = 70  # ancho de la ventana de integracion
+# ppmIntegration = [320, 225]
+# Integration_around_max = [True, False, True]
+
+#####
+
+expns, sample = [101, 103, 114], 'Li on Cu mesh'
+vdlists =["/lists/vd/sm2974.T1-32","/lists/vd/sm2974.T1-16","/lists/vd/sm2974.T1-16"]
 xlabels = [r'$\mu$w OFF - RT', r'$\mu$w OFF - LT', r'$\mu$w ON - LT']
 # expns = np.arange(31, 34)
 # expns = np.concatenate([np.arange(1, 22), np.arange(31, 34)])  # directorio de datos
-plotRange = [400,200]
+plotRange = [600,200]
 ppmIntegrationWidth = 70  # ancho de la ventana de integracion
-ppmIntegration = [320, 225]
-Integration_around_max = [True, False, True]
-
-# expns = np.arange(40, 55)
-# plotRange = [500, 300]
-# ppmIntegrationWidth = 60  # ancho de la ventana de integracion
-
+ppmIntegration = [500, 400]
+Integration_around_max = [True, True, False]
+####
 
 # for the initial fit:
 center_gues = 280  # ppm
@@ -194,9 +201,10 @@ plt.scatter(T_from_T1, T1_list/1000, color='r', label='Experimental data ')
 #%%
 plt.figure(figsize=(5, 4))
 plt.title(sample)
-bars = plt.bar(np.arange(T1_list.size), T_from_T1, yerr=T_err, capsize=5)
-# plt.xlabel("nexp")
-plt.ylabel(r"$T$ [K]")
+# bars = plt.bar(np.arange(T1_list.size), T_from_T1, yerr=T_err, capsize=5)
+# plt.ylabel(r"$T$ [K]")
+bars = plt.bar(np.arange(T1_list.size), T_from_T1-T_from_T1[0], yerr=T_err, capsize=5)
+plt.ylabel(r"$\Delta T$ [K]")
 plt.grid(axis='y')
 
 # add value labels above the bars
@@ -205,7 +213,7 @@ plt.grid(axis='y')
 #     for bar, val in zip(bars, T_from_T1):
 #         h = bar.get_height() 
 #         plt.text(bar.get_x() + bar.get_width() / 2, h + pad, f"{val-273.15:.0f} "+r"$^{\circ}$C", ha='center', va='bottom')
-plt.ylim([0, 320])
+# plt.ylim([0, 320])
 plt.tight_layout()
 plt.xticks(np.arange(T1_list.size), xlabels)
 # %%

@@ -200,43 +200,25 @@ infos = [
 #          ['zg_mwON_bsms_-6000_2.4A_190K', 54, ppmRange],
 #          ]
 
-# ### 30 sep 2025 - Li polymer + KBr ---Kieran
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-09-30_Kieran_Li-polymer-KBr/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran/"
-savepath_especifico = ""
-ppmRange = [500, -150]  # rango de ppm a integrar
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-infos = [
-         ['7Li_mwON_bsms_-3500_2.2A', 20, ppmRange],
-         ['7Li_mwOFF_bsms_-3500_2.2A', 30, ppmRange],
-         ]
-# nucleo = "6Li"
-# # info: muestra, expn, ppmRange
-# infos = [
-#          ['6Li_mwON_bsms_-3500_2.2A', 24, ppmRange],
-#          ['6Li_mwOFF_bsms_-3500_2.2A', 31, ppmRange]
-#          ]
 
 
 
 #### 27 Oct 2025 - Li on CU Mesh + PTFE holders --- Bruker
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-10-27_InSitu/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-10-27_InSitu/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
 
-ppmRange = [1000, -200]  # rango de ppm a integrar
-nucleo = "7Li"
-savepath_especifico = "Angle_000deg"
-# info: muestra, expn, ppmRange
-infos = [
-         ['mwOFF_2.2A_bsms_0', 2, ppmRange],
-         ['mwON_2.2A_bsms_9999_ultra-off-OE', 15, ppmRange],
-         ['mwON_2.5A_bsms_9999_off-OE', 26, ppmRange],
-         ['mwON_2.2A_bsms_-4050_OE-metal', 22, ppmRange],
-         ['mwON_2.2A_bsms_-4450_OE-SEI', 23, ppmRange],
-         ]
+# ppmRange = [1000, -200]  # rango de ppm a integrar
+# nucleo = "7Li"
+# savepath_especifico = "Angle_000deg"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.2A_bsms_0', 2, ppmRange],
+#          ['mwON_2.2A_bsms_9999_ultra-off-OE', 15, ppmRange],
+#          ['mwON_2.5A_bsms_9999_off-OE', 26, ppmRange],
+#          ['mwON_2.2A_bsms_-4050_OE-metal', 22, ppmRange],
+#          ['mwON_2.2A_bsms_-4450_OE-SEI', 23, ppmRange],
+#          ]
 # savepath_especifico = "Angle_180deg"
 # # info: muestra, expn, ppmRange
 # infos = [
@@ -252,6 +234,67 @@ infos = [
 #          ['mwON_2.5A_bsms_-200_OE-SEI', 69, ppmRange],
 #          ['mwOFF_2.5A_bsms_-200_next-day', 71, ppmRange]
 #          ]
+
+
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh_LFP/"
+# ppmRange = [800, -200]  # rango de ppm a integrar
+# nucleo = "7Li"
+# savepath_especifico = ""
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.5A_bsms_0', 100, ppmRange],
+#          ['mwON_2.5A_bsms_9999_off-OE', 112, ppmRange],
+#          ['mwON_2.2A_bsms_-4050_OE-metal', 111, ppmRange]
+#          ]
+
+
+
+
+
+
+
+
+# ### 30 sep 2025 - Li polymer + KBr ---Kieran
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-09-30_Kieran_Li-polymer-KBr_cal/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran/"
+# savepath_especifico = ""
+# ppmRange = [500, -150]  # rango de ppm a integrar
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['7Li_mwON_bsms_-3500_2.2A', 20, ppmRange],
+#          ['7Li_mwON_bsms_-3500_2.2A_o1diamagnetic', 21, ppmRange],
+#          ['7Li_mwOFF_bsms_-3500_2.2A', 30, ppmRange]
+#          ]
+# nucleo = "6Li"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['6Li_mwON_bsms_-3500_2.2A', 24, ppmRange],
+#          ['6Li_mwOFF_bsms_-3500_2.2A', 31, ppmRange]
+#          ]
+
+####### Kieran 2025-10
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-10-24_Kieran_Li-polymer-KBr_cal/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran\2025-09_without-polymer/"
+
+ppmRange = [800, -200]  # rango de ppm a integrar
+# nucleo = "7Li"
+# savepath_especifico = ""
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.2A_bsms_0', 1, ppmRange],
+#          ['mwON_2.2A_bsms_-6500_o1metal', 8, ppmRange],
+#          ['mwON_2.2A_bsms_-6500_o1diamagnetic', 14, ppmRange]
+#          ]
+nucleo = "6Li"
+# info: muestra, expn, ppmRange
+infos = [
+         ['6Li_mwON_bsms_-6500_2.2A', 9, ppmRange]
+        #  ['6Li_mwOFF_bsms_-6500_2.2A', 31, ppmRange]
+         ]
+
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:

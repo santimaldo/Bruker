@@ -87,22 +87,43 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 
 
 
+# # directorio de datos
+# expns = [59]
+# absolute = False
+# autoph = True 
+# path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-07-31_InSitu/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker/analysis/"
+# muestra = ""
+# save = False
+# plotRange = [1000,-400]
+# # rango de integracion
+# ppmRanges = [[800, 250],
+#              [200,100],
+#             #[-0.5, -9]            
+#             ]
+# window_width = 200  # ancho de cada ventana desde el mínimo local
+
+
 # directorio de datos
-expns = [59]
 absolute = False
 autoph = True 
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-07-31_InSitu/"
+path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-10-27_InSitu/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker/analysis/"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
+
+expns = [68]
+savepath+= "Angle_090deg/"
 muestra = ""
-save = False
+save = True
 plotRange = [1000,-400]
 # rango de integracion
-ppmRanges = [[800, 250],
-             [200,100],
+ppmRanges = [[800, 400],
+             [300,100],
             #[-0.5, -9]            
             ]
 window_width = 200  # ancho de cada ventana desde el mínimo local
+
 
 
 #=====================================================================
@@ -178,3 +199,26 @@ for jj, expn in enumerate(expns):
 #         np.savetxt(f"{savepath}/{muestra}_bsms_{bsms_field[kk]}.dat",
 #                 np.array([ppmAxis, spec[kk,:]]).T,
 #                 header="ppmAxis\treal")
+
+
+#%%%
+######## 90 grados
+bsms_best_SEI = -2750
+bsms_best_metal = -2000
+
+####### 180 grados
+bsms_best_SEI = -200
+bsms_best_metal = 50
+
+
+####### 0 grados
+bsms_best_SEI = -4450
+bsms_best_metal = -4050
+
+delta_bsms = bsms_best_SEI - bsms_best_metal
+delta_delta = - 0.011672 * delta_bsms
+B0 = datos.acqus.SFO1*2*np.pi * 1e6/ datos.gamma
+delta_Bz = B0 * delta_delta * 1e-6  # en Tesla
+delta_Bz_ppm = delta_Bz/B0 * 1e6
+print(f"deltaBz (SEI-metal): {delta_Bz/1e-3} mT = {delta_Bz_ppm} ppm")
+# %%
