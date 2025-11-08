@@ -173,41 +173,47 @@ plt.ylabel("Calibrated Temperature [°C]")
 plt.grid(True)
 plt.tight_layout()
 
-# --- Chemical shift to temperature calibration ---
-# ppm_valid = ppm_max_base_list
+#%% --- Chemical shift to temperature calibration ---
+ppm_valid = ppm_max_base_list
 
-# T_chemshift_slope = -0.025  # ppm/K
-# T0 = T1_to_T(T1_list[0] / 1000)
-# ppm0 = ppm_valid[0]
-# offset_ppm = ppm0 - T_chemshift_slope * T0
+T_chemshift_slope = -0.025  # ppm/K
+T0 = T1_to_T(T1_list[0])
+ppm0 = ppm_valid[0]
+offset_ppm = ppm0 - T_chemshift_slope * T0
 
-# def chemshift_to_T(ppm):
-#     """
-#     Convert chemical shift (ppm) to temperature (K).
-#     """
-#     return (ppm - offset_ppm) / T_chemshift_slope
+def chemshift_to_T(ppm):
+    """
+    Convert chemical shift (ppm) to temperature (K).
+    """
+    return (ppm - offset_ppm) / T_chemshift_slope
 
-# # Estimated temperature from chemical shift
-# T_from_shift_C = chemshift_to_T(ppm_valid) - 273.15
+# Estimated temperature from chemical shift
+T_from_shift_C = chemshift_to_T(ppm_valid) - 273.15  # in °C
 
-# plt.figure(figsize=(6, 4))
-# plt.plot(T_real, T_from_shift_C, 'o-', label='Estimated T from chemical shift')
-# plt.xlabel("T")
-# plt.ylabel("Estimated temperature [°C]")
-# plt.title("Temperature estimated from chemical shift")
-# plt.grid(True)
-# plt.tight_layout()
+plt.figure(figsize=(6, 4))
+plt.plot(T_real, T_from_shift_C, 'o-', label='Estimated T from chemical shift')
+plt.xlabel("VT")
+plt.ylabel("Estimated temperature [°C]")
+plt.title("Temperature estimated from chemical shift")
+plt.grid(True)
+plt.tight_layout()
 
-# # --- Combined plot: temperature estimates from both methods ---
-# plt.figure(figsize=(7, 4))
-# plt.plot(T_real, T_from_T1_C, 'o-', label='From $T_1$')
-# plt.plot(T_real, T_from_shift_C, 'o-', label='From chemical shift')
-# plt.xlabel("T")
-# plt.ylabel("Estimated temperature [°C]")
-# plt.title("Comparison of temperature estimation methods")
-# plt.legend()
-# plt.grid(True)
-# plt.tight_layout()
+#%% --- Combined plot: temperature estimates from both methods ---
+plt.figure(figsize=(7, 4))
+plt.plot(T_real, T_from_T1_C, 'o-', label='From $T_1$')
+for ii in range(7):
+    T0 = T1_to_T(T1_list[ii])
+    ppm0 = ppm_valid[ii]
+    offset_ppm = ppm0 - T_chemshift_slope * T0
+    # Estimated temperature from chemical shift
+    T_from_shift_C = chemshift_to_T(ppm_valid) - 273.15  # in °C
+    plt.plot(T_real, T_from_shift_C, 'o-', label='From chemical shift')
+plt.xlabel("VT")
+plt.ylabel("Estimated temperature [°C]")
+plt.title("Comparison of temperature estimation methods")
+plt.legend()
+plt.grid(True)
+plt.tight_layout()
 # # %%
 
 # %%

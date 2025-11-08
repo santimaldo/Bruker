@@ -7,7 +7,7 @@ de derivada e interpolación alrededor del máximo.
 
 @author: Santi
 """
-
+#%%
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,7 +16,7 @@ from Autophase import autophase
 import re
 from scipy.optimize import curve_fit
 from scipy.interpolate import interp1d
-
+#%%
 ################## Functions ###########################
 
 def read_bsms_field(path_archivo):
@@ -79,12 +79,14 @@ def refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max):
 ################## end Functions #######################
 
 # Parámetros
-# expns = [45] # 1H
-expns = [55] # 7Li
-absolute = True
+# expns, local, plotRange = [45, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 1H
+# expns, local, plotRange = [55, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 7Li
+expns, ppm_ref, plotRange, local = [46, 1.89, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 1H
+expns, ppm_ref, plotRange, local = [42, -.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
+absolute = False
 autoph = False
-path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-16_3.2mm_IMECdendrites/"
-plotRange = [80, -20]
+path  = rf"C:/Users/Santi/OneDrive - University of Cambridge/NMRdata/400dnp/{local}/"
+
 
 # Gráficos
 fig_spec, ax_spec = plt.subplots(num=17856)
@@ -92,7 +94,9 @@ fig_ppm, ax_ppm = plt.subplots(num=29912)
 
 # Para gráficos de derivadas/interpolaciones:
 deriv_fig, deriv_axes = None, []
-
+#%%
+if expns.__class__ != list:
+    expns = [expns]
 for expn in expns:
     ppm_max_positions = []
     ppm_refined_positions = []
@@ -102,8 +106,8 @@ for expn in expns:
     datos = DatosProcesados2D(path_2D, read_pp=False)
     datos.espectro.ppmSelect(plotRange)
     ppmAxis = datos.espectro.ppmAxis
-    spec = datos.espectro.real
-    speci = datos.espectro.imag
+    spec = datos.espectro.real[:datos.acqu2s.TD, :]
+    speci = datos.espectro.imag[:datos.acqu2s.TD, :]
 
     # Procesamiento espectros
     for kk in range(spec.shape[0]):
@@ -200,38 +204,20 @@ plt.tight_layout()
 plt.show()
 
 #%%
-def get_SR(bsms, reference_ppm):
-    """
-    Calcula el offset para el campo BSMS.
-    """
-    # bsms=-2400
-    # reference_ppm = 1.89
-    delta0 = reference_ppm
-    delta = linear(bsms, *popt)
-    sf = (datos.procs.dic["SF"]) * 1e6
-    bf1 = datos.acqus.dic["BF1"] * 1e6
-    sr = sf - bf1 
-    sfo1 = datos.acqus.SFO1
-    sf0 =  sf + sfo1 *(delta - delta0)
+# def get_SR(bsms, reference_ppm):
+#     """
+#     Calcula el offset para el campo BSMS.
+#     """
+#     # bsms=-2400
+#     # reference_ppm = 1.89
+delta0 = ppm_ref
+bsms = -3850
+delta = linear(bsms, *popt)
 
-    sr0 = sf0 - bf1 
-    print("delta0: ", delta0)
-    print("delta: ", delta)
-    print("SFO1: ", sfo1)
-    print("SF: ", sf)
-    print("BF1: ", bf1)
-    print("SR: ", sr)
-    print("SR0: ", sr0)
-    print("bsms: ", bsms)
-    print("ppm referencia: ", reference_ppm)
-
-
-
-    print("era: ", sr)
-    print("ahora: ", sr0)
-    print("se corrio en ppm: ", (sr - sr0)/sfo1)
-    return sr0
-
+delta_delta = delta - delta0
+delta_freq = delta_delta * datos.acqus.SFO1   # Convertir ppm a Hz para 400 MHz
+SF = datos.procs.SF 
+SR_new = (SF-datos.acqus.BF1)*1e6 + delta_freq  # Nuevo SR ajustado
 #%%
 # srs = []
 # for bsms in bsms_field:

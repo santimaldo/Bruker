@@ -46,6 +46,7 @@ class Acqus(object):
             self.acq_file = f'{directorio}/{acq_file}'
             self.dic = ng.bruker.read_acqus_file(directorio)[acq_file]
             self.NS = int(self.dic["NS"])
+            self.SWH = self.dic["SW_h"]
             self.D = self.dic["D"]
             self.D1 = self.D[1]
             self.P = self.dic["P"]
@@ -65,6 +66,7 @@ class Acqus(object):
         self.TD = int(self.dic["TD"])
         self.SW = self.dic["SW"]
         self.SFO1 = self.dic["SFO1"]
+        self.BF1 = self.dic["BF1"]
         sw_Hz = self.SW*self.SFO1
         self.DW = 1/(2*sw_Hz)  # en segundos
         

@@ -220,15 +220,23 @@ class DatosProcesados(Datos):
         self.espectro.set_size(real.shape)
         self.espectro.set_ppmAxis(self.crear_ppmAxis(self.procs, self.acqus))
 
-    def crear_ppmAxis(self, procs, acqus):
+    def crear_ppmAxis(self, procs, acqus, SF=None):
         """
         """
+        ########## Implentacion original ################
         offset = procs.offset
         FTsize = procs.FTsize
         SpectralWidth = acqus.SW
-
         ultimo_ppm = offset - SpectralWidth
         ppmAxis = np.linspace(offset, ultimo_ppm, FTsize)
+        ########## Otra implementacion ################
+        # SWH = self.acqus.SWH
+        # freq = np.linspace(SWH/2, -SWH/2, self.procs.dic["SI"])
+        # ppmAxis = freq/self.acqus.SFO1
+        # if SF is None:
+        #     SF = self.procs.SF
+        # ppmcenter = - 1e6*(self.acqus.SFO1 - SF)/self.acqus.SFO1
+        # ppmAxis -= ppmcenter
         return ppmAxis
     
     def Integrar(self, ppmRange=None,absolute=False):

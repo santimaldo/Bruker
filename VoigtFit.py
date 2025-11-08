@@ -208,12 +208,15 @@ class VoigtFit:
 
         return total, componentes
     #--------------------------------------------------------------------------
-    def plot_ajuste(self):
+    def plot_ajuste(self, reverse_xaxis=True):
         fig = self.ajuste.plot()
+        ax = fig.gca()
         ii=0
         for component in self.componentes(self.x)[1]:
             ii+=1
-            fig.gca().plot(self.x, component, label=f'model {ii}')
+            ax.plot(self.x, component, label=f'model {ii}')
+        if reverse_xaxis:
+            ax.set_xlim(np.max(self.x), np.min(self.x))
         return fig
     #--------------------------------------------------------------------------
     def plot_modelo(self):
@@ -314,9 +317,9 @@ class PseudoVoigtFit:
             model.set_param_hint("fraction", min=0.0, max=1.0)
 
             
-            if i > 0:
-                print("WARNING: sigma_i = sigma_1 for all peaks")
-                model.set_param_hint('sigma', expr='m1_sigma')
+            #if i > 0:
+            #    print("WARNING: sigma_i = sigma_1 for all peaks")
+            #    model.set_param_hint('sigma', expr='m1_sigma')
             # Defaults aleatorios
             default_params = {
                 prefix_i + "center": x_min + x_range * np.random.random(),
@@ -401,7 +404,8 @@ class PseudoVoigtFit:
         return total, componentes
 
     # ------------------------------------------------------------------
-    def plot_ajuste(self):
+    def plot_ajuste(self, reverse_xaxis=True,
+                    xlabel="x", ylabel="y"):
         fig = self.ajuste.plot()
         colors = ['r', 'b', 'g', 'orange', 'darkviolet', 'cyan', 'magenta', 'yellow', 'brown', 'pink']
         total = 0
@@ -410,6 +414,10 @@ class PseudoVoigtFit:
             total += comp
         fig.gca().plot(self.x, total, 'k', label='total fit')
         fig.gca().legend()
+        if reverse_xaxis:
+            fig.gca().set_xlim(np.max(self.x), np.min(self.x))
+        fig.gca().set_xlabel(xlabel)
+        fig.gca().set_ylabel(ylabel)
         return fig
 
     # ------------------------------------------------------------------

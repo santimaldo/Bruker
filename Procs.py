@@ -41,9 +41,10 @@ class Procs(object):
           
       self.dic = ng.fileio.bruker.read_procs_file(path)[procs]
       self.FTsize = self.dic["FTSIZE"]
-      self.ppm = self.dic["SF"]
+      self.SF = self.dic["SF"]
       self.offset = self.dic["OFFSET"]
       self.phase = self.dic["PHC0"]
+      self.SI = self.dic["SI"]
     
   def UnMetodo(self):
     """
