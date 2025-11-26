@@ -274,27 +274,55 @@ infos = [
 #          ['6Li_mwOFF_bsms_-3500_2.2A', 31, ppmRange]
 #          ]
 
-####### Kieran 2025-10
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-10-24_Kieran_Li-polymer-KBr_cal/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran\2025-09_without-polymer/"
+# ####### Kieran 2025-10
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-10-24_Kieran_Li-polymer-KBr_cal/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran\2025-09_without-polymer/"
 
-ppmRange = [800, -200]  # rango de ppm a integrar
-# nucleo = "7Li"
-# savepath_especifico = ""
+# ppmRange = [800, -200]  # rango de ppm a integrar
+# # nucleo = "7Li"
+# # savepath_especifico = ""
+# # # info: muestra, expn, ppmRange
+# # infos = [
+# #          ['mwOFF_2.2A_bsms_0', 1, ppmRange],
+# #          ['mwON_2.2A_bsms_-6500_o1metal', 8, ppmRange],
+# #          ['mwON_2.2A_bsms_-6500_o1diamagnetic', 14, ppmRange]
+# #          ]
+# nucleo = "6Li"
 # # info: muestra, expn, ppmRange
 # infos = [
-#          ['mwOFF_2.2A_bsms_0', 1, ppmRange],
-#          ['mwON_2.2A_bsms_-6500_o1metal', 8, ppmRange],
-#          ['mwON_2.2A_bsms_-6500_o1diamagnetic', 14, ppmRange]
+#          ['6Li_mwON_bsms_-6500_2.2A', 9, ppmRange]
+#         #  ['6Li_mwOFF_bsms_-6500_2.2A', 31, ppmRange]
 #          ]
-nucleo = "6Li"
-# info: muestra, expn, ppmRange
-infos = [
-         ['6Li_mwON_bsms_-6500_2.2A', 9, ppmRange]
-        #  ['6Li_mwOFF_bsms_-6500_2.2A', 31, ppmRange]
-         ]
 
+#=============================================================
+####### Rui 2025-11
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
+
+nucleo = "7Li"
+savepath_especifico = ""
+## info: muestra, expn, ppmRange
+infos = [
+         ['mwOFF_2.2A_bsms_-1600_o1metal', 105, [400, 100]],
+         ['mwON_2.2A_bsms_-1600_o1metal', 83, [400,100]],
+         ['mwOFF_2.2A_bsms_-1600_o1diamagnetic', 103, [150,-150]],
+         ['mwON_2.2A_bsms_-1600_o1diamagnetic', 79, [150,-150]],
+         ['mwOFF_2.2A_bsms_-1600_LiF-reference', 110, [150,-150]],
+         ['mwON-offOE_2.2A_bsms_9999_o1metal', 58, [400, 100]],
+         ['mwON-offOE_2.2A_bsms_9999_o1diamagnetic', 59, [150,-150]]
+         ]
+# ppmRange = [100, -500]  # rango de ppm a integrar
+# nucleo = "19F"
+# savepath_especifico = ""
+# ## info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.2A_bsms_-1600_CP', 102, ppmRange],
+#          ['mwON_2.2A_bsms_-1600_CP', 76999, ppmRange],
+#          ['mwON-offOE_2.2A_bsms_9999_CP', 77, ppmRange],
+#          ['mwOFF_2.2A_bsms_-1600_LiF-reference', 111, ppmRange]         
+#          ]
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:

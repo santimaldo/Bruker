@@ -5,18 +5,27 @@ from Datos import *
 from scipy.interpolate import interp1d
 
 #========================= INPUT =======================================
-nexp_base = 30
+###### PEO
+# nexp_base = 30
+# nexp_step = 7
+# plotRange = [100, -100]
+# T_nominal = np.arange(-20, 41, 10)
+# T_real = [-17.8, -9.9, 0, 10, 20, 30, 40]
+# path = r"C:\\Users\\Santi\\OneDrive - University of Cambridge\\NMRdata\\500\\2025-07-16_PEO-solid-electrolyte_VT/"
+# ppmIntegrationWidth = 30
+
+###### PEO PTT
+nexp_base = 20
+nexp_step = 8
 plotRange = [100, -100]
-
 T_nominal = np.arange(-20, 41, 10)
-T_real = [-17.8, -9.9, 0, 10, 20, 30, 40]
-
-path = r"C:\\Users\\Santi\\OneDrive - University of Cambridge\\NMRdata\\500\\2025-07-16_PEO-solid-electrolyte_VT/"
-ppmIntegrationWidth = 30
+T_real = [-19, -10, 0, 10, 20, 30, 40]
+path = r"C:\\Users\\Santi\\OneDrive - University of Cambridge\\NMRdata\\500\\2025-08-05_PEO-PTT-solid-electrolyte_VT/"
+ppmIntegrationWidth = 20
 
 #========================= INIT ========================================
 expns_base = [nexp_base + 10 * i for i in range(len(T_nominal))]
-expns_final = [e + 7 for e in expns_base]
+expns_final = [e + nexp_step for e in expns_base]
 
 T1mono_base_list, T1mono_base_err_list = [], []
 T1mono_final_list, T1mono_final_err_list = [], []

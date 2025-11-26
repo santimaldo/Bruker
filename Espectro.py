@@ -142,7 +142,7 @@ class Espectro(object):
             self.real = self.real[:, ini:fin]
             self.imag = self.imag[:, ini:fin]
 
-    def ppmSelect2D(self, rango):
+    def ppmSelect2D(self, rango, rango_ind=None):
         newppm = self.ppmAxis
         newppm = newppm[newppm <= max(rango)]
         newppm = newppm[newppm >= min(rango)]
@@ -151,6 +151,8 @@ class Espectro(object):
         self.ppmAxis = newppm
 
         newppm = self.ppmAxisInd
+        if rango_ind is not None:
+            rango = rango_ind
         newppm = newppm[newppm <= max(rango)]
         newppm = newppm[newppm >= min(rango)]
         ind_ini = np.where(self.ppmAxisInd == newppm[0])[0][0]

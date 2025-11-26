@@ -26,15 +26,28 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 
 ############################################################
 
+# # Directorio de datos
+# expn = 44
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-06-21_PEO-solid-electrolyte/"
+# # Directorio de guardado
+# savepath = r"C:/"
+# muestra = ""
+# save = False
+# plot_individual_pairs = False  # Activar/desactivar gráficos por par
+# plotRange = [-40, -100]
+
 # Directorio de datos
-expn = 44
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-06-21_PEO-solid-electrolyte/"
+expn = 30
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-10-30_PEO-PTT-solid-electrolyte_baba/"
 # Directorio de guardado
 savepath = r"C:/"
 muestra = ""
 save = False
 plot_individual_pairs = False  # Activar/desactivar gráficos por par
 plotRange = [-40, -100]
+
+
+
 
 # Rango de integración
 ppmRanges = [

@@ -30,15 +30,24 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
             **kwargs)
 
 ############################################################
-
-# Directorio de datos
-expn = 44
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-06-21_PEO-solid-electrolyte/"
+expn = 30
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-10-30_PEO-PTT-solid-electrolyte_baba/"
 # Directorio de guardado
 savepath = r"C:/"
 muestra = ""
 save = False
 plot_individual_pairs = False  # Activar/desactivar gráficos por par
+plotRange = [-40, -100]
+
+
+# Directorio de datos
+# expn = 44
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-06-21_PEO-solid-electrolyte/"
+# # Directorio de guardado
+# savepath = r"C:/"
+# muestra = ""
+# save = False
+# plot_individual_pairs = False  # Activar/desactivar gráficos por par
 
 plotRange = [-52, -70]
 peaks = [-40, -80]
@@ -154,6 +163,6 @@ ax_t2.set_title("S and S0 vs Dephasing time")
 ax_t2.grid(True)
 ax_t2.legend()
 ax_t2.set_xlim(ax_redor.get_xlim())
-ax_t2.set_yscale('log')
+# ax_t2.set_yscale('log')
 # ax_t2.set_ylim(0.0, 0.05)
 # %%

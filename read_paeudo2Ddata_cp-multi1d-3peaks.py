@@ -4,6 +4,7 @@ Adapted on Sat Nov 8 2025
 
 Reemplaza la integración por ajuste de tres picos pseudo-Voigt.
 Guarda los resultados en un DataFrame ordenado por contact time.
+Adicional: guarda espectros ajustados y grafica stack.
 @author: Santi
 """
 
@@ -45,7 +46,6 @@ fig_spec, ax_spec = plt.subplots(num=17856)
 
 for jj, expn in enumerate(expns):
 
-    path_2D = f"{path}/{expn}/"
     datos = DatosProcesados(f'{path}/{expn}/', read_pp=False)
     datos.espectro.ppmSelect(plotRange)
     ppmAxis = datos.espectro.ppmAxis
@@ -63,15 +63,15 @@ for jj, expn in enumerate(expns):
     xdata = ppmAxis[mask]
     ydata = spec[mask]
 
-    # Guess inicial para los tres picos (ajustar según tu espectro)
+    # Guess inicial para los tres picos
     amplitude = [359451094.1/(datos.acqus.NS*datos.acqus.RG),
                  162708124.8/(datos.acqus.NS*datos.acqus.RG),
-                 637529648.5/(datos.acqus.NS*datos.acqus.RG)]  # tercer pico, aproximado
+                 637529648.5/(datos.acqus.NS*datos.acqus.RG)]
     center = [-0.7, 3.617, 7.347] # ppm
     fwhm = [2341.7218 / datos.acqus.SFO1,
             1873.5914 / datos.acqus.SFO1,
-            2663.8478 / datos.acqus.SFO1]  # tercer pico
-    fraction = [0.1379, 0.5785, 0.6014]  # Lorentzian fraction
+            2663.8478 / datos.acqus.SFO1]
+    fraction = [0.1379, 0.5785, 0.6014]
 
     # Ajuste pseudo-Voigt
     vfit = PseudoVoigtFit(xdata,
@@ -91,8 +91,21 @@ for jj, expn in enumerate(expns):
     centers = [vfit.params[f"m{i+1}_center"].value for i in range(Npicos)]
     centers_err = [vfit.params[f"m{i+1}_center"].stderr for i in range(Npicos)]
 
+    # Guardar espectros y componentes usando componentess()
+    yfit, componentes = vfit.componentes(xdata)
+    ycomp1, ycomp2, ycomp3 = componentes
+
     # Guardar resultados en la lista
-    entry = {"expn": expn, "contact_time": contact_time}
+    entry = {
+        "expn": expn,
+        "contact_time": contact_time,
+        "ydata": ydata,
+        "ycomp1": ycomp1,
+        "ycomp2": ycomp2,
+        "ycomp3": ycomp3,
+        "yfit": yfit
+    }
+
     for i in range(Npicos):
         entry[f"m{i+1}_area"] = areas[i]
         entry[f"m{i+1}_area_err"] = areas_err[i]
@@ -116,7 +129,7 @@ df_results = pd.DataFrame(results)
 df_results.sort_values(by="contact_time", inplace=True, ignore_index=True)
 print(df_results)
 
-#=====================================================================
+#%%=====================================================================
 # Gráfico de áreas
 #=====================================================================
 
@@ -133,22 +146,42 @@ ax_area.set_xlabel("Contact time")
 ax_area.set_ylabel("Amplitude (a.u.)")
 ax_area.legend()
 ax_area.grid(True)
+ax_area.set_xscale('log')
 
-#=====================================================================
-# Gráfico de centros
+#%%=====================================================================
+# Stack de espectros con componentes y ajuste total
 #=====================================================================
 
-fig_center, ax_center = plt.subplots(num=382911)
-for i in range(Npicos):
-    ax_center.plot(df_results["contact_time"],
-                   df_results[f"m{i+1}_center"],
-                   'o-',
-                   label=f'Peak: {center[i]}',
-                   color=colors[i])
-ax_center.set_xlabel("Contact time")
-ax_center.set_ylabel("Chemical Shift (ppm)")
-ax_center.legend()
-ax_center.grid(True)
+fig_stack, ax_stack = plt.subplots(num=555555, figsize=(3,8))
+contact_times_array = df_results["contact_time"].values
+ydata_array = np.array(df_results["ydata"].to_list())
+ycomp1_array = np.array(df_results["ycomp1"].to_list())
+ycomp2_array = np.array(df_results["ycomp2"].to_list())
+ycomp3_array = np.array(df_results["ycomp3"].to_list())
+yfit_array = np.array(df_results["yfit"].to_list())
+
+# Ordenar por contact_time
+sort_idx = np.argsort(contact_times_array)
+contact_times_sorted = contact_times_array[sort_idx]
+ydata_sorted = ydata_array[sort_idx, :]
+ycomp1_sorted = ycomp1_array[sort_idx, :]
+ycomp2_sorted = ycomp2_array[sort_idx, :]
+ycomp3_sorted = ycomp3_array[sort_idx, :]
+yfit_sorted = yfit_array[sort_idx, :]
+
+offset = 1
+for i, t in enumerate(contact_times_sorted):
+    n = np.max(ydata_sorted[i])
+    ax_stack.plot(ppmAxis[mask], ydata_sorted[i]/n + i*offset, color='grey', lw=4)
+    ax_stack.plot(ppmAxis[mask], yfit_sorted[i]/n + i*offset, color='k', lw=1)
+    ax_stack.plot(ppmAxis[mask], ycomp1_sorted[i]/n + i*offset, color=colors[0], lw=0.8)
+    ax_stack.plot(ppmAxis[mask], ycomp2_sorted[i]/n + i*offset, color=colors[1], lw=0.8)
+    ax_stack.plot(ppmAxis[mask], ycomp3_sorted[i]/n + i*offset, color=colors[2], lw=0.8)
+
+ax_stack.set_xlabel("Chemical Shift (ppm)")
+ax_stack.set_ylabel("Stacked Spectra")
+ax_stack.set_xlim(np.max(ppmAxis[mask]), np.min(ppmAxis[mask]))
+ax_stack.grid(True)
 
 #=====================================================================
 # Guardado de resultados
@@ -156,5 +189,5 @@ ax_center.grid(True)
 
 if save:
     fig_area.savefig(f"{savepath}/{muestra}_Areas_vs_contactTime.png")
-    fig_center.savefig(f"{savepath}/{muestra}_Centers_vs_contactTime.png")
+    fig_stack.savefig(f"{savepath}/{muestra}_StackSpectra.png")
     df_results.to_csv(f"{savepath}/{muestra}_VoigtFit_results.csv", index=False)

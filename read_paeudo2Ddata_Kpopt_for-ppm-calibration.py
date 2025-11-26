@@ -72,20 +72,25 @@ def refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max):
     - ppm_refined: posición refinada en ppm
     """
     sign_changes = np.where(np.diff(np.sign(deriv_interp)))[0]
-
+    if sign_changes.size > 1:
+        # me quedo con el cruce por cero más cercano al máximo original
+        sign_changes = sign_changes[np.argmin(sign_changes-deriv_interp.size/2)]
     ppm_refined = 0.5*(ppm_interp[sign_changes]+ppm_interp[sign_changes+1]) 
     return float(ppm_refined)
 
 ################## end Functions #######################
 
 # Parámetros
-# expns, local, plotRange = [45, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 1H
-# expns, local, plotRange = [55, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 7Li
-expns, ppm_ref, plotRange, local = [46, 1.89, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 1H
-expns, ppm_ref, plotRange, local = [42, -.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
-absolute = False
+# expn, local, plotRange = [45, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 1H
+# expn, local, plotRange = [55, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 7Li
+# expn, ppm_ref, plotRange, local = [46, 1.89, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 1H
+# expn, ppm_ref, plotRange, local = [42, -.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
+expn, ppm_ref, plotRange, local = [20, -206, [000, -500], "2025-11-13_3.2mm_Rui-dendrites"] # 19F
+expn, ppm_ref, plotRange, local = [17, -1.1, [110, -180], "2025-11-13_3.2mm_Rui-dendrites"] # 7Li
+
+absolute = True
 autoph = False
-path  = rf"C:/Users/Santi/OneDrive - University of Cambridge/NMRdata/400dnp/{local}/"
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\{local}/"
 
 
 # Gráficos
@@ -95,110 +100,107 @@ fig_ppm, ax_ppm = plt.subplots(num=29912)
 # Para gráficos de derivadas/interpolaciones:
 deriv_fig, deriv_axes = None, []
 #%%
-if expns.__class__ != list:
-    expns = [expns]
-for expn in expns:
-    ppm_max_positions = []
-    ppm_refined_positions = []
-    deriv_data = []  # para guardar datos de derivadas e interpolación para graficar luego
+ppm_max_positions = []
+ppm_refined_positions = []
+deriv_data = []  # para guardar datos de derivadas e interpolación para graficar luego
 
-    path_2D = f"{path}/{expn}/"
-    datos = DatosProcesados2D(path_2D, read_pp=False)
-    datos.espectro.ppmSelect(plotRange)
-    ppmAxis = datos.espectro.ppmAxis
-    spec = datos.espectro.real[:datos.acqu2s.TD, :]
-    speci = datos.espectro.imag[:datos.acqu2s.TD, :]
+path_2D = f"{path}/{expn}/"
+datos = DatosProcesados2D(path_2D, read_pp=False)
+datos.espectro.ppmSelect(plotRange)
+ppmAxis = datos.espectro.ppmAxis
+spec = datos.espectro.real[:datos.acqu2s.TD, :]
+speci = datos.espectro.imag[:datos.acqu2s.TD, :]
 
-    # Procesamiento espectros
-    for kk in range(spec.shape[0]):
-        spec1d = spec[kk, :]
-        speci1d = speci[kk, :]
+# Procesamiento espectros
+for kk in range(spec.shape[0]):
+    spec1d = spec[kk, :]
+    speci1d = speci[kk, :]
 
-        if absolute:
-            abs_spec = np.abs(spec1d + 1j * speci1d)
-            spec_mod = abs_spec
-        elif autoph:
-            spec1d = ng.proc_autophase.autops(spec1d + 1j * speci1d, "acme").real
-            spec1d = ng.process.proc_bl.cbf(spec1d, last=100)
-            spec_mod = np.abs(spec1d)
-        else:
-            spec_mod = spec1d 
+    if absolute:
+        abs_spec = np.abs(spec1d + 1j * speci1d)
+        spec_mod = abs_spec
+    elif autoph:
+        spec1d = ng.proc_autophase.autops(spec1d + 1j * speci1d, "acme").real
+        spec1d = ng.process.proc_bl.cbf(spec1d, last=100)
+        spec_mod = np.abs(spec1d)
+    else:
+        spec_mod = spec1d 
 
-        ppm_max = ppmAxis[np.argmax(spec_mod)]
-        ppm_max_positions.append(ppm_max)
+    ppm_max = ppmAxis[np.argmax(spec_mod)]
+    ppm_max_positions.append(ppm_max)
 
-        # Obtener datos de derivada e interpolación
-        ppm_window, deriv, ppm_interp, deriv_interp, idx_max = calc_derivative_and_interp(ppmAxis, spec_mod)
-        ppm_refined = refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max)
-        ppm_refined_positions.append(ppm_refined)
+    # Obtener datos de derivada e interpolación
+    ppm_window, deriv, ppm_interp, deriv_interp, idx_max = calc_derivative_and_interp(ppmAxis, spec_mod, window_pts=2)
+    ppm_refined = refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max)
+    ppm_refined_positions.append(ppm_refined)
 
-        deriv_data.append((ppm_window, deriv, ppm_interp, deriv_interp))
+    deriv_data.append((ppm_window, deriv, ppm_interp, deriv_interp))
 
-        ax_spec.plot(ppmAxis, spec_mod, label=f'Spectrum {kk}' if kk==0 else "", alpha=0.7)
+    ax_spec.plot(ppmAxis, spec_mod, label=f'Spectrum {kk}' if kk==0 else "", alpha=0.7)
 
-    bsms_field = read_bsms_field(path_2D)
-    ax_spec.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
-    ax_spec.axhline(0, color='k')
-    ax_spec.set_title('Espectros módulo')
-    ax_spec.legend()
+bsms_field = read_bsms_field(path_2D)
+ax_spec.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
+ax_spec.axhline(0, color='k')
+ax_spec.set_title('Espectros módulo')
+ax_spec.legend()
 
-    # Mostrar resultados
-    print("bsms_field | ppm máximo (bruto) | ppm máximo (refinado)")
-    for b, p_max, p_ref in zip(bsms_field, ppm_max_positions, ppm_refined_positions):
-        print(f"{b:.4f}     {p_max:.4f}     {p_ref:.4f}")
+# Mostrar resultados
+print("bsms_field | ppm máximo (bruto) | ppm máximo (refinado)")
+for b, p_max, p_ref in zip(bsms_field, ppm_max_positions, ppm_refined_positions):
+    print(f"{b:.4f}     {p_max:.4f}     {p_ref:.4f}")
 
-    # Gráfico ppm máximo vs bsms_field (refinado)
-    ax_ppm.plot(bsms_field, ppm_refined_positions, 'o', color='darkred', label='ppm refinado')
-    ax_ppm.set_xlabel("BSMS field (arb. units)")
-    ax_ppm.set_ylabel("ppm máximo (refinado)")
-    ax_ppm.set_title("ppm del máximo refinado vs campo BSMS")
-    ax_ppm.grid(True)
+# Gráfico ppm máximo vs bsms_field (refinado)
+ax_ppm.plot(bsms_field, ppm_refined_positions, 'o', color='darkred', label='ppm refinado')
+ax_ppm.set_xlabel("BSMS field (arb. units)")
+ax_ppm.set_ylabel("ppm máximo (refinado)")
+ax_ppm.set_title("ppm del máximo refinado vs campo BSMS")
+ax_ppm.grid(True)
 
-    # --- Ajuste lineal: ppm = a * bsms + b
-    def linear(x, a, b):
-        return a * x + b
+# --- Ajuste lineal: ppm = a * bsms + b
+def linear(x, a, b):
+    return a * x + b
 
-    popt, pcov = curve_fit(linear, bsms_field, ppm_refined_positions)
-    a_fit, b_fit = popt
-    ppm_fit = linear(bsms_field, *popt)
-    residuals = np.array(ppm_refined_positions) - ppm_fit
+popt, pcov = curve_fit(linear, bsms_field, ppm_refined_positions)
+a_fit, b_fit = popt
+ppm_fit = linear(bsms_field, *popt)
+residuals = np.array(ppm_refined_positions) - ppm_fit
 
-    print(f"\nAjuste lineal: ppm = {a_fit:.6f} × bsms + {b_fit:.6f}")
+print(f"\nAjuste lineal: ppm = {a_fit:.6f} × bsms + {b_fit:.6f}")
 
 
-    # --- Gráficos de derivada/interpolación para cada espectro ---
-    n = len(deriv_data)
-    deriv_fig, deriv_axes = plt.subplots(n, 1, figsize=(6, 3*n), sharex=False, num=556677)
-    if n == 1:
-        deriv_axes = [deriv_axes]
+# --- Gráficos de derivada/interpolación para cada espectro ---
+n = len(deriv_data)
+deriv_fig, deriv_axes = plt.subplots(n, 1, figsize=(6, 3*n), sharex=False, num=556677)
+if n == 1:
+    deriv_axes = [deriv_axes]
 
-    for i, (ax, (ppm_w, deriv_w, ppm_i, deriv_i)) in enumerate(zip(deriv_axes, deriv_data)):
-        ax.plot(ppm_i, deriv_i, 'o', label='Derivada interpolada', markersize=1)
-        ax.plot(ppm_w, deriv_w, 'o', label='Derivada discreta', markersize=8)
-        ax.axhline(0, color='k', linestyle='--')
-        ax.set_xlim(ppm_w.min(), ppm_w.max())
-        ax.set_ylabel(f'bsms_field {bsms_field[i]}')
-        ax.legend()
-        ax.grid(True)
+for i, (ax, (ppm_w, deriv_w, ppm_i, deriv_i)) in enumerate(zip(deriv_axes, deriv_data)):
+    ax.plot(ppm_i, deriv_i, 'o', label='Derivada interpolada', markersize=1)
+    ax.plot(ppm_w, deriv_w, 'o', label='Derivada discreta', markersize=8)
+    ax.axhline(0, color='k', linestyle='--')
+    ax.set_xlim(ppm_w.min(), ppm_w.max())
+    ax.set_ylabel(f'bsms_field {bsms_field[i]}')
+    ax.legend()
+    ax.grid(True)
 
-    deriv_axes[-1].set_xlabel('ppm')
+deriv_axes[-1].set_xlabel('ppm')
 
 
 
-    # --- Figura con ajuste y residuales
-    fig_fit, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6, 6),
-                                       gridspec_kw={"height_ratios": [3, 1]}, num=122334)
-    ax1.plot(bsms_field, ppm_refined_positions, 'o', label='Datos', color='darkred')
-    ax1.plot(bsms_field, ppm_fit, '-', label=f'Ajuste: y = {a_fit:.3e}·x + {b_fit:.3f}', color='black')
-    ax1.set_ylabel('ppm máximo refinado')
-    ax1.legend()
-    ax1.grid(True)
+# --- Figura con ajuste y residuales
+fig_fit, (ax1, ax2) = plt.subplots(2, 1, sharex=True, figsize=(6, 6),
+                                    gridspec_kw={"height_ratios": [3, 1]}, num=122334)
+ax1.plot(bsms_field, ppm_refined_positions, 'o', label='Datos', color='darkred')
+ax1.plot(bsms_field, ppm_fit, '-', label=f'Ajuste: y = {a_fit:.3e}·x + {b_fit:.3f}', color='black')
+ax1.set_ylabel('ppm máximo refinado')
+ax1.legend()
+ax1.grid(True)
 
-    ax2.axhline(0, color='gray', linestyle='--')
-    ax2.plot(bsms_field, residuals, 'o', color='gray')
-    ax2.set_xlabel('BSMS field (arb. units)')
-    ax2.set_ylabel('Residuos')
-    ax2.grid(True)
+ax2.axhline(0, color='gray', linestyle='--')
+ax2.plot(bsms_field, residuals, 'o', color='gray')
+ax2.set_xlabel('BSMS field (arb. units)')
+ax2.set_ylabel('Residuos')
+ax2.grid(True)
 
 plt.tight_layout()
 plt.show()
@@ -211,13 +213,19 @@ plt.show()
 #     # bsms=-2400
 #     # reference_ppm = 1.89
 delta0 = ppm_ref
-bsms = -3850
+bsms = 9999
 delta = linear(bsms, *popt)
 
 delta_delta = delta - delta0
 delta_freq = delta_delta * datos.acqus.SFO1   # Convertir ppm a Hz para 400 MHz
 SF = datos.procs.SF 
 SR_new = (SF-datos.acqus.BF1)*1e6 + delta_freq  # Nuevo SR ajustado
+
+
+print(f"\nCálculo de SR ajustado:")
+print(f"ppm referencia: {delta0:.4f} ppm")
+print(f"ppm calculado para bsms={bsms}: {delta:.4f} ppm")
+print(f"Nuevo SR ajustado: {SR_new:.2f} Hz")
 #%%
 # srs = []
 # for bsms in bsms_field:
