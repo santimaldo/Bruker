@@ -84,12 +84,13 @@ def refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max):
 # expn, local, plotRange = [45, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 1H
 # expn, local, plotRange = [55, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 7Li
 # expn, ppm_ref, plotRange, local = [46, 1.89, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 1H
-# expn, ppm_ref, plotRange, local = [42, -.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
-expn, ppm_ref, plotRange, local = [20, -206, [000, -500], "2025-11-13_3.2mm_Rui-dendrites"] # 19F
-expn, ppm_ref, plotRange, local = [17, -1.1, [110, -180], "2025-11-13_3.2mm_Rui-dendrites"] # 7Li
+expn, ppm_ref, plotRange, local = [42, -1.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
+# expn, ppm_ref, plotRange, local = [20, -206, [000, -500], "2025-11-13_3.2mm_Rui-dendrites"] # 19F
+# expn, ppm_ref, plotRange, local = [17, -1.1, [110, -180], "2025-11-13_3.2mm_Rui-dendrites"] # 7Li
 
 absolute = True
 autoph = False
+plot_all_refinements = False
 path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\{local}/"
 
 
@@ -98,7 +99,8 @@ fig_spec, ax_spec = plt.subplots(num=17856)
 fig_ppm, ax_ppm = plt.subplots(num=29912)
 
 # Para gráficos de derivadas/interpolaciones:
-deriv_fig, deriv_axes = None, []
+if plot_all_refinements:
+    deriv_fig, deriv_axes = None, []
 #%%
 ppm_max_positions = []
 ppm_refined_positions = []
@@ -169,21 +171,22 @@ print(f"\nAjuste lineal: ppm = {a_fit:.6f} × bsms + {b_fit:.6f}")
 
 
 # --- Gráficos de derivada/interpolación para cada espectro ---
-n = len(deriv_data)
-deriv_fig, deriv_axes = plt.subplots(n, 1, figsize=(6, 3*n), sharex=False, num=556677)
-if n == 1:
-    deriv_axes = [deriv_axes]
+if plot_all_refinements:    
+    n = len(deriv_data)
+    deriv_fig, deriv_axes = plt.subplots(n, 1, figsize=(6, 3*n), sharex=False, num=556677)
+    if n == 1:
+        deriv_axes = [deriv_axes]
 
-for i, (ax, (ppm_w, deriv_w, ppm_i, deriv_i)) in enumerate(zip(deriv_axes, deriv_data)):
-    ax.plot(ppm_i, deriv_i, 'o', label='Derivada interpolada', markersize=1)
-    ax.plot(ppm_w, deriv_w, 'o', label='Derivada discreta', markersize=8)
-    ax.axhline(0, color='k', linestyle='--')
-    ax.set_xlim(ppm_w.min(), ppm_w.max())
-    ax.set_ylabel(f'bsms_field {bsms_field[i]}')
-    ax.legend()
-    ax.grid(True)
+    for i, (ax, (ppm_w, deriv_w, ppm_i, deriv_i)) in enumerate(zip(deriv_axes, deriv_data)):
+        ax.plot(ppm_i, deriv_i, 'o', label='Derivada interpolada', markersize=1)
+        ax.plot(ppm_w, deriv_w, 'o', label='Derivada discreta', markersize=8)
+        ax.axhline(0, color='k', linestyle='--')
+        ax.set_xlim(ppm_w.min(), ppm_w.max())
+        ax.set_ylabel(f'bsms_field {bsms_field[i]}')
+        ax.legend()
+        ax.grid(True)
 
-deriv_axes[-1].set_xlabel('ppm')
+    deriv_axes[-1].set_xlabel('ppm')
 
 
 
@@ -213,15 +216,16 @@ plt.show()
 #     # bsms=-2400
 #     # reference_ppm = 1.89
 delta0 = ppm_ref
-bsms = 9999
+bsms = -4300
 delta = linear(bsms, *popt)
 
 delta_delta = delta - delta0
 delta_freq = delta_delta * datos.acqus.SFO1   # Convertir ppm a Hz para 400 MHz
 SF = datos.procs.SF 
 SR_new = (SF-datos.acqus.BF1)*1e6 + delta_freq  # Nuevo SR ajustado
-
-
+# print("=========================================")
+# print("How to calibrate:")
+print("=========================================")
 print(f"\nCálculo de SR ajustado:")
 print(f"ppm referencia: {delta0:.4f} ppm")
 print(f"ppm calculado para bsms={bsms}: {delta:.4f} ppm")
