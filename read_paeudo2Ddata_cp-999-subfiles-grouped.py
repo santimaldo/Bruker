@@ -125,20 +125,34 @@ def extract_popt_parameters(parameter="p15", group=0, path=".", expn=1):
 # plotRange = [-230,-310]
 # # rango de integracion
 # ppmRanges = [[-240, -300]]
+# ##----------------------------------------------------------
+# # # directorio de datos: LiOH (anhydrous)
+# expn = 21
+# Npopts = 1
+# parameter = "p15"
+# path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-17_3.2mm_IMECdendrites/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-ON/"
+# sample = "IMECeLi"
+# savefile = f"{sample}_cpHtoLi_uW-ON_P15"
+# save = False
+# plotRange = [50,-50]
+# # rango de integracion
+# ppmRanges = [[10, -10]]
 ##----------------------------------------------------------
-# # directorio de datos: LiOH (anhydrous)
-expn = 21
-Npopts = 1
+# # directorio de datos: RUI 2025-11
+expn = 10
+Npopts = 5
 parameter = "p15"
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-17_3.2mm_IMECdendrites/"
+path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-13_3.2mm_Rui-dendrites/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-ON/"
-sample = "IMECeLi"
-savefile = f"{sample}_cpHtoLi_uW-ON_P15"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\CP/"
+sample = "LiF_reference"
+savefile = f"{sample}_cpLitoF"
 save = False
-plotRange = [50,-50]
+plotRange = [-150,-300]
 # rango de integracion
-ppmRanges = [[10, -10]]
+ppmRanges = [[-200, -210]]
 ####################### end Select experiment #######################
 
 #=====================================================================
