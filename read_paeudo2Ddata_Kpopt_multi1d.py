@@ -91,6 +91,8 @@ path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-1
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
 
 expns = [71, 73, 75, 77, 79]
+expns=[52]
+savepath += "expn52/"
 muestra = "LiCuFoil_celgard_LFP"
 save = True
 plotRange = [1000,-400]
@@ -104,7 +106,9 @@ window_width = 200  # ancho de cada ventana desde el mínimo local
 # 2D experiments
 #=====================================================================
 fig_popt, ax_popt = plt.subplots(num=382910)
-
+fig1, ax1 = plt.subplots()
+bsms_list = []
+colors = ["k", "b", "r", "g", "orange", "purple", "cyan"]
 for jj, expn in enumerate(expns):
     fig_spec, ax_spec = plt.subplots(num=17856+jj)    
     path_2D = f"{path}/{expn}/"
@@ -129,5 +133,10 @@ for jj, expn in enumerate(expns):
         ax_spec.plot(ppmAxis, spec1d)
 
         np.savetxt(f"{savepath}/{muestra}_bsms_{int(bsms):04d}.dat", np.array([ppmAxis, spec1d]).T, header="ppmAxis\treal")
+        bsms_list.append(bsms)
+        maximo = ppmAxis[spec1d==np.max(spec1d)]
+        # maximo = datos.acqus.SFO1
+        ax1.scatter(bsms, maximo, color=colors[jj])
+np.savetxt(f"{savepath}/bsms_list", bsms_list)
 
         

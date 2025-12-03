@@ -84,9 +84,9 @@ def refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max):
 # expn, local, plotRange = [45, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 1H
 # expn, local, plotRange = [55, "2025-06-16_3.2mm_IMECdendrites/" ,[80, -20]] # 7Li
 # expn, ppm_ref, plotRange, local = [46, 1.89, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 1H
-expn, ppm_ref, plotRange, local = [42, -1.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
+# expn, ppm_ref, plotRange, local = [42, -1.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
 # expn, ppm_ref, plotRange, local = [20, -206, [000, -500], "2025-11-13_3.2mm_Rui-dendrites"] # 19F
-# expn, ppm_ref, plotRange, local = [17, -1.1, [110, -180], "2025-11-13_3.2mm_Rui-dendrites"] # 7Li
+expn, ppm_ref, plotRange, local = [17, -1.1, [110, -180], "2025-11-13_3.2mm_Rui-dendrites"] # 7Li
 
 absolute = True
 autoph = False
