@@ -114,7 +114,7 @@ for jj, expn in enumerate(expns):
     ax_spec.set_ylabel('Intensity [a.u.]')
     ax_spec.axhline(0, color='k')
 
-    np.savetxt(f'{savepath}/1dspectra/expn{expn}_time{tau[jj]:.3f}h.dat',
+    np.savetxt(f'{savepath}/1dspectra/expn{expn:03d}.dat',
                np.array([ppmAxis, spec1d_re]).T,
                header='ppm, Intensity [a.u.]')
 
@@ -126,6 +126,15 @@ for jj, expn in enumerate(expns):
     signals[jj] = signal  # normalizo la señal al primer espectro
 
     ppm_mean[jj] = datos.Mean_ppm(ppmRange=ppmRange)
+
+
+np.savetxt(f'{savepath}/1dspectra/expn_list.dat',
+            expns,
+            header='list of experiment numbers')
+np.savetxt(f'{savepath}/1dspectra/time_list.dat',
+            tau,
+            header='time [h]')
+
 
 #%% -------------
 fig,ax = plt.subplots(num=1785731, figsize=(8, 3))
