@@ -20,15 +20,14 @@ from lmfit.models import PseudoVoigtModel
 # Directorios y parámetros
 #=====================================================================
 
-expns = [54, 57, 59, 56, 58, 49, 50, 55, 51, 52, 53]
-expns = [72]
-path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-12-15_3.2mm_Debashis-dendrites/"
+
+expns = [67,71,62,68,63,70,60,64,66,69]
+path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-12_R9/"
 muestra = ""
 save = False
 
 ppmRange  = [15, -15]   # fitting region
-ppmRange = [30, -30]
 show_individual_fits = True
 
 #=====================================================================
