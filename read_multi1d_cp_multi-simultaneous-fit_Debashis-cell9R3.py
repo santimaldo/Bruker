@@ -21,15 +21,15 @@ from lmfit.models import PseudoVoigtModel
 #=====================================================================
 
 expns = [54, 57, 59, 56, 58, 49, 50, 55, 51, 52, 53]
-expns = [72]
+expns = [100]
 path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-12-15_3.2mm_Debashis-dendrites/"
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-12_R9/"
 muestra = ""
 save = False
 
 ppmRange  = [15, -15]   # fitting region
-ppmRange = [30, -30]
 show_individual_fits = True
+ppmRange = [20, -20]
 
 #=====================================================================
 # Load spectra
@@ -224,7 +224,7 @@ ax_area.grid(True)
 # Stack Plot of spectra with components
 #=====================================================================
 colors = ['r', 'b']
-fig_stack, ax_stack = plt.subplots(figsize=(3,8))
+fig_stack, ax_stack = plt.subplots(figsize=(3,8)) # original figsize=(3,8)
 contact_times_array = df_results['contact_time'].values
 ydata_array = np.array(df_results['ydata'].to_list())
 ycomp1_array = np.array(df_results['ycomp1'].to_list())

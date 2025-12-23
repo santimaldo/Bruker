@@ -22,14 +22,14 @@ from lmfit.models import PseudoVoigtModel
 
 
 expns = [67,71,62,68,63,70,60,64,66,69]
+expns = [70]
 path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-12_R9/"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-11_R6/"
 muestra = ""
 save = False
 
 ppmRange  = [15, -15]   # fitting region
 show_individual_fits = True
-
 #=====================================================================
 # Load spectra
 #=====================================================================
@@ -222,8 +222,10 @@ ax_area.grid(True)
 #%%=====================================================================
 # Stack Plot of spectra with components
 #=====================================================================
+textshift = 30 # original: 30
+
 colors = ['r', 'b']
-fig_stack, ax_stack = plt.subplots(figsize=(3,8))
+fig_stack, ax_stack = plt.subplots(figsize=(3,8)) # original figsize=(3,8)
 contact_times_array = df_results['contact_time'].values
 ydata_array = np.array(df_results['ydata'].to_list())
 ycomp1_array = np.array(df_results['ycomp1'].to_list())
@@ -245,7 +247,7 @@ for i, t in enumerate(contact_times_sorted):
     ax_stack.plot(x_list[0], yfit_sorted[i]/n + i*offset, color='k', lw=1)
     ax_stack.plot(x_list[0], ycomp1_sorted[i]/n + i*offset, color=colors[0], lw=0.8)
     ax_stack.plot(x_list[0], ycomp2_sorted[i]/n + i*offset, color=colors[1], lw=0.8)
-    text_x = np.max(x_list[0]) - 30
+    text_x = np.max(x_list[0]) - textshift
     ax_stack.text(text_x, i*offset + 0.7, f"{t:.0f} µs", va='center', ha='right', fontsize=12)
 
 ax_stack.set_xlabel("Chemical Shift (ppm)")
@@ -282,8 +284,8 @@ for i, (t, color) in enumerate(zip(contact_times_array, colors)):
 ax_super.set_xlim(np.max(x_list[0]), np.min(x_list[0]))
 ax_super.set_xlabel("Chemical Shift (ppm)")
 ax_super.set_ylabel("Normalized Intensity (a.u.)")
-ax_super.axvline(-0.9, color='k', lw=1, ls='--')
-ax_super.axvline(4.1, color='k', lw=1, ls='--')
+ax_super.axvline(df_results['m1_center'][0], color='k', lw=1, ls='--')
+ax_super.axvline(df_results['m2_center'][0], color='k', lw=1, ls='--')
 ax_super.grid(True)
 
 # Crear colorbar discreta con un color por espectro

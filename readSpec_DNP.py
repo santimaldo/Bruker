@@ -173,19 +173,19 @@ infos = [#['hanecho', 100, None],
 #          ]
 
 ########## 31 julio 2025 - Li on Cu mesh ##########
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-07-31_InSitu/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-ppmRange = [550, -150]  # rango de ppm a integrar
-infos = [
-         ['zg_mwON_bsms_3850_2.2A_190K', 17, ppmRange],
-         ['zg_mwON_bsms_3100_2.2A_190K', 18, ppmRange],
-         ['zg_mwON_bsms_-9999_2.2A_190K', 22, ppmRange],
-         ['zg_mwOFF_bsms_0_2.2A_190K', 1, ppmRange],
-         ]
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-07-31_InSitu/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# ppmRange = [550, -150]  # rango de ppm a integrar
+# infos = [
+#          ['zg_mwON_bsms_3850_2.2A_190K', 17, ppmRange],
+#          ['zg_mwON_bsms_3100_2.2A_190K', 18, ppmRange],
+#          ['zg_mwON_bsms_-9999_2.2A_190K', 22, ppmRange],
+#          ['zg_mwOFF_bsms_0_2.2A_190K', 1, ppmRange],
+#          ]
 # ### 31 julio 2025 - Li on Cu mesh - Al mesh ######
 # path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 # path_bruker = "2025-07-31_InSitu/"
@@ -248,12 +248,6 @@ infos = [
 #          ]
 
 
-
-
-
-
-
-
 # ### 30 sep 2025 - Li polymer + KBr ---Kieran
 # path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 # path_bruker = "2025-09-30_Kieran_Li-polymer-KBr_cal/"
@@ -295,24 +289,25 @@ infos = [
 #         #  ['6Li_mwOFF_bsms_-6500_2.2A', 31, ppmRange]
 #          ]
 
+
 #=============================================================
 ####### Rui 2025-11
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
 
-nucleo = "7Li"
-savepath_especifico = ""
-## info: muestra, expn, ppmRange
-infos = [
-         ['mwOFF_2.2A_bsms_-1600_o1metal', 105, [400, 100]],
-         ['mwON_2.2A_bsms_-1600_o1metal', 83, [400,100]],
-         ['mwOFF_2.2A_bsms_-1600_o1diamagnetic', 103, [150,-150]],
-         ['mwON_2.2A_bsms_-1600_o1diamagnetic', 79, [150,-150]],
-         ['mwOFF_2.2A_bsms_-1600_LiF-reference', 110, [150,-150]],
-         ['mwON-offOE_2.2A_bsms_9999_o1metal', 58, [400, 100]],
-         ['mwON-offOE_2.2A_bsms_9999_o1diamagnetic', 59, [150,-150]]
-         ]
+# nucleo = "7Li"
+# savepath_especifico = ""
+# ## info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.2A_bsms_-1600_o1metal', 105, [400, 100]],
+#          ['mwON_2.2A_bsms_-1600_o1metal', 83, [400,100]],
+#          ['mwOFF_2.2A_bsms_-1600_o1diamagnetic', 103, [150,-150]],
+#          ['mwON_2.2A_bsms_-1600_o1diamagnetic', 79, [150,-150]],
+#          ['mwOFF_2.2A_bsms_-1600_LiF-reference', 110, [150,-150]],
+#          ['mwON-offOE_2.2A_bsms_9999_o1metal', 58, [400, 100]],
+#          ['mwON-offOE_2.2A_bsms_9999_o1diamagnetic', 59, [150,-150]]
+#          ]
 # ppmRange = [100, -500]  # rango de ppm a integrar
 # nucleo = "19F"
 # savepath_especifico = ""
@@ -324,6 +319,58 @@ infos = [
 #          ['mwOFF_2.2A_bsms_-1600_LiF-reference', 111, ppmRange]         
 #          ]
 
+#=============================================================
+######## Debashis#######################
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-11-03_3.2mm_Debashis-dendrites/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-11_R6\spec/"
+
+# ppmRange = [400, -300]
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.2A_bsms_-4300', 34, ppmRange],
+#          ['mwON_2.2A_bsms_-4300_o1metal', 21, ppmRange],
+#          ]
+# nucleo = "6Li"
+# infos = [
+#          ['mwOFF_2.2A_bsms_-4300', 36, ppmRange],
+#          ['mwON_2.2A_bsms_-4300_o1metal', 22, ppmRange],
+#          ['mwON_2.2A_bsms_-4300_o1metal_ns512', 2999, ppmRange]
+#          ]
+# nucleo = "1H"
+# ppmRange = [150, -150]
+# infos = [
+#          ['mwOFF_2.2A_bsms_-4300_7Li-to-1H-CP', 111, ppmRange],
+#          ['mwON_2.2A_bsms_-4300_7Li-to-1H-CP', 70, ppmRange],
+#          ]
+# = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-12-15_3.2mm_Debashis-dendrites/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-12_R9\spec/"
+
+ppmRange = [400, -300]
+savepath_especifico = ""
+nucleo = "7Li"
+# info: muestra, expn, ppmRange
+infos = [
+         ['mwOFF_2.4A_bsms_2750_o1metal', 90, ppmRange],
+         ['mwON_2.4A_bsms_2750_o1metal', 91, ppmRange],
+         ]
+nucleo = "6Li"
+infos = [
+
+         ['mwON_2.4A_bsms_2750_o1metal', 93, ppmRange],
+         ]
+nucleo = "1H"
+ppmRange = [150, -150]
+infos = [
+         ['mwOFF_2.4A_bsms_2750_7Li-to-1H-CP', 72, ppmRange],
+         ['mwON_2.4A_bsms_2750_7Li-to-1H-CP', 49, ppmRange],
+         ['mwON_2.4A_bsms_2750_7Li-to-1H-CP_ns4k', 100, ppmRange],
+         ]
+#=============================================================
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
     muestra, expn, ppmRange = info
