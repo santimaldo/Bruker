@@ -346,30 +346,50 @@ infos = [#['hanecho', 100, None],
 #          ['mwON_2.2A_bsms_-4300_7Li-to-1H-CP', 70, ppmRange],
 #          ]
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-12-15_3.2mm_Debashis-dendrites/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-12_R9\spec/"
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-12-15_3.2mm_Debashis-dendrites/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-12_R9\spec/"
 
-ppmRange = [400, -300]
+# ppmRange = [400, -300]
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.4A_bsms_2750_o1metal', 90, ppmRange],
+#          ['mwON_2.4A_bsms_2750_o1metal', 91, ppmRange],
+#          ]
+# nucleo = "6Li"
+# infos = [
+
+#          ['mwON_2.4A_bsms_2750_o1metal', 93, ppmRange],
+#          ]
+# nucleo = "1H"
+# ppmRange = [150, -150]
+# infos = [
+#          ['mwOFF_2.4A_bsms_2750_7Li-to-1H-CP', 72, ppmRange],
+#          ['mwON_2.4A_bsms_2750_7Li-to-1H-CP', 49, ppmRange],
+#          ['mwON_2.4A_bsms_2750_7Li-to-1H-CP_ns4k', 100, ppmRange],
+#          ]
+
+#=============================================================
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-11-28_InSitu/"
+save = True
+# directorio de guradado
+savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
 savepath_especifico = ""
-nucleo = "7Li"
+expns = [80, 81, 82, 83]
+muestra = "LiCuFoil_celgard_LFP"
+nucleo = ""
+ppmRange = [800, 0]  # rango de ppm a integrar
 # info: muestra, expn, ppmRange
 infos = [
-         ['mwOFF_2.4A_bsms_2750_o1metal', 90, ppmRange],
-         ['mwON_2.4A_bsms_2750_o1metal', 91, ppmRange],
+         [f"{muestra}_bsms_6500", 80, ppmRange],
+         [f"{muestra}_bsms_7500", 81, ppmRange],
+         [f"{muestra}_bsms_8500", 82, ppmRange],
+         [f"{muestra}_bsms_9999", 83, ppmRange],
          ]
-nucleo = "6Li"
-infos = [
 
-         ['mwON_2.4A_bsms_2750_o1metal', 93, ppmRange],
-         ]
-nucleo = "1H"
-ppmRange = [150, -150]
-infos = [
-         ['mwOFF_2.4A_bsms_2750_7Li-to-1H-CP', 72, ppmRange],
-         ['mwON_2.4A_bsms_2750_7Li-to-1H-CP', 49, ppmRange],
-         ['mwON_2.4A_bsms_2750_7Li-to-1H-CP_ns4k', 100, ppmRange],
-         ]
 #=============================================================
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:

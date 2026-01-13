@@ -44,11 +44,12 @@ class Datos(object):
     """
 
     def __init__(self, directorio, set_fid=False,
-                 read_pp=True):
+                 read_pp=True, ndim=1):
 
         self.directorio = directorio
         self.acqus = Acqus(directorio)
         self.pulseprog = None
+        self.ndim = ndim
         if read_pp:
             self.pulseprog = self.getPulseProg() 
         try:
@@ -59,7 +60,6 @@ class Datos(object):
 
         self.nucleo = self.acqus.dic["NUC1"]
         self.gamma = self.set_gamma()  # rad/(s*T)
-
         # datos crudos
         if set_fid:
             self.set_fid()
@@ -156,15 +156,30 @@ class Datos(object):
 
         first_point = self.acqus.dic["GRPDLY"]+1
         # elimino los primeros puntos del tiempo muerto
-        try:
-            real = real[:, first_point:]
-            imag = imag[:, first_point:]
-            Npts = int(real[0, :].size)
-        except IndexError:
-            # print('Es un espectro 1D')
+        if self.ndim == 1:
+            print('Es un espectro 1D')
             real = real[first_point:]
             imag = imag[first_point:]
             Npts = int(real.size)
+        elif self.ndim == 2:
+            try:
+                real = real[:, first_point:]
+                imag = imag[:, first_point:]
+                Npts = int(real[0, :].size)
+            except IndexError:
+                TDhalf = self.acqus.TD //2
+                real2d = []
+                imag2d = []
+                for ii in range((real.size//TDhalf)):   
+                    real1d = real[ii*TDhalf:(ii+1)*TDhalf]
+                    imag1d = imag[ii*TDhalf:(ii+1)*TDhalf]
+                    real2d.append(real1d)
+                    imag2d.append(imag1d)
+                real2d = np.array(real2d)
+                imag2d = np.array(imag2d)
+                real = real2d[:, first_point:]
+                imag = imag2d[:, first_point:]
+                Npts = int(real[0, :].size)
         # Normalizo por NS y RG
         NS = self.acqus.NS
         RG = self.acqus.RG
@@ -190,8 +205,9 @@ class DatosProcesados(Datos):
     def __init__(self, directorio, p_dir=1,
                  ppmRange=None,
                  read_pp=False,
-                 nomrmalize_NS=True):
-        Datos.__init__(self, directorio, read_pp=read_pp)
+                 nomrmalize_NS=True,
+                 ndim=1):
+        Datos.__init__(self, directorio, read_pp=read_pp, ndim=ndim)
         self.p_dir = p_dir
         self.procs = Procs(directorio, p_dir)
         self.espectro = Espectro()
@@ -333,8 +349,9 @@ class DatosProcesados2D(DatosProcesados):
     """
 
     def __init__(self, directorio, p_dir=1, ppmRange=None,
-                 read_pp=False, extract_vdfactor=False):
-        DatosProcesados.__init__(self, directorio, read_pp=read_pp)
+                 read_pp=False, extract_vdfactor=False, ndim=2):
+        DatosProcesados.__init__(self, directorio, read_pp=read_pp, ndim=ndim)
+        self.ndim = 2
         self.proc2s = Procs(directorio, p_dir, dim2=True)
         self.acqu2s = Acqus(directorio, dim2=True)
         self.espectro.set_ppmAxisInd(
@@ -388,9 +405,9 @@ class DatosProcesados2D(DatosProcesados):
 
         return signal
     
-    def get_vdlist(self):
+    def get_vdlist(self, units='ms'):
         """
-        lee la lista de delays vdlist y los devuelve en ms
+        lee la lista de delays vdlist y los devuelve en
         """
         directorio = self.directorio
         # Extraigo la lista de delays
@@ -399,7 +416,8 @@ class DatosProcesados2D(DatosProcesados):
         else:
             vdlist = np.loadtxt(f"{directorio}/{self.vdlist_path}")
             print(f"vdlist leido de {directorio}/{self.vdlist_path}")
-        vdlist = vdlist*1000 # paso a ms
+        if units=='ms':
+            vdlist = vdlist*1000 # paso a ms
         return vdlist
 
 
@@ -412,8 +430,8 @@ class DatosProcesadosT1(DatosProcesados2D):
       signal:  S vs t procesado en topspin
     """
 
-    def __init__(self, directorio, p_dir=1, vdlist_path=None):
-        DatosProcesados2D.__init__(self, directorio)
+    def __init__(self, directorio, p_dir=1, vdlist_path=None, ndim=2):
+        DatosProcesados2D.__init__(self, directorio, ndim=ndim)
 
         self.tau = None
         self.signal = None

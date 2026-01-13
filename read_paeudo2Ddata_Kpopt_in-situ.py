@@ -106,23 +106,42 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 
 
 # directorio de datos
+# absolute = False
+# autoph = True 
+# path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-10-27_InSitu/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
+
+# expns = [68]
+# savepath+= "Angle_090deg/"
+# muestra = ""
+# save = True
+# plotRange = [1000,-400]
+# # rango de integracion
+# ppmRanges = [[800, 400],
+#              [300,100],
+#             #[-0.5, -9]            
+#             ]
+# window_width = 200  # ancho de cada ventana desde el mínimo local
+
+
 absolute = False
 autoph = True 
-path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-10-27_InSitu/"
+path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-28_InSitu/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP\expns71to79/"
 
-expns = [68]
-savepath+= "Angle_090deg/"
+expns = [71,73,75,77,79]
 muestra = ""
 save = True
-plotRange = [1000,-400]
+plotRange = [800,0]
 # rango de integracion
 ppmRanges = [[800, 400],
              [300,100],
             #[-0.5, -9]            
             ]
 window_width = 200  # ancho de cada ventana desde el mínimo local
+
 
 
 
@@ -194,11 +213,11 @@ for jj, expn in enumerate(expns):
         return x2/1e-3*B0*1e-6
     secax = ax_popt.secondary_xaxis('top', functions=(forward, inverse))
     secax.set_xlabel(r'$\Delta\delta(^7Li)$ [ppm]')
-# if save:
-#     for kk in range(Signals.size):
-#         np.savetxt(f"{savepath}/{muestra}_bsms_{bsms_field[kk]}.dat",
-#                 np.array([ppmAxis, spec[kk,:]]).T,
-#                 header="ppmAxis\treal")
+    if save:
+        for kk in range(Signals.size):
+            np.savetxt(f"{savepath}/{muestra}_expn{expn}bsms_{bsms_field[kk]}.dat",
+                    np.array([ppmAxis, spec[kk,:]]).T,
+                    header="ppmAxis\treal")
 
 
 #%%%
