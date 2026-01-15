@@ -371,24 +371,45 @@ infos = [#['hanecho', 100, None],
 #          ['mwON_2.4A_bsms_2750_7Li-to-1H-CP_ns4k', 100, ppmRange],
 #          ]
 
+# #=============================================================
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-11-28_InSitu/"
+# save = True
+# # directorio de guradado
+# savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
+# savepath_especifico = ""
+# expns = [80, 81, 82, 83]
+# muestra = "LiCuFoil_celgard_LFP"
+# nucleo = ""
+# ppmRange = [800, 0]  # rango de ppm a integrar
+# # info: muestra, expn, ppmRange
+# infos = [
+#          [f"{muestra}_bsms_6500", 80, ppmRange],
+#          [f"{muestra}_bsms_7500", 81, ppmRange],
+#          [f"{muestra}_bsms_8500", 82, ppmRange],
+#          [f"{muestra}_bsms_9999", 83, ppmRange],
+#          ]
+
+
 #=============================================================
 path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-11-28_InSitu/"
+path_bruker = "2026-01-09_3.2mm_Rui-dendrites/"
 save = True
 # directorio de guradado
-savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
+savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-01_DNP_PC\7Li_SEI/"
 savepath_especifico = ""
-expns = [80, 81, 82, 83]
-muestra = "LiCuFoil_celgard_LFP"
-nucleo = ""
-ppmRange = [800, 0]  # rango de ppm a integrar
+muestra = "Li-KBr-Rui-PC"
+nucleo = "7Li"
+ppmRange = [400, -200]  # rango de ppm a integrar
 # info: muestra, expn, ppmRange
 infos = [
-         [f"{muestra}_bsms_6500", 80, ppmRange],
-         [f"{muestra}_bsms_7500", 81, ppmRange],
-         [f"{muestra}_bsms_8500", 82, ppmRange],
-         [f"{muestra}_bsms_9999", 83, ppmRange],
+         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-150s", 31, ppmRange],
+         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-10s", 32, ppmRange],
+         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-2s", 33, ppmRange],
+         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-0.1s", 34, ppmRange],
+         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-0.01s", 35, ppmRange],
          ]
+
 
 #=============================================================
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis

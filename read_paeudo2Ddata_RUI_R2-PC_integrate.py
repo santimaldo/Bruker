@@ -31,7 +31,7 @@ savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\R
 muestra = "7Li_cellR2-PCprotocol"
 
 save = False
-plotRange = [350, 150]
+plotRange = [400, 102]
 # rango de integracion
 ppmRange = [300,200]
 
@@ -112,7 +112,7 @@ for jj, expn in enumerate(expns):
     ax_spec.set_ylabel('Intensity [a.u.]')
     ax_spec.axhline(0, color='k')
 
-    np.savetxt(f'{savepath}/1dspectra/expn{expn}_time{tau[jj]:.3f}h.dat',
+    np.savetxt(f'{savepath}/1dspectra/spec_{jj:03d}.dat',
             np.array([ppmAxis, spec1d_re]).T,
             header='ppm, Intensity [a.u.]')
 
@@ -167,3 +167,16 @@ ax.set_xlim([260, 220])
 ax.axvline(ppm_of_max[0], color='k', linestyle='--')
 
 # %%
+
+data = np.array([np.arange(len(expns)),
+                 tau,
+                 signals,
+                 ppm_of_max,
+                 ppm_mean, 
+                 expns]).T
+header = f'Spectrum Number\tTime[h]\tSignal[a.u.]-integrated between ({max(ppmRange)}-{min(ppmRange)} ppm)\tppm_of_max\tppm_mean\tTopspin Experiment Number'
+np.savetxt(f'{savepath}/1dspectra/info.txt',
+           data,
+           header=header,
+           fmt=['%d', '%.4f', '%.6f', '%.4f', '%.4f', '%d'],
+           delimiter='\t')

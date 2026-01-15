@@ -20,7 +20,7 @@ import scipy.integrate as integrate
 
 
 # directorio de datos
-expns = np.arange(33,334)
+expns = np.arange(30,334)
 expns_to_skip = np.arange(50, 366, 20)
 expns = np.setdiff1d(expns, expns_to_skip)
 
@@ -33,9 +33,9 @@ savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\R
 muestra = "7Li_cellR3-PCprotocol"
 
 save = False
-plotRange = [350, 125]
+plotRange = [400, 125]
 # rango de integracion
-ppmRange = [275, 175]
+ppmRange = [300, 200]
 
 # #### diamagnetic
 # plotRange = [100, -100]
@@ -114,7 +114,7 @@ for jj, expn in enumerate(expns):
     ax_spec.set_ylabel('Intensity [a.u.]')
     ax_spec.axhline(0, color='k')
 
-    np.savetxt(f'{savepath}/1dspectra/expn{expn:03d}.dat',
+    np.savetxt(f'{savepath}/1dspectra/spec_{jj:03d}.dat',
                np.array([ppmAxis, spec1d_re]).T,
                header='ppm, Intensity [a.u.]')
 
@@ -178,3 +178,16 @@ ax.set_xlim([260, 220])
 ax.axvline(ppm_of_max[0], color='k', linestyle='--')
 
 # %%
+
+data = np.array([np.arange(len(expns)),
+                 tau,
+                 signals,
+                 ppm_of_max,
+                 ppm_mean, 
+                 expns]).T
+header = f'Spectrum Number\tTime[h]\tSignal[a.u.]-integrated between ({max(ppmRange)}-{min(ppmRange)} ppm)\tppm_of_max\tppm_mean\tTopspin Experiment Number'
+np.savetxt(f'{savepath}/1dspectra/info.txt',
+           data,
+           header=header,
+           fmt=['%d', '%.4f', '%.6f', '%.4f', '%.4f', '%d'],
+           delimiter='\t')
