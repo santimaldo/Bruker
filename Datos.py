@@ -255,7 +255,7 @@ class DatosProcesados(Datos):
         # ppmAxis -= ppmcenter
         return ppmAxis
     
-    def Integrar(self, ppmRange=None,absolute=False):
+    def Integrar(self, ppmRange=None, absolute=False, imaginary=False):
         """
         Calcula la señal integrada de un espectro 1D en el rango de ppm especificado.
 
@@ -264,6 +264,8 @@ class DatosProcesados(Datos):
         ppmAxis = self.espectro.ppmAxis
         if absolute:
             spec = np.abs(self.espectro.spec)
+        elif imaginary:
+            spec = self.espectro.imag
         else:
             spec = self.espectro.real
         # defino rango de integracion
@@ -363,7 +365,7 @@ class DatosProcesados2D(DatosProcesados):
 
         self.ppmRange = ppmRange
 
-    def Integrar(self, ppmRange=None,absolute=False):
+    def Integrar2D(self, ppmRange=None,absolute=False, imaginary=False):
         """
         crea la lista de senales. Los datos ya tienen que estar procesados (xf2)
 
@@ -375,6 +377,8 @@ class DatosProcesados2D(DatosProcesados):
         ppmAxis = self.espectro.ppmAxis
         if absolute:
             spec = np.abs(self.espectro.spec)
+        elif imaginary:
+            spec = self.espectro.imag
         else:
             spec = self.espectro.real
         # defino rango de integracion
@@ -439,7 +443,7 @@ class DatosProcesadosT1(DatosProcesados2D):
         self.vdlist_path = vdlist_path
 
         self.Crear_tau(directorio, p_dir)
-        self.Integrar()
+        self.Integrar2D()
 
         self.tau_fit = None
         self.signal_fit = None
@@ -489,7 +493,7 @@ class DatosProcesadosT1(DatosProcesados2D):
         """
         if ppmRange is not None:
             self.ppmRange = ppmRange
-            self.Integrar()
+            self.Integrar2D()
         size = min(self.tau.size, self.signal.size)
         self.tau = self.tau[:size]
         self.signal = self.signal[:size]
@@ -634,7 +638,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
         self.bvalue = self.bvalue[1:]
 
         # Calculo los puntos S
-        self.Integrar()
+        self.Integrar2D()
 
         self.signal_fit = None
 
@@ -675,7 +679,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
         self.absolute = absolute
         if ppmRange is not None:
             self.ppmRange = ppmRange
-            self.Integrar(absolute=absolute)
+            self.Integrar2D(absolute=absolute)
         self.Recortar_datos()
         return self.bvalue, self.signal
 

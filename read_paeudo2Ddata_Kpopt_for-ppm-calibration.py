@@ -86,7 +86,9 @@ def refine_peak_position_from_deriv(ppm_interp, deriv_interp, ppm_max):
 # expn, ppm_ref, plotRange, local = [46, 1.89, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 1H
 # expn, ppm_ref, plotRange, local = [42, -1.00, [200, -200], "2025-11-03_3.2mm_Debashis-dendrites"] # 7Li
 # expn, ppm_ref, plotRange, local = [20, -206, [000, -500], "2025-11-13_3.2mm_Rui-dendrites"] # 19F
-expn, ppm_ref, plotRange, local = [17, -1.1, [110, -180], "2025-11-13_3.2mm_Rui-dendrites"] # 7Li
+# expn, ppm_ref, plotRange, local = [17, -1.1, [110, -180], "2025-11-13_3.2mm_Rui-dendrites"] # 7Li
+expn, ppm_ref, plotRange, local = [112, 270, [700, 0], "2026-01-22_InSitu"] # 7Li VERTICAL BULK LI METAL
+
 
 absolute = True
 autoph = False
@@ -216,7 +218,7 @@ plt.show()
 #     # bsms=-2400
 #     # reference_ppm = 1.89
 delta0 = ppm_ref
-bsms = -4300
+bsms = -8750
 delta = linear(bsms, *popt)
 
 delta_delta = delta - delta0

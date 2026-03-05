@@ -1,25 +1,20 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jun 24 2025
-
-@author: Santi
+REDOR analysis using lmfit
+Generalized to N peaks
+Stores amplitudes for later analysis
 """
 
-import nmrglue as ng
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
 from Datos import *
-import scipy.integrate as integrate
-import re
 from redor import *
-from VoigtFit import VoigtFit
-
+from lmfit.models import VoigtModel
+import pandas as pd
 #################### functions ################################################
 
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
-    """Anota una curva en el punto `idx`, sin rotación."""
+    """Annotate a curve at index idx (no rotation)."""
     x0 = x[idx] + offset[0]
     y0 = y[idx] + offset[1]
 
@@ -28,141 +23,317 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
             ha='center', va='center',
             bbox=dict(facecolor='white', edgecolor='none', pad=1.5),
             **kwargs)
+###############################################################################
+# ----------------------- USER PARAMETERS ------------------------------------
+###############################################################################
 
-############################################################
-expn = 30
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-10-30_PEO-PTT-solid-electrolyte_baba/"
-# Directorio de guardado
-savepath = r"C:/"
-muestra = ""
-save = False
-plot_individual_pairs = False  # Activar/desactivar gráficos por par
-plotRange = [-40, -100]
+# # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ## -CF3 in PEO-PTT
+# expn = 103
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\19F-7Li_REDOR/"
+# save = True
+# plot_individual_pairs = True
+# plotRange = [-66, -76]
+# max_recopl_time = 1.24 # ms
+# spin_speed = 14000
+# region = "_-CF3_of_PTT"
+# nuclei = ['19F', '7Li']
+# # -------- Define peaks here (GENERALIZABLE) --------
+# centers = [-69.88, -70.50]
+# sigmas  = [0.2965, 1.2004]
+# gammas  = [0.4842, 0.3717]
+# amp_guess = [40, 140]
+
+#######- - - - - - - - - - - - - - - - - - - - - - - - - - - -
+## -TFSI in PEO-PTT
+expn = 103
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\19F-7Li_REDOR/"
+save = True
+plot_individual_pairs = True
+plotRange = [-88, -94]
+max_recopl_time = 10 # ms
+spin_speed = 14000
+nuclei = ['19F', '7Li']
+region = "_TFSI"
+# -------- Define peaks here (GENERALIZABLE) --------
+centers = [-91.29, -91.32]
+sigmas  = [0.0, 0.111]
+gammas  = [0.189, 0.415]
+amp_guess = [1282, 1647]
 
 
-# Directorio de datos
-# expn = 44
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-06-21_PEO-solid-electrolyte/"
-# # Directorio de guardado
-# savepath = r"C:/"
-# muestra = ""
-# save = False
-# plot_individual_pairs = False  # Activar/desactivar gráficos por par
+# # # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# ## 7Li{1H} redor
+# expn = 91
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\7Li-1H_REDOR/"
+# save = True
+# plot_individual_pairs = True
+# plotRange = [5, -7.5]
+# max_recopl_time = 1.25 # ms
+# spin_speed = 10000
+# nuclei = ['7Li', '1H']
+# region = ""
+# # -------- Define peaks here (GENERALIZABLE) --------
+# centers = [-1.61, -1.61]
+# sigmas  = [0.0, 0.0]
+# gammas  = [0.086, 1.729]
+# amp_guess = [206, 406]
 
-plotRange = [-52, -70]
-peaks = [-40, -80]
-range_of_peaks_to_save = [-50, -65]  # Rango de ppm para guardar los picos
-
-last_echo_number = 25
-
-#=====================================================================
-# Lectura del experimento 2D
-#=====================================================================
-
+###############################################################################
+# ----------------------- READ 2D DATA ---------------------------------------
+###############################################################################
+Npeaks = len(centers)
 path_2D = f"{path}/{expn}/"
 datos = DatosProcesados2D(path_2D, read_pp=False)
 datos.espectro.ppmSelect(plotRange)
+
 ppmAxis = datos.espectro.ppmAxis
 spec = datos.espectro.real
 
+###############################################################################
+# ----------------------- BUILD MODEL (N peaks) ------------------------------
+###############################################################################
 
-m1_amplitude = 227.150490 # initial guess for m1 amplitude
-m2_amplitude = 100.065480
-# Graficar los espectros 1D
-Signals = np.array([])
-Signals_err = np.array([])
+model = None
+for i in range(Npeaks):
+    prefix = f"p{i+1}_"
+    peak = VoigtModel(prefix=prefix)
+    model = peak if model is None else model + peak
 
-for kk in range(2*last_echo_number):
+###############################################################################
+# ----------------------- FIT LOOP -------------------------------------------
+###############################################################################
+
+Signals_total = []
+Signals_total_err = []
+
+Signals_peaks = [[] for _ in range(Npeaks)]
+Signals_peaks_err = [[] for _ in range(Npeaks)]
+
+for kk in range(spec.shape[0]):
+
     ydata = spec[kk, :]
     xdata = ppmAxis
-    vfit=VoigtFit(xdata,
-              ydata,
-              Npicos=2,
-              ajustar=True,
-              amplitude=[m1_amplitude, m2_amplitude],
-              center=[-59.7286635, 	-59.1561544],
-              sigma=[1.15184146, 9.3274e-06],
-              gamma=[0.38857500,0.62508785],
-              fijar=['center', 'sigma', 'gamma'],
-              )
-    fig = vfit.plot_ajuste()
-    fig.gca().set_title(f"Slice Num. {kk}")
 
-    m1_amplitude = vfit.params["m1_amplitude"].value
-    m2_amplitude = vfit.params["m2_amplitude"].value
-    signal = m1_amplitude + m2_amplitude
+    params = model.make_params()
 
-    m1_amplitude_stderr = vfit.params["m1_amplitude"].stderr
-    m2_amplitude_stderr = vfit.params["m2_amplitude"].stderr
-    signal_stderr = np.sqrt(m1_amplitude_stderr**2 + m2_amplitude_stderr**2)
+    # Assign parameters peak-by-peak
+    for i in range(Npeaks):
+        prefix = f"p{i+1}_"
+        params[f'{prefix}amplitude'].set(value=amp_guess[i], min=0)
+        params[f'{prefix}center'].set(value=centers[i], vary=False)
+        params[f'{prefix}sigma'].set(value=sigmas[i], vary=False)
+        params[f'{prefix}gamma'].set(value=gammas[i], vary=False)
 
-    Signals = np.append(Signals, signal)
-    Signals_err = np.append(Signals_err, 1.96*signal_stderr)
-    # ax_spec.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
-    # ax_spec.axhline(0, color='k')
-    # ax_spec.set_title(f"Echo {kk}")
+    result = model.fit(ydata, params, x=xdata)
 
+    # Update guesses iteratively
+    for i in range(Npeaks):
+        amp_guess[i] = result.params[f'p{i+1}_amplitude'].value
 
+    # ----- Extract amplitudes -----
+    amps = []
+    errs = []
 
+    for i in range(Npeaks):
+        amp = result.params[f'p{i+1}_amplitude'].value
+        err = result.params[f'p{i+1}_amplitude'].stderr or 0
+        amps.append(amp)
+        errs.append(err)
 
-#=====================================================================
-# Calculo y grafico de (S - S0)/S0
-#=====================================================================
+        Signals_peaks[i].append(amp)
+        Signals_peaks_err[i].append(1.96 * err)
 
-# Separar S y S0
-S = Signals[0::2]
-S0 = Signals[1::2]
-S_err = Signals_err[0::2]
-S0_err = Signals_err[1::2]
-N = np.arange(1, len(S) + 1) # number of rotor cycles
+    Stotal = np.sum(amps)
+    Stotal_err = 1.96 * np.sqrt(np.sum(np.array(errs)**2))
 
-# Calcular la razón (S - S0)/S0
-spin_speed = 14000  # spinning speed in Hz
-recopl_time = N / spin_speed  # recoupling time in seconds
+    Signals_total.append(Stotal)
+    Signals_total_err.append(Stotal_err)
 
-# Graficar S y S0 en bruto
-fig_t2, ax_t2 = plt.subplots()
-ax_t2.plot(S, 'o-', label='S')
-ax_t2.plot(S0, 'o-', label='S0')
-ax_t2.set_xlabel("Índice (simula tiempo)")
-ax_t2.set_ylabel("S")
-ax_t2.grid(True)
-ax_t2.legend()
+    # ---------- Plot with translucent components ----------
+    if plot_individual_pairs:
+        comps = result.eval_components(x=xdata)
+        plt.figure()
+        plt.plot(xdata, ydata, 'k', label='Data')
+        plt.plot(xdata, result.best_fit, 'r', label='Fit')
 
-#%% Graficar S y S0 en bruto
-fig_redor, ax_redor = plt.subplots()
+        for i in range(Npeaks):
+            plt.fill_between(
+                xdata,
+                comps[f'p{i+1}_'],
+                alpha=0.3,
+                label=f'Peak {i+1}'
+            )
+
+        plt.gca().invert_xaxis()
+        plt.title(f"Slice {kk}")
+        plt.legend()        
+
+###############################################################################
+# ----------------------- Convert to arrays ----------------------------------
+###############################################################################
+
+Signals_total = np.array(Signals_total)
+Signals_total_err = np.array(Signals_total_err)
+
+Signals_peaks = [np.array(p) for p in Signals_peaks]
+Signals_peaks_err = [np.array(p) for p in Signals_peaks_err]
+
+###############################################################################
+# ----------------------- REDOR processing -----------------------------------
+###############################################################################
+
+S  = Signals_total[0::2]
+S0 = Signals_total[1::2]
+S_err  = Signals_total_err[0::2]
+S0_err = Signals_total_err[1::2]
+
+N = np.arange(1, len(S) + 1)
+recopl_time_ms = (N / spin_speed) * 1000
+
+###############################################################################
+# ----------------------- SAVE DATA TABLE ------------------------------------
+###############################################################################
+
+# Separate S and S0 for total
+S_total  = Signals_total[0::2]
+S0_total = Signals_total[1::2]
+
+S_total_err  = Signals_total_err[0::2]
+S0_total_err = Signals_total_err[1::2]
+
+data_dict = {
+    "dephasing_time": recopl_time_ms,
+    "Stotal": S_total,
+    "Stotalerr": S_total_err,
+    "S0total": S0_total,
+    "S0totalerr": S0_total_err,
+}
+
+# -------- Individual peaks --------
+for i in range(Npeaks):
+
+    ppm_value = centers[i]
+
+    S_i  = Signals_peaks[i][0::2]
+    S0_i = Signals_peaks[i][1::2]
+
+    S_i_err  = Signals_peaks_err[i][0::2]
+    S0_i_err = Signals_peaks_err[i][1::2]
+
+    data_dict[f"S{i+1}"] = S_i
+    data_dict[f"S{i+1}err"] = S_i_err
+
+    data_dict[f"S0{i+1}"] = S0_i
+    data_dict[f"S0{i+1}err"] = S0_i_err
+
+df = pd.DataFrame(data_dict)
+
+if save:
+    df.to_csv(f"{savepath}REDOR_amplitudes{region}.csv", index=False)
+
+#%%##############################################################################
+# ----------------------- REDOR TOTAL Y POR PICO --------------------------------
+###############################################################################
+
+# Filtrar hasta el tiempo máximo de recoupling
+mask = recopl_time_ms <= max_recopl_time
+
+# --- REDOR total ---
+S_S0 = S[mask] / S0[mask]
+S_S0_err = S_S0 * np.sqrt(
+    (S_err[mask]/S[mask])**2 + (S0_err[mask]/S0[mask])**2
+)
+
+fig_redor, ax_redor = plt.subplots(figsize=(6,4))
+
+#### Simulaciones teóricas (distancias)
 for internuc_distance in np.arange(0.55, 0.8, 0.05):
-    Nsim = np.arange(1, 1.5*N[-1])  # rotor cycles from 1 to 64
-    NTr, S_S0 = DeltaS_quadrupolar(internuc_distance, spin_speed, Nsim)
+    Nsim = np.arange(1, 1.2*N[-1])
+    NTr, S_S0_sim = DeltaS_quadrupolar(internuc_distance, spin_speed, Nsim, nuclei=nuclei)
     xvals = NTr * 1000
-    ax_redor.plot(xvals, S_S0, 'k')
-    label = fr"{internuc_distance*10:.1f} $\AA$"
-    label_curve(ax_redor, xvals, S_S0, label, idx=int(1.1*N[-1]), offset=(0, 0.05), fontsize=8)
+    ax_redor.plot(xvals, S_S0_sim, 'k')
+    label_curve(ax_redor, xvals, S_S0_sim,
+                fr"{internuc_distance*10:.1f} $\AA$",
+                idx=int(1.1*N[-1]), offset=(0,0.05), fontsize=8)
 
-Necos = 25# for the plot]
-S_S0_Necos = S[:Necos]/S0[:Necos]
-S_S0_err = S_S0_Necos * np.sqrt( (S_err[:Necos]/S[:Necos])**2 + (S0_err[:Necos]/S0[:Necos])**2 )
+# Datos experimentales - total
+ax_redor.errorbar(
+    recopl_time_ms[mask], S_S0,
+    yerr=S_S0_err,
+    fmt='o', alpha=0.8, capsize=3,
+    label='Total Experiment'
+)
 
-ax_redor.errorbar(recopl_time[:Necos]*1000, S_S0_Necos ,
-                  yerr=S_S0_err,
-                  fmt='o', alpha=0.8, capsize=3)
-ax_redor.set_xlabel("Dephasing time (ms)")
+# # --- REDOR por pico ---
+# for i in range(Npeaks):
+#     S_i = Signals_peaks[i][0::2][mask]
+#     S0_i = Signals_peaks[i][1::2][mask]
+#     S_i_err = Signals_peaks_err[i][0::2][mask]
+#     S0_i_err = Signals_peaks_err[i][1::2][mask]
+
+#     S_i_S0 = S_i / S0_i
+#     S_i_S0_err = S_i_S0 * np.sqrt(
+#         (S_i_err / S_i)**2 + (S0_i_err / S0_i)**2
+#     )
+
+#     ax_redor.errorbar(
+#         recopl_time_ms[mask], S_i_S0,
+#         yerr=S_i_S0_err,
+#         fmt='o', alpha=0.6, capsize=3,
+#         label=f'Peak {i+1} ({centers[i]} ppm)'
+#     )
+
+ax_redor.set_xlabel(r"$\tau_{\text{REDOR}}$ (ms)")
 ax_redor.set_ylabel("S/S0")
 ax_redor.set_ylim(0, 1.1)
 ax_redor.grid(True)
-ax_redor.legend()
+ax_redor.legend(fontsize=8)
 
+#%%##############################################################################
+# ----------------------- Plot S and S0 per peak --------------------------------
+###############################################################################
 
-#%% Plot S and S0 vs recoupling time
-fig_t2, ax_t2 = plt.subplots()
-ax_t2.plot(recopl_time[:Necos]*1000, S[:Necos]/S[0],'o-', label='S')
-ax_t2.plot(recopl_time[:Necos]*1000, S0[:Necos]/S[0], 'o-', label='S0')
-ax_t2.set_xlabel("Dephasing time (ms)")
-ax_t2.set_ylabel("Signal (a.u.)")
-ax_t2.set_title("S and S0 vs Dephasing time")
-ax_t2.grid(True)
-ax_t2.legend()
-ax_t2.set_xlim(ax_redor.get_xlim())
-# ax_t2.set_yscale('log')
-# ax_t2.set_ylim(0.0, 0.05)
+fig, ax = plt.subplots(figsize=(7,5))
+
+for i in range(Npeaks):
+    # Filtrar hasta tiempo máximo
+    mask = recopl_time_ms <= max_recopl_time
+
+    S_i  = Signals_peaks[i][0::2][mask]
+    S0_i = Signals_peaks[i][1::2][mask]
+    S_i_err  = Signals_peaks_err[i][0::2][mask]
+    S0_i_err = Signals_peaks_err[i][1::2][mask]
+
+    # Plot S_i
+    ax.errorbar(
+        recopl_time_ms[mask],
+        S_i,
+        yerr=S_i_err,
+        fmt='o-',
+        alpha=0.7,
+        capsize=3,
+        label=f"S{i+1} ({centers[i]} ppm)"
+    )
+
+    # Plot S0_i
+    ax.errorbar(
+        recopl_time_ms[mask],
+        S0_i,
+        yerr=S0_i_err,
+        fmt='s--',
+        alpha=0.7,
+        capsize=3,
+        label=f"S0{i+1} ({centers[i]} ppm)"
+    )
+
+ax.set_xlabel(r"$\tau_{\text{REDOR}}$ (ms)")
+ax.set_ylabel("Signal amplitude")
+ax.set_title("S and S0 per peak vs Dephasing time")
+ax.grid(True)
+ax.legend(fontsize=8)
+# ax.set_yscale('log')
 # %%

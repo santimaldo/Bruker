@@ -4,7 +4,7 @@ from scipy.special import jv  # Bessel function of the first kind
 
 
 
-def redor_curve(r, spin_speed, N):
+def redor_curve(r, spin_speed, N, nuclei=['19F', '7Li']):
     """
     Calculate the recoupling curve for a given internuclear distance and spinning speed.
     
@@ -19,12 +19,17 @@ def redor_curve(r, spin_speed, N):
     # Convert internuclear distance to meters
     R = r * 1e-9  # nm to m
     mu = 4 * np.pi * 1e-7  # magnetic constant (H/m)
-    gamma_7Li = 103.962e6  # rad/(s*T)
-    gamma_F19 = 251.662e6  # rad/(s*T)
+
+    gamma = {'7li':103.962e6,   # rad/(s*T)
+             '19f':251.662e6,
+             '1h': 2.6752218708e8}
+
+    gamma_I = gamma[nuclei[0].lower()]
+    gamma_S = gamma[nuclei[1].lower()]
     h_bar = 1.05457e-34  # J*s
 
     # Calculate dipolar coupling constant
-    D = mu * gamma_7Li * gamma_F19 * h_bar / (8 * np.pi**2 * R**3)
+    D = mu * gamma_I * gamma_S * h_bar / (8 * np.pi**2 * R**3)
     #print(f"Internuclear distance: {r} nm, Dipolar coupling D: {D:.2e} Hz")
     # Calculate recoupling time
     Tr = 1 / spin_speed  # rotor period in seconds
@@ -43,17 +48,22 @@ def redor_curve(r, spin_speed, N):
     return NTr, S_S0
 
 
-def DeltaS_quadrupolar(r, spin_speed, N, Nterms=10):
+def DeltaS_quadrupolar(r, spin_speed, N, Nterms=10, nuclei=['19F', '7Li']):
+
+    gamma = {'7li':103.962e6,   # rad/(s*T)
+             '19f':251.662e6,
+             '1h': 2.6752218708e8}
+
+    gamma_I = gamma[nuclei[0].lower()]
+    gamma_S = gamma[nuclei[1].lower()]
 
     # Convert internuclear distance to meters
     R = r * 1e-9  # nm to m
     mu = 4 * np.pi * 1e-7  # magnetic constant (H/m)
-    gamma_7Li = 103.962e6  # rad/(s*T)
-    gamma_F19 = 251.662e6  # rad/(s*T)
     h_bar = 1.05457e-34  # J*s
 
     # Calculate dipolar coupling constant
-    D = mu * gamma_7Li * gamma_F19 * h_bar / (8 * np.pi**2 * R**3)
+    D = mu * gamma_I * gamma_S * h_bar / (8 * np.pi**2 * R**3)
     #print(f"Internuclear distance: {r} nm, Dipolar coupling D: {D:.2e} Hz")
     # Calculate recoupling time
     Tr = 1 / spin_speed  # rotor period in seconds

@@ -35,33 +35,33 @@ infos = [['PEO-LiTFSI_6kHz', 3],
          ]
 
 
-# info: muestra, expn, ppmRange
-nucleo = "7Li"
-ppmRange = None
-infos = [['PEO-LiTFSI_10kHz', 25], # compare with 7 --> before fast spinning
-         ['PEO-LiTFSI_20kHz', 23],
-         ['PEO-LiTFSI_30kHz', 19],
+# # info: muestra, expn, ppmRange
+# nucleo = "7Li"
+# ppmRange = None
+# infos = [['PEO-LiTFSI_10kHz', 25], # compare with 7 --> before fast spinning
+#          ['PEO-LiTFSI_20kHz', 23],
+#          ['PEO-LiTFSI_30kHz', 19],
          
-         ['PEO-PTT-LiTFSI_10kHz', 34],
-         ['PEO-PTT-LiTFSI_15kHz', 40],
-         ['PEO-PTT-LiTFSI_20kHz', 42],
-         ['PEO-PTT-LiTFSI_25kHz', 80],
-         ['PEO-PTT-LiTFSI_30kHz', 82]
-         ]
+#          ['PEO-PTT-LiTFSI_10kHz', 34],
+#          ['PEO-PTT-LiTFSI_15kHz', 40],
+#          ['PEO-PTT-LiTFSI_20kHz', 42],
+#          ['PEO-PTT-LiTFSI_25kHz', 80],
+#          ['PEO-PTT-LiTFSI_30kHz', 82]
+#          ]
 
-# info: muestra, expn, ppmRange
-nucleo = "19F"
-ppmRange = None #[-85,-75]
-infos = [['PEO-LiTFSI_10kHz', 26], # compare with 7 --> before fast spinning
-         ['PEO-LiTFSI_20kHz', 24],
-         ['PEO-LiTFSI_30kHz', 21],
+# # info: muestra, expn, ppmRange
+# nucleo = "19F"
+# ppmRange = None #[-85,-75]
+# infos = [['PEO-LiTFSI_10kHz', 26], # compare with 7 --> before fast spinning
+#          ['PEO-LiTFSI_20kHz', 24],
+#          ['PEO-LiTFSI_30kHz', 21],
          
-         ['PEO-PTT-LiTFSI_10kHz', 36],
-         ['PEO-PTT-LiTFSI_15kHz', 37],
-         ['PEO-PTT-LiTFSI_20kHz', 41],
-         ['PEO-PTT-LiTFSI_25kHz', 81],
-         ['PEO-PTT-LiTFSI_30kHz', 83]
-         ]
+#          ['PEO-PTT-LiTFSI_10kHz', 36],
+#          ['PEO-PTT-LiTFSI_15kHz', 37],
+#          ['PEO-PTT-LiTFSI_20kHz', 41],
+#          ['PEO-PTT-LiTFSI_25kHz', 81],
+#          ['PEO-PTT-LiTFSI_30kHz', 83]
+#          ]
 
 # path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-07-16_PEO-solid-electrolyte_VT/"
 # path_bruker = ""
@@ -72,9 +72,54 @@ infos = [['PEO-LiTFSI_10kHz', 26], # compare with 7 --> before fast spinning
 # infos = [['tmp', 111]]
 
 
+################# 2026-02 13C CP
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP/"
+
+# path_bruker = "2026-02-06_PEO-solid-electrolyte/"
+# savepath_especifico = "PEO-LiTFSI/13C_CP/"
+# # info: muestra, expn, ppmRange
+# nucleo = "13C"
+# ppmRange = [100,40]
+# infos = [['CP_contactTime_100us', 51, ppmRange],
+#          ['CP_contactTime_1000us', 52, ppmRange],
+#          ['CP_contactTime_50us', 53, ppmRange],
+#          ['CP_contactTime_500us', 54, ppmRange],
+#          ['CP_contactTime_5000us', 55, ppmRange],
+#          ['CP_contactTime_10us', 56, ppmRange],
+#          ['CP_contact-Time_50us_shortD1-0.6s', 60, ppmRange],
+#          ['zg_d1-60s', 61, [200, 0]],
+#          ]
+
+# path_bruker = "2026-02-07_PEO-PTT_solid-electrolyte/"
+# savepath_especifico = "PEO-PTT-LiTFSI/13C_CP/"
+# # info: muestra, expn, ppmRange
+# nucleo = "13C"
+# ppmRange = [100,40]
+# infos = [['CP_contactTime_100us', 51, ppmRange],
+#          ['CP_contactTime_1000us', 52, ppmRange],
+#          ['CP_contactTime_50us', 53, ppmRange],
+#          ['CP_contactTime_500us', 54, ppmRange],
+#          ['CP_contactTime_5000us', 55, ppmRange],
+#          ['CP_contactTime_10us', 56, ppmRange],
+#          ['CP_contactTime_3000us', 57, ppmRange],
+#          ['CP_contact-Time_50us_shortD1-0.6s', 60, ppmRange],
+#          ['zg_d1-60s', 61, [200, 0]],
+#          ]
+
+path_bruker = "2026-02-06_PEO-solid-electrolyte/"
+savepath_especifico = "PEO-LiTFSI/7Li/"
+# info: muestra, expn, ppmRange
+nucleo = "7Li"
+ppmRange = [200,-200]
+infos = [['CP_contactTime_2000us_D1-10s', 79, ppmRange],
+         ['CP_contactTime_2000us_D1-0.6s', 78, ppmRange],
+         ]
+
+info_list = []
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
-    muestra, expn = info
+    muestra, expn, ppmRange= info
     save = True
 
 
@@ -83,9 +128,14 @@ for info in infos:
     # datos = DatosProcesados(f'{path_local}')
     if ppmRange is not None:
         datos.espectro.ppmSelect(ppmRange)
+
     re = datos.espectro.real
     im = datos.espectro.imag
     ppmAxis = datos.espectro.ppmAxis
+
+    if muestra.startswith('CP_'):
+        contactTime = datos.acqus.dic['P'][15]
+        info_list.append([expn, contactTime])
 
 
     # grafico para guardar:
@@ -109,6 +159,7 @@ for info in infos:
 
 plt.show()
 
+np.savetxt(f"{savepath_local}{savepath_especifico}contact_times.dat", np.array(info_list), header="expn\t contactTime_us")
 
 # vfit=VoigtFit(ppmAxis, 
 #               re, 

@@ -13,22 +13,36 @@ import numpy as np
 from Datos import *
 import scipy.integrate as integrate
 import re
+min_contact_time = 0 # discard p15<min_contact_time 
 
+# # directorio de datos
+# expns = np.concatenate([np.arange(60, 65), np.arange(66, 71)])
+# path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+# muestra = ""
+# save = False
+# plotRange = [100, -100]
+# # rango de integracion
+# ppmRanges = [[15, -10]
+#             #[300, 150],
+#             #[-0.5, -9]            
+#             ]
 
 # directorio de datos
-expns = np.concatenate([np.arange(60, 65), np.arange(66, 71)])
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
+expns = np.arange(20, 36)
+path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2026-01-21_3.2mm_LiH/"
+min_contact_time = 0
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
 muestra = ""
 save = False
 plotRange = [100, -100]
 # rango de integracion
-ppmRanges = [[15, -10]
+ppmRanges = [[18, -10]
             #[300, 150],
             #[-0.5, -9]            
             ]
-
 
 #=====================================================================
 # 2D experiments
@@ -46,6 +60,8 @@ for jj, expn in enumerate(expns):
     ppmAxis = datos.espectro.ppmAxis
     spec = datos.espectro.real
     contact_time = datos.acqus.dic["P"][15]
+    if contact_time<min_contact_time:
+        continue
     contact_times[jj] = contact_time
     ax_spec.plot(ppmAxis, spec)
 
@@ -69,16 +85,13 @@ ax_popt.plot(contact_times, Signals, 'o')#, color=color, label="Rising Edge")
 #%%   
 # guardo data:
 if save:
-    filename = f'{savepath}/{muestra}_T1.png'
-    fig.savefig(filename)   # save the figure to file
+    CPdata = np.array([contact_times, Signals]).T
+    CPdata = CPdata[CPdata[:,1]!=0]
+    CPdata = CPdata[CPdata[:,0].argsort()]
 
-    Signals = np.array(Signals).T
-    tau = tau.reshape(tau.size, 1)
-    T1data = np.hstack((tau, Signals))
-    header = "tau [s]\t"
+    header = "contact_time [s]\t"
     for ppmRange in ppmRanges:
         header += f"{ppmRange} ppm\t"
-    np.savetxt(f"{savepath}/{muestra}_T1.dat", T1data, header=header)
+    np.savetxt(f"{savepath}/{muestra}_CP-curve.dat", CPdata, header=header)
 
-    data = np.array([ppmAxis, re, im]).T
-    np.savetxt(f"{savepath}/{muestra}_ultimoEspectro.dat", data)
+# %%

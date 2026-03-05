@@ -19,18 +19,27 @@ import os
 
 ################## Functions ###########################
 
-def ppm_correction(ppmAxis, bsms, alpha, beta, ppm_ref):
+def read_bsms_field(path_archivo):
     """
-    Tengo que haber calibrado el eje ppm vs bsms para el mismo SR.
-    asi obtengo ppm = alpha * bsms + beta EN LA REFERENCIA
-    luego calculo el delta para que la refe siempre caiga en ppm_ref,
-    y eso es lo que tengo que correr el ppmAxis
+    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
+
+    Parámetros:
+    path_archivo (str): Ruta al archivo de entrada.
+
+    Retorna:
+    list[float]: Lista con los valores del array x.
     """
-    Delta = (alpha*bsms+beta) - ppm_ref
-    return ppmAxis-Delta
+    with open(path_archivo+'Klog_opt', 'r') as f:
+        for linea in f:
+            if linea.startswith("x="):
+                contenido = linea.strip().split("=", 1)[1]
+                x = eval(contenido)
+                return x
+    raise ValueError("No se encontro una linea que empiece con 'x='.")
 
 
-
+import numpy as np
+from scipy import integrate
 
 def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
     """
@@ -77,58 +86,57 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 # directorio de datos
 absolute = False
 autoph = True 
-path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2026-01-22_InSitu/"
+path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-28_InSitu/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2026_01_InSitu/"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
 
-expns = np.arange(24, 45)
-bsms_list = np.array([-5750, -9999, -9000, -8750, -7000, -6000, -5000, -4500, 9999, -5500, -8000, -4000, -3000, -2000, 0, 4000, 5000, 1000, 2000, 500, -1000])
-savepath += "kpopt/"
-muestra = "LiCuFoil_celgard_NMC"
-# expns = [1]
-# bsms_list = np.array([0])
-# muestra = "000_LiCuFoil_celgard_NMC_uwOFF"
-
-
+expns = [71, 73, 75, 77, 79]
+expns=[52]
+savepath += "expn52/"
+muestra = "LiCuFoil_celgard_LFP"
 save = True
-plotRange = [700,-200]
+plotRange = [1000,-400]
 # rango de integracion
 ppmRanges = []
 window_width = 200  # ancho de cada ventana desde el mínimo local
-# parametros de la calibracion hecha previamente
-alpha = -1.168e-2
-beta = 269.946
-ppm_ref = 270 
+
 
 
 #=====================================================================
 # 2D experiments
 #=====================================================================
-# fig_popt, ax_popt = plt.subplots(num=382910)
-fig_spec, ax_spec = plt.subplots(num=17856)   
+fig_popt, ax_popt = plt.subplots(num=382910)
 fig1, ax1 = plt.subplots()
-
+bsms_list = []
+colors = ["k", "b", "r", "g", "orange", "purple", "cyan"]
 for jj, expn in enumerate(expns):
-   
-    bsms = bsms_list[jj]
-    datos = DatosProcesados(f'{path}/{expn}/',
-                                read_pp = False,
-                                nomrmalize_NS=True)
-    datos.espectro.ppmSelect(plotRange)
-    ppmAxis = datos.espectro.ppmAxis
-    ppmAxis = ppm_correction(ppmAxis, bsms, alpha, beta, ppm_ref)
-    spec1d = datos.espectro.real
-    speci1d = datos.espectro.imag
+    fig_spec, ax_spec = plt.subplots(num=17856+jj)    
+    path_2D = f"{path}/{expn}/"
+    bsms_field = np.array(read_bsms_field(path_2D))
 
-    ax_spec.plot(ppmAxis, spec1d)
+    for kk, bsms in enumerate(bsms_field):
+        acqus_file = os.path.join(path_2D, "acqus")
+        nexp1d = f"{expn}999{kk+1:02d}"
 
-    np.savetxt(f"{savepath}/{muestra}_bsms_{int(bsms):04d}.dat", np.array([ppmAxis, spec1d]).T, header="ppmAxis\treal")
-    maximo = ppmAxis[spec1d==np.max(spec1d)]
-    # maximo = datos.acqus.SFO1
+        # copy acqus file. Esto es necesario para que DatosProcesados lea bien los datos
+        carpeta_destino = os.path.join(path, f"{nexp1d}/")
+        shutil.copy(acqus_file, carpeta_destino)
 
+        datos = DatosProcesados(f'{path}/{nexp1d}/',
+                                   read_pp = False,
+                                   nomrmalize_NS=False)
+        datos.espectro.ppmSelect(plotRange)
+        ppmAxis = datos.espectro.ppmAxis
+        spec1d = datos.espectro.real
+        speci1d = datos.espectro.imag
 
+        ax_spec.plot(ppmAxis, spec1d)
 
-    ax1.scatter(bsms, maximo)
+        np.savetxt(f"{savepath}/{muestra}_bsms_{int(bsms):04d}.dat", np.array([ppmAxis, spec1d]).T, header="ppmAxis\treal")
+        bsms_list.append(bsms)
+        maximo = ppmAxis[spec1d==np.max(spec1d)]
+        # maximo = datos.acqus.SFO1
+        ax1.scatter(bsms, maximo, color=colors[jj])
 np.savetxt(f"{savepath}/bsms_list", bsms_list)
 
         

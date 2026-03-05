@@ -321,7 +321,7 @@ class ILT(object):
         cumulative = integrate.cumulative_trapezoid(yilt[2:-1])
         cumulative = cumulative / cumulative.max()
 
-        ax2.semilogx(xilt[3:-1], cumulative, 'k', lw=lw/2, color=color, alpha=0.5)
+        ax2.semilogx(xilt[3:-1], cumulative, lw=lw/2, color=color, alpha=0.5)
         ax2.semilogx(xilt, yilt/yilt.max(), lw=lw, label=self.muestra, color=color)
         ax2.set_xlabel(labels['xilt'])
         ax2.yaxis.tick_right()
@@ -332,6 +332,33 @@ class ILT(object):
         axs = [ax0, ax1, ax2]
         self.color_counter += 1
         return fig, axs
+    
+
+    def plot_fit(self):
+        """
+        Metodo para plotear el ajuste
+        """
+        plt.rcParams.update({'font.size': 16})
+
+        if self.labels is None:
+            labels = {'xdata': r'$x_{data}$ [units]',
+                      'ydata': r'$y_{data}$ [units]',
+                      'titulo': None}
+        else:
+            labels = self.labels
+
+        xdata = self.xdata
+        ydata = self.ydata
+        xfit = self.xfit
+        yfit = self.yfit
+
+        fig, ax = plt.subplots()
+        ax.plot(xdata, ydata, 'ko', alpha=0.3)
+        ax.plot(xfit, yfit, 'r-')
+        ax.set_xlabel(labels['xdata'])
+        ax.set_ylabel(labels['ydata'])        
+        fig.tight_layout()
+        return fig, ax
 
     def legend(self):
         """

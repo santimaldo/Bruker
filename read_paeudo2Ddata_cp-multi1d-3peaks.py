@@ -15,28 +15,41 @@ import pandas as pd
 from Datos import *
 from VoigtFit import PseudoVoigtFit
 import re
-
+min_contact_time = 0
 #=====================================================================
 # Directorios y parámetros
 #=====================================================================
 
-expns = np.concatenate([np.arange(60, 65), np.arange(66, 71)])
-# expns = [69]  # opcional para probar un solo experimento
-path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+# expns = np.concatenate([np.arange(60, 65), np.arange(66, 71)])
+# # expns = [69]  # opcional para probar un solo experimento
+# path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+# muestra = ""
+# save = False
+
+# plotRange = [100, -100]
+# ppmRange  = [20, -15]   # rango de ajuste
+# show_individual_fits = True  # para graficar cada ajuste individual
+
+
+# directorio de datos
+expns = np.arange(20, 36)
+path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2026-01-21_3.2mm_LiH/"
+min_contact_time = 51
+# directorio de guradado
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
 muestra = ""
 save = False
-
 plotRange = [100, -100]
-ppmRange  = [20, -15]   # rango de ajuste
+# rango de integracion
+ppmRange = [[18, -10]]
 show_individual_fits = True  # para graficar cada ajuste individual
-
 #=====================================================================
 # Inicialización
 #=====================================================================
 
 results = []   # lista donde acumularé resultados fila por fila
-Npicos = 3     # número de picos a ajustar
+Npicos = 1     # número de picos a ajustar
 
 #=====================================================================
 # Bucle sobre experimentos
@@ -51,6 +64,8 @@ for jj, expn in enumerate(expns):
     ppmAxis = datos.espectro.ppmAxis
     spec = datos.espectro.real
     contact_time = datos.acqus.dic["P"][15]
+    if contact_time<min_contact_time:
+        continue
 
     # Graficar espectro completo
     ax_spec.plot(ppmAxis, spec, lw=1)
@@ -64,14 +79,20 @@ for jj, expn in enumerate(expns):
     ydata = spec[mask]
 
     # Guess inicial para los tres picos
-    amplitude = [359451094.1/(datos.acqus.NS*datos.acqus.RG),
-                 162708124.8/(datos.acqus.NS*datos.acqus.RG),
-                 637529648.5/(datos.acqus.NS*datos.acqus.RG)]
-    center = [-0.7, 3.617, 7.347] # ppm
-    fwhm = [2341.7218 / datos.acqus.SFO1,
-            1873.5914 / datos.acqus.SFO1,
-            2663.8478 / datos.acqus.SFO1]
-    fraction = [0.1379, 0.5785, 0.6014]
+    # amplitude = [359451094.1/(datos.acqus.NS*datos.acqus.RG),
+    #              162708124.8/(datos.acqus.NS*datos.acqus.RG),
+    #              637529648.5/(datos.acqus.NS*datos.acqus.RG)]
+    # center = [-0.7, 3.617, 7.347] # ppm
+    # fwhm = [2341.7218 / datos.acqus.SFO1,
+    #         1873.5914 / datos.acqus.SFO1,
+    #         2663.8478 / datos.acqus.SFO1]
+    # fraction = [0.1379, 0.5785, 0.6014]
+    ## Guess inicial para EL pico
+    amplitude = [359451094.1/(datos.acqus.NS*datos.acqus.RG)]
+    center = [1.7] # ppm
+    fwhm = [5200 / datos.acqus.SFO1]
+    fraction = [1]        
+
 
     # Ajuste pseudo-Voigt
     vfit = PseudoVoigtFit(xdata,
@@ -82,7 +103,7 @@ for jj, expn in enumerate(expns):
                           center=center,
                           fwhm=fwhm,
                           fraction=fraction,
-                          fijar=["center", "fwhm", "fraction"]
+                        #   fijar=["center", "fwhm", "fraction"]
                           )
 
     # Extraer amplitudes, errores y centros
@@ -93,7 +114,11 @@ for jj, expn in enumerate(expns):
 
     # Guardar espectros y componentes usando componentess()
     yfit, componentes = vfit.componentes(xdata)
-    ycomp1, ycomp2, ycomp3 = componentes
+    ycomp = componentes
+    try:
+        ycomp1, ycomp2, ycomp3 = ycomp
+    except:
+        ycomp1 = ycomp2 = ycomp3 = ycomp[0]
 
     # Guardar resultados en la lista
     entry = {

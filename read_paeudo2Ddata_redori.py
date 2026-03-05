@@ -36,23 +36,31 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 # plot_individual_pairs = False  # Activar/desactivar gráficos por par
 # plotRange = [-40, -100]
 
+# # Directorio de datos
+# expn = 30
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-10-30_PEO-PTT-solid-electrolyte_baba/"
+# # Directorio de guardado
+# savepath = r"C:/"
+# muestra = ""
+# save = False
+# plot_individual_pairs = False  # Activar/desactivar gráficos por par
+# plotRange = [-40, -100]
+
 # Directorio de datos
-expn = 30
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-10-30_PEO-PTT-solid-electrolyte_baba/"
+expn = 103
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
 # Directorio de guardado
 savepath = r"C:/"
 muestra = ""
 save = False
-plot_individual_pairs = False  # Activar/desactivar gráficos por par
+plot_individual_pairs = True  # Activar/desactivar gráficos por par
 plotRange = [-40, -100]
 
-
-
-
+Necos = 30 # for the plot
 # Rango de integración
 ppmRanges = [
-    [-57, -62],
-    [-80, -81]
+    [-64, -77],
+    [-88, -94]
 ]
 
 #=====================================================================
@@ -79,7 +87,7 @@ for ii, ppmRange in enumerate(ppmRanges):
     color = colors[ii % len(colors)]
     r1, r2 = [np.min(ppmRange), np.max(ppmRange)]
     ax_spec.axvspan(r1, r2, alpha=0.15, color=color)
-    signal = datos.Integrar(ppmRange=ppmRange)
+    signal = datos.Integrar2D(ppmRange=ppmRange)
     Signals = np.append(Signals, signal)
 
     #=====================================================================
@@ -124,7 +132,7 @@ for ii, ppmRange in enumerate(ppmRanges):
         ax_redor2.plot(xvals, S_S0, 'k')
         label_curve(ax_redor2, xvals, S_S0, f"{internuc_distance:.2f} nm", idx=25)
 
-    Necos = 20 # for the plot
+    
     ax_redor2.plot(recopl_time[:Necos]*1000, S[:Necos]/S0[:Necos], 'o', alpha=0.8)
     ax_redor2.set_xlabel("Dephasing time (ms)")
     ax_redor2.set_ylabel("S/S0")
@@ -156,6 +164,6 @@ for ii, ppmRange in enumerate(ppmRanges):
             ax_pair.axvspan(r1, r2, alpha=0.15, color=color)
 
 # Ajuste final del gráfico general
-ax_spec.set_xlim([-75, -90])
+# ax_spec.set_xlim([-75, -90])
 
 # %%
