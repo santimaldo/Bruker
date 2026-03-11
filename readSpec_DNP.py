@@ -43,40 +43,40 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 
-path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-infos = [#['hanecho', 100, None],
-         ['eLi_expn102_cp_mwOFF_bsms_-2400_p15_1500us', 102, None],
-         #['cp_mwON_bsms_9999_p15_1500us', 55, None],
-          ['eLi_expn31_zg_mwON_bsms_-2400', 31, None],
-          ['eLi_expn3_zg_mwOFF_bsms_-2400', 3, None],
-         ]
+# path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# infos = [#['hanecho', 100, None],
+#          ['eLi_expn102_cp_mwOFF_bsms_-2400_p15_1500us', 102, None],
+#          #['cp_mwON_bsms_9999_p15_1500us', 55, None],
+#           ['eLi_expn31_zg_mwON_bsms_-2400', 31, None],
+#           ['eLi_expn3_zg_mwOFF_bsms_-2400', 3, None],
+#          ]
 
-path_bruker = "3.2mm-Santi-IMECdendrites-2025-04-28___cal/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
-savepath_especifico = ""
-nucleo = "7Li"
-# info: muestra, expn, ppmRange
-infos = [#['hanecho', 100, None],
-          ['LiOH_expn40_zg_mwOFF', 40, None],
-          ['LiOH.H20_expn30_zg_mwOFF', 30, None],
-         ]
+# path_bruker = "3.2mm-Santi-IMECdendrites-2025-04-28___cal/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
+# savepath_especifico = ""
+# nucleo = "7Li"
+# # info: muestra, expn, ppmRange
+# infos = [#['hanecho', 100, None],
+#           ['LiOH_expn40_zg_mwOFF', 40, None],
+#           ['LiOH.H20_expn30_zg_mwOFF', 30, None],
+#          ]
 
-path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/1H/"
-savepath_especifico = ""
-nucleo = "1H"
-# info: muestra, expn, ppmRange
-infos = [#['hanecho', 100, None],
-         ['eLi_cp_mwOFF_bsms_-2400_p15_1500us', 101, None],
-         ['eLi_cp_mwON_bsms_-2400_p15_1500us', 37, None],
-         ['eLi_hahnecho_mwOFF_bsms_-2400', 100, None],
-         ['eLi_cp_mwON_bsms_-2400_p15_2000us', 2199903, None],
-         ['eLi_cp_mwON_bsms_-2400_p15_150us', 2199914, None],
-         ]
+# path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/1H/"
+# savepath_especifico = ""
+# nucleo = "1H"
+# # info: muestra, expn, ppmRange
+# infos = [#['hanecho', 100, None],
+#          ['eLi_cp_mwOFF_bsms_-2400_p15_1500us', 101, None],
+#          ['eLi_cp_mwON_bsms_-2400_p15_1500us', 37, None],
+#          ['eLi_hahnecho_mwOFF_bsms_-2400', 100, None],
+#          ['eLi_cp_mwON_bsms_-2400_p15_2000us', 2199903, None],
+#          ['eLi_cp_mwON_bsms_-2400_p15_150us', 2199914, None],
+#          ]
 
 # path_bruker = "3.2mm-Santi-IMECdendrites-2025-04-28___cal/"
 # savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
@@ -291,23 +291,24 @@ infos = [#['hanecho', 100, None],
 
 
 #=============================================================
-####### Rui 2025-11
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-# path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
+###### Rui 2025-11
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
 
-# nucleo = "7Li"
-# savepath_especifico = ""
-# ## info: muestra, expn, ppmRange
-# infos = [
-#          ['mwOFF_2.2A_bsms_-1600_o1metal', 105, [400, 100]],
-#          ['mwON_2.2A_bsms_-1600_o1metal', 83, [400,100]],
-#          ['mwOFF_2.2A_bsms_-1600_o1diamagnetic', 103, [150,-150]],
-#          ['mwON_2.2A_bsms_-1600_o1diamagnetic', 79, [150,-150]],
-#          ['mwOFF_2.2A_bsms_-1600_LiF-reference', 110, [150,-150]],
-#          ['mwON-offOE_2.2A_bsms_9999_o1metal', 58, [400, 100]],
-#          ['mwON-offOE_2.2A_bsms_9999_o1diamagnetic', 59, [150,-150]]
-#          ]
+nucleo = "7Li"
+savepath_especifico = ""
+## info: muestra, expn, ppmRange
+infos = [
+         ['mwOFF_2.2A_bsms_-1600_o1metal', 105, [400, 100]],
+         ['mwON_2.2A_bsms_-1600_o1metal', 83, [400,100]],
+         ['mwOFF_2.2A_bsms_-1600_o1diamagnetic', 103, [150,-150]],
+         ['mwON_2.2A_bsms_-1600_o1diamagnetic', 79, [150,-150]],
+         ['mwON_2.2A_bsms_-1600_o1diamagnetic_d1-10s', 55, [150,-150]],
+         ['mwOFF_2.2A_bsms_-1600_LiF-reference', 110, [150,-150]],
+         ['mwON-offOE_2.2A_bsms_9999_o1metal', 58, [400, 100]],
+         ['mwON-offOE_2.2A_bsms_9999_o1diamagnetic', 59, [150,-150]]
+         ]
 # ppmRange = [100, -500]  # rango de ppm a integrar
 # nucleo = "19F"
 # savepath_especifico = ""
@@ -409,49 +410,49 @@ infos = [#['hanecho', 100, None],
 
 
 ##=============================================================
-#### 2026-01 RUI
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2026-01-09_3.2mm_Rui-dendrites/"
-save = True
-### directorio de guradado
-savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-01_DNP_PC/"
+# #### 2026-01 RUI
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2026-01-09_3.2mm_Rui-dendrites/"
+# save = True
+# ### directorio de guradado
+# savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-01_DNP_PC/"
 
-####
-# savepath_especifico = "7Li_Metal/"
+# ####
+# # savepath_especifico = "7Li_Metal/"
+# # muestra = "Li-KBr-Rui-PC"
+# # nucleo = "7Li"
+# # ppmRange = [400, -150]  # rango de ppm a integrar
+# # # info: muestra, expn, ppmRange
+# # infos = [
+# #          [f"{muestra}_bsms_1850_uwON-onOE_metal", 30, ppmRange],
+# #          [f"{muestra}_bsms_-9999_uwON-offOE_metal", 40, ppmRange],
+# #          [f"{muestra}_bsms_1850_uwOFF_metal", 70, ppmRange],
+# #         ]
+
+# savepath_especifico = "7Li_SEI/"
 # muestra = "Li-KBr-Rui-PC"
 # nucleo = "7Li"
-# ppmRange = [400, -150]  # rango de ppm a integrar
+# ppmRange = [120, -150]  # rango de ppm a integrar
 # # info: muestra, expn, ppmRange
 # infos = [
-#          [f"{muestra}_bsms_1850_uwON-onOE_metal", 30, ppmRange],
-#          [f"{muestra}_bsms_-9999_uwON-offOE_metal", 40, ppmRange],
-#          [f"{muestra}_bsms_1850_uwOFF_metal", 70, ppmRange],
-#         ]
-
-savepath_especifico = "7Li_SEI/"
-muestra = "Li-KBr-Rui-PC"
-nucleo = "7Li"
-ppmRange = [120, -150]  # rango de ppm a integrar
-# info: muestra, expn, ppmRange
-infos = [
-         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-150s", 31, ppmRange],
-         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-10s", 32, ppmRange],
-         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-2s", 33, ppmRange],
-         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-0.1s", 34, ppmRange],
-         [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-0.01s", 35, ppmRange],
+#          [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-150s", 31, ppmRange],
+#          [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-10s", 32, ppmRange],
+#          [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-2s", 33, ppmRange],
+#          [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-0.1s", 34, ppmRange],
+#          [f"{muestra}_bsms_1850_uwON-onOE_SEI-d1-0.01s", 35, ppmRange],
          
-         [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-150s", 41, ppmRange],
-         [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-10s", 42, ppmRange],
-         [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-2s", 43, ppmRange],
-         [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-0.1s", 44, ppmRange],
-         [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-0.01s", 45, ppmRange],
+#          [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-150s", 41, ppmRange],
+#          [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-10s", 42, ppmRange],
+#          [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-2s", 43, ppmRange],
+#          [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-0.1s", 44, ppmRange],
+#          [f"{muestra}_bsms_-9999_uwON-offOE_SEI-d1-0.01s", 45, ppmRange],
 
-         [f"{muestra}_bsms_0_uwOFF_SEI-d1-150s", 4, ppmRange],
-         [f"{muestra}_bsms_1850_uwOFF_SEI-d1-10s", 72, ppmRange],
-         [f"{muestra}_bsms_1850_uwOFF_SEI-d1-2s", 73, ppmRange],
-         [f"{muestra}_bsms_1850_uwOFF_SEI-d1-0.1s", 74, ppmRange],
-         [f"{muestra}_bsms_1850_uwOFF_SEI-d1-0.01s", 75, ppmRange],
-         ]
+#          [f"{muestra}_bsms_0_uwOFF_SEI-d1-150s", 4, ppmRange],
+#          [f"{muestra}_bsms_1850_uwOFF_SEI-d1-10s", 72, ppmRange],
+#          [f"{muestra}_bsms_1850_uwOFF_SEI-d1-2s", 73, ppmRange],
+#          [f"{muestra}_bsms_1850_uwOFF_SEI-d1-0.1s", 74, ppmRange],
+#          [f"{muestra}_bsms_1850_uwOFF_SEI-d1-0.01s", 75, ppmRange],
+#          ]
 
 # path_bruker = "2026-01-12_3.2mm_Rui-dendrites/"
 # savepath_especifico = "6Li_SEI/"

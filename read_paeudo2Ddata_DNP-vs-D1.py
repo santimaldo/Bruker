@@ -12,6 +12,7 @@ from Datos import *
 import scipy.integrate as integrate
 import re
 from redor import redor_curve
+import pandas as pd
 
 def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
     """Anota una curva en el punto `idx`, sin rotación."""
@@ -40,9 +41,9 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 expns = np.arange(10,27)
 path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-13_3.2mm_Rui-dendrites_vsD1/"
 # Directorio de guardado
-savepath = r"C:/"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\vsD1/"
 muestra = ""
-save = False
+save = True
 plot_individual_pairs = False  # Activar/desactivar gráficos por par
 plotRange = [50, -10]
 
@@ -101,4 +102,15 @@ ax_ratio.set_xlabel("Recycling Delay (s)")
 ax_ratio.set_ylabel("DNP Enhancement")
 # ax_ratio.set_xscale("log")
 plt.show()
+# %%
+# Save integrals to file
+data_to_save = {
+    'D1s': D1s.tolist(),
+    'Signals_ON': Signals.tolist(),
+    'Signals_OFF': Signals_OFF.tolist(),
+    'Enhancement': (Signals/Signals_OFF).tolist()
+}
+df = pd.DataFrame(data_to_save)
+save_file = f"{savepath}integrals_vs_D1.csv"
+df.to_csv(save_file, index=False)
 # %%
