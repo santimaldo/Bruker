@@ -18,31 +18,46 @@ import numpy as np
 from Datos import *
 import scipy.integrate as integrate
 
+########### R3 - PC
+# # directorio de datos
+# expns = np.arange(30,334)
+# expns_to_skip = np.arange(50, 366, 20)
+# expns = np.setdiff1d(expns, expns_to_skip)
+# absolute= False
+# autoph = False
+# substract_baseline = False
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-10-01_ccATMC_Rui-R3_NMC-Cu_PC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-10_R3/"
+# muestra = "7Li_cellR3-PCprotocol"
+# save = False
+# plotRange = [400, 125]
+# # rango de integracion
+# ppmRange = [300, 200]
+# # #### diamagnetic
+# # plotRange = [100, -100]
+# # # rango de integracion
+# # ppmRange = [50,-50]
 
+############ R4 - PC
 # directorio de datos
-expns = np.arange(30,334)
-expns_to_skip = np.arange(50, 366, 20)
-expns = np.setdiff1d(expns, expns_to_skip)
-
+expns = np.arange(40,88)*1e5 + 99901
 absolute= False
 autoph = False
 substract_baseline = False
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-10-01_ccATMC_Rui-R3_NMC-Cu_PC/"
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-03-11_ccATMC_Rui-R4_NMC-Cu_PC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-10_R3/"
-muestra = "7Li_cellR3-PCprotocol"
-
-save = False
-plotRange = [400, 125]
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-03_R4_PC/"
+muestra = "7Li_cellR4-PCprotocol"
+save = True
+plotRange = [600, -300]
 # rango de integracion
-ppmRange = [300, 200]
-
+ppmRange = [320, 200]
 # #### diamagnetic
-# plotRange = [100, -100]
-# # rango de integracion
-# ppmRange = [50,-50]
 
 
+
+################################################
 colors = ['k', 'b', 'r', 'g', 'c', 'm', 'y']
 # grafico todos los espectros juntos
 fig_spec, ax_spec = plt.subplots(num=17856, nrows=1, figsize=(6, 4))
@@ -53,6 +68,7 @@ ppm_of_max = np.zeros(expns.size)
 ppm_mean = np.zeros(expns.size)
 phases = np.zeros(expns.size)
 for jj, expn in enumerate(expns):
+    expn = int(expn)
     #=====================================================================
     # Ajuste de espectros 1D
     #=====================================================================

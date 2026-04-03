@@ -13,21 +13,21 @@ from Datos import *
 import scipy.integrate as integrate
 
 # directorio de datos
-expn_before = 81
-expn_pseudo2d = 82
-expn_after = 69
+expn_before = 20
+expn_pseudo2d = 21
+expn_after = 22
 
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
-# directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
-muestra = "19F_chronoamperometry_0Vto1V"
+
+path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
+savepath_especifico = "CA_-0.75V/"
+muestra = "Supercap_YP50F"
 
 save = False
-plotRange = [5, -10]
+plotRange = [-49, -92]
 # rango de integracion
-ppmRanges = [[4, -9],
-             [4, -0.5],
-             [-0.5, -9]            
+ppmRanges = [[-70, -72],
+             [-73, -78],
             ]
 
 #=====================================================================

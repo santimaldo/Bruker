@@ -45,13 +45,13 @@ savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\
 muestra = ""
 save = True
 plot_individual_pairs = False  # Activar/desactivar gráficos por par
-plotRange = [50, -10]
+plotRange = [30, -30]
 
 
 
 
 # Rango de integración
-ppmRange = [40, 7]
+ppmRange = [10, -10]
 
 
 #=====================================================================
@@ -87,6 +87,16 @@ for jj, expn in enumerate(expns):
     Signals[jj] = signal
     Signals_OFF[jj] = signal_OFF
 
+    data_to_save = {
+        'ppmAxis': ppmAxis.tolist(),
+        'spec': spec.tolist(),
+        'ppmAxis_OFF': ppmAxis_OFF.tolist(),
+        'spec_OFF': spec_OFF.tolist()
+    }
+    df = pd.DataFrame(data_to_save)
+    save_file = f"{savepath}D1_{D1s[jj]:.5f}s.csv"
+    df.to_csv(save_file, index=False)
+
 #%%
 fig, ax = plt.subplots(figsize=(8,5))
 ax.plot(D1s, Signals, 'ro-', label='ON')
@@ -113,4 +123,6 @@ data_to_save = {
 df = pd.DataFrame(data_to_save)
 save_file = f"{savepath}integrals_vs_D1.csv"
 df.to_csv(save_file, index=False)
+
+np.savetxt(f"{savepath}D1s.txt", D1s, fmt='%.5f')
 # %%

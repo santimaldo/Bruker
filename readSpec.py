@@ -19,11 +19,7 @@ path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/"
 path_bruker = "400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025-04-28_CP/"
 savepath_especifico = "1Dspec/bsms_field_-5850/"
-
-
-
 sample = "IMEC"
-
 # info: nucleus,muestra, expn, ppmRange
 # info = ["1H", "IMECdendrites_KBr", 52, [350,100]]
 # info = ["1H", "LiOH", 48, [350,100]]
@@ -47,11 +43,26 @@ sample = "IMEC"
 # info = ["7Li", "eLi_uW-ON", 19, [-114, -600]]
 # # info = ["7Li", "LiOH", 40, [100, -600]]
 # # info = ["7Li", "LiOH.H20_no-basline-subs", 30, [100, -600]]
-info = ["7Li", "eLi_o1-metal_uW-OFF", 25, [200,-500]]
-# info = ["7Li", "eLi_o1-metal_uW-ON", 13, [200,-500]]
-reference_value = 0.4# ppm    
-reference_measured = -273.9
+# info = ["7Li", "eLi_o1-metal_uW-OFF", 25, [200,-500]]
+# # info = ["7Li", "eLi_o1-metal_uW-ON", 13, [200,-500]]
+# reference_value = 0.4# ppm    
+# reference_measured = -273.9
+#=============================================================================================
 
+path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
+savepath_especifico = "CA_-0.75V/"
+# sample = "Supercap_YP50F"
+# # info: nucleus,muestra, expn, ppmRange
+# info = ["19F", "1D_beforeCA", 20, [-49, -92]]
+# info = ["19F", "1D_afterCA", 22, [-49, -92]]
+savepath_especifico = "CA_0.75V/"
+# info: nucleus,muestra, expn, ppmRange
+# info = ["19F", "1D_beforeCA", 30, [-49, -92]]
+# info = ["19F", "1D_afterCA", 32, [-49, -92]]
+
+reference_value = 0# ppm    
+reference_measured = 0
 ppmCorrection = reference_value - reference_measured
 nucleo, muestra, expn, ppmRange = info
 save = True

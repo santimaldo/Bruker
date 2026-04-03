@@ -291,24 +291,24 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 
 #=============================================================
-###### Rui 2025-11
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
+# ###### Rui 2025-11
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
 
-nucleo = "7Li"
-savepath_especifico = ""
-## info: muestra, expn, ppmRange
-infos = [
-         ['mwOFF_2.2A_bsms_-1600_o1metal', 105, [400, 100]],
-         ['mwON_2.2A_bsms_-1600_o1metal', 83, [400,100]],
-         ['mwOFF_2.2A_bsms_-1600_o1diamagnetic', 103, [150,-150]],
-         ['mwON_2.2A_bsms_-1600_o1diamagnetic', 79, [150,-150]],
-         ['mwON_2.2A_bsms_-1600_o1diamagnetic_d1-10s', 55, [150,-150]],
-         ['mwOFF_2.2A_bsms_-1600_LiF-reference', 110, [150,-150]],
-         ['mwON-offOE_2.2A_bsms_9999_o1metal', 58, [400, 100]],
-         ['mwON-offOE_2.2A_bsms_9999_o1diamagnetic', 59, [150,-150]]
-         ]
+# nucleo = "7Li"
+# savepath_especifico = ""
+# ## info: muestra, expn, ppmRange
+# infos = [
+#          ['mwOFF_2.2A_bsms_-1600_o1metal', 105, [400, 100]],
+#          ['mwON_2.2A_bsms_-1600_o1metal', 83, [400,100]],
+#          ['mwOFF_2.2A_bsms_-1600_o1diamagnetic', 103, [150,-150]],
+#          ['mwON_2.2A_bsms_-1600_o1diamagnetic', 79, [150,-150]],
+#          ['mwON_2.2A_bsms_-1600_o1diamagnetic_d1-10s', 55, [150,-150]],
+#          ['mwOFF_2.2A_bsms_-1600_LiF-reference', 110, [150,-150]],
+#          ['mwON-offOE_2.2A_bsms_9999_o1metal', 58, [400, 100]],
+#          ['mwON-offOE_2.2A_bsms_9999_o1diamagnetic', 59, [150,-150]]
+#          ]
 # ppmRange = [100, -500]  # rango de ppm a integrar
 # nucleo = "19F"
 # savepath_especifico = ""
@@ -322,18 +322,24 @@ infos = [
 
 
 
-####=============================================================
+# ####=============================================================
 # ###### In siut 2025-11
 # path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
 # path_bruker = "2025-11-28_InSitu/"
 # savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu/"
 
 # nucleo = "7Li"
-# savepath_especifico = "LiCu_NOcathode"
-# ## info: muestra, expn, ppmRange
+# # savepath_especifico = "LiCu_NOcathode"
+# # # info: muestra, expn, ppmRange
+# # infos = [
+# #          ['mwON_2.2A_bsms_-8750_o1metal', 20 , [400, -200]],
+# #          ['mwOFF_2.2A_bsms_0_o1metal', 23, [400,-200]],
+# #          ]
+
+# savepath_especifico = "LiCuFoil_LFP"
 # infos = [
-#          ['mwON_2.2A_bsms_-8750_o1metal', 20 , [400, -200]],
-#          ['mwOFF_2.2A_bsms_0_o1metal', 23, [400,-200]],
+#         ['mwOFF_2.2A_bsms_0_o1metal', 31 , [500, -300]],
+#         ['mwON_2.6A_bsms_-1750_o1metal', 7199906 , [800, -300]],
 #          ]
 
 
@@ -532,6 +538,21 @@ infos = [
 #          ['mwON_2.4A_bsms_-7000_SMC32-Delta1ms', 62 , [800, -400]],
 
 #          ]
+
+
+#=============================================================
+##### In siut 2026-01
+path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_bruker = "2026-02-23_InSitu/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2026-02_InSitu/"
+
+nucleo = "7Li"
+savepath_especifico = "shifted_design"
+## info: muestra, expn, ppmRange
+infos = [
+         ['mwON_2.5A_bsms_ON-OE_bsms_-6000', 13999 , [600, -300]],
+         ['mwON_2.5A_bsms_OFF-OE_bsms_9999', 14999 , [600, -300]],         
+         ]
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
