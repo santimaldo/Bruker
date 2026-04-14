@@ -39,22 +39,58 @@ import scipy.integrate as integrate
 # # # rango de integracion
 # # ppmRange = [50,-50]
 
-############ R4 - PC
+# ############ R4 - PC
+# # directorio de datos
+# expns = np.arange(40,88)*1e5 + 99901
+# absolute= False
+# autoph = False
+# substract_baseline = False
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-03-11_ccATMC_Rui-R4_NMC-Cu_PC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-03_R4_PC/"
+# muestra = "7Li_cellR4-PCprotocol"
+# save = True
+# plotRange = [600, -300]
+# # rango de integracion
+# ppmRange = [320, 200]
+# # #### diamagnetic
+
+
+# ############ R5 - CC
+# # directorio de datos
+# expns = np.arange(10, 119)
+# absolute= False
+# autoph = False
+# substract_baseline = False
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R5/"
+# muestra = "7Li_cellR5-CCprotocol"
+# save = True
+# plotRange = [400, 100]
+# # rango de integracion
+# ppmRange = [320, 200]
+# # #### diamagnetic
+
+############ R6 - CC
 # directorio de datos
-expns = np.arange(40,88)*1e5 + 99901
+expns = np.arange(10, 71)
 absolute= False
 autoph = False
 substract_baseline = False
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-03-11_ccATMC_Rui-R4_NMC-Cu_PC/"
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-06_ccATMC_Rui-R6_NMC-Cu_CC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-03_R4_PC/"
-muestra = "7Li_cellR4-PCprotocol"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6/"
+muestra = "7Li_cellR6-CCprotocol"
 save = True
-plotRange = [600, -300]
+plotRange = [400, 100]
 # rango de integracion
 ppmRange = [320, 200]
 # #### diamagnetic
-
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6\diamagnetic"
+plotRange = [100, -100]
+# rango de integracion
+ppmRange = [30, -30]
 
 
 ################################################
@@ -172,7 +208,7 @@ ax.plot(tau_continuo, ppm_mean, 'o-', label='mean ppm in ROI')
 ax.set_xlabel('Time [h]')
 ax.set_ylabel(r'$\delta_{max}$ [ppm]')
 ax.legend()
-# ax.set_xlim(0, 90)
+ax.set_ylim(240, 270)
 
 axph.plot(tau_continuo, phases, 'o-')
 axph.set_xlabel('Time [h]')

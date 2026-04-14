@@ -12,18 +12,27 @@ path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/"
 path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
 
 savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
-savepath_especifico = "CA_0.75V/"
+# savepath_especifico = "CA_-0.75V/"
+# exp_before = 20
+# exp_2D = 21
+# exp_after = 22
+###--------------------------------
+# savepath_especifico = "CA_0.75V/"
+# exp_before = 30
+# exp_2D = 31
+# exp_after = 32
+###--------------------------------
+savepath_especifico = "AC_10Hz/"
+exp_before = 40
+exp_2D = 41
+exp_after = 42
 
 nucleo = "19F"
-
 basepath = path_local + path_bruker
 savepath = savepath_local + savepath_especifico
 
-exp_before = 20
-exp_2D = 21
-exp_after = 22
 
-ppmRange = [-49, -92]
+ppmRange = [-50, -92]
 
 
 

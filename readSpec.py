@@ -47,19 +47,34 @@ sample = "IMEC"
 # # info = ["7Li", "eLi_o1-metal_uW-ON", 13, [200,-500]]
 # reference_value = 0.4# ppm    
 # reference_measured = -273.9
+# #=============================================================================================
+
+# path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
+# savepath_especifico = "CA_-0.75V/"
+# # sample = "Supercap_YP50F"
+# # # info: nucleus,muestra, expn, ppmRange
+# # info = ["19F", "1D_beforeCA", 20, [-49, -92]]
+# # info = ["19F", "1D_afterCA", 22, [-49, -92]]
+# savepath_especifico = "CA_0.75V/"
+# # info: nucleus,muestra, expn, ppmRange
+# # info = ["19F", "1D_beforeCA", 30, [-49, -92]]
+# # info = ["19F", "1D_afterCA", 32, [-49, -92]]
+
+# reference_value = 0# ppm    
+# reference_measured = 0
+# ppmCorrection = reference_value - reference_measured
+# nucleo, muestra, expn, ppmRange = info
+# save = True
+
 #=============================================================================================
 
-path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
-savepath_especifico = "CA_-0.75V/"
-# sample = "Supercap_YP50F"
-# # info: nucleus,muestra, expn, ppmRange
-# info = ["19F", "1D_beforeCA", 20, [-49, -92]]
-# info = ["19F", "1D_afterCA", 22, [-49, -92]]
-savepath_especifico = "CA_0.75V/"
+path_bruker = "300old/2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6/"
+savepath_especifico = "R5/"
+sample = "Rui_Cell-R5_CC"
 # info: nucleus,muestra, expn, ppmRange
-# info = ["19F", "1D_beforeCA", 30, [-49, -92]]
-# info = ["19F", "1D_afterCA", 32, [-49, -92]]
+info = ["7Li", "nexp_119", 119, [400, 100]]
 
 reference_value = 0# ppm    
 reference_measured = 0

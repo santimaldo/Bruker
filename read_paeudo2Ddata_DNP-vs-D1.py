@@ -37,22 +37,42 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 # plot_individual_pairs = False  # Activar/desactivar gráficos por par
 # plotRange = [-40, -100]
 
-# Directorio de datos
-expns = np.arange(10,27)
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-13_3.2mm_Rui-dendrites_vsD1/"
+# # Directorio de datos
+# expns = np.arange(10,27)
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-13_3.2mm_Rui-dendrites_vsD1/"
+# # Directorio de guardado
+# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\vsD1/"
+# muestra = ""
+# save = True
+# plot_individual_pairs = False  # Activar/desactivar gráficos por par
+# plotRange = [30, -30]
+# # Rango de integración
+# ppmRange = [10, -10]
+
+
+# # Directorio de datos ########## CC metal
+# expns = np.arange(10,27)
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-13_3.2mm_Rui-dendrites_vsD1_LiMetal-postprocess/"
+# # Directorio de guardado
+# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\vsD1_metal-WARNING__NOT-TESTED/"
+# muestra = ""
+# save = True
+# plot_individual_pairs = False  # Activar/desactivar gráficos por par
+# plotRange = [400, 100]
+# # Rango de integración
+# ppmRange = [300, 200]
+
+# Directorio de datos  ### PC metal
+expns = np.arange(1000031,1000036)
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2026-01-09_3.2mm_Rui-dendrites/"
 # Directorio de guardado
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\vsD1/"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-01_DNP_PC\7Li_Metal\vdD1/"
 muestra = ""
 save = True
 plot_individual_pairs = False  # Activar/desactivar gráficos por par
-plotRange = [30, -30]
-
-
-
-
+plotRange = [400, 100]
 # Rango de integración
-ppmRange = [10, -10]
-
+ppmRange = [280, 220]
 
 #=====================================================================
 #=====================================================================
