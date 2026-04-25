@@ -17,22 +17,22 @@ from VoigtFit import VoigtFit
 
 path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
 
-path_bruker = "2025-05-15_PEO-solid-electrolyte/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2025-05_500MHz_PEO_PEO-PTT/"
-savepath_especifico = ""
-# info: muestra, expn, ppmRange
-nucleo = "1H"
-ppmRange = None
-infos = [['PEO-LiTFSI_6kHz', 3],
-         ['PEO-LiTFSI_10kHz', 4],
-         ['PEO-LiTFSI_15kHz', 12],
-         ['PEO-LiTFSI_20kHz', 13],
-         ['PEO-LiTFSI_25kHz', 14],
-         ['PEO-LiTFSI_30kHz', 15],
+# path_bruker = "2025-05-15_PEO-solid-electrolyte/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2025-05_500MHz_PEO_PEO-PTT/"
+# savepath_especifico = ""
+# # info: muestra, expn, ppmRange
+# nucleo = "1H"
+# ppmRange = None
+# infos = [['PEO-LiTFSI_6kHz', 3],
+#          ['PEO-LiTFSI_10kHz', 4],
+#          ['PEO-LiTFSI_15kHz', 12],
+#          ['PEO-LiTFSI_20kHz', 13],
+#          ['PEO-LiTFSI_25kHz', 14],
+#          ['PEO-LiTFSI_30kHz', 15],
          
-         ['PEO-PTT-LiTFSI_20kHz', 46],
-         ['PEO-PTT-LiTFSI_30kHz', 84]
-         ]
+#          ['PEO-PTT-LiTFSI_20kHz', 46],
+#          ['PEO-PTT-LiTFSI_30kHz', 84]
+#          ]
 
 
 # # info: muestra, expn, ppmRange
@@ -71,10 +71,10 @@ infos = [['PEO-LiTFSI_6kHz', 3],
 # ppmRange = None #[-85,-75]
 # infos = [['tmp', 111]]
 
-
+#####################################################################################
 ################# 2026-02 13C CP
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP/"
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP/"
 
 # path_bruker = "2026-02-06_PEO-solid-electrolyte/"
 # savepath_especifico = "PEO-LiTFSI/13C_CP/"
@@ -107,14 +107,111 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Po
 #          ['zg_d1-60s', 61, [200, 0]],
 #          ]
 
-path_bruker = "2026-02-06_PEO-solid-electrolyte/"
-savepath_especifico = "PEO-LiTFSI/7Li/"
+# path_bruker = "2026-02-06_PEO-solid-electrolyte/"
+# savepath_especifico = "PEO-LiTFSI/7Li/"
+# # info: muestra, expn, ppmRange
+# nucleo = "7Li"
+# ppmRange = [200,-200]
+# infos = [['CP_contactTime_2000us_D1-10s', 79, ppmRange],
+#          ['CP_contactTime_2000us_D1-0.6s', 78, ppmRange],
+#          ]
+
+# path_bruker = "2026-02-06_PEO-solid-electrolyte/"
+# savepath_especifico = "PEO-LiTFSI/19F/"
+# # info: muestra, expn, ppmRange
+# nucleo = "19F"
+# ppmRange = [100,-250]
+# infos = [['zg_14kHzMAS', 100, ppmRange],
+#          ]
+
+# path_bruker = "2026-02-07_PEO-PTT_solid-electrolyte/"
+# savepath_especifico = "PEO-PTT-LiTFSI/19F/"
+# # info: muestra, expn, ppmRange
+# nucleo = "19F"
+# ppmRange = [100,-250]
+# infos = [['PEO-PTT_zg_14kHzMAS', 101, ppmRange],
+#          ['PEO-PTT_zg_10kHzMAS', 100, ppmRange]
+#          ]
+
+####################################################################################
+################ 2026-02 13C CP
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-04_500MHz_13C-CP/"
+
+# path_bruker = "2026-04-19_PEO-PTT_solid-electrolyte/"
+# savepath_especifico = "PEO-PTT_LiTFSI/13C_CP/"
+# # info: muestra, expn, ppmRange
+# nucleo = "13C"
+# ppmRange = [150,0]
+# infos = [['CP_contactTime_500us', 21, ppmRange],
+#          ['CP_contactTime_50us', 22, ppmRange],
+#          ['CP_contactTime_10us', 23, ppmRange],
+#          ['CP_contactTime_100us', 24, ppmRange],
+#          ['CP_contactTime_1000us', 25, ppmRange],
+#          ['CP_contactTime_3000us', 26, ppmRange],
+#          ['CP_contactTime_5000us', 27, ppmRange],
+#          ['CP_contactTime_500us_bad-decoupling', 21999, ppmRange],
+#          ['CP_contactTime_500us_bad-contact', 21998, ppmRange],
+#          ['PEO-PTT_zg-decoupling_d1-60s', 20, [150, 0]],
+#          ]
+
+# savepath_especifico = "PEO-PTT/"
+# # info: muestra, expn, ppmRange
+# nucleo = "1H"
+# ppmRange = [100,-100]
+# infos = [['PEO-PTT_Hahnecho', 11 , ppmRange]]
+# # info: muestra, expn, ppmRange
+# nucleo = "19F"
+# ppmRange = [100,-300]
+# infos = [['PEO-PTT_zg', 1 , ppmRange]]
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+path_bruker = "2026-04-18_PEO-solid-electrolyte/"
+savepath_especifico = "PEO_LiTFSI/13C_CP/"
 # info: muestra, expn, ppmRange
-nucleo = "7Li"
-ppmRange = [200,-200]
-infos = [['CP_contactTime_2000us_D1-10s', 79, ppmRange],
-         ['CP_contactTime_2000us_D1-0.6s', 78, ppmRange],
-         ]
+# nucleo = "13C"
+# ppmRange = [150,0]
+# infos = [['CP_contactTime_500us', 21, ppmRange],
+#          ['CP_contactTime_50us', 22, ppmRange],
+#          ['CP_contactTime_3000us', 23, ppmRange],
+#          ['CP_contactTime_100us', 24, ppmRange],
+#          ['CP_contactTime_1000us', 25, ppmRange],
+#          ['CP_contactTime_10us', 26, ppmRange],
+#          ['CP_contactTime_5000us', 27, ppmRange],
+#          ['CP_contactTime_500us_bad-parameters', 21999, ppmRange],
+#          ['PEO_zg-decoupling_d1-60s', 20, [150, 0]],
+#          ]
+### - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - - 
+savepath_especifico = "PEO_LiTFSI/vsT/"
+####info: muestra, expn, ppmRange
+nucleo = "13C"
+ppmRange = [150,0]
+infos = [['CP-after-cooling-back_contactTime_500us', 36, ppmRange],
+         ['CP-after-cooling-back_contactTime_50us', 38, ppmRange],
+        ]
+# nucleo = "1H"
+# ppmRange = [100,-100]
+# infos = [['Hahnecho_antes', 30 , ppmRange],
+#          ['Hahnecho_despes', 37 , ppmRange]]
+# nucleo = "19F"
+# ppmRange = [100,-300]
+# infos = [['zg_20deg', 31 , ppmRange],
+#          ['zg_30deg', 32 , ppmRange],
+#          ['zg_40deg', 33 , ppmRange],
+#          ['zg_20deg-after', 39 , ppmRange],]
+### - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - - 
+# savepath_especifico = "PEO-PTT/"
+# # info: muestra, expn, ppmRange
+# nucleo = "1H"
+# ppmRange = [100,-100]
+# infos = [['PEO-PTT_Hahnecho', 11 , ppmRange]]
+# # info: muestra, expn, ppmRange
+# nucleo = "19F"
+# ppmRange = [100,-300]
+# infos = [['PEO-PTT_zg', 1 , ppmRange]]
+
+
 
 info_list = []
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
@@ -169,3 +266,13 @@ np.savetxt(f"{savepath_local}{savepath_especifico}contact_times.dat", np.array(i
 #               )
 # fig = vfit.plot_ajuste()
 # fig.gca().set_xlim([8,-8])
+
+
+
+
+
+
+
+
+
+
