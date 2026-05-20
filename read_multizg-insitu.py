@@ -18,16 +18,64 @@ import numpy as np
 from Datos import *
 import scipy.integrate as integrate
 
-########### R3 - PC
+# ########### G3 - NMC-Graphite
+# # directorio de datos
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-22_safebatt_Gr-NMC_cellG3/"
+# # # zgs
+# # files_expns = [[10,335,1],
+# #                [337,565,2]]  
+# # expns = np.array([])
+# # nominal_durations = np.array([])
+# # nominal_duration = [13*60+43, 6*60+53]  # seconds
+# # for j, [start, stop, step] in enumerate(files_expns):
+# #     expns_j = np.arange(start, stop+1, step)
+# #     expns = np.append(expns, expns_j)
+
+# #     nominal_durations = np.append(nominal_durations, np.ones_like(expns_j)*nominal_duration[j]) # s, to take into account the time of autotune
+
+# # hahnechos
+# files_expns = [336,564,2] 
+# expns = np.arange(start, stop+1, step)
+# expns = expns[expns != 444] # remove expn 444 which is an outlier
+# nominal_durations = np.ones_like(expns)*(13*60+43) # s, to take into account the time of autotune
+
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\GraphiteNMC\Analysis\2026-04_cellG3_NMR/"
+# muestra = "Cell_G3_hahnecho"
+# save = True
+# # rango de guardado
+# ppmRange = [600, -200]
+
+
+
+# ########### R9 - NMC-Cu CC protocol
+# # directorio de datos
+# expnlist = r"c:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC\0_datalists\expnlist.txt"
+# expns = np.loadtxt(expnlist, dtype=int)
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R9_CC/"
+# muestra = "Cell_R9"
+# save = True
+# # rango de guardado
+# ppmRange = [499, 105]
+# Nominal_duration = 13*60+43 # seconds
+# nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
+
+########### R10 - NMC-Cu CC protocol
 # directorio de datos
-expns = np.arange(10, 300)
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-22_safebatt_Gr-NMC_cellG3/"
+expnlist = r"c:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC\0_datalists\expnlist.txt"
+expns = np.loadtxt(expnlist, dtype=int)
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\GraphiteNMC\Analysis\2026-04_cellG3_NMR/"
-muestra = "Cell_G3"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
+muestra = "Cell_R10"
 save = True
 # rango de guardado
-ppmRange = [600, -200]
+ppmRange = [499, 105]
+Nominal_duration = 13*60+43 # seconds
+nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
+
 
 
 ################################################
@@ -35,7 +83,7 @@ colors = ['k', 'b', 'r', 'g', 'c', 'm', 'y']
 # grafico todos los espectros juntos
 fig_spec, ax_spec = plt.subplots(num=17856, nrows=1, figsize=(6, 4))
 tau = np.zeros(expns.size)
-
+time = np.zeros_like(tau)
 for jj, expn in enumerate(expns):
     expn = int(expn)    
     datos = DatosProcesados(f'{path}/{expn}/')
@@ -45,19 +93,21 @@ for jj, expn in enumerate(expns):
     re = datos.espectro.real
     im = datos.espectro.imag
 
-    spec_time = datos.acqus.dic['DATE_START']
-    # spec_time = datos.acqus.dic['DATE_START'] - Nominal_duration_of_experiment # to take into account the time of autotune
-    if jj==0:
-        t_0 = spec_time# s
-        spec_vs_t = np.zeros([expns.size, re.size])
-    tau[jj] = (spec_time - t_0)/3600  # convert to hours
     
-
+    # spec_time = datos.acqus.dic['DATE'] - Nominal_duration_of_experiment # to take into account the time of autotune
+    Nominal_duration = nominal_durations[jj]
+    spec_time       = datos.acqus.dic['DATE'] - Nominal_duration
+    if jj==0:
+        t_0 = spec_time # s
+        spec_vs_t = np.zeros([expns.size, re.size])
+    
+    tau[jj] = (spec_time - t_0)
+    
     spec_vs_t[jj, :] = re
 
     ax_spec.plot(ppmAxis, re)# 0.2+(ii/datos.espectro.size[0])*0.7)
     
-    np.savetxt(f'{savepath}/1dspectra/spec_{jj:03d}.dat',
+    np.savetxt(f'{savepath}/1dspectra/spec_{jj:04d}.dat',
                np.array([ppmAxis, re]).T,
                header='ppm, Intensity [a.u.]')
 
@@ -69,6 +119,9 @@ np.savetxt(f'{savepath}/1dspectra/expn_list.dat',
 np.savetxt(f'{savepath}/1dspectra/time_list.dat',
             tau,
             header='time [h]')
+
+with open("info.txt", 'w') as f:    
+    f.write(f"Nomnnal duration of experiments: {Nominal_duration} s = {Nominal_duration/60} min")
 
 #%%
 fig, ax = plt.subplots()
