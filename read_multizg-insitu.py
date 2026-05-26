@@ -125,10 +125,10 @@ with open("info.txt", 'w') as f:
 
 #%%
 fig, ax = plt.subplots()
-zlim = [0, 2e6]
+zlim = [0, 6e6]
 ax.pcolormesh(ppmAxis,  tau, spec_vs_t, vmin=min(zlim), vmax=max(zlim))
 ax.set_xlabel("ppm")
 ax.set_ylabel("Time [h]")
 # ax.set_xlim(max(ppmRange), min(ppmRange))
-ax.set_xlim([100, -100])
+# ax.set_xlim([100, -100])
 # %%

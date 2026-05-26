@@ -351,7 +351,7 @@ class DatosProcesados2D(DatosProcesados):
     """
 
     def __init__(self, directorio, p_dir=1, ppmRange=None,
-                 read_pp=False, extract_vdfactor=False, ndim=2):
+                 read_pp=False, extract_vdfactor=False, ndim=2, remove_empty=False):
         DatosProcesados.__init__(self, directorio, read_pp=read_pp, ndim=ndim)
         self.ndim = 2
         self.proc2s = Procs(directorio, p_dir, dim2=True)
@@ -364,6 +364,37 @@ class DatosProcesados2D(DatosProcesados):
         self.extract_vdfactor = extract_vdfactor
 
         self.ppmRange = ppmRange
+        self.remove_empty = remove_empty
+        if remove_empty:
+            self._remove_empty_rows()
+
+    def _remove_empty_rows(self, threshold=0.0):
+        """
+        Elimina filas completamente vacías (o casi vacías) del espectro 2D.
+        """
+        spec = self.espectro.spec
+
+        # criterio: fila "activa" si su norma es mayor que threshold
+        mask = np.any(np.abs(spec) > threshold, axis=1)
+
+        # índice del último punto no vacío (por robustez)
+        if not np.any(mask):
+            print("WARNING: all rows are empty!")
+            return
+
+        last_idx = int(np.where(mask)[0][-1] + 1)
+        # recorte
+        self.espectro.spec = self.espectro.spec[:last_idx, :]
+        self.espectro.real = self.espectro.real[:last_idx, :]
+        self.espectro.imag = self.espectro.imag[:last_idx, :]
+        # ajustar eje indirecto asociado (MUY importante)
+        # asumimos que ppmAxis está alineado en dim2 (indirecta)
+        self.espectro.ppmAxisInd = self.espectro.ppmAxisInd[:last_idx]
+        self.proc2s.SI = last_idx
+        # si existe grid o dimensiones internas
+        if hasattr(self.espectro, "ppmGrid"):
+            self.espectro.crear_ppmGrid()
+        # print(f"Removed empty rows: new shape = {self.espectro.spec.shape}")        
 
     def Integrar2D(self, ppmRange=None,absolute=False, imaginary=False):
         """

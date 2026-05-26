@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 
 
-CORREGIR: TIEMPOS Y FASES
+ESTA HECHO PARA SOLO 1 ZG
 """
 
 import nmrglue as ng
@@ -17,176 +17,150 @@ plt.rcParams['font.size'] = 12
 import numpy as np
 from Datos import *
 import scipy.integrate as integrate
+import os
 
 
-############ R6 - CC
+
+# ############ R9 - NMC-Cu CC protocol
+# # directorio de datos
+# expns = np.arange(1, 40)
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R9_CC/"
+# muestra = "Cell_R9"
+# save = True
+# # rango de guardado
+# nominal_durations = {"VOCS": 166.07,  # seconds
+#                      "zg": 388.61}
+# spectra_per_expn = {"VOCS": 11,
+#                     "zg": 1,
+#                     }
+# ppmRange = None #[2300, -1300]
+########### R10 - NMC-Cu CC protocol
 # directorio de datos
-expns = np.arange(10, 71)
-absolute= False
-autoph = False
-substract_baseline = False
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-06_ccATMC_Rui-R6_NMC-Cu_CC/"
+expns = np.arange(1, 48)
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6/"
-muestra = "7Li_cellR6-CCprotocol"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
+muestra = "Cell_R10"
 save = True
-plotRange = [400, 100]
-# rango de integracion
-ppmRange = [320, 200]
-# #### diamagnetic
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6\diamagnetic"
-plotRange = [100, -100]
-# rango de integracion
-ppmRange = [30, -30]
+# rango de guardado
+nominal_durations = {"VOCS": 166.07,  # seconds
+                     "zg": 388.61}
+spectra_per_expn = {"VOCS": 11,
+                    "zg": 1,
+                    }
+ppmRange = None #[2300, -1300]
+
 
 
 ################################################
+spectra_per_loop = spectra_per_expn["VOCS"] + spectra_per_expn["zg"]
 colors = ['k', 'b', 'r', 'g', 'c', 'm', 'y']
 # grafico todos los espectros juntos
 fig_spec, ax_spec = plt.subplots(num=17856, nrows=1, figsize=(6, 4))
 
-signals = np.zeros(expns.size)
-tau = np.zeros(expns.size)
-ppm_of_max = np.zeros(expns.size)
-ppm_mean = np.zeros(expns.size)
-phases = np.zeros(expns.size)
+os.makedirs(f"{savepath}/VOCS", exist_ok=True)
+tau = []
+tau_zg = []
+VOCS_vs_time = []
+atmc_durations = []
 for jj, expn in enumerate(expns):
     expn = int(expn)
     #=====================================================================
     # Ajuste de espectros 1D
     #=====================================================================
     # rango de integracion
-    datos = DatosProcesados(f'{path}/{expn}/')
-    datos.espectro.ppmSelect(plotRange)
+    datos = DatosProcesados2D(f'{path}/{expn}/', remove_empty = True)
+    if ppmRange is not None:
+        datos.espectro.ppmSelect(ppmRange)
 
     ppmAxis = datos.espectro.ppmAxis
-    spec = datos.espectro.real
+    spec = datos.espectro.spec
 
-    spec_time = datos.acqus.dic['DATE_START']
-    # spec_time = datos.acqus.dic['DATE_START'] - Nominal_duration_of_experiment # to take into account the time of autotune
+    #### Calculating time of the spectra:
+    total_time = datos.acqus.dic['DATE'] - datos.acqus.dic['DATE_START']
+    # Nspectra = datos.proc2s.SI
+    # Nvocs = Nspectra // spectra_per_loop
+    nominal_duration_total = nominal_durations["VOCS"] + nominal_durations["zg"]
+    ATMC_time = total_time - nominal_duration_total # to take into account the time of autotune and the duration of the spectra
+    initial_expn_time = datos.acqus.dic['DATE_START'] + ATMC_time
+    atmc_durations.append(ATMC_time) 
     if jj==0:
-        t_0 = spec_time# s
-        spec_vs_t = np.zeros([spec.size, expns.size])
-    tau[jj] = (spec_time - t_0)/3600  # convert to hours
+        t_0 = initial_expn_time
+    initial_expn_time = initial_expn_time - t_0 # time relative to the first spectrum
+    
+    # Loop over the spectra in the expn    
+    for ii in range(datos.proc2s.SI//spectra_per_loop):        
+        VOCS_ii = np.sum(np.abs(spec[ii*spectra_per_loop:ii*spectra_per_loop+spectra_per_expn['VOCS'], :]), axis=0) 
+        time_VOCS_ii = initial_expn_time + ii*nominal_duration_total
+        
+        time_zg_ii = time_VOCS_ii + nominal_durations['VOCS']
+        tau.append([expn, ii, time_VOCS_ii])
+        tau_zg.append([int(f"{expn:02d}999{ii:03d}"),time_zg_ii])
+        VOCS_vs_time.append(VOCS_ii)
 
-    # grafico todos los espectros juntos
-    re = datos.espectro.real
-    im = datos.espectro.imag
-    if autoph:
-        spec1d, phase = ng.proc_autophase.autops(re+1j*im,
-                                        "acme",
+        np.savetxt(f'{savepath}/VOCS/VOCS_{expn:02d}_{ii:02d}.dat',
+                   np.array([ppmAxis, VOCS_ii]).T,
+                   header='ppm\tIntensity[a.u.]')
 
-                                        return_phases=True,
-                                        disp=False)
-    else:
-        spec1d = re
-        phase = [0]
-    # spec1d_re = ng.proc_bl.cbf(spec1d.real)
-    if absolute:
-        spec1d_re = np.abs(spec1d)
-    else:
-        spec1d_re = spec1d.real
-    if substract_baseline:
-        # Calculate baseline as a straight line between the mean of the first 100 and last 100 points
-        baseline_points = 50  # Number of points to use for baseline calculation
-        mean_start = np.mean(spec1d.real[:baseline_points])
-        mean_end = np.mean(spec1d.real[-baseline_points:])
-        mean_ppm_start = np.mean(ppmAxis[:baseline_points])
-        mean_ppm_end = np.mean(ppmAxis[-baseline_points:])
-        baseline = ppmAxis * (mean_end - mean_start) / (mean_ppm_end - mean_ppm_start) + mean_start
-        spec1d_re = spec1d.real-baseline  # remove DC offset
-    spec_vs_t[:, jj] = spec1d_re
-    phases[jj] = phase[0]
-    ax_spec.plot(ppmAxis, spec1d_re)# 0.2+(ii/datos.espectro.size[0])*0.7)
-    # find the ppm of the maximum in the range < ppm_treshold ppm
-    re_in_ROI = spec1d_re # re in Region Of Interest
-    ppmAxis_in_ROI = ppmAxis
-    max_index = np.argmax(re_in_ROI)
-    ppm_of_max_in_equilibrium = ppmAxis_in_ROI[max_index]
-    ppm_of_max[jj] = ppm_of_max_in_equilibrium
-
-    ax_spec.set_xlim(np.max(ppmAxis), np.min(ppmAxis))
-    r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
-    ax_spec.axvline(r1, color='k', linestyle='--')
-    ax_spec.axvline(r2, color='k', linestyle='--')
-    ax_spec.set_xlabel('chemical shift [ppm]')
-    ax_spec.set_ylabel('Intensity [a.u.]')
-    ax_spec.axhline(0, color='k')
-
-    np.savetxt(f'{savepath}/1dspectra/spec_{jj:03d}.dat',
-               np.array([ppmAxis, spec1d_re]).T,
-               header='ppm, Intensity [a.u.]')
+# Saving time list
+# Create output directories if they do not exist
+np.savetxt(f'{savepath}/VOCS/time_list.dat',
+            np.array(tau),
+            header='Experiment Number\tSpectrum Number\tTime [h]')
+np.savetxt(f'{savepath}/time_list_zg.dat',
+            np.array(tau_zg),
+            header='Experiment Number\tSpectrum Number\tTime [h]')
 
 
+# Convert lists to numpy arrays
+VOCS_vs_time = np.array(VOCS_vs_time)
 
-    signal = datos.Integrar(ppmRange=ppmRange)
-    if jj == 0:
-        initial_signal = signal
-    signals[jj] = signal  # normalizo la señal al primer espectro
-
-    ppm_mean[jj] = datos.Mean_ppm(ppmRange=ppmRange)
-
-
-np.savetxt(f'{savepath}/1dspectra/expn_list.dat',
-            expns,
-            header='list of experiment numbers')
-np.savetxt(f'{savepath}/1dspectra/time_list.dat',
-            tau,
-            header='time [h]')
-
-
-#%% -------------
-fig,ax = plt.subplots(num=1785731, figsize=(8, 3))
-figph,axph = plt.subplots(num=178573111, figsize=(8, 3))
-fig_int, ax_int = plt.subplots(num=382910, figsize=(8, 3))
-
-
-tau_real, tau_continuo = tau, tau
-
-ax_int.plot(tau_continuo, signals/signals.max(), 'o')
-ax_int.yaxis.set_major_locator(MultipleLocator(0.1))  # línea cada 0.1 en Y
-ax_int.grid(axis='y')  # solo grilla en Y
-ax_int.set_xlabel('Time [h]')
-ax_int.set_ylabel('Normalized area')
-# ax_int.set_xlim([0, 10])
-
-ax.plot(tau_continuo, ppm_of_max, 'o-', label='ppm of max signal')
-ax.plot(tau_continuo, ppm_mean, 'o-', label='mean ppm in ROI')
-ax.set_xlabel('Time [h]')
-ax.set_ylabel(r'$\delta_{max}$ [ppm]')
-ax.legend()
-ax.set_ylim(240, 270)
-
-axph.plot(tau_continuo, phases, 'o-')
-axph.set_xlabel('Time [h]')
-axph.set_ylabel('Phase [deg]')
-# axph.set_xlim(0, 90)
-
+# Time axis [s]
+times = np.array([row[2] for row in tau])
 
 #%%
-# Asegurarse de que sean 2D arrays de coordenadas
-ppm_mesh, tau_mesh = np.meshgrid(ppmAxis, tau)
+# =========================================================================
+# Plots
+# =========================================================================
 
-fig, ax = plt.subplots(num=17856522, figsize=(3, 6))
-pcm = ax.pcolormesh(ppm_mesh, tau_mesh, spec_vs_t.T, shading='auto')  # shading='auto' ajusta la interpolación
-ax.set_ylabel('Time [h]')
-ax.set_xlabel(r'$^7$Li Chemical shift [ppm]')
-fig.colorbar(pcm, ax=ax, label='Intensity')  # Opcional: barra de color
-# ax.set_xlim(ppmRange)
-ax.set_xlim([260, 220])
-ax.axvline(ppm_of_max[0], color='k', linestyle='--')
+# -------------------------------------------------------------------------
+# Overlay of all VOCS spectra
+# -------------------------------------------------------------------------
+fig_spec, ax_spec = plt.subplots(num=2001, figsize=(6, 4))
+maxx = 0.3e7
+for spectrum in VOCS_vs_time:
+    ax_spec.plot(ppmAxis, spectrum, lw=0.8)
 
+ax_spec.set_xlabel(r"$^7$Li Chemical shift [ppm]")
+ax_spec.set_ylabel("Intensity [a.u.]")
+ax_spec.set_title("VOCS spectra")
+ax_spec.set_ylim([0, maxx])
+ax_spec.grid(alpha=0.3)
+
+# -------------------------------------------------------------------------
+# Heatmap: intensity vs ppm vs time
+# -------------------------------------------------------------------------
+ppm_mesh, time_mesh = np.meshgrid(ppmAxis, times)
+
+fig_map, ax_map = plt.subplots(num=2002, figsize=(4, 6))
+
+pcm = ax_map.pcolormesh(
+    ppm_mesh,
+    time_mesh,
+    VOCS_vs_time,
+    vmax=maxx,
+    shading='auto'
+)
+
+cbar = fig_map.colorbar(pcm, ax=ax_map)
+cbar.set_label("Intensity [a.u.]")
+
+ax_map.set_xlabel(r"$^7$Li Chemical shift [ppm]")
+ax_map.set_ylabel("Time [s]")
+
+ax_map.set_xlim([ppmAxis.max(), ppmAxis.min()])
+
+plt.tight_layout()
 # %%
-
-data = np.array([np.arange(len(expns)),
-                 tau,
-                 signals,
-                 ppm_of_max,
-                 ppm_mean, 
-                 expns]).T
-header = f'Spectrum Number\tTime[h]\tSignal[a.u.]-integrated between ({max(ppmRange)}-{min(ppmRange)} ppm)\tppm_of_max\tppm_mean\tTopspin Experiment Number'
-np.savetxt(f'{savepath}/1dspectra/info.txt',
-           data,
-           header=header,
-           fmt=['%d', '%.4f', '%.6f', '%.4f', '%.4f', '%d'],
-           delimiter='\t')

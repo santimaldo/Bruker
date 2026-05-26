@@ -141,6 +141,7 @@ class Espectro(object):
         else:  # esto sirve para pseudo 2D, como medidas de T1
             self.real = self.real[:, ini:fin]
             self.imag = self.imag[:, ini:fin]
+            self.spec = self.spec[:, ini:fin]
 
     def ppmSelect2D(self, rango, rango_ind=None):
         newppm = self.ppmAxis
