@@ -18,20 +18,20 @@ import numpy as np
 from Datos import *
 import scipy.integrate as integrate
 
-# ########### G3 - NMC-Graphite
-# # directorio de datos
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-22_safebatt_Gr-NMC_cellG3/"
-# # # zgs
-# # files_expns = [[10,335,1],
-# #                [337,565,2]]  
-# # expns = np.array([])
-# # nominal_durations = np.array([])
-# # nominal_duration = [13*60+43, 6*60+53]  # seconds
-# # for j, [start, stop, step] in enumerate(files_expns):
-# #     expns_j = np.arange(start, stop+1, step)
-# #     expns = np.append(expns, expns_j)
+########### G3 - NMC-Graphite
+# directorio de datos
+path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-22_safebatt_Gr-NMC_cellG3/"
+# zgs
+files_expns = [[10,335,1],
+               [337,565,2]]  
+expns = np.array([])
+nominal_durations = np.array([])
+nominal_duration = [13*60+43, 6*60+53]  # seconds
+for j, [start, stop, step] in enumerate(files_expns):
+    expns_j = np.arange(start, stop+1, step)
+    expns = np.append(expns, expns_j)
 
-# #     nominal_durations = np.append(nominal_durations, np.ones_like(expns_j)*nominal_duration[j]) # s, to take into account the time of autotune
+    nominal_durations = np.append(nominal_durations, np.ones_like(expns_j)*nominal_duration[j]) # s, to take into account the time of autotune
 
 # # hahnechos
 # files_expns = [336,564,2] 
@@ -39,12 +39,12 @@ import scipy.integrate as integrate
 # expns = expns[expns != 444] # remove expn 444 which is an outlier
 # nominal_durations = np.ones_like(expns)*(13*60+43) # s, to take into account the time of autotune
 
-# # directorio de guradado
-# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\GraphiteNMC\Analysis\2026-04_cellG3_NMR/"
-# muestra = "Cell_G3_hahnecho"
-# save = True
-# # rango de guardado
-# ppmRange = [600, -200]
+# directorio de guradado
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-04_cellG3_NMR/"
+muestra = "Cell_G3_hahnecho"
+save = True
+# rango de guardado
+ppmRange = [600, -200]
 
 
 
@@ -62,19 +62,19 @@ import scipy.integrate as integrate
 # Nominal_duration = 13*60+43 # seconds
 # nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
 
-########### R10 - NMC-Cu CC protocol
-# directorio de datos
-expnlist = r"c:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC\0_datalists\expnlist.txt"
-expns = np.loadtxt(expnlist, dtype=int)
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
-# directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
-muestra = "Cell_R10"
-save = True
-# rango de guardado
-ppmRange = [499, 105]
-Nominal_duration = 13*60+43 # seconds
-nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
+# ########### R10 - NMC-Cu CC protocol
+# # directorio de datos
+# expnlist = r"c:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC\0_datalists\expnlist.txt"
+# expns = np.loadtxt(expnlist, dtype=int)
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
+# muestra = "Cell_R10"
+# save = True
+# # rango de guardado
+# ppmRange = [499, 105]
+# Nominal_duration = 13*60+43 # seconds
+# nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
 
 
 

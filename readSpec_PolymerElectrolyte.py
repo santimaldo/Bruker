@@ -15,7 +15,7 @@ from Espectro import autophase
 from VoigtFit import VoigtFit
 
 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
+path_local = r"C:\Users\Santi\Documents\NMRdata\500/"
 
 # path_bruker = "2025-05-15_PEO-solid-electrolyte/"
 # savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2025-05_500MHz_PEO_PEO-PTT/"
@@ -134,7 +134,7 @@ path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
 #          ]
 
 ####################################################################################
-################ 2026-02 13C CP
+################ 2026-04 13C CP
 # path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
 # savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-04_500MHz_13C-CP/"
 
@@ -167,8 +167,8 @@ path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500/"
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
-path_bruker = "2026-04-18_PEO-solid-electrolyte/"
-savepath_especifico = "PEO_LiTFSI/13C_CP/"
+# path_bruker = "2026-04-18_PEO-solid-electrolyte/"
+# savepath_especifico = "PEO_LiTFSI/13C_CP/"
 # info: muestra, expn, ppmRange
 # nucleo = "13C"
 # ppmRange = [150,0]
@@ -183,13 +183,13 @@ savepath_especifico = "PEO_LiTFSI/13C_CP/"
 #          ['PEO_zg-decoupling_d1-60s', 20, [150, 0]],
 #          ]
 ### - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - -  - - - 
-savepath_especifico = "PEO_LiTFSI/vsT/"
-####info: muestra, expn, ppmRange
-nucleo = "13C"
-ppmRange = [150,0]
-infos = [['CP-after-cooling-back_contactTime_500us', 36, ppmRange],
-         ['CP-after-cooling-back_contactTime_50us', 38, ppmRange],
-        ]
+# savepath_especifico = "PEO_LiTFSI/vsT/"
+# ####info: muestra, expn, ppmRange
+# nucleo = "13C"
+# ppmRange = [150,0]
+# infos = [['CP-after-cooling-back_contactTime_500us', 36, ppmRange],
+#          ['CP-after-cooling-back_contactTime_50us', 38, ppmRange],
+#         ]
 # nucleo = "1H"
 # ppmRange = [100,-100]
 # infos = [['Hahnecho_antes', 30 , ppmRange],
@@ -211,6 +211,40 @@ infos = [['CP-after-cooling-back_contactTime_500us', 36, ppmRange],
 # ppmRange = [100,-300]
 # infos = [['PEO-PTT_zg', 1 , ppmRange]]
 
+
+
+####################################################################################
+################ 2026-05 VT all nuclei - PEO
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-05_500MHz_PEO-LiTFSI_VT-phase-trans/"
+
+path_bruker = "2026-05-17_PEO-solid-electrolyte/"
+savepath_especifico = "13C_CP/"
+# # info: muestra, expn, ppmRange
+nucleo = "13C"
+ppmRange = [150,0]
+infos = [['CP_contactTime_100us', 150, ppmRange],
+         ['CP_contactTime_1000us', 151, ppmRange],
+         ['CP_contactTime_10us', 152, ppmRange],
+         ['CP_contactTime_200us', 153, ppmRange],
+         ['CP_contactTime_3000us', 154, ppmRange],
+         ['CP_contactTime_300us', 155, ppmRange],
+         ['CP_contactTime_500us', 156, ppmRange],
+         ['CP_contactTime_50us', 157, ppmRange],
+         ['CP_contactTime_20us', 158, ppmRange],
+         ]
+
+# savepath_especifico = "PEO-PTT/"
+# # info: muestra, expn, ppmRange
+# nucleo = "1H"
+# ppmRange = [100,-100]
+# infos = [['PEO-PTT_Hahnecho', 11 , ppmRange]]
+# # info: muestra, expn, ppmRange
+# nucleo = "19F"
+# ppmRange = [100,-300]
+# infos = [['PEO-PTT_zg', 1 , ppmRange]]
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 
 
 info_list = []
