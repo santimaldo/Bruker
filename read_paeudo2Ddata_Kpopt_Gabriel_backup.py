@@ -7,7 +7,6 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-import ast  # FIX (e): reemplaza eval() por ast.literal_eval(), mas seguro
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -33,34 +32,32 @@ def read_bsms_field(path_archivo):
         for linea in f:
             if linea.startswith("x="):
                 contenido = linea.strip().split("=", 1)[1]
-                x = ast.literal_eval(contenido)  # FIX (e): antes era eval(contenido)
+                x = eval(contenido)
                 return np.array(x)
     raise ValueError("No se encontro una linea que empiece con 'x='.")
 
+
+#%%                
+    return np.array(data)
 ################## end Functions #######################
-# FIX (d): se elimino un "return np.array(data)" muerto (referenciaba una
-# variable 'data' inexistente y era inalcanzable porque el raise de arriba
-# siempre corta la ejecucion antes de llegar ahi). Resto de copy/paste.
 
 
-# absolute = False
-# autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
-# # directorio de guradado
-# savepath= path
-# exp_to_CalibrateTheOff_info = {"expn": 5,
-#                                 "ppmRange": [400, 15], # to find the minimum
-#                                 }      
-# expns = [12]
-# muestra = "gf410_7"
-# save = False
-# plotRange = [300,-20]
-# ppm_bin_width = 10
+absolute = False
+autoph = False
+path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
+# directorio de guradado
+savepath= path
+expns = [12] # [5, 8, 9, 12]
+muestra = "gf410_7"
+save = False
+plotRange = [700,-300]
+# rango de integracion
+ppmRanges = [
+            #  [400, 15],
+            #  [15, -15]
+             [ppm,ppm-10] for ppm in range(270, 50, -10)         
+            ]
 
-
-# exp_to_CalibrateTheOff_info = {"expn": 12,
-#                                 "ppmRange": [400, 15], # to find the minimum
-#                                 }  
 # absolute = False
 # autoph = False
 # path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_07_08_2025_gf410_5/"
@@ -74,17 +71,15 @@ def read_bsms_field(path_archivo):
 # ppmRanges = [[400, 15],
 #              [15, -15]            
 #             ]
-# ppm_bin_width = 10
 
-# exp_to_CalibrateTheOff_info = {"expn": 6,
-#                                 "ppmRange": [400, 15], # to find the minimum
-#                                 }  
+
+
 # absolute = False
 # autoph = False
 # path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_23/"
 # # directorio de guradado
 # savepath= path
-# expns = [10] # [6, 8, 10] ############ tienen distintos sr!!!!!
+# expns = [6, 8, 10] # [6, 8, 10]
 # muestra = "gf410_23"
 # save = False
 # plotRange = [700,-300]
@@ -92,85 +87,26 @@ def read_bsms_field(path_archivo):
 # ppmRanges = [[400, 15],
 #              [15, -15]            
 #             ]
-# ppm_bin_width = 10
+
 
 absolute = False
 autoph =  False
 path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
 # directorio de guradado
 savepath= path
-# expns = [29] # [27, 28, 29] ## 2.5 W
+expns = [29] # [27, 28, 29] ## 2.5 W
 # expns = [37] # [35,37] ## 4.0 W 
-expns = [14] # [11, 12, 14] ## 5W 
-expns = [11, 12, 14]  
-exp_to_CalibrateTheOff_info = {"expn": 12, # 12->5W
-                                "ppmRange": [400, 15], # to find the minimum
-                                }  
+# expns = [14] # [11, 12, 14] ## 5W 
+# expns = [29,37,14]
 muestra = "gf410_15?"
 save = False
-plotRange = [300,-20]
-ppm_bin_width = 20
-
+plotRange = [400,-100]
+# rango de integracion
+ppmRanges = [[400, 15],
+             [15, -15],             
+            ]
 
 plot_together =  True
-#=====================================================================
-# Calibrate the "off resonance"
-#=====================================================================
-
-expn = exp_to_CalibrateTheOff_info["expn"]
-ppmRange = exp_to_CalibrateTheOff_info["ppmRange"]
-# grafico todos los espectros juntos
-path_2D = f"{path}/{expn}/"
-datos = DatosProcesados2D(f'{path}/{expn}/',
-                            read_pp = False)
-bsms_field = read_bsms_field(path_2D)
-spec = datos.espectro.real
-speci = datos.espectro.imag
-# Plot the 1D spectra
-specs = []
-integrals_ref = []
-for kk in range(len(bsms_field)):    
-    ppmAxis = datos.espectro.ppmAxis - (-1.1665e-2) * bsms_field[kk]
-    spec1d = spec[kk,:]
-    speci1d = speci[kk,:]
-    r1, r2 = [np.min(ppmRange), np.max(ppmRange)]  # redefino el rango
-    # signal = datos.Integrar(ppmRange=ppmRange)
-    condition = np.abs(ppmAxis-np.mean(ppmRange)) < np.abs(r1-r2)/2
-    spec_to_integrate = (spec1d+1j*speci1d)[condition]
-    ppm_to_integrate = ppmAxis[condition]
-    specs.append([ppmAxis, spec1d+1j*speci1d])
-    integrals_ref.append(-simpson(spec_to_integrate, x=ppm_to_integrate))
-integrals_ref = np.array(integrals_ref)
-idx_min = np.where(integrals_ref.real == np.min(integrals_ref.real))[0][0]
-ppm, spec = specs[idx_min]
-ppmofmax = ppm[spec.real == np.max(spec.real)][0]
-condition = np.abs(ppm-ppmofmax) < ppm_bin_width/2 # elijo un rango de +- 10 ppm 
-ppm_to_integrate =ppm[condition]
-spec_to_integrate = spec[condition]
-integral_off = -simpson(spec_to_integrate, x=ppm_to_integrate)
-fig, ax = plt.subplots()
-ax.plot(ppm, spec.real)
-ax.plot(ppm, spec.imag, '--', color="tab:blue")
-ax.axvspan(ppmofmax-ppm_bin_width/2, ppmofmax+ppm_bin_width/2, alpha=0.2)
-ax.set_title(f"max: {ppmofmax:.2f} ppm; integral {integral_off:.2e} (a.u)")
-ax.set_xlim(max(ppmRange), min(ppmRange))
-
-
-off_res_params = {"ppm": ppmofmax,
-                  "integral": integral_off,
-                  }
-ppm_bins = np.arange(ppmofmax, ppmofmax-240, -ppm_bin_width)
-# FIX (a): el ancho total de cada bin tiene que ser ppm_bin_width (no
-# 2*ppm_bin_width). Antes: [ppm+ppm_bin_width, ppm-ppm_bin_width], que da
-# bins de 2*ppm_bin_width de ancho, espaciados solo ppm_bin_width entre si
-# -> 50% de solapamiento entre bins consecutivos. Con /2 los bins quedan
-# contiguos y sin superposicion, tal como en la seccion de calibracion de
-# arriba (que ya usaba correctamente ppm_bin_width/2).
-ppmRanges = [[ppm+ppm_bin_width/2, ppm-ppm_bin_width/2]
-             for ppm in ppm_bins]
-s_bins = [1-(ppm/ppmofmax) for ppm in ppm_bins]
-
-
 #=====================================================================
 # 2D experiments
 #=====================================================================
@@ -190,6 +126,9 @@ for expn in expns:
         fig_ranges, axs_ranges = plt.subplots(nrows=3, ncols=len(ppmRanges))
     ax_spec.set_xlim(max(plotRange), min(plotRange))
 
+
+    Signals = np.array([])
+
     # grafico todos los espectros juntos
     path_2D = f"{path}/{expn}/"
     datos = DatosProcesados2D(f'{path}/{expn}/',
@@ -198,16 +137,6 @@ for expn in expns:
     speci = datos.espectro.imag
     maxx = np.max(spec)
     bsms_field = read_bsms_field(path_2D)
-
-    # FIX (f): el calculo de centroide mas abajo (simpson con x=bsms) solo
-    # tiene sentido si bsms_field es monotono. Se chequea aca, apenas se lee.
-    diffs = np.diff(bsms_field)
-    assert np.all(diffs > 0) or np.all(diffs < 0), (
-        f"bsms_field no es monotono para expn={expn}; "
-        "el calculo de centroide (means) mas abajo va a dar resultados "
-        "sin sentido si no se ordena antes."
-    )
-
     norm = mpl.colors.Normalize(vmin=min(bsms_field), vmax=max(bsms_field))
     signal_perBsms = np.zeros((len(bsms_field), len(ppmRanges))).astype("complex")
     center_perBsms = np.zeros((len(bsms_field), len(ppmRanges))).astype("complex")
@@ -266,34 +195,15 @@ for expn in expns:
                 simpson(y, x=x))
             center_perBsms[kk, ii] = center
             width_perBsms[kk, ii] = width
-
-    # FIX (b) y (c): este bloque estaba antes DENTRO del "for kk" (se
-    # recalculaba, y se pisaba, en cada iteracion de kk -- no rompia el
-    # resultado final pero era trabajo redundante). Ahora corre UNA vez,
-    # despues de que signal_perBsms/center_perBsms/width_perBsms ya estan
-    # completamente llenos para todos los kk.
-    #
-    # Ademas, antes "ii" quedaba pegado al ULTIMO valor del loop interno
-    # "for ii, ppmRange in enumerate(ppmRanges)", entonces bsmsofmax /
-    # bsmsofmincenter (y "center"/"width") terminaban calculados solo para
-    # el ULTIMO bin de ppm, no para todos. Ahora se calculan por bin
-    # (arrays de largo len(ppmRanges)), y se guardan los arrays completos
-    # center_perBsms / width_perBsms en vez de un escalar suelto.
-    integrals[expn]["integrals"] = signal_perBsms
-    integrals[expn]["bsms"] = bsms_field
-    integrals[expn]["center_perBsms"] = center_perBsms
-    integrals[expn]["width_perBsms"] = width_perBsms
-
-    bsmsofmax_perBin = np.zeros(len(ppmRanges))
-    bsmsofmincenter_perBin = np.zeros(len(ppmRanges))
-    for ii in range(len(ppmRanges)):
-        abs_s = np.abs(signal_perBsms[:, ii])
-        bsmsofmax_perBin[ii] = bsms_field[abs_s == np.max(abs_s)][0]
-        bsmsofmincenter_perBin[ii] = bsms_field[
-            center_perBsms[:, ii].real == np.min(center_perBsms[:, ii].real)
-        ][0]
-    integrals[expn]["bsmsofmax"] = bsmsofmax_perBin
-    integrals[expn]["bsmsofmincenter"] = bsmsofmincenter_perBin
+        integrals[expn]["integrals"] = signal_perBsms
+        integrals[expn]["bsms"] = bsms_field  
+        integrals[expn]["center"] = center
+        integrals[expn]["width"] = width
+        abs_s = np.abs(signal_perBsms[:,ii])
+        bsmsofmax = bsms_field[abs_s==np.max(abs_s)]
+        bsmsofmincenter = bsms_field[center_perBsms[:,ii]==np.min(center_perBsms[:,ii])]
+        integrals[expn]["bsmsofmax"] = bsmsofmax
+        integrals[expn]["bsmsofmincenter"] = bsmsofmincenter
 
     for ii in range(len(ppmRanges)):
         color = cmap(norm_ppmRange(ii))
@@ -308,12 +218,7 @@ for expn in expns:
         axs_ranges[2, ii].plot(bsms_field, width_perBsms[:,ii], 'o-', color=color)
 
         if ii == 0:
-            # FIX (b): ahora si corresponde al bin ii=0 (antes mostraba
-            # los valores del ultimo bin, quedaban de un "ii" viejo)
-            axs_ranges[0, ii].set_title(
-                f"bsms of:  max={bsmsofmax_perBin[ii]:.1f}, "
-                f"min_centre={bsmsofmincenter_perBin[ii]:.1f}"
-            )
+            axs_ranges[0, ii].set_title(f"bsms of:  max={bsmsofmax}, min_centre={bsmsofmincenter}")
             
     
 #     if save:        
@@ -347,25 +252,17 @@ for expn in expns:
 
 
 # %%
-ax_dens_ylim_upper = 0.15e6
-integral_off = off_res_params["integral"]                  
-emax = 1694
+bsms_max = []
 for expn in expns:
     fig, ax = plt.subplots()
-    fig_dens, ax_dens = plt.subplots()
-    means = []
-    maxss = []
-    bsms = integrals[expn]["bsms"] #- integrals[expn]["bsmsofmax"]
+    fig_inv, ax_inv = plt.subplots()
     for ii,ppmRange in enumerate(ppmRanges):
-        color = cmap(norm_ppmRange(ii))        
+        color = cmap(norm_ppmRange(ii))
+        bsms = integrals[expn]["bsms"] #- integrals[expn]["bsmsofmax"]
         signal = np.real(integrals[expn]["integrals"][:,ii])
-        signal_off = 1 # np.real(integral_off)
-        print("WARNING! ESTOY USANDO signal_off=1")
-        ax.plot(bsms, signal, 'o-', color=color)        
-        density = signal/signal_off/(1+emax*s_bins[ii])
-        ax_dens.plot(bsms, density, 'o-', color=color)                
-        means.append(simpson(density*bsms, x=bsms)/simpson(density, x=bsms))
-        maxss.append(bsms[signal==np.max(signal)])
+        ax.plot(bsms, signal, 'o-', color=color)
+        ax_inv.plot(bsms, 1/signal, 'o-', color=color)
+        bsms_max.append(bsms[signal==np.max(signal)])
     # ax.set_xlim(2000,-2000)
     # ax.set_xlabel(r"$\Delta$bsms")
     ax.set_xlabel(r"bsms")
@@ -373,48 +270,17 @@ for expn in expns:
     # colorbar usando la normalización por índice
     sm = mpl.cm.ScalarMappable(cmap=cmap, norm=norm_ppmRange)
     sm.set_array([])
-    cbar = fig.colorbar(sm, ax=ax, pad=0.08)
+    cbar = fig.colorbar(sm, ax=ax)
     # ticks en posiciones de índice, labels en ppm
     cbar.set_ticks(range(len(ppmRanges)))
-    ppm_ticks = [f"{ppmRange[0]:.0f}" for ppmRange in ppmRanges]
+    ppm_ticks = [ppmRange[0] for ppmRange in ppmRanges]
     cbar.set_ticklabels(ppm_ticks)
     cbar.set_label("ppm")
-    ax2 = ax.twinx()
-    signal_perBsms = np.sum(integrals[expn]["integrals"], axis=1)
-    color_ax2="red"
-    ax2.plot(bsms, np.real(signal_perBsms), 's-', color=color_ax2, alpha=0.5)
-    ax2.spines["right"].set_color(color_ax2)
-    ax2.tick_params(axis="y", colors=color_ax2)    
-    ax2.set_ylabel("Total integral", color=color_ax2)
-    ax_dens.set_ylim([0,None])
-    ax2.set_ylim([0,None])  
-    #============================================================
-    ax_dens.set_xlabel(r"bsms")
-    ax_dens.set_ylabel("Density")
-    # colorbar usando la normalización por índice
-    sm = mpl.cm.ScalarMappable(cmap=cmap, norm=norm_ppmRange)
-    sm.set_array([])    
-    cbar = fig_dens.colorbar(sm, ax=ax_dens, pad=0.08)
-    # ticks en posiciones de índice, labels en ppm
-    cbar.set_ticks(range(len(ppmRanges)))    
-    cbar.set_ticklabels([f"{v:.2f}" for v in s_bins])
-    cbar.set_label("saturation factor")    
-    ax2 = ax_dens.twinx()
-    color_ax2="red"
-    ax2.plot(bsms, np.real(signal_perBsms), 's-', color=color_ax2, alpha=0.5)
-    ax2.spines["right"].set_color(color_ax2)
-    ax2.tick_params(axis="y", colors=color_ax2)    
-    ax2.set_ylabel("Total integral", color=color_ax2)
-    ax_dens.set_ylim([0,ax_dens_ylim_upper])
-    ax2.set_ylim([0,None])
-    #=============================================================
-    fig, ax = plt.subplots()
-    ax.plot(s_bins, means, 'bo-')
-    ax.set_ylim([min(bsms), max(bsms)])    
-    # ax.plot(s_bins, maxss, 'ro-')
-    
-#%% densidad de spines con saturacion s:
 
+# %%
+fig, ax = plt.subplots()
+ax.plot(ppm_ticks, bsms_max,'o')
+#%%
 for expn in expns:
     # ============================================================
     # Colormap: ppmAxis (eje x) vs bsms (eje y)
@@ -439,4 +305,4 @@ for expn in expns:
     ax_map.set_ylabel('bsms')
     ax_map.set_title(f'expn {expn}')
     fig_map.colorbar(pcm, ax=ax_map, label='Señal (parte real) [a.u.]')
- # %%
+# %%
