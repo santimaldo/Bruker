@@ -94,9 +94,9 @@ autoph =  False
 path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
 # directorio de guradado
 savepath= path
-expns = [29] # [27, 28, 29] ## 2.5 W
-# expns = [37] # [35,37] ## 4.0 W 
-expns = [12] # [11, 12, 14] ## 5W 
+# expns = [29] # [27, 28, 29] ## 2.5 W
+expns = [37] # [35,37] ## 4.0 W 
+# expns = [14] # [11, 12, 14] ## 5W 
 # expns = [29,37,14]
 muestra = "gf410_15?"
 save = False
@@ -305,3 +305,4 @@ for expn in expns:
     ax_map.set_ylabel('bsms')
     ax_map.set_title(f'expn {expn}')
     fig_map.colorbar(pcm, ax=ax_map, label='Señal (parte real) [a.u.]')
+# %%
