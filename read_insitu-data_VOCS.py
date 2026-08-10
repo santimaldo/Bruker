@@ -22,27 +22,12 @@ import os
 
 
 # ############ R9 - NMC-Cu CC protocol
-# # directorio de datos
-# expns = np.arange(1, 40)
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
-# # directorio de guradado
-# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R9_CC/"
-# muestra = "Cell_R9"
-# save = True
-# # rango de guardado
-# nominal_durations = {"VOCS": 166.07,  # seconds
-#                      "zg": 388.61}
-# spectra_per_expn = {"VOCS": 11,
-#                     "zg": 1,
-#                     }
-# ppmRange = None #[2300, -1300]
-########### R10 - NMC-Cu CC protocol
 # directorio de datos
-expns = np.arange(1, 48)
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
+expns = np.arange(1, 40)
+path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
-muestra = "Cell_R10"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R9_CC/"
+muestra = "Cell_R9"
 save = True
 # rango de guardado
 nominal_durations = {"VOCS": 166.07,  # seconds
@@ -51,6 +36,21 @@ spectra_per_expn = {"VOCS": 11,
                     "zg": 1,
                     }
 ppmRange = None #[2300, -1300]
+# ########### R10 - NMC-Cu CC protocol
+# # directorio de datos
+# expns = np.arange(1, 48)
+# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
+# muestra = "Cell_R10"
+# save = True
+# # rango de guardado
+# nominal_durations = {"VOCS": 166.07,  # seconds
+#                      "zg": 388.61}
+# spectra_per_expn = {"VOCS": 11,
+#                     "zg": 1,
+#                     }
+# ppmRange = None #[2300, -1300]
 
 
 

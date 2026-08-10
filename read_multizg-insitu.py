@@ -20,7 +20,7 @@ import scipy.integrate as integrate
 
 ########### G3 - NMC-Graphite
 # directorio de datos
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-04-22_safebatt_Gr-NMC_cellG3/"
+path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-04-22_safebatt_Gr-NMC_cellG3/"
 # zgs
 files_expns = [[10,335,1],
                [337,565,2]]  
@@ -30,49 +30,106 @@ nominal_duration = [13*60+43, 6*60+53]  # seconds
 for j, [start, stop, step] in enumerate(files_expns):
     expns_j = np.arange(start, stop+1, step)
     expns = np.append(expns, expns_j)
-
     nominal_durations = np.append(nominal_durations, np.ones_like(expns_j)*nominal_duration[j]) # s, to take into account the time of autotune
-
-# # hahnechos
-# files_expns = [336,564,2] 
-# expns = np.arange(start, stop+1, step)
-# expns = expns[expns != 444] # remove expn 444 which is an outlier
-# nominal_durations = np.ones_like(expns)*(13*60+43) # s, to take into account the time of autotune
-
+# # # hahnechos
+# # files_expns = [336,564,2] 
+# # expns = np.arange(start, stop+1, step)
+# # expns = expns[expns != 444] # remove expn 444 which is an outlier
+# # nominal_durations = np.ones_like(expns)*(13*60+43) # s, to take into account the time of autotune
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-04_cellG3_NMR/"
-muestra = "Cell_G3_hahnecho"
+muestra = "Cell_G3"#_hahnecho"
 save = True
 # rango de guardado
 ppmRange = [600, -200]
 
 
 
-# ########### R9 - NMC-Cu CC protocol
+# ########### R2 - NMC-Cu CC protocol
 # # directorio de datos
-# expnlist = r"c:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC\0_datalists\expnlist.txt"
+# expns = np.arange(10, 200)
+# path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2025-08-10_ccATMC_Rui-R1_NMC-Cu_PC"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-08_R2/"
+# muestra = "Cell_R2"
+# save = True
+# # rango de guardado
+# ppmRange = [149, -149]
+# Nominal_duration = 14*60+18 # seconds
+# nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
+
+
+
+# # ########### R3 - NMC-Cu CC protocol
+# # directorio de datos
+# expns = np.arange(30, 330)
+# expns = expns[expns%10 != 0] 
+# path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2025-10-01_ccATMC_Rui-R3_NMC-Cu_PC"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-10_R3/"
+# muestra = "Cell_R3"
+# save = True
+# # rango de guardado
+# ppmRange = [149, -149]
+# Nominal_duration = 14*60+18 # seconds
+# nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
+
+
+# # ########### R5 - NMC-Cu CC protocol
+# # directorio de datos
+# expns = np.arange(10, 110)
+# path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R5/"
+# muestra = "Cell_R5"
+# save = True
+# # rango de guardado
+# ppmRange = [149, -149]
+# Nominal_duration = 14*60+18 # seconds
+# nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
+
+
+
+# # ########### R6 - NMC-Cu CC protocol
+# # directorio de datos
+# expns = np.arange(10,71)
+# path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-04-06_ccATMC_Rui-R6_NMC-Cu_CC"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6/"
+# muestra = "Cell_R6"
+# save = True
+# # rango de guardado
+# ppmRange = [149, -149]
+# Nominal_duration = 14*60+18 # seconds
+# nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
+
+
+
+# # ########### R9 - NMC-Cu CC protocol
+# # directorio de datos
+# expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC\0_datalists\expnlist.txt"
 # expns = np.loadtxt(expnlist, dtype=int)
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
+# path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
 # # directorio de guradado
 # savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R9_CC/"
 # muestra = "Cell_R9"
 # save = True
 # # rango de guardado
-# ppmRange = [499, 105]
+# ppmRange = [149, -149]
 # Nominal_duration = 13*60+43 # seconds
 # nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
 
 # ########### R10 - NMC-Cu CC protocol
 # # directorio de datos
-# expnlist = r"c:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC\0_datalists\expnlist.txt"
+# expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC\0_datalists\expnlist.txt"
 # expns = np.loadtxt(expnlist, dtype=int)
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
+# path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
 # # directorio de guradado
 # savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
 # muestra = "Cell_R10"
 # save = True
 # # rango de guardado
-# ppmRange = [499, 105]
+# ppmRange = [149, -149]
 # Nominal_duration = 13*60+43 # seconds
 # nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
 
@@ -104,11 +161,12 @@ for jj, expn in enumerate(expns):
     tau[jj] = (spec_time - t_0)
     
     spec_vs_t[jj, :] = re
+    # speci_vs_t[jj, :] = im
 
     ax_spec.plot(ppmAxis, re)# 0.2+(ii/datos.espectro.size[0])*0.7)
     
     np.savetxt(f'{savepath}/1dspectra/spec_{jj:04d}.dat',
-               np.array([ppmAxis, re]).T,
+               np.array([ppmAxis, re, im]).T,
                header='ppm, Intensity [a.u.]')
 
 #%% ax_spec.
