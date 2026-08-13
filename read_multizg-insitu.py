@@ -10,6 +10,8 @@ Created on Thu Sep 15 12:10:32 2022
 CORREGIR: TIEMPOS Y FASES
 """
 
+import os
+
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -18,30 +20,30 @@ import numpy as np
 from Datos import *
 import scipy.integrate as integrate
 
-########### G3 - NMC-Graphite
-# directorio de datos
-path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-04-22_safebatt_Gr-NMC_cellG3/"
-# zgs
-files_expns = [[10,335,1],
-               [337,565,2]]  
-expns = np.array([])
-nominal_durations = np.array([])
-nominal_duration = [13*60+43, 6*60+53]  # seconds
-for j, [start, stop, step] in enumerate(files_expns):
-    expns_j = np.arange(start, stop+1, step)
-    expns = np.append(expns, expns_j)
-    nominal_durations = np.append(nominal_durations, np.ones_like(expns_j)*nominal_duration[j]) # s, to take into account the time of autotune
-# # # hahnechos
-# # files_expns = [336,564,2] 
-# # expns = np.arange(start, stop+1, step)
-# # expns = expns[expns != 444] # remove expn 444 which is an outlier
-# # nominal_durations = np.ones_like(expns)*(13*60+43) # s, to take into account the time of autotune
-# directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-04_cellG3_NMR/"
-muestra = "Cell_G3"#_hahnecho"
-save = True
-# rango de guardado
-ppmRange = [600, -200]
+# ########### G3 - NMC-Graphite
+# # directorio de datos
+# path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-04-22_safebatt_Gr-NMC_cellG3/"
+# # zgs
+# files_expns = [[10,335,1],
+#                [337,565,2]]  
+# expns = np.array([])
+# nominal_durations = np.array([])
+# nominal_duration = [13*60+43, 6*60+53]  # seconds
+# for j, [start, stop, step] in enumerate(files_expns):
+#     expns_j = np.arange(start, stop+1, step)
+#     expns = np.append(expns, expns_j)
+#     nominal_durations = np.append(nominal_durations, np.ones_like(expns_j)*nominal_duration[j]) # s, to take into account the time of autotune
+# # # # hahnechos
+# # # files_expns = [336,564,2] 
+# # # expns = np.arange(start, stop+1, step)
+# # # expns = expns[expns != 444] # remove expn 444 which is an outlier
+# # # nominal_durations = np.ones_like(expns)*(13*60+43) # s, to take into account the time of autotune
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-04_cellG3_NMR/"
+# muestra = "Cell_G3"#_hahnecho"
+# save = True
+# # rango de guardado
+# ppmRange = [600, -200]
 
 
 
@@ -134,8 +136,24 @@ ppmRange = [600, -200]
 # nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
 
 
+########### G6 - NMC-Gr Safebatt
+# directorio de datos
+litsts_path = r"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-09_safebatt_Gr-NMC_cellG6\0_datalists/"
+expns = np.loadtxt(litsts_path+"expnlist.txt", dtype=int)
+path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-09_safebatt_Gr-NMC_cellG6/"
+# directorio de guradado
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-08_cellG6_NMR/"
+folder_suffix = "_LiMetal_zg"
+muestra = "Cell_G6"
+save = True
+# rango de guardado
+ppmRange = [399, 201]
+nominal_durations = np.loadtxt(litsts_path+"durations.txt")
+
 
 ################################################
+# Crea la carpeta si no existe
+os.makedirs(f"{savepath}/1dspectra{folder_suffix}", exist_ok=True)
 colors = ['k', 'b', 'r', 'g', 'c', 'm', 'y']
 # grafico todos los espectros juntos
 fig_spec, ax_spec = plt.subplots(num=17856, nrows=1, figsize=(6, 4))
@@ -165,26 +183,25 @@ for jj, expn in enumerate(expns):
 
     ax_spec.plot(ppmAxis, re)# 0.2+(ii/datos.espectro.size[0])*0.7)
     
-    np.savetxt(f'{savepath}/1dspectra/spec_{jj:04d}.dat',
+    np.savetxt(f'{savepath}/1dspectra{folder_suffix}/spec_{jj:04d}.dat',
                np.array([ppmAxis, re, im]).T,
                header='ppm, Intensity [a.u.]')
 
 #%% ax_spec.
 
-np.savetxt(f'{savepath}/1dspectra/expn_list.dat',
+np.savetxt(f'{savepath}/1dspectra{folder_suffix}/expn_list.dat',
             expns,
             header='list of experiment numbers')
-np.savetxt(f'{savepath}/1dspectra/time_list.dat',
+np.savetxt(f'{savepath}/1dspectra{folder_suffix}/time_list.dat',
             tau,
             header='time [h]')
 
 with open("info.txt", 'w') as f:    
-    f.write(f"Nomnnal duration of experiments: {Nominal_duration} s = {Nominal_duration/60} min")
+    f.write(f"Nominal duration of experiments: {Nominal_duration} s = {Nominal_duration/60} min")
 
 #%%
 fig, ax = plt.subplots()
-zlim = [0, 6e6]
-ax.pcolormesh(ppmAxis,  tau, spec_vs_t, vmin=min(zlim), vmax=max(zlim))
+ax.pcolormesh(ppmAxis,  tau, spec_vs_t)#, vmin=min(zlim), vmax=max(zlim))
 ax.set_xlabel("ppm")
 ax.set_ylabel("Time [h]")
 # ax.set_xlim(max(ppmRange), min(ppmRange))

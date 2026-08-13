@@ -1,1 +1,1 @@
-Nomnnal duration of experiments: 413.0 s = 6.883333333333334 min
+Nominal duration of experiments: 209.0 s = 3.4833333333333334 min
