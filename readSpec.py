@@ -69,6 +69,21 @@ sample = "IMEC"
 
 #=============================================================================================
 
+# path_bruker = "300old/2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6/"
+# savepath_especifico = "R5/"
+# sample = "Rui_Cell-R5_CC"
+# # info: nucleus,muestra, expn, ppmRange
+# info = ["7Li", "nexp_119", 119, [400, 100]]
+
+# reference_value = 0# ppm    
+# reference_measured = 0
+# ppmCorrection = reference_value - reference_measured
+# nucleo, muestra, expn, ppmRange = info
+# save = True
+
+#=============================================================================================
+
 path_bruker = "300old/2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC/"
 savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6/"
 savepath_especifico = "R5/"

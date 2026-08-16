@@ -35,13 +35,13 @@ from Datos import *
 # ppmRange = [-50, -92]
 
 ########################################## SUPERCAP 2026/03
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/"
-path_bruker = "300old/2026-04-07_supercaps_YP50F_LiTFSI1M/"
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/"
+# path_bruker = "300old/2026-04-07_supercaps_YP50F_LiTFSI1M/"
 
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-04_LiTFSI1M-aq_YP50F/"
-###--------------------------------
-savepath_especifico = "CA_-0.25V_expn-61/"
-exp_before = 60
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-04_LiTFSI1M-aq_YP50F/"
+# ###--------------------------------
+# savepath_especifico = "CA_-0.25V_expn-61/"
+# exp_before = 60
 # ###--------------------------------
 # savepath_especifico = "CA_0.25V/"
 # exp_before = 70
@@ -64,18 +64,33 @@ exp_before = 60
 # savepath_especifico = "CA_-1.00V/"
 # exp_before = 130
 ###--------------------------------
-savepath_especifico = "CA_-0.75V/"
-exp_before = 140
+# savepath_especifico = "CA_-0.75V/"
+# exp_before = 140
 
-exp_2D = exp_before + 1
-exp_after = exp_before + 2
+# exp_2D = exp_before + 1
+# exp_after = exp_before + 2
+# nucleo = "19F"
+# basepath = path_local + path_bruker
+# savepath = savepath_local + savepath_especifico
+# # - -  - - - - - - - - - - - - - - - - - - - - - -
+# ppmRange = [-50, -92]
+
+# ########################################## SUPERCAP 2026/08
+path_local = r"C:\Users\Santi\Documents\NMRdata/"
+path_bruker = "300neo/2026-08-12_supercaps_YP50F_LiTFSI1M/"
+
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-08_LiTFSI1M-aq_YP50F/"
+savepath_especifico = "1.00V/"
+exp_before = 30
+exp_2D = 31
+exp_after = None
+vdlist = True
+
 nucleo = "19F"
 basepath = path_local + path_bruker
 savepath = savepath_local + savepath_especifico
 # - -  - - - - - - - - - - - - - - - - - - - - - -
-ppmRange = [-50, -92]
-
-
+ppmRange = [-61, -100]
 
 
 # =========================================================
@@ -121,15 +136,16 @@ def export_1D(expn, ppmRange, label, basepath, savepath, nucleo):
 # =========================================================
 # 2D EXPORT (as list of 1D spectra)
 # =========================================================
-def export_2D(expn, ppmRange, basepath, savepath, nucleo, label):
+def export_2D(expn, ppmRange, basepath, savepath, nucleo, label, vdlist=False):
 
     datos = DatosProcesados2D(f'{basepath}{expn}/')
     datos.espectro.ppmSelect(ppmRange)
 
     spectra = datos.espectro  
-    Number_valid_data = int(np.where(spectra.real[:, 0]==0)[0][0]) - 1
+    valid_data = np.where(spectra.real[:, 0]!=0)[0]
+    Number_valid_data= valid_data.size
     spec_and_time = []
-    for i in range(Number_valid_data+1):
+    for i in valid_data:
 
         ppm = spectra.ppmAxis
         real = spectra.real[i]
@@ -144,7 +160,10 @@ def export_2D(expn, ppmRange, basepath, savepath, nucleo, label):
     
     Info = np.array([Number_valid_data, datos.acqus.D1])
     np.savetxt(os.path.join(savepath, f"Info"), Info, header="Number of valid spectra\tD1(s)")
-
+    if vdlist:
+        listpath = f"{basepath}{expn}/lists/vd/"
+        vdlist = np.loadtxt(f"{listpath}/{datos.acqus.dic["VDLIST"]}")
+        np.savetxt(os.path.join(savepath, f"vdlist"), vdlist)
     print(f"[2D] saved {Number_valid_data + 1} spectra for exp {expn}")
 
 
@@ -173,17 +192,19 @@ export_2D(
     basepath=basepath,
     savepath=savepath,
     nucleo=nucleo,
-    label="2D"
+    label="2D",
+    vdlist=vdlist
 )
 
 # -------------------
 # 1D AFTER
 # -------------------
-export_1D(
-    expn=exp_after,
-    ppmRange=ppmRange,
-    label="1d-after",
-    basepath=basepath,
-    savepath=savepath,
-    nucleo=nucleo
-)
+if exp_after is not None:
+    export_1D(
+        expn=exp_after,
+        ppmRange=ppmRange,
+        label="1d-after",
+        basepath=basepath,
+        savepath=savepath,
+        nucleo=nucleo
+    )
