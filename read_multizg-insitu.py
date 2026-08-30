@@ -136,19 +136,35 @@ import scipy.integrate as integrate
 # nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
 
 
-########### G6 - NMC-Gr Safebatt
+# ########### G6 - NMC-Gr Safebatt
+# # directorio de datos
+# litsts_path = r"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-09_safebatt_Gr-NMC_cellG6\0_datalists/"
+# expns = np.loadtxt(litsts_path+"expnlist.txt", dtype=int)
+# path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-09_safebatt_Gr-NMC_cellG6/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-08_cellG6_NMR/"
+# folder_suffix = "_LiMetal_zg"
+# muestra = "Cell_G6"
+# save = True
+# # rango de guardado
+# ppmRange = [399, 201]
+# nominal_durations = np.loadtxt(litsts_path+"durations.txt")
+
+
+# ########### R11 - NMC-Cu CC protocol
 # directorio de datos
-litsts_path = r"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-09_safebatt_Gr-NMC_cellG6\0_datalists/"
-expns = np.loadtxt(litsts_path+"expnlist.txt", dtype=int)
-path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-09_safebatt_Gr-NMC_cellG6/"
+expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-27_ATMC1_Rui-R11_NMC-Cu_CC\0_datalists\expnlist.txt"
+expns = np.loadtxt(expnlist, dtype=int)
+path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-27_ATMC1_Rui-R11_NMC-Cu_CC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-08_cellG6_NMR/"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R11_CC/"
+muestra = "Cell_R11"
 folder_suffix = "_LiMetal_zg"
-muestra = "Cell_G6"
 save = True
 # rango de guardado
-ppmRange = [399, 201]
-nominal_durations = np.loadtxt(litsts_path+"durations.txt")
+ppmRange = [350, 200]
+Nominal_duration = 13*60+43 # seconds
+nominal_durations = np.ones_like(expns)*Nominal_duration # s, to take into account the time of autotune
 
 
 ################################################

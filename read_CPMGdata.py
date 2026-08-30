@@ -29,15 +29,26 @@ savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\TMions\A
 first_point = 8   # punto donde empieza la señal (para restar el offset)
 
 
+
+expns = np.arange(31, 100, 2)
+samples = [""]*len(expns)
+# expn, sample = [14, "7Li_LP57-neat"]
+#-------------------- directorios
+path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-27_ATMC1_Rui-R11_NMC-Cu_CC/"
+# directorio de guradado
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R11_CC/"
+first_point = 0   # punto donde empieza la señal (para restar el offset)
+
+
 cpmgs = []
 times = []
 for i, [expn, sample] in enumerate(zip(expns, samples)):
     # --------------------------- Extraigo datos
     datos = Datos(f"{path}{expn}", set_fid=True)
-    timeAxis = datos.fid.timeAxis[first_point:]  # en s
-    timeAxis = timeAxis - timeAxis[0]  # empiezo en t=0
-    re = datos.fid.real[first_point:]
-    im = datos.fid.imag[first_point:]
+    echotime = 2 * datos.acqus.dic["D"][20]
+    re = datos.fid.real
+    im = datos.fid.imag
+    timeAxis = np.arange(1, re.size+1) * echotime
     fid = re+1j*im
     mod = np.abs(fid)
     # angle= -61
@@ -70,7 +81,7 @@ for i, [expn, sample] in enumerate(zip(expns, samples)):
 # -----------------------------------------------
 #%% ILT
 Npts_L = 100
-alpha = 1e-2
+alpha = 1e-1
 
 # funcion de kernel
 def T2(x, tt):
@@ -83,7 +94,7 @@ labels = {'xdata': r'Time [s]',
           'titulo': "CPMG"}
 
 # Inicializo la clase ILT
-ilt = ILT(alpha=alpha, rango=(2e-6, 1e-2), 
+ilt = ILT(alpha=alpha, rango=(1e-4, 1e1), 
           kernel=T2, Nilt=Npts_L,
           figure=2, savepath=savepath,
           labels=labels,
