@@ -13,10 +13,10 @@ save = False
 # DIRECTORIOS
 # ============================================================
 
-expns = np.arange(31, 100, 2)
+expns = np.arange(35, 1200, 10)
 samples = [""] * len(expns)
-path = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-27_ATMC1_Rui-R11_NMC-Cu_CC\\"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R11_CC\\"
+path = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-28_ATMC1_Rui-R12_NMC-Cu_CC\\"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R12_CC\\"
 
 # ============================================================
 # LEER DATOS
@@ -79,6 +79,7 @@ ilt = ILT(alpha=alpha, rango=(1e-4, 1e0), kernel=T2kernel, Nilt=Npts_L,
 ilt_distributions = []
 
 for ii, expn in enumerate(expns):
+    print(f"expn: {expn}")
     ydata = cpmgs[ii] / cpmgs[ii][0]
     ydata -= np.mean(ydata[-100:])
     ilt.DoTheStuff(ydata, times[ii], muestra=samples[ii])
