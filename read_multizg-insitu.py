@@ -36,18 +36,32 @@ import scipy.integrate as integrate
 # ppmRange = [350, 200]
 
 
-# ########### R13 - NMC-Cu PC protocol
+# # ########### R13 - NMC-Cu PC protocol
+# # directorio de datos
+# expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC\0_datalists\expnlist.txt"
+# expns = np.loadtxt(expnlist, dtype=int)
+# path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R13_PC/"
+# muestra = "Cell_R13"
+# folder_suffix = "_LiMetal_zg"
+# save = True
+# # rango de guardado
+# ppmRange = [400, -200]
+
+
+# ########### R14 - NMC-Cu CC protocol
 # directorio de datos
-expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC\0_datalists\expnlist.txt"
+expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC\0_datalists\expnlist.txt"
 expns = np.loadtxt(expnlist, dtype=int)
-path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
+path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R13_PC/"
-muestra = "Cell_R13"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-09_R14_CC/"
+muestra = "Cell_R14"
 folder_suffix = "_LiMetal_zg"
 save = True
 # rango de guardado
-ppmRange = [400, -200]
+ppmRange = [350, 200]
 
 ################################################
 # Crea la carpeta si no existe

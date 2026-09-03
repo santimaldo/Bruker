@@ -29,13 +29,23 @@ import os
 # save = True
 # ppmRange = None #[2300, -1300]
 
-# ############ R13 - NMC-Cu PC protocol
+# # ############ R13 - NMC-Cu PC protocol
+# # directorio de datos
+# expns = np.arange(31, 922, 10)
+# path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R13_PC/"
+# muestra = "Cell_R13"
+# save = True
+# ppmRange = None #[2300, -1300]
+
+# ############ R14 - NMC-Cu CC protocol
 # directorio de datos
-expns = np.arange(31, 922, 10)
-path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
+expns = np.arange(31, 351, 10)
+path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R13_PC/"
-muestra = "Cell_R13"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-09_R14_CC/"
+muestra = "Cell_R14"
 save = True
 ppmRange = None #[2300, -1300]
 
