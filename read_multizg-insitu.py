@@ -53,7 +53,7 @@ import scipy.integrate as integrate
 # ########### R14 - NMC-Cu CC protocol
 # directorio de datos
 expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC\0_datalists\expnlist.txt"
-expns = np.loadtxt(expnlist, dtype=int)
+expns = np.loadtxt(expnlist).astype(np.int64)
 path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-09_R14_CC/"

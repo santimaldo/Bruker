@@ -41,7 +41,8 @@ import os
 
 # ############ R14 - NMC-Cu CC protocol
 # directorio de datos
-expns = np.arange(31, 351, 10)
+# expns = np.arange(31, 890, 10)
+expns = np.concatenate( (np.arange(31, 890, 10), np.arange(1001, 1442, 10)) )
 path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
 # directorio de guradado
 savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-09_R14_CC/"
