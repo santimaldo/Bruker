@@ -7,6 +7,11 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
+# # Clear variables from a previous run when this script is executed again.
+# for _name in list(globals()):
+#     if not _name.startswith("__"):
+#         del globals()[_name]
+
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -15,6 +20,7 @@ from Datos import *
 from Autophase import autophase
 from scipy.integrate import simpson
 import re
+
 
 ################## Functions ###########################
 
@@ -36,27 +42,59 @@ def read_bsms_field(path_archivo):
                 return np.array(x)
     raise ValueError("No se encontro una linea que empiece con 'x='.")
 
+def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
+    """
+    Desplaza un espectro en puntos enteros de la discretización ppm.
 
-#%%                
-    return np.array(data)
+    Parámetros
+    ----------
+    spectrum : np.array
+        Espectro 1D (real o complejo).
+    ppmAxis : np.array
+        Eje ppm original.
+    bsms : float
+        Valor de bsms correspondiente al espectro.
+    shift_factor : float
+        Factor de conversión bsms -> ppm.
+
+    Retorna
+    -------
+    shifted_spectrum : np.array
+        Espectro desplazado en puntos enteros.
+    """
+    # resolución digital del eje ppm
+    dppm = np.abs(ppmAxis[1] - ppmAxis[0])
+    # corrimiento continuo esperado
+    shift_ppm = shift_factor * bsms
+    # cantidad entera de puntos digitales
+    n_shift = int(np.round(shift_ppm / dppm))
+    # desplazamiento sin condiciones periódicas
+    shifted_spectrum = np.zeros_like(spectrum)
+    if n_shift > 0:
+        shifted_spectrum[n_shift:] = spectrum[:-n_shift]
+    elif n_shift < 0:
+        shifted_spectrum[:n_shift] = spectrum[-n_shift:]
+    else:
+        shifted_spectrum = spectrum.copy()
+    return shifted_spectrum
+
 ################## end Functions #######################
 
 
-absolute = False
-autoph = False
-path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
-# directorio de guradado
-savepath= path
-expns = [12] # [5, 8, 9, 12]
-muestra = "gf410_7"
-save = False
-plotRange = [700,-300]
-# rango de integracion
-ppmRanges = [
-            #  [400, 15],
-            #  [15, -15]
-             [ppm,ppm-10] for ppm in range(270, 50, -10)         
-            ]
+# absolute = False
+# autoph = False
+# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
+# # directorio de guradado
+# savepath= path
+# expns = [12] # [5, 8, 9, 12]
+# muestra = "gf410_7"
+# save = False
+# plotRange = [300,-30]
+# # rango de integracion
+# ppmRanges = [
+#              [400, 15],
+#              [15, -15]            
+#             ]
 
 # absolute = False
 # autoph = False
@@ -66,11 +104,12 @@ ppmRanges = [
 # expns = [12, 15] #
 # muestra = "gf410_5"
 # save = False
-# plotRange = [700,-300]
+# plotRange = [300,-30]
 # # rango de integracion
 # ppmRanges = [[400, 15],
 #              [15, -15]            
 #             ]
+
 
 
 
@@ -79,32 +118,63 @@ ppmRanges = [
 # path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_23/"
 # # directorio de guradado
 # savepath= path
-# expns = [6, 8, 10] # [6, 8, 10]
+# expns = [8] # [6, 8, 10]
 # muestra = "gf410_23"
 # save = False
-# plotRange = [700,-300]
+# plotRange = [300,-30]
 # # rango de integracion
 # ppmRanges = [[400, 15],
 #              [15, -15]            
 #             ]
 
 
-absolute = False
-autoph =  False
-path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
-# directorio de guradado
-savepath= path
-expns = [29] # [27, 28, 29] ## 2.5 W
+# absolute = False
+# autoph =  False
+# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
+# # directorio de guradado
+# savepath= path
+# expns = [29] # [27, 28, 29] ## 2.5 W
 # expns = [37] # [35,37] ## 4.0 W 
 # expns = [14] # [11, 12, 14] ## 5W 
-# expns = [29,37,14]
-muestra = "gf410_15?"
+# # expns = [29,37,14]
+# muestra = "gf410_15?"
+# save = False
+# plotRange = [300,-30]
+# # rango de integracion
+# ppmRanges = [[400, 15],
+#              [15, -15],             
+#             ]
+
+
+
+absolute = False
+autoph =  False
+path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46/"
+# directorio de guradado
+savepath= path
+# expns = [17] # 5.2 W
+# ppmzero_at_bsms0 = 105.15
+# expns = [78] #  4.0 W 
+# ppmzero_at_bsms0 = 196.16
+expns = [76] #  3W 
+ppmzero_at_bsms0 = 196.16
+# expns = [84] #  2W 
+# ppmzero_at_bsms0 = 196.16
+# expns = [88] #  1W 
+# ppmzero_at_bsms0 = 196.16
+
+muestra = "gf410_46"
 save = False
-plotRange = [400,-100]
+plotRange = [300,-30]
 # rango de integracion
-ppmRanges = [[400, 15],
+ppmRanges = [[300, 15],
+             [300, 210],
+             [210, 215],
              [15, -15],             
             ]
+
+
+
 
 plot_together =  True
 #=====================================================================
@@ -135,6 +205,8 @@ for expn in expns:
                                 read_pp = False)
     spec = datos.espectro.real
     speci = datos.espectro.imag
+    # shift ppm
+    datos.espectro.ppmAxis -= ppmzero_at_bsms0
     maxx = np.max(spec)
     bsms_field = read_bsms_field(path_2D)
     norm = mpl.colors.Normalize(vmin=min(bsms_field), vmax=max(bsms_field))
@@ -146,9 +218,11 @@ for expn in expns:
     # Plot the 1D spectra
     for kk in range(len(bsms_field)):
         bsms = bsms_field[kk]
-        ppmAxis = datos.espectro.ppmAxis - (-1.1665e-2) * bsms_field[kk]
-        spec1d = spec[kk,:]
-        speci1d = speci[kk,:]
+        ###ppmAxis = datos.espectro.ppmAxis - (-1.1665e-2) * bsms_field[kk] ### old. not used
+        ppmAxis = datos.espectro.ppmAxis
+        spec1d = shift_spectrum_by_bsms(spec[kk,:],ppmAxis,bsms_field[kk])
+        speci1d = shift_spectrum_by_bsms(speci[kk,:],ppmAxis,bsms_field[kk])
+
         spectra[expn][kk] = dict()
         spectra[expn][kk]["spec"] = spec1d + 1j* speci1d 
         spectra[expn][kk]["ppm"] = ppmAxis
@@ -261,7 +335,7 @@ for expn in expns:
         bsms = integrals[expn]["bsms"] #- integrals[expn]["bsmsofmax"]
         signal = np.real(integrals[expn]["integrals"][:,ii])
         ax.plot(bsms, signal, 'o-', color=color)
-        ax_inv.plot(bsms, 1/signal, 'o-', color=color)
+        ax_inv.plot(bsms, signal/max(signal), 'o-', color=color)
         bsms_max.append(bsms[signal==np.max(signal)])
     # ax.set_xlim(2000,-2000)
     # ax.set_xlabel(r"$\Delta$bsms")
@@ -277,10 +351,14 @@ for expn in expns:
     cbar.set_ticklabels(ppm_ticks)
     cbar.set_label("ppm")
 
-# %%
-fig, ax = plt.subplots()
-ax.plot(ppm_ticks, bsms_max,'o')
 #%%
+vmax = 0.5 # Color vmax [0-1]
+# Transformación bsms -> escala del segundo eje
+factor = (-1.1665e-2*1e-6*9.42)*1e3
+def bsms_to_secondary(y):
+    return (y-bsms0) * factor
+def secondary_to_bsms(y):
+    return (y-bsms0) / factor
 for expn in expns:
     # ============================================================
     # Colormap: ppmAxis (eje x) vs bsms (eje y)
@@ -292,17 +370,78 @@ for expn in expns:
     # esa fila de Y (bsms), en vez de forzar un unico eje x compartido.
     kk_sorted = sorted(spectra[expn].keys())
     ppm_2D = np.array([spectra[expn][kk]["ppm"] for kk in kk_sorted])          # (N_bsms, N_ppm)
-    spec_2D = np.array([spectra[expn][kk]["spec"].real for kk in kk_sorted])   # (N_bsms, N_ppm)
+    spec_2D = np.array([np.real(spectra[expn][kk]["spec"]) for kk in kk_sorted])   # (N_bsms, N_ppm)
     bsms_1D = np.array([spectra[expn][kk]["bsms"] for kk in kk_sorted])        # (N_bsms,)
     bsms_2D = np.tile(bsms_1D[:, None], (1, ppm_2D.shape[1]))                  # (N_bsms, N_ppm)
 
-    fig_map, ax_map = plt.subplots(figsize=(6, 5))
+    fig_map, ax_map = plt.subplots(figsize=(7, 5))
     pcm = ax_map.pcolormesh(ppm_2D, bsms_2D, spec_2D,
                             shading='auto', cmap='inferno',
-                            vmax=np.max(spec_2D)*1)
-    ax_map.set_xlim(max(plotRange), min(plotRange))   # convencion ppm descendente
+                            vmax=np.max(spec_2D)*vmax)
+    ax2 = ax_map.secondary_yaxis('right',functions=(bsms_to_secondary,secondary_to_bsms))
+    ax2.set_ylabel(r"$\Delta B$ (mT)", labelpad=-3)
+    ax_map.set_xlim(max(plotRange), min(plotRange))       
     ax_map.set_xlabel(r'$\delta$ (ppm)')
     ax_map.set_ylabel('bsms')
-    ax_map.set_title(f'expn {expn}')
-    fig_map.colorbar(pcm, ax=ax_map, label='Señal (parte real) [a.u.]')
+    ax_map.set_title(f'cell: {muestra}; expn {expn}')
+    fig_map.colorbar(pcm, ax=ax_map, label='NMR signal [a.u.]', pad=0.12)
+
+#%%================================================================
+#==================================================================
+#==================================================================
+#==================================================================
+#==================================================================
+vmax = 1
+factor = (-1.1665e-2*1e-6*9.42)*1e3
+
+
+
+for expn in expns:
+    bsms = integrals[expn]["bsms"]
+    sig = np.abs(integrals[expn]["integrals"])
+    # bsms0 = máximo de la primera ventana de integración
+    bsms0 = bsms[np.argmax(sig[:,0])]
+
+    kk = sorted(spectra[expn].keys())
+    ppm_2D = np.array([spectra[expn][k]["ppm"] for k in kk])
+    spec_2D = np.array([np.real(spectra[expn][k]["spec"]) for k in kk])
+    bsms_1D = np.array([spectra[expn][k]["bsms"] for k in kk])
+    bsms_2D = np.tile(bsms_1D[:,None], (1,ppm_2D.shape[1]))
+
+    def bsms_to_secondary(y):
+        return (y-bsms0)*factor
+    def secondary_to_bsms(y):
+        return y/factor + bsms0
+    fig, (ax_int, ax_map) = plt.subplots(1,2,figsize=(10,5),
+                                         sharey=True,
+                                         gridspec_kw={'width_ratios':[1,3]})
+
+    # for ii, ppmRange in enumerate(ppmRanges):
+    ppmRange = ppmRanges[0]
+    ax_int.plot(sig[:,ii], bsms, 'o-', color="k",#cmap(norm_ppmRange(ii)),
+                label=f"{ppmRange[0]} to {ppmRange[1]} ppm")
+    ax_int.set(xlabel="Integral [a.u.]", ylabel="bsms")
+    ax_int.grid(alpha=.3)
+    ax_int.legend(fontsize=8)
+
+    ax_int2 = ax_int.secondary_yaxis('right',
+                                     functions=(bsms_to_secondary,
+                                                secondary_to_bsms))
+    ax_int2.set_ylabel(r"$\Delta B$ (mT)")
+
+    pcm = ax_map.pcolormesh(ppm_2D, bsms_2D, spec_2D,
+                            shading='auto', cmap='inferno',
+                            vmax=np.max(spec_2D)*vmax)
+    ax_map.set(xlim=(max(plotRange),min(plotRange)),
+               xlabel=r"$\delta$ (ppm)")
+    ax_map.set_ylabel("bsms")
+    ax_map.set_title(f'cell: {muestra}; expn {expn}')
+    ax_map.tick_params(labelbottom=True, labelleft=True)
+    ax_map2 = ax_map.secondary_yaxis('right',
+                                     functions=(bsms_to_secondary,
+                                                secondary_to_bsms))
+    ax_map2.set_ylabel(r"$\Delta B$ (mT)", labelpad=-3)
+    
+    fig.colorbar(pcm, ax=ax_map, label="NMR signal [a.u.]", pad=.12)
+    fig.tight_layout()
 # %%

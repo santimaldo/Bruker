@@ -10,6 +10,7 @@ Extrae multiples espectros adquiridos en Bruker Avance II
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 from Datos import *
 from Espectro import autophase
 from VoigtFit import VoigtFit
@@ -540,19 +541,95 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 
-#=============================================================
-##### In siut 2026-01
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
-path_bruker = "2026-02-23_InSitu/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2026-02_InSitu/"
+# #=============================================================
+# ##### In siut 2026-01
+# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_bruker = "2026-02-23_InSitu/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2026-02_InSitu/"
 
+# nucleo = "7Li"
+# savepath_especifico = "shifted_design"
+# ## info: muestra, expn, ppmRange
+# infos = [
+#          ['mwON_2.5A_bsms_ON-OE_bsms_-6000', 13999 , [600, -300]],
+#          ['mwON_2.5A_bsms_OFF-OE_bsms_9999', 14999 , [600, -300]],         
+#          ]
+
+
+
+#=============================================================
+# ##### Gabriel 2026-08
+# path_local = r"C:\Users\Santi\Documents\NMRdata\400dnp/"
+# path_bruker = "2026-08-26_1.3mm_Gabriel_gf410_46/"
+# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Gabriel\Analysis\2026-08_staticDNP/"
+
+# nucleo = "7Li"
+# savepath_especifico = "cell46_5.2W\spectra/"
+# ## info: muestra, expn, ppmRange
+# infos = [
+#          ['mwON_1.6A_bsms_off-OE_bsms0', 41999 , [600, -300]],
+#          ]
+
+
+##### testing LiF 2026-09
+path_local = r"C:\Users\Santi\Documents\NMRdata\400dnp/"
+path_bruker = "2026-09-10_3.2mm_LiMetal_LiF_RC1/"
+savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF/"
+
+# savepath_especifico = "10kHz/7Li/"
+# nucleo = "7Li"
+# ## info: muestra, expn, ppmRange
+# infos = [
+#          ['mwON_2.2A_bsms9999_off-OE_HahnDiamagn', 129 , [1000, -900]],
+#          ['mwON_2.2A_bsms-3500_on-OE_HahnDiamagn', 130 , [1000, -900]],
+#          ]
+# savepath_especifico = "10kHz/19F-CP/"
+# nucleo = "19F"
+# ## info: muestra, expn, ppmRange
+# infos = [
+#          ['mwON_2.2A_bsms9999_off-OE_o1-in-LiPF6_p15_50us', 127 , [100, -500]],
+#          ['mwON_2.2A_bsms-3500_on-OE_o1-in-LiPF6_p15_500us', 126 , [100, -500]],
+#          ['mwON_2.2A_bsms9999_off-OE_o1-in-LiF_p15_50us', 128 , [100, -500]],
+#          ['mwON_2.2A_bsms-3500_on-OE_o1-in-LiF_p15_50us', 121 , [100, -500]],
+#          ['mwON_2.2A_bsms9999_off-OE_hahnecho', 124 , [100, -500]],
+#          ['mwON_2.2A_bsms-3500_on-OE_hahnecho', 115 , [100, -500]],
+#          ]
+
+
+# # savepath_especifico = "0kHz/7Li/"
+# # nucleo = "7Li"
+# # ## info: muestra, expn, ppmRange
+# # infos = [
+# #          ['mwON_2.2A_bsms9999_off-OE_zg', 240 , [1000, -900]],
+# #          ['mwON_2.2A_bsms-3500_on-OE_zg', 250 , [1000, -900]],
+# #          ]
+
+# # # savepath_especifico = "0kHz/19F-CP/"
+# # # nucleo = "19F"
+# # # ## info: muestra, expn, ppmRange
+# # # infos = [
+# # #          ['mwON_2.2A_bsms9999_off-OE_o1-in-LiF_p15_50us', 241 , [100, -500]],
+# # #          ['mwON_2.2A_bsms-3500_on-OE_o1-in-LiF_p15_50us', 229 , [100, -500]],
+# # #          ]
+path_bruker = "2026-09-15_static_LiF-cp/"
+savepath_especifico = "StaticProbe/7Li/"
 nucleo = "7Li"
-savepath_especifico = "shifted_design"
 ## info: muestra, expn, ppmRange
 infos = [
-         ['mwON_2.5A_bsms_ON-OE_bsms_-6000', 13999 , [600, -300]],
-         ['mwON_2.5A_bsms_OFF-OE_bsms_9999', 14999 , [600, -300]],         
+         ['mwON_2.2A_bsms9999_off-OE_hahnDiam', 37 , [1000, -900]],
+         ['mwON_2.2A_bsms-3500_on-OE_hahnDiam', 36 , [1000, -900]],
          ]
+
+savepath_especifico = "StaticProbe/19F-CP/"
+nucleo = "19F"
+## info: muestra, expn, ppmRange
+infos = [
+         ['mwON_2.2A_bsms9999_off-OE_o1-in-LiF_p15_50us', 34 , [100, -500]],
+         ['mwON_2.2A_bsms-3500_on-OE_o1-in-LiF_p15_50us', 35 , [100, -500]],
+         ]
+
+
+
 
 fig, ax = plt.subplots(num=1, nrows=1, ncols=1)  # create figure & 1 axis
 for info in infos:
@@ -579,6 +656,7 @@ for info in infos:
     # ax.set_xlim([50,-50])
     if save:
         savepath = f"{savepath_local}{savepath_especifico}"
+        os.makedirs(savepath, exist_ok=True)
         # guardo:
         header = "ppmAxis\t real \t imag"
         dataexport = np.array([ppmAxis, re, im]).T

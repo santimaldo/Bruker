@@ -112,6 +112,9 @@ plotRange = [300,-20]
 ppm_bin_width = 20
 
 
+
+
+
 plot_together =  True
 #=====================================================================
 # Calibrate the "off resonance"

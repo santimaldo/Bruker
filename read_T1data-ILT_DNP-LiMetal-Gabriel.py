@@ -10,14 +10,26 @@ import numpy as np
 from Datos import *
 from Laplace import ILT
 
+# # Data paths
+# expn = 19
+# path = rf"C:\Users\Santi\Documents\NMRdata\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46\{expn}/"
+# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
+# muestra = "7Li_supercap_LiTFSI1M-aq_-1V"
+# save = False
+# plotRange = [280, -30]
+# plotRange = [900, 550]
+# Nsegments = 100
+
+
 # Data paths
-expn = 51
-path = rf"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\2026-08-17_1.3mm_Gabriel_gf410_41\{expn}/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
-muestra = "7Li_supercap_LiTFSI1M-aq_-1V"
+expn = 253
+path  =rf"C:\Users\Santi\Documents\NMRdata\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/{expn}/"
+savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz\T1/"
+muestra = ""
 save = False
-plotRange = [280, -30]
+plotRange = [350, -100]
 Nsegments = 100
+
 
 
 datos = DatosProcesadosT1(path, vdlist_path="lists/vd/sm2974")
@@ -38,7 +50,7 @@ ax_spec.set_xlim(np.max(plotRange), np.min(plotRange))
 def T2(x, tt):
     return 1-np.exp(-x/tt)
 
-Npts_L = 200
+Npts_L = 100
 alpha = 1e-4
 
 # Inicializo la clase ILT
@@ -89,7 +101,7 @@ iltft = np.zeros((Nilt, Nsegments))
 for ii in range(Nsegments):
     print(f"Segment {ii+1} of {Nsegments}")
     ydata = ydata2d_reduced[:,ii]
-    ilt = ILT(alpha=alpha, rango=(0.001, 1), kernel=T2, Nilt=Nilt, figure=ii, savepath=savepath)
+    ilt = ILT(alpha=alpha, rango=(0.01, 10), kernel=T2, Nilt=Nilt, figure=ii, savepath=savepath)
     ilt.DoTheStuff(ydata, tau, muestra=f"{ppmAxis_reduced[ii]:.2f} ppm")
     iltft[:,ii] = ilt.yilt
 
@@ -189,7 +201,8 @@ ax_map.set_xlim(np.max(ppmAxis_reduced), np.min(ppmAxis_reduced))
 
 ax_map.set_xlabel("ppm")
 ax_map.set_ylabel("T1 [s]")
-ax_map.set_ylim([0.05, 0.2])
+# ax_map.set_ylim([0.01, 0.3])
+ax_map.set_yscale('log')
 
 # -------------------------------------------------------------------------
 # Vertical projection -> TOP

@@ -50,18 +50,44 @@ import scipy.integrate as integrate
 # ppmRange = [400, -200]
 
 
-# ########### R14 - NMC-Cu CC protocol
+# # ########### R14 - NMC-Cu CC protocol
+# # directorio de datos
+# expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC\0_datalists\expnlist.txt"
+# expns = np.loadtxt(expnlist).astype(np.int64)
+# path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-09_R14_CC/"
+# muestra = "Cell_R14"
+# folder_suffix = "_LiMetal_zg"
+# save = True
+# # rango de guardado
+# ppmRange = [400, -200]
+
+# # ########### insituDNP
+# # # directorio de datos
+# expns = np.concatenate((np.arange(12, 110), np.arange(120, 220)))
+# path = rf"C:\Users\Santi\Documents\NMRdata\400dnp\2026-07-06_InSitu_cellTest-justNMR/"
+# # directorio de guradado
+# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2026-07_InSitu-NMR/"
+# muestra = "Cell_D2"
+# folder_suffix = "_LiMetal_zg"
+# save = True
+# # rango de guardado
+# ppmRange = [400, 100]
+
+
+
+# ########### G8 - Safebatt
 # directorio de datos
-expnlist = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC\0_datalists\expnlist.txt"
-expns = np.loadtxt(expnlist).astype(np.int64)
-path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
+expns = np.arange(20,290)
+path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-10-08_safebatt_Gr-NMC_cellG8/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-09_R14_CC/"
-muestra = "Cell_R14"
+savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\SafeBatt\Analysis\2026-10_cellG8_NMR/"
+muestra = "Cell_G8"
 folder_suffix = "_LiMetal_zg"
 save = True
 # rango de guardado
-ppmRange = [350, 200]
+ppmRange = [400, -200]
 
 ################################################
 # Crea la carpeta si no existe

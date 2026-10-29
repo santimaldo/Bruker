@@ -107,19 +107,19 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 #             ]
  
 
-absolute = False
-autoph = False
-path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
-# directorio de guradado
-savepath= path
-expns = [74] #
-muestra = "High current"
-save = False
-plotRange = [300,-100]
-# rango de integracion
-ppmRanges = [[300, 240],
-             [30, -30],            
-            ]
+# absolute = False
+# autoph = False
+# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
+# # directorio de guradado
+# savepath= path
+# expns = [74] #
+# muestra = "High current"
+# save = False
+# plotRange = [300,-100]
+# # rango de integracion
+# ppmRanges = [[300, 240],
+#              [30, -30],            
+#             ]
 
 
 # absolute = False
@@ -135,6 +135,32 @@ ppmRanges = [[300, 240],
 # ppmRanges = [[300, 240],
 #              [30, -30],            
 #             ]
+
+
+############ 10 kHz
+# infos.append(["kpopt_p1-4.35us_p90", 28, 0])
+# infos.append(["kpopt_p1-1us", 212, 0])
+# infos.append(["kpopt_p1-0.5us", 35, 0])
+############ 0 kHz
+# infos.append(["kpopt_p1-1us", 262, 0])
+
+absolute = False
+autoph = False
+path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
+# directorio de guradado
+savepath=r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+expns = [262] #
+muestra = "kpopt_p1-1us"
+save = False
+plotRange = [300,-30]
+# rango de integracion
+ppmRanges = [[300, 15],
+             [15, -15],             
+            ]
+
+
+
+
 
 
 plot_together =  True
