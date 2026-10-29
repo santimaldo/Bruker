@@ -35,6 +35,7 @@ Conventions
   last axis is the direct (ppm) dimension. Functions that act along ppm
   always use the last axis, so they work the same on 1D and pseudo-2D data.
 """
+import datetime
 import os
 import re
 from dataclasses import dataclass, replace
@@ -186,6 +187,18 @@ class _ParamMixin:
     def gamma(self):
         """float: Gyromagnetic ratio of :attr:`nucleus`, in rad s^-1 T^-1."""
         return gamma(self.nucleus)
+
+    @property
+    def start_time(self):
+        """
+        datetime.datetime: When the acquisition started (local time).
+
+        Read from ``DATE_START`` (Unix time); falls back to ``DATE`` (the
+        time the data was written) on files that lack it.
+        """
+        acq = self.dic["acqus"]
+        stamp = acq.get("DATE_START") or acq["DATE"]
+        return datetime.datetime.fromtimestamp(float(stamp))
 
 
 def _norm_factor(dic, normalize):
