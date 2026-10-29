@@ -59,7 +59,6 @@ class Espectro(object):
 
         self.real = None
         self.imag = None
-        self.spec = None
         self.ppmAxis = None
         self.ppmAxisInd = None
         self.ppmGridDir = None
@@ -77,6 +76,43 @@ class Espectro(object):
         #     self.ppmSelect(rango)
         #   elif np.ndim(spec)==2:
         #     self.ppmSelect2D(rango)
+
+    @property
+    def spec(self):
+        """
+        Complex spectrum, always computed as ``real + 1j*imag``.
+
+        It is not stored separately, so cropping or masking ``real`` and
+        ``imag`` can never leave it out of sync.
+
+        Returns
+        -------
+        numpy.ndarray or None
+            ``None`` until the real part is set.
+        """
+        if self.real is None:
+            return None
+        if self.imag is None:
+            return np.asarray(self.real) + 0j
+        return np.asarray(self.real) + 1j * np.asarray(self.imag)
+
+    @spec.setter
+    def spec(self, value):
+        """
+        Set the spectrum by splitting it into :attr:`real` and :attr:`imag`.
+
+        Parameters
+        ----------
+        value : array_like or None
+            Complex (or real) spectrum.
+        """
+        if value is None:
+            self.real = None
+            self.imag = None
+        else:
+            value = np.asarray(value)
+            self.real = np.real(value).copy()
+            self.imag = np.imag(value).copy()
 
     def set_real(self, real):
         self.real = real
@@ -141,7 +177,6 @@ class Espectro(object):
         else:  # esto sirve para pseudo 2D, como medidas de T1
             self.real = self.real[:, ini:fin]
             self.imag = self.imag[:, ini:fin]
-            self.spec = self.spec[:, ini:fin]
 
     def ppmSelect2D(self, rango, rango_ind=None):
         newppm = self.ppmAxis
@@ -175,7 +210,8 @@ class Espectro(object):
         fin = int(rango[1])
         self.real = self.real[ini:fin, :]
         self.imag = self.imag[ini:fin, :]
-        self.spec = self.real + 1j*self.imag
+        if self.ppmAxisInd is not None:
+            self.ppmAxisInd = self.ppmAxisInd[ini:fin]
         self.crear_ppmGrid()
 
     def crear_ppmGrid(self):

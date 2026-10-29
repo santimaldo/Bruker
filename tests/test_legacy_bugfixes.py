@@ -1,12 +1,9 @@
 """
-Known bugs in the legacy ``Datos`` classes, written as tests of the
-*correct* behaviour.
+Regression tests for bugs of the legacy ``Datos`` classes fixed in Phase 2.
 
-Each test is marked ``xfail(strict=True)``: it is expected to fail today.
-When a later refactoring phase fixes the bug, the test starts passing,
-pytest reports it as ``XPASS(strict)`` (a failure), and the marker must be
-removed. That way a fix can never go unnoticed, and the test then guards
-against the bug coming back.
+Until Phase 2 these tests were marked ``xfail(strict=True)`` and documented
+the bugs. Phase 2 made the legacy classes delegate to :mod:`nmrtools`, which
+fixed them; the tests now guard against the bugs coming back.
 """
 import os
 import sys
@@ -34,25 +31,31 @@ def require(*relative):
 
 
 @pytest.mark.data
-@pytest.mark.xfail(strict=True, raises=IndexError,
-                   reason="ppmSelect crops real/imag/ppmAxis but not spec (1D); "
-                          "Integrar(absolute=True) then indexes the uncropped spec")
 def test_integrate_absolute_after_ppmselect_1d():
-    """``Integrar(absolute=True)`` works after an in-place ``ppmSelect`` crop."""
+    """
+    ``Integrar(absolute=True)`` works after an in-place ``ppmSelect`` crop.
+
+    Was: ``ppmSelect`` cropped real/imag/ppmAxis but not ``spec`` (1D), so
+    the absolute integral raised ``IndexError``. ``Espectro.spec`` is now
+    computed from real and imag.
+    """
     require(RC1)
     from Datos import DatosProcesados
     d = DatosProcesados(data_path(RC1), p_dir=22)
     expected = d.Integrar([280, 220], absolute=True)
     d.espectro.ppmSelect([300, 200])
+    assert d.espectro.spec.shape == d.espectro.ppmAxis.shape
     np.testing.assert_allclose(d.Integrar([280, 220], absolute=True), expected, rtol=1e-6)
 
 
 @pytest.mark.data
-@pytest.mark.xfail(strict=True, raises=AssertionError,
-                   reason="Acqus.DW = 1/(2*SW_h) is the dwell per real point, but set_fid "
-                          "uses it as the spacing of complex points: time axis is halved")
 def test_fid_time_axis_spacing():
-    """``Datos.set_fid`` spaces complex points by ``1/SW_h`` (true acquisition time)."""
+    """
+    ``Datos.set_fid`` spaces complex points by ``1/SW_h``.
+
+    Was: the spacing was Bruker's DW (dwell per *real* point), so the time
+    axis was half the real acquisition time.
+    """
     require(f"{DENDRITES}/71999")
     from Datos import Datos
     raw = Datos(data_path(f"{DENDRITES}/71999"), set_fid=True, read_pp=False, ndim=2)
@@ -61,12 +64,30 @@ def test_fid_time_axis_spacing():
 
 
 @pytest.mark.data
-@pytest.mark.xfail(strict=True, raises=TypeError,
-                   reason="set_fid uses GRPDLY as a slice index; the 500 MHz console "
-                          "stores a fractional group delay (68.014)")
 def test_read_fid_with_fractional_group_delay():
-    """``Datos(set_fid=True)`` reads a 1D FID from the 500 MHz spectrometer."""
+    """
+    ``Datos(set_fid=True)`` reads a 1D FID from the 500 MHz spectrometer.
+
+    Was: ``GRPDLY`` (68.014 on that console) was used as a slice index and
+    raised ``TypeError``. The digital filter is now removed by nmrglue.
+    """
     require(f"{PEO}/27")
     from Datos import Datos
     raw = Datos(data_path(f"{PEO}/27"), set_fid=True)
     assert raw.fid.signal.ndim == 1 and raw.fid.signal.size > 0
+
+
+@pytest.mark.data
+def test_pseudo2d_indirect_axis_not_empty():
+    """
+    ``DatosProcesados2D`` gives one indirect-axis value per row.
+
+    Was: ``proc2s`` of a pseudo-2D has ``FTSIZE = 0``, so ``ppmAxisInd`` and
+    the ``ppmGrid*`` meshgrids were empty arrays.
+    """
+    require(RC1)
+    from Datos import DatosProcesados2D
+    d = DatosProcesados2D(data_path(RC1), p_dir=1)
+    rows, cols = d.espectro.spec.shape
+    assert d.espectro.ppmAxisInd.size == rows
+    assert d.espectro.ppmGridDir.shape == (rows, cols)

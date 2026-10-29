@@ -53,8 +53,10 @@ class Acqus(object):
             self.P1 = self.P[1]
             self.PL1 = self.dic["PL"][1]
             self.RG = int(self.dic["RG"])        
-            self.GPZ = self.dic["GPZ"]
-            self.gp = self.GPZ[6]  # gradiente de la secuencia STE
+            # Gradients only matter for diffusion experiments; not every
+            # acqus file has them.
+            self.GPZ = self.dic.get("GPZ")
+            self.gp = self.GPZ[6] if self.GPZ and len(self.GPZ) > 6 else None  # gradiente de la secuencia STE
             self.fecha = None
             self.hora = None
             self.getFechayHora()
@@ -70,13 +72,6 @@ class Acqus(object):
         sw_Hz = self.SW*self.SFO1
         self.DW = 1/(2*sw_Hz)  # en segundos
         
-
-    def UnMetodo(self):
-        """
-        @return  :
-        @author
-        """
-        pass
 
     def getFechayHora(self):
         FechayHora = pathlib.Path(self.acq_file).stat().st_mtime

@@ -22,10 +22,14 @@ import pytest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import nmrtools as nt  # noqa: E402
-from make_golden import golden_file  # noqa: E402
 from regression_cases import DENDRITES, IMEC_OCV, PEO, RC1, data_path  # noqa: E402
 
 RTOL = 1e-9
+
+#: Reference results of the *original* legacy code (before Phase 2 switched
+#: it to nmrtools). Kept frozen so these tests keep proving that nmrtools
+#: reproduces the original numbers when given the original ppm axis.
+GOLDEN_V0 = os.path.join(os.path.dirname(os.path.abspath(__file__)), "golden_v0")
 
 
 # ---------------------------------------------------------------------------
@@ -33,18 +37,18 @@ RTOL = 1e-9
 # ---------------------------------------------------------------------------
 def golden(name):
     """
-    Load a Phase 0 reference file as a plain dictionary.
+    Load an original (Phase 0) reference file as a plain dictionary.
 
     Parameters
     ----------
     name : str
-        Case name in ``tests/golden``.
+        Case name in ``tests/golden_v0``.
 
     Returns
     -------
     dict of str to numpy.ndarray
     """
-    with np.load(golden_file(name)) as g:
+    with np.load(os.path.join(GOLDEN_V0, f"{name}.npz")) as g:
         return {k: g[k] for k in g.files}
 
 

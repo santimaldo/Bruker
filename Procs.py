@@ -46,10 +46,3 @@ class Procs(object):
       self.offset = self.dic["OFFSET"]
       self.phase = self.dic["PHC0"]
       self.SI = self.dic["SI"]
-    
-  def UnMetodo(self):
-    """
-    @return  :
-    @author
-    """
-    pass
