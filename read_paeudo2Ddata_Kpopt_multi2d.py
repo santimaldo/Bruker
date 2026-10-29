@@ -7,10 +7,12 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
+from paths import NMRDATA, PROJECTS
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 14})
 import numpy as np
 from Datos import *
+from kpopt_utils import read_bsms_field
 from Autophase import autophase
 import scipy.integrate as integrate
 import re
@@ -18,25 +20,6 @@ import shutil
 import os
 
 ################## Functions ###########################
-
-def read_bsms_field(path_archivo):
-    """
-    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
-
-    Parámetros:
-    path_archivo (str): Ruta al archivo de entrada.
-
-    Retorna:
-    list[float]: Lista con los valores del array x.
-    """
-    with open(path_archivo+'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = eval(contenido)
-                return x
-    raise ValueError("No se encontro una linea que empiece con 'x='.")
-
 
 import numpy as np
 from scipy import integrate
@@ -86,9 +69,9 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 # directorio de datos
 absolute = False
 autoph = True 
-path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-28_InSitu/"
+path  =rf"{NMRDATA}\400dnp\2025-11-28_InSitu/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
+savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
 
 expns = [71, 73, 75, 77, 79]
 expns=[52]

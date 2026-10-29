@@ -8,29 +8,18 @@ de derivada e interpolación alrededor del máximo.
 @author: Santi
 """
 #%%
+from paths import NMRDATA
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
+from kpopt_utils import read_bsms_field
 from Autophase import autophase
 import re
 from scipy.optimize import curve_fit
 from scipy.interpolate import interp1d
 #%%
 ################## Functions ###########################
-
-def read_bsms_field(path_archivo):
-    """
-    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
-    """
-    with open(path_archivo + 'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = eval(contenido)
-                return np.array(x)
-    raise ValueError("No se encontró una línea que empiece con 'x='.")
-
 
 def calc_derivative_and_interp(ppm_axis, spectrum_mod, window_pts=3, interp_points=500):
     """
@@ -93,7 +82,7 @@ expn, ppm_ref, plotRange, local = [112, 270, [700, 0], "2026-01-22_InSitu"] # 7L
 absolute = True
 autoph = False
 plot_all_refinements = False
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\{local}/"
+path = rf"{NMRDATA}\400dnp\{local}/"
 
 
 # Gráficos

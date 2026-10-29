@@ -12,6 +12,8 @@ import scipy.integrate as integrate
 from scipy.optimize import curve_fit
 from scipy.stats import linregress
 from pathlib import Path
+import os
+import nmrglue as ng
 
 class Datos(object):
 
@@ -71,12 +73,11 @@ class Datos(object):
         """
         pass
 
-    def get_title(self):
+    def get_title(self, p_dir=1):
         """
-        @return  :
-        @author
+        @return  : contenido del archivo pdata/<p_dir>/title
         """
-        title_file = "{}/pdata/1/title".format(self.directorio)
+        title_file = os.path.join(self.directorio, 'pdata', str(p_dir), 'title')
         with open(title_file, 'r') as file:
             data = file.read()
         return data
@@ -141,6 +142,8 @@ class Datos(object):
             gamma = -53.190
         elif "79br" in nucleo:
             gamma = 6.7256
+        else:
+            raise ValueError(f"Nucleo '{self.nucleo}' no definido en set_gamma(). Agregarlo a la lista.")
         # -------------------
         gamma = gamma*1e6
         return gamma
@@ -209,6 +212,10 @@ class DatosProcesados(Datos):
                  ndim=1):
         Datos.__init__(self, directorio, read_pp=read_pp, ndim=ndim)
         self.p_dir = p_dir
+        try:
+            self.title = self.get_title(p_dir)
+        except FileNotFoundError:
+            self.title = "No title file"
         self.procs = Procs(directorio, p_dir)
         self.espectro = Espectro()
         self.ppmRange = ppmRange
@@ -220,7 +227,7 @@ class DatosProcesados(Datos):
         @return
         @author
         """
-        path = self.directorio + 'pdata/' + str(self.p_dir) + '/'
+        path = os.path.join(self.directorio, 'pdata', str(self.p_dir))
         null, data = ng.fileio.bruker.read_pdata(path, all_components=True)
         NS = self.acqus.NS
         RG = self.acqus.RG
@@ -352,7 +359,8 @@ class DatosProcesados2D(DatosProcesados):
 
     def __init__(self, directorio, p_dir=1, ppmRange=None,
                  read_pp=False, extract_vdfactor=False, ndim=2, remove_empty=False):
-        DatosProcesados.__init__(self, directorio, read_pp=read_pp, ndim=ndim)
+        DatosProcesados.__init__(self, directorio, p_dir=p_dir,
+                                 read_pp=read_pp, ndim=ndim)
         self.ndim = 2
         self.proc2s = Procs(directorio, p_dir, dim2=True)
         self.acqu2s = Acqus(directorio, dim2=True)
@@ -466,7 +474,7 @@ class DatosProcesadosT1(DatosProcesados2D):
     """
 
     def __init__(self, directorio, p_dir=1, vdlist_path=None, ndim=2):
-        DatosProcesados2D.__init__(self, directorio, ndim=ndim)
+        DatosProcesados2D.__init__(self, directorio, p_dir=p_dir, ndim=ndim)
 
         self.tau = None
         self.signal = None
@@ -646,7 +654,7 @@ class DatosProcesadosDiff(DatosProcesados2D):
 
     def __init__(self, directorio, p_dir=1, factor_b=1, bmax=np.inf, bmin=0, gpshape='sin'):
         # Herencia:
-        DatosProcesados2D.__init__(self, directorio)
+        DatosProcesados2D.__init__(self, directorio, p_dir=p_dir)
 
         # Inicializo atributos
         self.bvalue = None
@@ -695,6 +703,8 @@ class DatosProcesadosDiff(DatosProcesados2D):
             bvalue = (gamma*glist*delta/np.pi)**2 * (4*bigDelta-delta) * 1e-9
         elif 'rect' in gpshape.lower():
             bvalue = (gamma*glist*delta)**2 * (bigDelta-delta/3) * 1e-9
+        else:
+            raise ValueError("gpshape debe ser 'sin' o 'rect'")
 
         self.bvalue = bvalue * self.factor_b
         return 0

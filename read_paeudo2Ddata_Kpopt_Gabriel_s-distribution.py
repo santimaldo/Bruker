@@ -7,35 +7,19 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
+from paths import NMRDATA_LOCAL
 import ast  # FIX (e): reemplaza eval() por ast.literal_eval(), mas seguro
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
 from Datos import *
+from kpopt_utils import read_bsms_field
 from Autophase import autophase
 from scipy.integrate import simpson
 import re
 
 ################## Functions ###########################
-
-def read_bsms_field(path_archivo):
-    """
-    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
-
-    Parámetros:
-    path_archivo (str): Ruta al archivo de entrada.
-
-    Retorna:
-    list[float]: Lista con los valores del array x.
-    """
-    with open(path_archivo+'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = ast.literal_eval(contenido)  # FIX (e): antes era eval(contenido)
-                return np.array(x)
-    raise ValueError("No se encontro una linea que empiece con 'x='.")
 
 ################## end Functions #######################
 # FIX (d): se elimino un "return np.array(data)" muerto (referenciaba una
@@ -45,7 +29,7 @@ def read_bsms_field(path_archivo):
 
 # absolute = False
 # autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
 # # directorio de guradado
 # savepath= path
 # exp_to_CalibrateTheOff_info = {"expn": 5,
@@ -63,7 +47,7 @@ def read_bsms_field(path_archivo):
 #                                 }  
 # absolute = False
 # autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_07_08_2025_gf410_5/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_07_08_2025_gf410_5/"
 # # directorio de guradado
 # savepath= path
 # expns = [12, 15] #
@@ -81,7 +65,7 @@ def read_bsms_field(path_archivo):
 #                                 }  
 # absolute = False
 # autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_23/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_16_09_2025_gf410_23/"
 # # directorio de guradado
 # savepath= path
 # expns = [10] # [6, 8, 10] ############ tienen distintos sr!!!!!
@@ -96,7 +80,7 @@ def read_bsms_field(path_archivo):
 
 absolute = False
 autoph =  False
-path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
+path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
 # directorio de guradado
 savepath= path
 # expns = [29] # [27, 28, 29] ## 2.5 W

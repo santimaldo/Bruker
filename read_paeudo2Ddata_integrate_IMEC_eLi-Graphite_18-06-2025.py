@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -20,9 +21,9 @@ Nominal_duration_of_experiment = 456 # seconds (7 minutes 10 seconds)
 absolute= False
 autoph = True
 
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-06-21_in-situ_IMEC-graphite/"
+path = rf"{NMRDATA}\300old\2025-06-21_in-situ_IMEC-graphite/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\in-situ\/"
+savepath= rf"{PROJECTS}\LiMetal\IMEC\in-situ\/"
 muestra = "7Li_eLi-Graphite-cell_LP40"
 
 save = False

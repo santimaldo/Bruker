@@ -8,6 +8,7 @@ Docstring for Exchange_Ramon_multi-fit
 no anda!!!!!!!!!!!!!!!
 """
 
+from paths import NMRDATA
 import numpy as np
 import matplotlib.pyplot as plt
 from lmfit import Parameters, minimize, report_fit
@@ -33,7 +34,7 @@ temperatures = temperatures[::10]
 
 N = len(selected_experiments)
 
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\4.0mm_6Li_Li3P_BM30_VT_NMR_10thJune2025/"
+path = rf"{NMRDATA}\500\4.0mm_6Li_Li3P_BM30_VT_NMR_10thJune2025/"
 ppmRange = [9, 4]
 
 # =========================

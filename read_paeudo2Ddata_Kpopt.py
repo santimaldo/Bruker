@@ -7,34 +7,17 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
+from kpopt_utils import read_bsms_field
 from Autophase import autophase
 import scipy.integrate as integrate
 import re
 
 ################## Functions ###########################
-
-def read_bsms_field(path_archivo):
-    """
-    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
-
-    Parámetros:
-    path_archivo (str): Ruta al archivo de entrada.
-
-    Retorna:
-    list[float]: Lista con los valores del array x.
-    """
-    with open(path_archivo+'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = eval(contenido)
-                return x
-    raise ValueError("No se encontro una linea que empiece con 'x='.")
-
 
 def integrate_around_peak(ppmAxis, spectrum, window_width):
     """
@@ -72,9 +55,9 @@ def integrate_around_peak(ppmAxis, spectrum, window_width):
 # # expns = [71]
 # absolute = False
 # autoph = True 
-# path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\InSitu_May_2025/"
+# path  =rf"{NMRDATA}\400dnp\InSitu_May_2025/"
 # # directorio de guradado
-# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
+# savepath= rf"{PROJECTS}\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
 # muestra = ""
 # save = False
 # plotRange = [200,-300]
@@ -88,9 +71,9 @@ def integrate_around_peak(ppmAxis, spectrum, window_width):
 
 absolute = False
 autoph = False
-path  =r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-28_InSitu/"
+path  =rf"{NMRDATA}\400dnp\2025-11-28_InSitu/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP\expns71to79/"
+savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP\expns71to79/"
 
 expns = [71,73,75,77,79]
 muestra = "LiCuFoil_celgard_LFP"
@@ -152,7 +135,7 @@ for expn in expns:
 
 
     bsms_field = read_bsms_field(path_2D)
-    bsms_list = bsms_list + bsms_field
+    bsms_list = bsms_list + list(bsms_field)
     
     ###### start integrating the spectra
     colors = ['k', 'b', 'r', 'forestgreen', 'cyan', 'magenta']

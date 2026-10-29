@@ -5,6 +5,7 @@ Created on Feb 20/02/2025
 
 @author: Santi
 """
+from paths import NMRDATA, PROJECTS
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as mcolors
@@ -20,8 +21,8 @@ expn_neg_before = 83    # F
 expn_neg_pseudo2d = 84  # F
 
 # Data paths
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/300old/2025-02-07_insitu-sync-start/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles\1Dspec\19F_ONE-CA/"
+path = rf"{NMRDATA}/300old/2025-02-07_insitu-sync-start/"
+savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles\1Dspec\19F_ONE-CA/"
 muestra = "19F_"
 save = False
 plotRange = [4, -8]

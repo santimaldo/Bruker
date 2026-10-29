@@ -5,6 +5,7 @@ Created on Mon Jun 24 2025
 @author: Santi
 """
 
+from paths import NMRDATA
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -28,7 +29,7 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 
 # # Directorio de datos
 # expn = 44
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-06-21_PEO-solid-electrolyte/"
+# path = rf"{NMRDATA}\500\2025-06-21_PEO-solid-electrolyte/"
 # # Directorio de guardado
 # savepath = r"C:/"
 # muestra = ""
@@ -38,7 +39,7 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 
 # # Directorio de datos
 # expn = 30
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-10-30_PEO-PTT-solid-electrolyte_baba/"
+# path = rf"{NMRDATA}\500\2025-10-30_PEO-PTT-solid-electrolyte_baba/"
 # # Directorio de guardado
 # savepath = r"C:/"
 # muestra = ""
@@ -48,7 +49,7 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 
 # Directorio de datos
 expn = 103
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/"
 # Directorio de guardado
 savepath = r"C:/"
 muestra = ""

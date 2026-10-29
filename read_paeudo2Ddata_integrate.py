@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,9 +21,9 @@ expn_after = 8
 ppm_treshold = -1.5
 
 
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-04-29_IMEC_eLi-sym_LP40-OCV/"
+path = rf"{NMRDATA}\500\2025-04-29_IMEC_eLi-sym_LP40-OCV/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+savepath= rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 muestra = "7Li_chronoamperometry_0Vto1V"
 
 save = False

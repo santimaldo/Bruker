@@ -7,6 +7,7 @@ Created on Mon Sep  5 17:09:33 2022
 Extrae multiples espectros adquiridos en Bruker Avance II
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,9 +16,9 @@ from Espectro import autophase
 from VoigtFit import VoigtFit
 
 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/"
+path_local = rf"{NMRDATA}/"
 path_bruker = "400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025-04-28_CP/"
+savepath_local = rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP/"
 savepath_especifico = "1Dspec/bsms_field_-5850/"
 sample = "IMEC"
 # info: nucleus,muestra, expn, ppmRange
@@ -50,7 +51,7 @@ sample = "IMEC"
 # #=============================================================================================
 
 # path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
+# savepath_local = rf"{PROJECTS}\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
 # savepath_especifico = "CA_-0.75V/"
 # # sample = "Supercap_YP50F"
 # # # info: nucleus,muestra, expn, ppmRange
@@ -70,7 +71,7 @@ sample = "IMEC"
 #=============================================================================================
 
 # path_bruker = "300old/2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6/"
 # savepath_especifico = "R5/"
 # sample = "Rui_Cell-R5_CC"
 # # info: nucleus,muestra, expn, ppmRange
@@ -85,7 +86,7 @@ sample = "IMEC"
 #=============================================================================================
 
 path_bruker = "300old/2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6/"
+savepath_local = rf"{PROJECTS}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6/"
 savepath_especifico = "R5/"
 sample = "Rui_Cell-R5_CC"
 # info: nucleus,muestra, expn, ppmRange

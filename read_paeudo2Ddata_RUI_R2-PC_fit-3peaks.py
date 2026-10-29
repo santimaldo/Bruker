@@ -5,6 +5,7 @@ Adaptado para usar PseudoVoigtFit en lugar de VoigtFit
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -22,8 +23,8 @@ expns = np.arange(10,180)
 
 absolute= False
 autoph = False
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-08-10_ccATMC_Rui-R1_LFP-Cu_PC/"
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-08_R2/"
+path = rf"{NMRDATA}\300old\2025-08-10_ccATMC_Rui-R1_LFP-Cu_PC/"
+savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2025-08_R2/"
 muestra = "7Li_cellR2-PCprotocol"
 
 save = False

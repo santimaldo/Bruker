@@ -7,6 +7,7 @@ Created on Mon Sep  5 17:09:33 2022
 Extrae multiples espectros adquiridos en Bruker Avance II
 """
 
+from paths import NMRDATA, NMRDATA_LOCAL, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,10 +17,10 @@ from Espectro import autophase
 from VoigtFit import VoigtFit
 
 
-path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+path_local = rf"{NMRDATA}\400dnp/"
 
 # path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025_06_IMEC/"
+savepath_local = rf"{PROJECTS}\LiMetal\IMEC\DNP\2025_06_IMEC/"
 # savepath_especifico = "CP_7Li-1H_uW-OFF/"
 # nucleo = "1H"
 # # info: muestra, expn, ppmRange
@@ -45,7 +46,7 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 
 # path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
+# savepath_local = rf"{PROJECTS}\DegradationProject\2025-07-consortium/"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -57,7 +58,7 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 # path_bruker = "3.2mm-Santi-IMECdendrites-2025-04-28___cal/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
+# savepath_local = rf"{PROJECTS}\DegradationProject\2025-07-consortium/"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -67,7 +68,7 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 # path_bruker = "2025-06-17_3.2mm_IMECdendrites___cal/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/1H/"
+# savepath_local = rf"{PROJECTS}\DegradationProject\2025-07-consortium/1H/"
 # savepath_especifico = ""
 # nucleo = "1H"
 # # info: muestra, expn, ppmRange
@@ -80,7 +81,7 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 # path_bruker = "3.2mm-Santi-IMECdendrites-2025-04-28___cal/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DegradationProject\2025-07-consortium/"
+# savepath_local = rf"{PROJECTS}\DegradationProject\2025-07-consortium/"
 # savepath_especifico = ""
 # nucleo = "1H"
 # # info: muestra, expn, ppmRange
@@ -90,9 +91,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-06-27_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -105,9 +106,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ['zg_mwOFF_bsms_-2000_290K', 30, ppmRange],
 #          ]
 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-06-27_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -119,9 +120,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ['zg_mwON_bsms_-9999_2.2A_190K', 141, ppmRange],
 #          ]
 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-06-26_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\LiDendrites-and-KBr"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\LiDendrites-and-KBr"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -134,9 +135,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "InSitu_February_2025/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-perpendicular/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-perpendicular/"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -147,9 +148,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ['offNOE', 12, ppmRange]
 #          ]
 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "InSitu_February_2025/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-perpendicular/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-perpendicular/"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -160,9 +161,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ['offNOE', 24, ppmRange]
 #          ]
 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "InSitu_February_2025/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-parallele/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\February_Marie_Mesh-LFP-parallele/"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -174,9 +175,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 ########## 31 julio 2025 - Li on Cu mesh ##########
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-07-31_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # # info: muestra, expn, ppmRange
@@ -188,9 +189,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ['zg_mwOFF_bsms_0_2.2A_190K', 1, ppmRange],
 #          ]
 # ### 31 julio 2025 - Li on Cu mesh - Al mesh ######
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-07-31_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh-Al-mesh/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_08_Quartz\Li-on-mesh-Al-mesh/"
 # savepath_especifico = ""
 # nucleo = "7Li"
 # info: muestra, expn, ppmRange
@@ -205,9 +206,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 
 #### 27 Oct 2025 - Li on CU Mesh + PTFE holders --- Bruker
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-10-27_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
 
 # ppmRange = [1000, -200]  # rango de ppm a integrar
 # nucleo = "7Li"
@@ -237,7 +238,7 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh_LFP/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh_LFP/"
 # ppmRange = [800, -200]  # rango de ppm a integrar
 # nucleo = "7Li"
 # savepath_especifico = ""
@@ -250,9 +251,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 
 # ### 30 sep 2025 - Li polymer + KBr ---Kieran
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-09-30_Kieran_Li-polymer-KBr_cal/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran/"
+# savepath_local = rf"{PROJECTS}\LiMetal\DNP\Kieran/"
 # savepath_especifico = ""
 # ppmRange = [500, -150]  # rango de ppm a integrar
 # nucleo = "7Li"
@@ -270,9 +271,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 # ####### Kieran 2025-10
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-10-24_Kieran_Li-polymer-KBr_cal/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Kieran\2025-09_without-polymer/"
+# savepath_local = rf"{PROJECTS}\LiMetal\DNP\Kieran\2025-09_without-polymer/"
 
 # ppmRange = [800, -200]  # rango de ppm a integrar
 # # nucleo = "7Li"
@@ -293,9 +294,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 #=============================================================
 # ###### Rui 2025-11
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-11-13_3.2mm_Rui-dendrites/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Rui\analysis\2025-11_DNP_CC\spec/"
 
 # nucleo = "7Li"
 # savepath_especifico = ""
@@ -325,9 +326,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 # ####=============================================================
 # ###### In siut 2025-11
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-11-28_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-11_InSitu/"
 
 # nucleo = "7Li"
 # # savepath_especifico = "LiCu_NOcathode"
@@ -346,9 +347,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 #=============================================================
 ######## Debashis#######################
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-11-03_3.2mm_Debashis-dendrites/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-11_R6\spec/"
+# savepath_local = rf"{PROJECTS}\LiMetal\DNP\Debashis\Analysis\2025-11_R6\spec/"
 
 # ppmRange = [400, -300]
 # savepath_especifico = ""
@@ -371,9 +372,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ['mwON_2.2A_bsms_-4300_7Li-to-1H-CP', 70, ppmRange],
 #          ]
 # = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = 
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-12-15_3.2mm_Debashis-dendrites/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2025-12_R9\spec/"
+# savepath_local = rf"{PROJECTS}\LiMetal\DNP\Debashis\Analysis\2025-12_R9\spec/"
 
 # ppmRange = [400, -300]
 # savepath_especifico = ""
@@ -397,11 +398,11 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 
 # #=============================================================
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2025-11-28_InSitu/"
 # save = True
 # # directorio de guradado
-# savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
+# savepath_local= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
 # savepath_especifico = ""
 # expns = [80, 81, 82, 83]
 # muestra = "LiCuFoil_celgard_LFP"
@@ -418,11 +419,11 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 ##=============================================================
 # #### 2026-01 RUI
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2026-01-09_3.2mm_Rui-dendrites/"
 # save = True
 # ### directorio de guradado
-# savepath_local= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-01_DNP_PC/"
+# savepath_local= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-01_DNP_PC/"
 
 # ####
 # # savepath_especifico = "7Li_Metal/"
@@ -503,9 +504,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 ###=============================================================
 ####### LiH#######################
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2026-01-21_3.2mm_LiH/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
+# savepath_local = rf"{PROJECTS}\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
 
 # ppmRange = [100, -100]
 # savepath_especifico = ""
@@ -524,9 +525,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 #          ]
 #=============================================================
 ###### In siut 2026-01
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2026-01-22_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2026_01_InSitu/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2026_01_InSitu/"
 
 # nucleo = "7Li"
 # savepath_especifico = "SMC"
@@ -543,9 +544,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 # #=============================================================
 # ##### In siut 2026-01
-# path_local = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA}\400dnp/"
 # path_bruker = "2026-02-23_InSitu/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2026-02_InSitu/"
+# savepath_local = rf"{PROJECTS}\LiMetal\Bruker\analysis\2026-02_InSitu/"
 
 # nucleo = "7Li"
 # savepath_especifico = "shifted_design"
@@ -559,9 +560,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 #=============================================================
 # ##### Gabriel 2026-08
-# path_local = r"C:\Users\Santi\Documents\NMRdata\400dnp/"
+# path_local = rf"{NMRDATA_LOCAL}\400dnp/"
 # path_bruker = "2026-08-26_1.3mm_Gabriel_gf410_46/"
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Gabriel\Analysis\2026-08_staticDNP/"
+# savepath_local = rf"{PROJECTS}\Gabriel\Analysis\2026-08_staticDNP/"
 
 # nucleo = "7Li"
 # savepath_especifico = "cell46_5.2W\spectra/"
@@ -572,9 +573,9 @@ savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Li
 
 
 ##### testing LiF 2026-09
-path_local = r"C:\Users\Santi\Documents\NMRdata\400dnp/"
+path_local = rf"{NMRDATA_LOCAL}\400dnp/"
 path_bruker = "2026-09-10_3.2mm_LiMetal_LiF_RC1/"
-savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF/"
+savepath_local = rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF/"
 
 # savepath_especifico = "10kHz/7Li/"
 # nucleo = "7Li"

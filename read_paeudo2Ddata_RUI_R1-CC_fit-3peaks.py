@@ -12,6 +12,7 @@ PROBE QUE EL SIGMA SEA EL MISMO PARA TODOS LOS PICOS, Y PARECE QUE FUNCIONA BIEN
 NO FUNCIONO
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -31,8 +32,8 @@ expns = np.arange(30, 233 )
 expns = np.arange(30, 56 )
 absolute= False
 autoph = False
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-08-08_ccATMC_Rui-R1_LFP-Cu_CC/"
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2025-08_R1/"
+path = rf"{NMRDATA}\300old\2025-08-08_ccATMC_Rui-R1_LFP-Cu_CC/"
+savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2025-08_R1/"
 muestra = "7Li_cellR1-CCprotocol"
 
 save = False

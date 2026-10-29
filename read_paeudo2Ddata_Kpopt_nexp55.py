@@ -1,23 +1,16 @@
 # -*- coding: utf-8 -*-
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
+from kpopt_utils import read_bsms_field
 from Autophase import autophase
 import scipy.integrate as integrate
 from scipy.signal import find_peaks
 from scipy.ndimage import gaussian_filter1d
 
 ################## Functions ###########################
-
-def read_bsms_field(path_archivo):
-    with open(path_archivo + 'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = eval(contenido)
-                return np.array(x)
-    raise ValueError("No se encontró una línea que empiece con 'x='.")
 
 def integrate_two_windows_from_minimum(ppmAxis, spec1d, width_ppm):
     smoothed = gaussian_filter1d(spec1d, sigma=3)
@@ -41,8 +34,8 @@ def integrate_two_windows_from_minimum(ppmAxis, spec1d, width_ppm):
 
 expns = [55, 57]
 absolute = True
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\InSitu_May_2025/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
+path = rf"{NMRDATA}\400dnp\InSitu_May_2025/"
+savepath = rf"{PROJECTS}\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
 muestra = ""
 save = False
 ppmRange = [200, -400]

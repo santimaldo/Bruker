@@ -12,12 +12,14 @@ Created on Thu Sep 15 12:10:32 2022
 #     if not _name.startswith("__"):
 #         del globals()[_name]
 
+from paths import NMRDATA_LOCAL, PROJECTS
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
 import pandas as pd
 import os
 from Datos import *
+from kpopt_utils import read_bsms_field, shift_spectrum_by_bsms
 from Autophase import autophase
 from scipy.integrate import simpson
 import re
@@ -27,73 +29,19 @@ import re
 # conversion factor:
 mT_per_bsms = (-1.1665e-2*1e-6*9.42)*1e3
 
-def read_bsms_field(path_archivo):
-    """
-    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
-
-    Parámetros:
-    path_archivo (str): Ruta al archivo de entrada.
-
-    Retorna:
-    list[float]: Lista con los valores del array x.
-    """
-    with open(path_archivo+'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = eval(contenido)
-                return np.array(x)
-    raise ValueError("No se encontro una linea que empiece con 'x='.")
-
-def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
-    """
-    Desplaza un espectro en puntos enteros de la discretización ppm.
-
-    Parámetros
-    ----------
-    spectrum : np.array
-        Espectro 1D (real o complejo).
-    ppmAxis : np.array
-        Eje ppm original.
-    bsms : float
-        Valor de bsms correspondiente al espectro.
-    shift_factor : float
-        Factor de conversión bsms -> ppm.
-
-    Retorna
-    -------
-    shifted_spectrum : np.array
-        Espectro desplazado en puntos enteros.
-    """
-    # resolución digital del eje ppm
-    dppm = np.abs(ppmAxis[1] - ppmAxis[0])
-    # corrimiento continuo esperado
-    shift_ppm = shift_factor * bsms
-    # cantidad entera de puntos digitales
-    n_shift = int(np.round(shift_ppm / dppm))
-    # desplazamiento sin condiciones periódicas
-    shifted_spectrum = np.zeros_like(spectrum)
-    if n_shift > 0:
-        shifted_spectrum[n_shift:] = spectrum[:-n_shift]
-    elif n_shift < 0:
-        shifted_spectrum[:n_shift] = spectrum[-n_shift:]
-    else:
-        shifted_spectrum = spectrum.copy()
-    return shifted_spectrum
-
 ################## end Functions #######################
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-08-17_1.3mm_Gabriel_gf410_41/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-17_1.3mm_Gabriel_gf410_41/"
 # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # infos = []
 # infos.append(["cell41_5.2W", 33, 0])
 
 
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-08-18_1.3mm_Gabriel_gf410_38/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-18_1.3mm_Gabriel_gf410_38/"
 # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # infos = []
 # infos.append(["cell38_5.2W", 16, 0])
 
-# # path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46/"
+# # path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46/"
 # # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # # infos = []
 # # infos.append(["cell46_5.2W", 17, 105.15])
@@ -103,7 +51,7 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 # # infos.append(["cell46_1.0W", 88, 196.16])
 
 # # directorio de guradado
-# savepath_base= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Gabriel\Analysis\2026-08_staticDNP/"
+# savepath_base= rf"{PROJECTS}\Gabriel\Analysis\2026-08_staticDNP/"
 # plotRange = [300,-30]
 # # rango de integracion
 # ppmRanges = [[300, 15],
@@ -116,10 +64,10 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 
 
 
-path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
+path  =rf"{NMRDATA_LOCAL}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
 
 # # directorio de guradado
-# savepath_base= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
+# savepath_base= rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
 # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 infos = []
 # infos.append(["kpopt_p1-4.35us_p90", 28, 0, -4750])
@@ -128,16 +76,16 @@ infos = []
 # fields_to_plot_mT = [0, 0.1, -0.1, -0.175, -0.3]
 
 # directorio de guradado
-savepath_base= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+savepath_base= rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
 # sample label, expn, "0 ppm"@bsms=0 (para calibrar), bsms@"0 mT"
 fields_to_plot_mT = [0.027, 0, -0.027, -0.083, -0.11, -0.137, -0.25, 0.15]
 infos = []
 infos.append(["kpopt_p1-4.35us_p90", 265, 0, -4750])
 # infos.append(["kpopt_p1-1us", 262, -98, -4750]) # -3750
 
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-09-16_InSitu_cellTest-DNP/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-09-16_InSitu_cellTest-DNP/"
 # # directorio de guradado
-# savepath_base= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+# savepath_base= rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
 # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # fields_to_plot_mT = [0, -0.33]
 # infos = []
@@ -154,12 +102,12 @@ ppmRanges = [[300, 10],
 
 
 # ############ Gabrie g410_7
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp/Gabriel/Gabriel_08_08_2025_gf410_7/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp/Gabriel/Gabriel_08_08_2025_gf410_7/"
 # # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # infos = []
 # infos.append(["g410_7", 12, -4.61])
 # # directorio de guradado
-# savepath_base= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Gabriel\Analysis\2025_results/"
+# savepath_base= rf"{PROJECTS}\Gabriel\Analysis\2025_results/"
 # plotRange = [300,-30]
 # # rango de integracion
 # ppmRanges = [[300, 30],

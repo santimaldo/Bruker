@@ -7,6 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 this is for TRUE 2D data with 1D projections
 """
 
+from paths import NMRDATA
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -19,9 +20,9 @@ plt.rcParams.update({'font.size': 14})
 expn = 105
 expn_dir = 70
 expn_ind = 82 
-path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/{expn}/"
-path_dir  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/{expn_dir}/"
-path_ind  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/{expn_ind}/"
+path  = rf"{NMRDATA}\400dnp\2025-11-03_3.2mm_Debashis-dendrites/{expn}/"
+path_dir  = rf"{NMRDATA}\400dnp\2025-11-03_3.2mm_Debashis-dendrites/{expn_dir}/"
+path_ind  = rf"{NMRDATA}\400dnp\2025-11-03_3.2mm_Debashis-dendrites/{expn_ind}/"
 
 # directorio de guardado
 savepath= r"/"

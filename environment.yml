@@ -1,0 +1,15 @@
+# Entorno conda para los scripts de analisis de datos Bruker.
+#   crear:      conda env create -f environment.yml
+#   actualizar: conda env update -f environment.yml --prune
+name: nmrglue
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy
+  - scipy
+  - matplotlib
+  - pandas
+  - lmfit
+  - nmrglue
+  - ipykernel

@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,8 +15,8 @@ from Datos import *
 
 # Data paths
 expn = 201
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-03-10_insitu-LiTFSIaq-supercap\{expn}/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\sr/"
+path = rf"{NMRDATA}\300old\2025-03-10_insitu-LiTFSIaq-supercap\{expn}/"
+savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\sr/"
 muestra = f"Nexp{expn}"
 save = True
 plotRange = [4, -8]

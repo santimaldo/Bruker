@@ -1,3 +1,4 @@
+from paths import NMRDATA
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -19,7 +20,7 @@ plotRange = [100, -100]
 T_nominal = np.arange(-20, 41, 10)
 T_real = [-17.8, -9.9, 0, 10, 20, 30, 40]
 
-path = r"C:\\Users\\Santi\\OneDrive - University of Cambridge\\NMRdata\\500\\2025-07-16_PEO-solid-electrolyte_VT/"
+path = rf"{NMRDATA}\\500\\2025-07-16_PEO-solid-electrolyte_VT/"
 ppmIntegrationWidth = 30
 
 #========================= INIT ========================================

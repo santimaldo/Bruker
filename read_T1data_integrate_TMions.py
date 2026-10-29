@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -32,9 +33,9 @@ absolute= False
 autoph = False
 save = False
 
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-10-13_DRinsitu_LP57-MnTFSI/"
+path = rf"{NMRDATA}\300old\2025-10-13_DRinsitu_LP57-MnTFSI/"
 # directorio de guradado
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\TMions\Analysis\2025-10_in-situ_relaxation/"
+savepath = rf"{PROJECTS}\TMions\Analysis\2025-10_in-situ_relaxation/"
 muestra = "eLi-KBr"
 
 T1_short_list = []

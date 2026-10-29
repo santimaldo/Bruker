@@ -1,4 +1,5 @@
 # coding=UTF-8
+import os
 import nmrglue as ng
 
 class Procs(object):
@@ -33,7 +34,7 @@ class Procs(object):
         primer valor en el eje ppm.   
   """
   def __init__(self, directorio, p_dir, dim2 = False):
-      path = directorio + 'pdata/' + str(p_dir) + '/'      
+      path = os.path.join(directorio, 'pdata', str(p_dir))
       
       procs = 'procs'
       if dim2:

@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -18,9 +19,9 @@ expns = [4,5]#,6]
 initial_times_h = [0, 29.75]#, 42.28]
 expn_durations_h = [29.47, 12.43]#, 0.56667]
 
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2025-04-29_IMEC_eLi-sym_LP40-OCV/"
+path = rf"{NMRDATA}\500\2025-04-29_IMEC_eLi-sym_LP40-OCV/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025-04-28_in-situ_LP40\00_OCV/"
+savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_in-situ_LP40\00_OCV/"
 muestra = "7Li_eLi-symm-cell_LP40"
 
 save = False

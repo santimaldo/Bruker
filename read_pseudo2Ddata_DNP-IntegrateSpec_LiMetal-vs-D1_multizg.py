@@ -5,6 +5,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -20,7 +21,7 @@ import VoigtFit as vf
 #=====================================================================
 
 expns, sample = np.arange(40, 63), 'Li dendrites + KBr'
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phases0_vsP1/"
+savepath = rf"{PROJECTS}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phases0_vsP1/"
 Ns = np.ones_like(expns) * 2
 
 # numero de puntos (RDs)
@@ -31,7 +32,7 @@ absolute = False
 autoph = False
 save = False
 
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-12-30_3.2mm_LiMetal-NO-DNP/"
+path = rf"{NMRDATA}\400dnp\2025-12-30_3.2mm_LiMetal-NO-DNP/"
 muestra = ""
 
 # parametros de integracion espectral

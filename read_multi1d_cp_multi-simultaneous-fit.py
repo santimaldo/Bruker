@@ -6,6 +6,7 @@ Centers, FWHM and fractions are shared; amplitudes and offsets are per spectrum.
 @author: Santi/GIPI
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,8 +21,8 @@ from lmfit.models import PseudoVoigtModel
 #=====================================================================
 
 expns = [67,71,62,68,63,70,60,64,66,69]
-path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+path  = rf"{NMRDATA}\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
+savepath= rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 muestra = ""
 save = False
 

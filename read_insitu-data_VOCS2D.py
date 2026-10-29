@@ -10,6 +10,7 @@ Created on Thu Sep 15 12:10:32 2022
 ESTA HECHO PARA SOLO 1 ZG
 """
 
+from paths import NMRDATA, NMRDATA_LOCAL, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -24,9 +25,9 @@ import os
 # ############ R9 - NMC-Cu CC protocol
 # directorio de datos
 expns = np.arange(1, 40)
-path = rf"C:\Users\Santi\Documents\NMRdata\300neo\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
+path = rf"{NMRDATA_LOCAL}\300neo\2026-05-07_ATMC1_Rui-R9_NMC-Cu_CC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R9_CC/"
+savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-05_R9_CC/"
 muestra = "Cell_R9"
 save = True
 # rango de guardado
@@ -39,9 +40,9 @@ ppmRange = None #[2300, -1300]
 # ########### R10 - NMC-Cu CC protocol
 # # directorio de datos
 # expns = np.arange(1, 48)
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
+# path = rf"{NMRDATA}\300old\2026-05-13_ATMC1_Rui-R10_NMC-Cu_PC/"
 # # directorio de guradado
-# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-05_R10_PC/"
+# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-05_R10_PC/"
 # muestra = "Cell_R10"
 # save = True
 # # rango de guardado

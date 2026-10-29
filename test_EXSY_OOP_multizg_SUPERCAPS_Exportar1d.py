@@ -1,3 +1,4 @@
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,8 +27,8 @@ def Integrar(Matriz, x=None, y=None):
 
 # #############################################################################
 # #############################################################################
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-03-10_insitu-LiTFSIaq-supercap/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/-1V/"
+path = rf"{NMRDATA}\300old\2025-03-10_insitu-LiTFSIaq-supercap/"
+savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/-1V/"
 muestra = f"Nexp{expn}"
 
 mT = [0.1, 1, 10, 100, 100, 5, 50, 200, 20, 2, 80, 150]  # 1H

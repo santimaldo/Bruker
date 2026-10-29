@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from paths import NMRDATA_LOCAL, PROJECTS
 import os
 import numpy as np
 from Datos import *
@@ -9,11 +10,11 @@ from Datos import *
 # =========================================================
 
 ########################################## SUPERCAP 2026/03
-path_local = r"C:\Users\Santi\Documents\NMRdata\400dnp/"
+path_local = rf"{NMRDATA_LOCAL}\400dnp/"
 
 path_bruker = "20260716_Cambridge_Grey_LiMetal_KlystronTest/"
 
-# savepath_local = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2026-04_LiTFSI1M-aq_YP50F/"
+# savepath_local = rf"{PROJECTS}\Supercaps\Analysis\2026-04_LiTFSI1M-aq_YP50F/"
 ###--------------------------------
 # savepath_especifico = "CA_-0.25V_expn-61/"
 

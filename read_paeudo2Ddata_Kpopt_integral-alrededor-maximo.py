@@ -5,27 +5,17 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
+from kpopt_utils import read_bsms_field
 from Autophase import autophase
 import scipy.integrate as integrate
 import re
 
 ################## Functions ###########################
-
-def read_bsms_field(path_archivo):
-    """
-    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
-    """
-    with open(path_archivo + 'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = eval(contenido)
-                return x
-    raise ValueError("No se encontró una línea que empiece con 'x='.")
 
 ################## end Functions #######################
 
@@ -33,8 +23,8 @@ def read_bsms_field(path_archivo):
 expns = np.arange(130, 135)
 absolute = False
 autoph = True
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp/2025-06-27_InSitu/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
+path = rf"{NMRDATA}\400dnp/2025-06-27_InSitu/"
+savepath = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
 
 nucleo = "7Li"
 muestra = ""

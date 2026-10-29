@@ -7,6 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -17,9 +18,9 @@ min_contact_time = 0 # discard p15<min_contact_time
 
 # # directorio de datos
 # expns = np.concatenate([np.arange(60, 65), np.arange(66, 71)])
-# path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
+# path  =rf"{NMRDATA}\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
 # # directorio de guradado
-# savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+# savepath= rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 # muestra = ""
 # save = False
 # plotRange = [100, -100]
@@ -31,10 +32,10 @@ min_contact_time = 0 # discard p15<min_contact_time
 
 # directorio de datos
 expns = np.arange(20, 36)
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2026-01-21_3.2mm_LiH/"
+path  =rf"{NMRDATA}\400dnp\2026-01-21_3.2mm_LiH/"
 min_contact_time = 0
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
+savepath= rf"{PROJECTS}\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
 muestra = ""
 save = False
 plotRange = [100, -100]

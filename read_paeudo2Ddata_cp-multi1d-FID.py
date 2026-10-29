@@ -5,6 +5,7 @@ Created on Thu Jan 28 12:00:00 2026
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -14,8 +15,8 @@ from Datos import *
 # Parámetros del script
 # =======================
 expns = np.arange(20, 36)
-path  = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2026-01-21_3.2mm_LiH/"
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
+path  = rf"{NMRDATA}\400dnp\2026-01-21_3.2mm_LiH/"
+savepath= rf"{PROJECTS}\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
 min_contact_time = 0
 muestra = ""
 save = True

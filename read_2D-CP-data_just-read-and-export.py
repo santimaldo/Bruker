@@ -2,19 +2,20 @@
 """
 Iterar y guardar espectros 1D en un rango de ppm específico
 """
+from paths import NMRDATA, PROJECTS
 import numpy as np
 import matplotlib.pyplot as plt
 from Datos import *
 
 # ------------------ Configuración ------------------
 expn = 76
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-06_PEO-solid-electrolyte/"
+path = rf"{NMRDATA}\500\2026-02-06_PEO-solid-electrolyte/"
 muestra = "7Li_CP_PEO-LiTFSI"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\PEO-LiTFSI\1H_T1/"
+savepath = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\PEO-LiTFSI\1H_T1/"
 
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/{expn}/"
+# path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/{expn}/"
 # muestra = "1H_PEO-LiTFSI"
-# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\PEO-PTT-LiTFSI\1H_T1/"
+# savepath = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\PEO-PTT-LiTFSI\1H_T1/"
 
 
 

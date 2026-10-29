@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
@@ -24,9 +25,9 @@ expns = [14, 25]
 samples = ["7Li_LP57-neat", "7Li_LP57-Mn(TFSI)2-8mM"]
 substract_offset = True
 #-------------------- directorios
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-10-13_DRinsitu_LP57-MnTFSI/"
+path = rf"{NMRDATA}\300old\2025-10-13_DRinsitu_LP57-MnTFSI/"
 # directorio de guradado
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\TMions\Analysis\2025-10_in-situ_relaxation/"
+savepath = rf"{PROJECTS}\TMions\Analysis\2025-10_in-situ_relaxation/"
 
 
 cpmgs = []

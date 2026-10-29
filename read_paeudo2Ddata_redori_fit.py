@@ -5,6 +5,7 @@ Generalized to N peaks
 Stores amplitudes for later analysis
 """
 
+from paths import NMRDATA, PROJECTS
 import numpy as np
 import matplotlib.pyplot as plt
 from Datos import *
@@ -30,8 +31,8 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 # # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # ## -CF3 in PEO-PTT
 # expn = 103
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
-# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\19F-7Li_REDOR/"
+# path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+# savepath = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\19F-7Li_REDOR/"
 # save = True
 # plot_individual_pairs = True
 # plotRange = [-66, -76]
@@ -48,8 +49,8 @@ def label_curve(ax, x, y, label, idx, offset=(0, 0), **kwargs):
 #######- - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ## -TFSI in PEO-PTT
 expn = 103
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\19F-7Li_REDOR/"
+path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+savepath = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\19F-7Li_REDOR/"
 save = True
 plot_individual_pairs = True
 plotRange = [-88, -94]
@@ -67,8 +68,8 @@ amp_guess = [1282, 1647]
 # # # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # ## 7Li{1H} redor
 # expn = 91
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
-# savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\7Li-1H_REDOR/"
+# path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+# savepath = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP\7Li-1H_REDOR/"
 # save = True
 # plot_individual_pairs = True
 # plotRange = [5, -7.5]

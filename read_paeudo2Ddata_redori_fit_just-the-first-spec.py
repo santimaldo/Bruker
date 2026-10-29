@@ -4,6 +4,7 @@ Generalized N-peak Voigt fit with lmfit
 Includes translucent components and residuals subplot
 Saves amplitudes and errors
 """
+from paths import NMRDATA
 import numpy as np
 import matplotlib.pyplot as plt
 from lmfit.models import VoigtModel
@@ -14,7 +15,7 @@ from Datos import *
 ###############################################################################
 
 # expn = 103
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+# path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/"
 # plot_individual_pairs = True
 # plotRange = [-66, -76]
 
@@ -29,7 +30,7 @@ from Datos import *
 # # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # ## -TFSI in PEO-PTT
 # expn = 103
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+# path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/"
 # plot_individual_pairs = True
 # plotRange = [-88, -94]
 # region = "TFSI"
@@ -42,7 +43,7 @@ from Datos import *
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 ## -TFSI in PEO-PTT
 expn = 91
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\500\2026-02-07_PEO-PTT_solid-electrolyte/"
+path = rf"{NMRDATA}\500\2026-02-07_PEO-PTT_solid-electrolyte/"
 plot_individual_pairs = True
 plotRange = [5, -7.5]
 region = "TFSI"

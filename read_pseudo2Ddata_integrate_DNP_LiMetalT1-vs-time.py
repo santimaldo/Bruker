@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -43,14 +44,14 @@ absolute= False
 autoph = False
 save = False
 
-path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-10-27_InSitu-T1/"
+path = rf"{NMRDATA}\400dnp\2025-10-27_InSitu-T1/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Bruker\analysis\2025-10_InSitu\Li-CuMesh-T1-while-cooling-down/"
+savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-10_InSitu\Li-CuMesh-T1-while-cooling-down/"
 muestra = "Li on Cu Mesh"
 vdlist_path = r"/lists\vd\sm2974.T1-16" # relativo
 
 
-# path = rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\400dnp\2025-06-26_InSitu/"
+# path = rf"{NMRDATA}\400dnp\2025-06-26_InSitu/"
 # expns = [37]
 # plotRange = [500,0]
 # muestra = "eLi-uwON"

@@ -6,6 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
+from paths import NMRDATA, PROJECTS
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
@@ -23,9 +24,9 @@ expns = [14, 25]
 samples = ["7Li_LP57-neat", "7Li_LP57-Mn(TFSI)2-8mM"]
 # expn, sample = [14, "7Li_LP57-neat"]
 #-------------------- directorios
-path = r"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata\300old\2025-10-13_DRinsitu_LP57-MnTFSI/"
+path = rf"{NMRDATA}\300old\2025-10-13_DRinsitu_LP57-MnTFSI/"
 # directorio de guradado
-savepath = r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\TMions\Analysis\2025-10_in-situ_relaxation/"
+savepath = rf"{PROJECTS}\TMions\Analysis\2025-10_in-situ_relaxation/"
 first_point = 8   # punto donde empieza la señal (para restar el offset)
 
 
@@ -36,7 +37,7 @@ samples = [""]*len(expns)
 #-------------------- directorios
 path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-27_ATMC1_Rui-R11_NMC-Cu_CC/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\Rui\analysis\2026-08_R11_CC/"
+savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-08_R11_CC/"
 first_point = 0   # punto donde empieza la señal (para restar el offset)
 
 

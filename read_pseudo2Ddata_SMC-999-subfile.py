@@ -7,58 +7,16 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
+from paths import NMRDATA, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
+from kpopt_utils import find_popt_subfolders, extract_popt_parameters
 import scipy.integrate as integrate
 import re
 
 ################## Functions ###########################
-def find_popt_subfolders(expn, path):
-    """
-    Find all subfolders that start with the given 
-    experiment number followed by 99n:
-    999, 998, ..., 1000-n.
-    """
-    experiment_numbers = []
-    for folder in os.listdir(path):
-        if folder.startswith(f"{expn}"):
-            try:
-                suffix = int(folder[len(f"{expn}"):])
-                experiment_numbers.append(suffix)
-            except ValueError:
-                continue
-    return np.array(sorted(experiment_numbers, reverse=True))
-
-def extract_popt_parameters(subfile, parameter, path=".", expn=1):
-    """
-    Extracts the specified parameter from the popt.protocol file.
-    The parameter is specified as a string.
-
-    typical options are:
-    "P 15" for CP contact time
-    """
-    filename = f"{path}/{expn}/popt.protocol.{subfile}"
-    data = []
-    with open(filename, 'r') as file:
-        lines = file.readlines()
-        start_reading = False
-        column_index = None
-        for line in lines:
-            if line.startswith("Experiment") and parameter in line:
-                headers = re.split(r'\s{2,}', line)
-                column_index = headers.index(parameter)
-                start_reading = True
-                continue
-            if start_reading:
-                columns = line.split()
-                if columns == [] or columns[0].isdigit() == False:
-                    break
-                
-                data.append(float(columns[column_index]))
-#%%                
-    return np.array(data)
 ################## end Functions #######################
 
 
@@ -67,9 +25,9 @@ def extract_popt_parameters(subfile, parameter, path=".", expn=1):
 expn = 110
 Npopts = 1
 parameter = "P 1"
-path  =rf"C:\Users\Santi\OneDrive - University of Cambridge\NMRdata/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
+path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # directorio de guradado
-savepath= r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\IMEC\DNP\2025-04-28_CP\LiOH_CP-vs-ContactTime/"
+savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\LiOH_CP-vs-ContactTime/"
 sample = "LiOHanhyd"
 savefile = f"{sample}_cpHtoLi_uW-OFF_P15"
 save = False

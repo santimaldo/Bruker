@@ -7,70 +7,18 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
+from paths import NMRDATA_LOCAL, PROJECTS
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
 from Datos import *
+from kpopt_utils import read_bsms_field, shift_spectrum_by_bsms
 from Autophase import autophase
 from scipy.integrate import simpson
 import re
 
 ################## Functions ###########################
-
-def read_bsms_field(path_archivo):
-    """
-    Lee un archivo con formato específico y devuelve el array 'x' como lista de floats.
-
-    Parámetros:
-    path_archivo (str): Ruta al archivo de entrada.
-
-    Retorna:
-    list[float]: Lista con los valores del array x.
-    """
-    with open(path_archivo+'Klog_opt', 'r') as f:
-        for linea in f:
-            if linea.startswith("x="):
-                contenido = linea.strip().split("=", 1)[1]
-                x = eval(contenido)
-                return np.array(x)
-    raise ValueError("No se encontro una linea que empiece con 'x='.")
-
-def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
-    """
-    Desplaza un espectro en puntos enteros de la discretización ppm.
-
-    Parámetros
-    ----------
-    spectrum : np.array
-        Espectro 1D (real o complejo).
-    ppmAxis : np.array
-        Eje ppm original.
-    bsms : float
-        Valor de bsms correspondiente al espectro.
-    shift_factor : float
-        Factor de conversión bsms -> ppm.
-
-    Retorna
-    -------
-    shifted_spectrum : np.array
-        Espectro desplazado en puntos enteros.
-    """
-    # resolución digital del eje ppm
-    dppm = np.abs(ppmAxis[1] - ppmAxis[0])
-    # corrimiento continuo esperado
-    shift_ppm = shift_factor * bsms
-    # cantidad entera de puntos digitales
-    n_shift = int(np.round(shift_ppm / dppm))
-    # desplazamiento sin condiciones periódicas
-    shifted_spectrum = np.zeros_like(spectrum)
-    if n_shift > 0:
-        shifted_spectrum[n_shift:] = spectrum[:-n_shift]
-    elif n_shift < 0:
-        shifted_spectrum[:n_shift] = spectrum[-n_shift:]
-    else:
-        shifted_spectrum = spectrum.copy()
-    return shifted_spectrum
 
 ################## end Functions #######################
 
@@ -79,7 +27,7 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 
 # absolute = False
 # autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-08-15_3.2mm_Kpopt-test/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-15_3.2mm_Kpopt-test/"
 # # directorio de guradado
 # savepath= path
 # expns = [52] #
@@ -94,7 +42,7 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 
 # absolute = False
 # autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
 # # directorio de guradado
 # savepath= path
 # expns = [33] #
@@ -109,7 +57,7 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 
 # absolute = False
 # autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
 # # directorio de guradado
 # savepath= path
 # expns = [74] #
@@ -124,7 +72,7 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 
 # absolute = False
 # autoph = False
-# path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\gabriel/2026-08-18_1.3mm_Gabriel_gf410_38/"
+# path  =rf"{NMRDATA_LOCAL}\400dnp\gabriel/2026-08-18_1.3mm_Gabriel_gf410_38/"
 # # directorio de guradado
 # savepath= path
 # expns = [16] #
@@ -146,9 +94,9 @@ def shift_spectrum_by_bsms(spectrum, ppmAxis, bsms, shift_factor=-1.1665e-2):
 
 absolute = False
 autoph = False
-path  =r"C:\Users\Santi\Documents\NMRdata\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
+path  =rf"{NMRDATA_LOCAL}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
 # directorio de guradado
-savepath=r"C:\Users\Santi\OneDrive - University of Cambridge\Projects\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+savepath=rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
 expns = [262] #
 muestra = "kpopt_p1-1us"
 save = False
