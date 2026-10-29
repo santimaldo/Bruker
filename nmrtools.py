@@ -48,7 +48,7 @@ from scipy.stats import linregress
 __all__ = [
     "Dataset", "Fid", "FitResult",
     "load", "load_fid", "trim_empty_rows",
-    "crop", "integrate", "mean_ppm",
+    "crop", "integrate", "mean_ppm", "rms_width", "shift_ppm",
     "gamma", "GAMMA",
     "read_vdlist", "vd_factor",
     "bvalues", "ste_bvalues",
@@ -705,6 +705,83 @@ def mean_ppm(ppm, spec, ppm_range=None, part="real"):
     x = ppm[mask]
     y = _part(spec, part)[..., mask]
     return simpson(x * y, x=x, axis=-1) / simpson(y, x=x, axis=-1)
+
+
+def rms_width(ppm, spec, ppm_range=None, part="real"):
+    """
+    Intensity-weighted RMS width (square root of the second central moment).
+
+    Computes ``sqrt(∫ (ppm - c)^2 S dppm / ∫ S dppm)`` with ``c`` from
+    :func:`mean_ppm`. For a Gaussian line this is its standard deviation.
+
+    Parameters
+    ----------
+    ppm : numpy.ndarray
+        ppm axis, same length as the last axis of ``spec``.
+    spec : numpy.ndarray
+        Spectrum, shape ``(n,)`` or ``(rows, n)``.
+    ppm_range : tuple of float, optional
+        Limits of the region (points strictly inside are used). Whole axis
+        if omitted.
+    part : {"real", "imag", "abs"}, optional
+        Part of the spectrum used as weight. Default ``"real"``.
+
+    Returns
+    -------
+    float or numpy.ndarray
+        Width in ppm; one value per row for 2D input. NaN where the
+        weighted variance is negative (e.g. a mostly negative region).
+    """
+    mask = _inside(ppm, ppm_range)
+    x = ppm[mask]
+    y = _part(spec, part)[..., mask]
+    norm = simpson(y, x=x, axis=-1)
+    center = simpson(x * y, x=x, axis=-1) / norm
+    dev2 = (x - np.expand_dims(center, -1)) ** 2
+    variance = simpson(dev2 * y, x=x, axis=-1) / norm
+    with np.errstate(invalid="ignore"):
+        return np.sqrt(variance)
+
+
+def shift_ppm(ppm, spec, delta_ppm):
+    """
+    Move a spectrum along its ppm axis by a whole number of points.
+
+    The signal at ``δ`` ends up at ``δ + delta_ppm`` (rounded to the nearest
+    point), on ascending or descending axes alike. Nothing is interpolated
+    and nothing wraps around: points shifted in from the edge are zero.
+
+    Parameters
+    ----------
+    ppm : numpy.ndarray
+        Evenly spaced ppm axis, same length as the last axis of ``spec``.
+    spec : numpy.ndarray
+        Spectrum, shape ``(n,)`` or ``(rows, n)``.
+    delta_ppm : float or array_like
+        Shift in ppm; one value, or one per row for 2D input.
+
+    Returns
+    -------
+    numpy.ndarray
+        Shifted copy of ``spec``; the input is not modified.
+    """
+    spec = np.asarray(spec)
+    step = ppm[1] - ppm[0]
+    delta = np.broadcast_to(np.asarray(delta_ppm, dtype=float), spec.shape[:-1])
+    out = np.zeros_like(spec)
+    size = spec.shape[-1]
+    for idx in np.ndindex(spec.shape[:-1]):
+        n = int(np.round(delta[idx] / step))
+        row, dest = spec[idx], out[idx]
+        if abs(n) >= size:
+            continue
+        if n > 0:
+            dest[n:] = row[:-n]
+        elif n < 0:
+            dest[:n] = row[-n:]
+        else:
+            dest[:] = row
+    return out
 
 
 # ---------------------------------------------------------------------------

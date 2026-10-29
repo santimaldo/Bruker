@@ -205,6 +205,37 @@ def test_mean_ppm_symmetric_peak():
     assert nt.mean_ppm(PPM, spec, (32, 52)) == pytest.approx(42.0, abs=1e-9)
 
 
+def test_rms_width_gaussian():
+    """The RMS width of a Gaussian is its standard deviation, row by row."""
+    sigmas = np.array([0.5, 2.0])
+    spec = np.exp(-0.5 * ((PPM[None, :] - 42.0) / sigmas[:, None]) ** 2)
+    np.testing.assert_allclose(nt.rms_width(PPM, spec, (2, 82)), sigmas, rtol=1e-6)
+
+
+@pytest.mark.parametrize("delta", [0.0, 1.234, -3.21, 1e6])
+def test_shift_ppm_moves_peak(delta):
+    """A peak at δ moves to δ + delta (nearest point); far shifts give zeros."""
+    spec = lorentzian(PPM, 100.0, 0.05, 1.0)
+    shifted = nt.shift_ppm(PPM, spec, delta)
+    if abs(delta) > 1000:
+        assert not shifted.any()
+    else:
+        assert PPM[np.argmax(shifted)] == pytest.approx(100.0 + delta, abs=abs(PPM[1] - PPM[0]))
+    assert PPM[np.argmax(spec)] == pytest.approx(100.0)   # input untouched
+
+
+def test_shift_ppm_matches_kpopt_utils():
+    """Per-row shifts equal ``kpopt_utils.shift_spectrum_by_bsms`` (with the opposite sign)."""
+    from kpopt_utils import shift_spectrum_by_bsms
+    rng = np.random.default_rng(1)
+    spec = rng.normal(size=(5, PPM.size)) + 1j * rng.normal(size=(5, PPM.size))
+    bsms = np.array([-9000.0, -4750.0, 0.0, 120.0, 8000.0])
+    factor = -1.1665e-2
+    new = nt.shift_ppm(PPM, spec, -factor * bsms)
+    for k in range(bsms.size):
+        np.testing.assert_array_equal(new[k], shift_spectrum_by_bsms(spec[k], PPM, bsms[k], factor))
+
+
 # ---------------------------------------------------------------------------
 # Unit tests: delay lists and diffusion
 # ---------------------------------------------------------------------------
