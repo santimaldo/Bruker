@@ -16,7 +16,7 @@ import pytest
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from regression_cases import PEO, RC1, data_path  # noqa: E402
+from regression_cases import DENDRITES, PEO, RC1, data_path  # noqa: E402
 
 
 def require(*relative):
@@ -45,6 +45,19 @@ def test_integrate_absolute_after_ppmselect_1d():
     expected = d.Integrar([280, 220], absolute=True)
     d.espectro.ppmSelect([300, 200])
     np.testing.assert_allclose(d.Integrar([280, 220], absolute=True), expected, rtol=1e-6)
+
+
+@pytest.mark.data
+@pytest.mark.xfail(strict=True, raises=AssertionError,
+                   reason="Acqus.DW = 1/(2*SW_h) is the dwell per real point, but set_fid "
+                          "uses it as the spacing of complex points: time axis is halved")
+def test_fid_time_axis_spacing():
+    """``Datos.set_fid`` spaces complex points by ``1/SW_h`` (true acquisition time)."""
+    require(f"{DENDRITES}/71999")
+    from Datos import Datos
+    raw = Datos(data_path(f"{DENDRITES}/71999"), set_fid=True, read_pp=False, ndim=2)
+    step = raw.fid.timeAxis[1] - raw.fid.timeAxis[0]
+    np.testing.assert_allclose(step, 1 / raw.acqus.dic["SW_h"], rtol=1e-9)
 
 
 @pytest.mark.data
