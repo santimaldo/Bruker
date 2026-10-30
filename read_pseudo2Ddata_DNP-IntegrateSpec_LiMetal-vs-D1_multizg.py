@@ -5,7 +5,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -21,7 +21,7 @@ import VoigtFit as vf
 #=====================================================================
 
 expns, sample = np.arange(40, 63), 'Li dendrites + KBr'
-savepath = rf"{PROJECTS}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phases0_vsP1/"
+savepath = rf"{HOME}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phases0_vsP1/"
 Ns = np.ones_like(expns) * 2
 
 # numero de puntos (RDs)

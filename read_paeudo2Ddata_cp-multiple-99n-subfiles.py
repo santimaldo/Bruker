@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,7 +26,7 @@ import re
 # parameter = "P 15"
 # path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-ContactTime/"
+# savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-ContactTime/"
 # sample = "IMECdendrites_KBr"
 # save = False
 # mults = [1, 1.3, 1.5, 1.6] # Why did I not use the same number of spectra for all experiments???????? This is related to the experement being stored in different 2d sets. But anything to do with ND? I don't think so.
@@ -42,7 +42,7 @@ import re
 # parameter = "P 15"
 # path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-10/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-ContactTime/2025-04-10_preliminar/"
+# savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-ContactTime/2025-04-10_preliminar/"
 # sample = "IMECdendrites_KBr"
 # save = False
 # plotRange = [250, 170]
@@ -59,7 +59,7 @@ Npopts = 2
 parameter = "P 15"
 path  =rf"{NMRDATA}\400dnp\2025-06-16_3.2mm_IMECdendrites/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-OFF/NS16/"
+savepath= rf"{HOME}\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-OFF/NS16/"
 sample = "IMECeLi"
 savefile = f"{sample}_cpHtoLi_uW-OFF_P15"
 save = False

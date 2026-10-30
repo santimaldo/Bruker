@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 14})
@@ -76,7 +76,7 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 # autoph = True 
 # path  =rf"{NMRDATA}\400dnp\2025-07-31_InSitu/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Bruker/analysis/"
+# savepath= rf"{HOME}\LiMetal\Bruker/analysis/"
 # muestra = ""
 # save = False
 # plotRange = [1000,-400]
@@ -93,7 +93,7 @@ def integrate_around_peak(ppmAxis, spectrum, window_width, range_of_max=None):
 # autoph = True 
 # path  =rf"{NMRDATA}\400dnp\2025-10-27_InSitu/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
+# savepath= rf"{HOME}\LiMetal\Bruker\analysis\2025-10_InSitu\LionCuMesh/"
 
 # expns = [68]
 # savepath+= "Angle_090deg/"
@@ -112,7 +112,7 @@ absolute = False
 autoph = True 
 path  =rf"{NMRDATA}\400dnp\2025-11-28_InSitu/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP\expns71to79/"
+savepath= rf"{HOME}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP\expns71to79/"
 
 expns = [71,73,75,77,79]
 muestra = ""

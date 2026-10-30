@@ -8,7 +8,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -23,9 +23,9 @@ import os
 # # ############ R12 - NMC-Cu CC protocol
 # # directorio de datos
 # expns = np.arange(31, 1200, 10)
-# path = rf"{NMRDATA_LOCAL}\300neo\2026-08-28_ATMC1_Rui-R12_NMC-Cu_CC/"
+# path = rf"{NMRDATA}\300neo\2026-08-28_ATMC1_Rui-R12_NMC-Cu_CC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-08_R12_CC/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-08_R12_CC/"
 # muestra = "Cell_R12"
 # save = True
 # ppmRange = None #[2300, -1300]
@@ -33,9 +33,9 @@ import os
 # # ############ R13 - NMC-Cu PC protocol
 # # directorio de datos
 # expns = np.arange(31, 922, 10)
-# path = rf"{NMRDATA_LOCAL}\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
+# path = rf"{NMRDATA}\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-08_R13_PC/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-08_R13_PC/"
 # muestra = "Cell_R13"
 # save = True
 # ppmRange = None #[2300, -1300]
@@ -44,9 +44,9 @@ import os
 # directorio de datos
 # expns = np.arange(31, 890, 10)
 expns = np.concatenate( (np.arange(31, 890, 10), np.arange(1001, 1442, 10)) )
-path = rf"{NMRDATA_LOCAL}\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
+path = rf"{NMRDATA}\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-09_R14_CC/"
+savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-09_R14_CC/"
 muestra = "Cell_R14"
 save = True
 ppmRange = None #[2300, -1300]

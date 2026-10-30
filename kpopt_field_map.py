@@ -38,14 +38,14 @@ import pandas as pd
 
 import nmrtools as nt
 from kpopt_utils import read_bsms_field
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 
 #%% ========================== PARAMETERS ==================================
 #: Folder that contains the experiment numbers.
-PATH = rf"{NMRDATA_LOCAL}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1"
+PATH = rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1"
 
 #: Results go to ``SAVEPATH_BASE/<label>/``.
-SAVEPATH_BASE = rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz"
+SAVEPATH_BASE = rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz"
 
 #: One entry per Kpopt experiment:
 #:

@@ -10,7 +10,7 @@ Created on Thu Sep 15 12:10:32 2022
 CORREGIR: TIEMPOS Y FASES
 """
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -29,9 +29,9 @@ npts = 50
 absolute= False
 autoph = False
 substract_baseline = False
-path = rf"{NMRDATA_LOCAL}\300neo\2025-10-01_ccATMC_Rui-R3_NMC-Cu_PC/"
+path = rf"{NMRDATA}\300neo\2025-10-01_ccATMC_Rui-R3_NMC-Cu_PC/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2025-10_R3/"
+savepath= rf"{HOME}\LiMetal\Rui\analysis\2025-10_R3/"
 muestra = "7Li_cellR3-PCprotocol"
 
 save = False

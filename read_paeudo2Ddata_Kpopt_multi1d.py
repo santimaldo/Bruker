@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 14})
 import numpy as np
@@ -80,7 +80,7 @@ absolute = False
 autoph = True 
 path  =rf"{NMRDATA}\400dnp\2026-01-22_InSitu/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2026_01_InSitu/"
+savepath= rf"{HOME}\LiMetal\Bruker\analysis\2026_01_InSitu/"
 
 expns = np.arange(24, 45)
 bsms_list = np.array([-5750, -9999, -9000, -8750, -7000, -6000, -5000, -4500, 9999, -5500, -8000, -4000, -3000, -2000, 0, 4000, 5000, 1000, 2000, 500, -1000])

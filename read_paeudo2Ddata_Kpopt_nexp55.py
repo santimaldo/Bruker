@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -35,7 +35,7 @@ def integrate_two_windows_from_minimum(ppmAxis, spec1d, width_ppm):
 expns = [55, 57]
 absolute = True
 path = rf"{NMRDATA}\400dnp\InSitu_May_2025/"
-savepath = rf"{PROJECTS}\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
+savepath = rf"{HOME}\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
 muestra = ""
 save = False
 ppmRange = [200, -400]

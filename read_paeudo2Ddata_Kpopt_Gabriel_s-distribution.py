@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA_LOCAL
+from paths import NMRDATA
 import ast  # FIX (e): reemplaza eval() por ast.literal_eval(), mas seguro
 import nmrglue as ng
 import matplotlib.pyplot as plt
@@ -29,7 +29,7 @@ import re
 
 # absolute = False
 # autoph = False
-# path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
+# path  =rf"{NMRDATA}\400dnp\Gabriel\Gabriel_08_08_2025_gf410_7/"
 # # directorio de guradado
 # savepath= path
 # exp_to_CalibrateTheOff_info = {"expn": 5,
@@ -47,7 +47,7 @@ import re
 #                                 }  
 # absolute = False
 # autoph = False
-# path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_07_08_2025_gf410_5/"
+# path  =rf"{NMRDATA}\400dnp\Gabriel\Gabriel_07_08_2025_gf410_5/"
 # # directorio de guradado
 # savepath= path
 # expns = [12, 15] #
@@ -65,7 +65,7 @@ import re
 #                                 }  
 # absolute = False
 # autoph = False
-# path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_16_09_2025_gf410_23/"
+# path  =rf"{NMRDATA}\400dnp\Gabriel\Gabriel_16_09_2025_gf410_23/"
 # # directorio de guradado
 # savepath= path
 # expns = [10] # [6, 8, 10] ############ tienen distintos sr!!!!!
@@ -80,7 +80,7 @@ import re
 
 absolute = False
 autoph =  False
-path  =rf"{NMRDATA_LOCAL}\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
+path  =rf"{NMRDATA}\400dnp\Gabriel\Gabriel_16_09_2025_gf410_cell/"
 # directorio de guradado
 savepath= path
 # expns = [29] # [27, 28, 29] ## 2.5 W

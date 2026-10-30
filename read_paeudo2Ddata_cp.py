@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -26,7 +26,7 @@ import re
 # parameter = "P 15"
 # path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+# savepath= rf"{HOME}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 # muestra = "19F_chronoamperometry_0Vto1V"
 # save = False
 # plotRange = [350, 100]
@@ -41,7 +41,7 @@ import re
 expn = 75
 path = rf"{NMRDATA}\400dnp\2025-11-13_3.2mm_Rui-dendrites/"
 muestra = "19F_CP_7Li-to-19F_RUI_CC-protocol"
-savepath = rf"{PROJECTS}\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\CP/"
+savepath = rf"{HOME}\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\CP/"
 parameter = "P 15"
 save = True
 plotRange = [100, -600]

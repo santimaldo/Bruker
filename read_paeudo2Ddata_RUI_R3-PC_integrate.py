@@ -10,7 +10,7 @@ Created on Thu Sep 15 12:10:32 2022
 CORREGIR: TIEMPOS Y FASES
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -29,7 +29,7 @@ import scipy.integrate as integrate
 # substract_baseline = False
 # path = rf"{NMRDATA}\300old\2025-10-01_ccATMC_Rui-R3_NMC-Cu_PC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2025-10_R3/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2025-10_R3/"
 # muestra = "7Li_cellR3-PCprotocol"
 # save = False
 # plotRange = [400, 125]
@@ -48,7 +48,7 @@ import scipy.integrate as integrate
 # substract_baseline = False
 # path = rf"{NMRDATA}\300old\2026-03-11_ccATMC_Rui-R4_NMC-Cu_PC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-03_R4_PC/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-03_R4_PC/"
 # muestra = "7Li_cellR4-PCprotocol"
 # save = True
 # plotRange = [600, -300]
@@ -65,7 +65,7 @@ import scipy.integrate as integrate
 # substract_baseline = False
 # path = rf"{NMRDATA}\300old\2026-04-05_ccATMC_Rui-R5_NMC-Cu_CC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R5/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R5/"
 # muestra = "7Li_cellR5-CCprotocol"
 # save = True
 # plotRange = [400, 100]
@@ -81,14 +81,14 @@ autoph = False
 substract_baseline = False
 path = rf"{NMRDATA}\300old\2026-04-06_ccATMC_Rui-R6_NMC-Cu_CC/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6/"
+savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6/"
 muestra = "7Li_cellR6-CCprotocol"
 save = True
 plotRange = [400, 100]
 # rango de integracion
 ppmRange = [320, 200]
 # #### diamagnetic
-savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6\diamagnetic"
+savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-04_in-situ_repeat__R5-R6\R6\diamagnetic"
 plotRange = [100, -100]
 # rango de integracion
 ppmRange = [30, -30]

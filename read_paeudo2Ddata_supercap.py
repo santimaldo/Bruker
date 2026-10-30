@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from paths import NMRDATA, NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import os
 import numpy as np
 from Datos import *
@@ -13,7 +13,7 @@ from Datos import *
 # path_local = rf"{NMRDATA}/"
 # path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
 
-# savepath_local = rf"{PROJECTS}\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
+# savepath_local = rf"{HOME}\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
 # # savepath_especifico = "CA_-0.75V/"
 # # exp_before = 20
 # # exp_2D = 21
@@ -39,7 +39,7 @@ from Datos import *
 # path_local = rf"{NMRDATA}/"
 # path_bruker = "300old/2026-04-07_supercaps_YP50F_LiTFSI1M/"
 
-# savepath_local = rf"{PROJECTS}\Supercaps\Analysis\2026-04_LiTFSI1M-aq_YP50F/"
+# savepath_local = rf"{HOME}\Supercaps\Analysis\2026-04_LiTFSI1M-aq_YP50F/"
 # ###--------------------------------
 # savepath_especifico = "CA_-0.25V_expn-61/"
 # exp_before = 60
@@ -77,10 +77,10 @@ from Datos import *
 # ppmRange = [-50, -92]
 
 # ########################################## SUPERCAP 2026/08
-path_local = rf"{NMRDATA_LOCAL}/"
+path_local = rf"{NMRDATA}/"
 path_bruker = "300neo/2026-08-12_supercaps_YP50F_LiTFSI1M/"
 
-savepath_local = rf"{PROJECTS}\Supercaps\Analysis\2026-08_LiTFSI1M-aq_YP50F/"
+savepath_local = rf"{HOME}\Supercaps\Analysis\2026-08_LiTFSI1M-aq_YP50F/"
 savepath_especifico = "1.00V/"
 exp_before = 30
 exp_2D = 31

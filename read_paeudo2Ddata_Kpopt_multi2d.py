@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 14})
 import numpy as np
@@ -71,7 +71,7 @@ absolute = False
 autoph = True 
 path  =rf"{NMRDATA}\400dnp\2025-11-28_InSitu/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
+savepath= rf"{HOME}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP/"
 
 expns = [71, 73, 75, 77, 79]
 expns=[52]

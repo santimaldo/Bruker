@@ -5,7 +5,7 @@ Created on Feb 20/02/2025
 
 @author: Santi
 """
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import matplotlib.colors as mcolors
@@ -22,7 +22,7 @@ expn_neg_pseudo2d = 9  # Li
 
 # Data paths
 path = rf"{NMRDATA}/300old/2025-03-10_insitu-LiTFSIaq-supercap/"
-savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY/oneCA/"
+savepath = rf"{HOME}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY/oneCA/"
 muestra = "7Li_"
 save = False
 plotRange = [4, -8]

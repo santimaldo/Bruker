@@ -5,7 +5,7 @@ Created on Wed 12/3/2025
 @author: Santi
 """
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
@@ -13,8 +13,8 @@ from Laplace import ILT
 
 # # Data paths
 # expn = 19
-# path = rf"{NMRDATA_LOCAL}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46\{expn}/"
-# savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
+# path = rf"{NMRDATA}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46\{expn}/"
+# savepath = rf"{HOME}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
 # muestra = "7Li_supercap_LiTFSI1M-aq_-1V"
 # save = False
 # plotRange = [280, -30]
@@ -24,8 +24,8 @@ from Laplace import ILT
 
 # Data paths
 expn = 253
-path  =rf"{NMRDATA_LOCAL}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/{expn}/"
-savepath = rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz\T1/"
+path  =rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/{expn}/"
+savepath = rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz\T1/"
 muestra = ""
 save = False
 plotRange = [350, -100]

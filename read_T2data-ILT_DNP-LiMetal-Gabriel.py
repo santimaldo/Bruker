@@ -5,7 +5,7 @@ Created on Wed 12/3/2025
 @author: Santi
 """
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
@@ -20,8 +20,8 @@ expn = 52
 plotRange = [270, -30]
 Nsegments = 100
 
-path = rf"{NMRDATA_LOCAL}\400dnp\Gabriel\2026-08-17_1.3mm_Gabriel_gf410_41\{expn}/"
-savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
+path = rf"{NMRDATA}\400dnp\Gabriel\2026-08-17_1.3mm_Gabriel_gf410_41\{expn}/"
+savepath = rf"{HOME}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
 muestra = ""
 save = False
 

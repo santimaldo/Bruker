@@ -8,7 +8,7 @@ Adaptado para usar PseudoVoigtFit en lugar de VoigtFit
 TRABAJAR EN LOS FITTINGS!!!!!
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
@@ -32,7 +32,7 @@ absolute= False
 autoph = False
 path = rf"{NMRDATA}\300old\2025-10-01_ccATMC_Rui-R3_NMC-Cu_PC/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2025-10_R3/"
+savepath= rf"{HOME}\LiMetal\Rui\analysis\2025-10_R3/"
 muestra = "7Li_cellR3-PCprotocol"
 
 save = False

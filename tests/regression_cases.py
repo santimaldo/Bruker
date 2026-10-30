@@ -28,13 +28,13 @@ from types import SimpleNamespace
 
 import numpy as np
 
-from paths import NMRDATA_LOCAL
+from paths import NMRDATA
 
 #: Registry of all cases: ``name -> (function, list of required paths)``.
 CASES = {}
 
 #: Root under which the datasets of the cases live.
-DATA_ROOT = NMRDATA_LOCAL
+DATA_ROOT = NMRDATA
 
 
 def data_path(relative):

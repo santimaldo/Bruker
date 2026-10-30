@@ -5,7 +5,7 @@ Created on Thu Jan 28 12:00:00 2026
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,7 +16,7 @@ from Datos import *
 # =======================
 expns = np.arange(20, 36)
 path  = rf"{NMRDATA}\400dnp\2026-01-21_3.2mm_LiH/"
-savepath= rf"{PROJECTS}\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
+savepath= rf"{HOME}\LiMetal\DNP\Debashis\Analysis\2026-01_LiH\CPspec/"
 min_contact_time = 0
 muestra = ""
 save = True

@@ -5,7 +5,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -24,7 +24,7 @@ expns = np.arange(130, 135)
 absolute = False
 autoph = True
 path = rf"{NMRDATA}\400dnp/2025-06-27_InSitu/"
-savepath = rf"{PROJECTS}\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
+savepath = rf"{HOME}\LiMetal\Bruker\analysis\2025_05_Quartz\Li-on-mesh-LFP"
 
 nucleo = "7Li"
 muestra = ""

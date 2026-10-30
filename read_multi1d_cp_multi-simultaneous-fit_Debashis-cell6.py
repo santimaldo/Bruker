@@ -7,7 +7,7 @@ Centers, FWHM and fractions are shared; amplitudes and offsets are per spectrum.
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -25,7 +25,7 @@ from lmfit.models import PseudoVoigtModel
 expns = [67,71,62,68,63,70,60,64,66,69]
 expns = [70]
 path  = rf"{NMRDATA}\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
-savepath= rf"{PROJECTS}\LiMetal\DNP\Debashis\Analysis\2025-11_R6/"
+savepath= rf"{HOME}\LiMetal\DNP\Debashis\Analysis\2025-11_R6/"
 muestra = ""
 save = False
 

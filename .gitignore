@@ -3,9 +3,6 @@ __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
 
-# Configuracion local de rutas (ver paths.py y paths_local.example.json)
-paths_local.json
-
 # Editores / SO
 .spyproject/
 .idea/

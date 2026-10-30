@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 this is for TRUE 2D data
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,7 +20,7 @@ import scipy.integrate as integrate
 expn = 68
 path  =rf"{NMRDATA}/300old/2025-02-07_insitu-sync-start/{expn}/" # compu Ofi
 # directorio de guradado
-savepath= rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+savepath= rf"{HOME}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 muestra = "19F_chronoamperometry_0Vto1V"
 
 

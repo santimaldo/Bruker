@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -57,7 +57,7 @@ def integrate_around_peak(ppmAxis, spectrum, window_width):
 # autoph = True 
 # path  =rf"{NMRDATA}\400dnp\InSitu_May_2025/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
+# savepath= rf"{HOME}\LiMetal\Bruker/analysis/2025-05_mesh/spec1d_MeshAndLFP/"
 # muestra = ""
 # save = False
 # plotRange = [200,-300]
@@ -73,7 +73,7 @@ absolute = False
 autoph = False
 path  =rf"{NMRDATA}\400dnp\2025-11-28_InSitu/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP\expns71to79/"
+savepath= rf"{HOME}\LiMetal\Bruker\analysis\2025-11_InSitu\Kpopt\LiCuFoil-celgard-LFP\expns71to79/"
 
 expns = [71,73,75,77,79]
 muestra = "LiCuFoil_celgard_LFP"

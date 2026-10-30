@@ -10,7 +10,7 @@ Created on Thu Sep 15 12:10:32 2022
 CORREGIR: TIEMPOS Y FASES
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -102,7 +102,7 @@ autoph = False
 
 path = rf"{NMRDATA}\300old\2025-07-08_in-situ_IMEC-overlaid/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\IMEC\in-situ\2025-07_eLI-Li_overlaid/"
+savepath= rf"{HOME}\LiMetal\IMEC\in-situ\2025-07_eLI-Li_overlaid/"
 muestra = "7Li_eLi-Li-cell_LP40"
 
 save = False

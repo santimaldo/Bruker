@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -76,7 +76,7 @@ def extract_popt_parameters(parameter="p15", group=0, path=".", expn=1):
 # parameter = "D 1"
 # path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-01ms/"
+# savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-01ms/"
 # sample = "IMECdendrites_KBr"
 # savefile = f"{sample}_cpLitoH_uW-ON_D1"
 # save = False
@@ -90,7 +90,7 @@ def extract_popt_parameters(parameter="p15", group=0, path=".", expn=1):
 # parameter = "D 1"
 # path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-10ms/"
+# savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-10ms/"
 # sample = "IMECdendrites_KBr"
 # savefile = f"{sample}_cpLitoH_uW-ON_D1"
 # save = False
@@ -104,7 +104,7 @@ def extract_popt_parameters(parameter="p15", group=0, path=".", expn=1):
 # parameter = "P 15"
 # path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\LiOH_CP-vs-ContactTime/"
+# savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\LiOH_CP-vs-ContactTime/"
 # sample = "LiOHanhyd"
 # savefile = f"{sample}_cpHtoLi_uW-OFF_P15"
 # save = False
@@ -118,7 +118,7 @@ def extract_popt_parameters(parameter="p15", group=0, path=".", expn=1):
 # parameter = "p15"
 # path  =rf"{NMRDATA}\400dnp\2025-06-17_3.2mm_IMECdendrites/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-ON/"
+# savepath= rf"{HOME}\LiMetal\DNP\analysis\2025_06_IMEC\CP_7Li-1H_uW-ON/"
 # sample = "IMECeLi"
 # savefile = f"{sample}_cpHtoLi_uW-ON_P15"
 # save = False
@@ -132,7 +132,7 @@ Npopts = 5
 parameter = "p15"
 path  =rf"{NMRDATA}\400dnp\2025-11-13_3.2mm_Rui-dendrites/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\CP/"
+savepath= rf"{HOME}\LiMetal\Rui\analysis\2025-11_DNP_CC\spec\CP/"
 sample = "LiF_reference"
 savefile = f"{sample}_cpLitoF"
 save = False

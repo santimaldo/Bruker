@@ -7,7 +7,7 @@ Created on Mon Sep  5 17:09:33 2022
 Extrae multiples espectros adquiridos en Bruker Avance II
 """
 
-from paths import NMRDATA, NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -16,10 +16,10 @@ from Espectro import autophase
 from VoigtFit import VoigtFit
 
 
-path_local = rf"{NMRDATA_LOCAL}\500/"
+path_local = rf"{NMRDATA}\500/"
 
 # path_bruker = "2025-05-15_PEO-solid-electrolyte/"
-# savepath_local = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2025-05_500MHz_PEO_PEO-PTT/"
+# savepath_local = rf"{HOME}\PolymerElectrolyte\Analysis\2025-05_500MHz_PEO_PEO-PTT/"
 # savepath_especifico = ""
 # # info: muestra, expn, ppmRange
 # nucleo = "1H"
@@ -75,7 +75,7 @@ path_local = rf"{NMRDATA_LOCAL}\500/"
 #####################################################################################
 ################# 2026-02 13C CP
 # path_local = rf"{NMRDATA}\500/"
-# savepath_local = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP/"
+# savepath_local = rf"{HOME}\PolymerElectrolyte\Analysis\2026-02_500MHz_13C-CP/"
 
 # path_bruker = "2026-02-06_PEO-solid-electrolyte/"
 # savepath_especifico = "PEO-LiTFSI/13C_CP/"
@@ -137,7 +137,7 @@ path_local = rf"{NMRDATA_LOCAL}\500/"
 ####################################################################################
 ################ 2026-04 13C CP
 # path_local = rf"{NMRDATA}\500/"
-# savepath_local = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-04_500MHz_13C-CP/"
+# savepath_local = rf"{HOME}\PolymerElectrolyte\Analysis\2026-04_500MHz_13C-CP/"
 
 # path_bruker = "2026-04-19_PEO-PTT_solid-electrolyte/"
 # savepath_especifico = "PEO-PTT_LiTFSI/13C_CP/"
@@ -216,7 +216,7 @@ path_local = rf"{NMRDATA_LOCAL}\500/"
 
 ####################################################################################
 ################ 2026-05 VT all nuclei - PEO
-savepath_local = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2026-05_500MHz_PEO-LiTFSI_VT-phase-trans/"
+savepath_local = rf"{HOME}\PolymerElectrolyte\Analysis\2026-05_500MHz_PEO-LiTFSI_VT-phase-trans/"
 
 path_bruker = "2026-05-17_PEO-solid-electrolyte/"
 # savepath_especifico = "13C_CP/"

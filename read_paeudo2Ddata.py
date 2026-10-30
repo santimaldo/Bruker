@@ -6,7 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
-from paths import PROJECTS
+from paths import HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -20,7 +20,7 @@ expn_after = 22
 
 
 path_bruker = "300old/2026-03-13_supercaps_YP50F_LiTFSI1M/"
-savepath_local = rf"{PROJECTS}\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
+savepath_local = rf"{HOME}\Supercaps\Analysis\2026-03_LiTFSI1M-aq_YP50F/"
 savepath_especifico = "CA_-0.75V/"
 muestra = "Supercap_YP50F"
 

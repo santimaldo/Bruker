@@ -2,7 +2,7 @@
 """
 Iterar y guardar espectros 1D en un rango de ppm específico
 """
-from paths import PROJECTS
+from paths import HOME
 import numpy as np
 import matplotlib.pyplot as plt
 import os
@@ -15,7 +15,7 @@ save = True
 # expns = np.arange(35, 920, 10)
 # path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-08_R13_PC/T1data/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-08_R13_PC/T1data/"
 # muestra = "Cell_R13_electrolyte"
 # # rango de integracion
 # ppmRange = [30, -30]
@@ -28,7 +28,7 @@ save = True
 expns = np.concatenate( (np.arange(35, 890, 10), np.arange(1005, 1442, 10)) )
 path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-09_R14_CC/T1data/"
+savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-09_R14_CC/T1data/"
 muestra = "Cell_R14_electrolyte"
 # rango de integracion
 ppmRange = [30, -30]

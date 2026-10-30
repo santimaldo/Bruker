@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -27,7 +27,7 @@ Npopts = 1
 parameter = "P 1"
 path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\LiOH_CP-vs-ContactTime/"
+savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\LiOH_CP-vs-ContactTime/"
 sample = "LiOHanhyd"
 savefile = f"{sample}_cpHtoLi_uW-OFF_P15"
 save = False

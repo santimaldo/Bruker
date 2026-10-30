@@ -5,7 +5,7 @@ Created on Wed 12/3/2025
 @author: Santi
 """
 # raise Warning("NO FINCIONa!!!!!!!!!! CORREGIR")
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
@@ -13,8 +13,8 @@ from Datos import *
 
 # Data paths
 expn = 19888
-path = rf"{NMRDATA_LOCAL}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46\{expn}/"
-savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
+path = rf"{NMRDATA}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46\{expn}/"
+savepath = rf"{HOME}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\ir"
 muestra = "7Li_supercap_LiTFSI1M-aq_-1V"
 save = False
 plotRange = [280, -30]

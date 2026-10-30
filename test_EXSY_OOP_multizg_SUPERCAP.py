@@ -1,4 +1,4 @@
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
@@ -32,14 +32,14 @@ def Integrar(Matriz, x=None, y=None):
 # #############################################################################
 # # -1 V
 # path = rf"{NMRDATA}\300old\2025-03-10_insitu-LiTFSIaq-supercap/"
-# savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/-1V/"
+# savepath = rf"{HOME}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/-1V/"
 # savepath = r"C:\tmp/"
 # mT = [0.1, 1, 10, 100, 5, 50, 200, 20, 2, 80, 150]  # 1H
 # nexp = np.arange(80,91)
 # peaks = [0, -5.9]
 # 0 V
 path = rf"{NMRDATA}\300old\2025-03-10_insitu-LiTFSIaq-supercap/"
-savepath = rf"{PROJECTS}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/0V/"
+savepath = rf"{HOME}\Supercaps\Analysis\2025-03_LiTFSI1M-aq_7Li-EXSY\exsy/0V/"
 mT = [0.1, 1, 10, 100, 5, 50, 200, 20, 2, 80, 150]  # 1H
 nexp = np.arange(20,31)
 peaks = [0, -5]

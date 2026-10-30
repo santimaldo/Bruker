@@ -17,7 +17,7 @@ NO FUNCIONAAAAAA
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
@@ -32,7 +32,7 @@ expn_after = 69
 
 path  =rf"{NMRDATA}/300old/2025-02-07_insitu-sync-start/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+savepath= rf"{HOME}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 muestra = "19F_chronoamperometry_0Vto1V"
 
 save = False

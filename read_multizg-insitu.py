@@ -10,7 +10,7 @@ Created on Thu Sep 15 12:10:32 2022
 CORREGIR: TIEMPOS Y FASES
 """
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import os
 
 import nmrglue as ng
@@ -29,7 +29,7 @@ import scipy.integrate as integrate
 # expns = np.loadtxt(expnlist, dtype=int)
 # path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-28_ATMC1_Rui-R12_NMC-Cu_CC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-08_R12_CC/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-08_R12_CC/"
 # muestra = "Cell_R12"
 # folder_suffix = "_LiMetal_zg"
 # save = True
@@ -43,7 +43,7 @@ import scipy.integrate as integrate
 # expns = np.loadtxt(expnlist, dtype=int)
 # path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-31_ATMC1_Rui-R13_NMC-Cu_PC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-08_R13_PC/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-08_R13_PC/"
 # muestra = "Cell_R13"
 # folder_suffix = "_LiMetal_zg"
 # save = True
@@ -57,7 +57,7 @@ import scipy.integrate as integrate
 # expns = np.loadtxt(expnlist).astype(np.int64)
 # path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-09-02_ATMC1_Rui-R14_NMC-Cu_CC/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Rui\analysis\2026-09_R14_CC/"
+# savepath= rf"{HOME}\LiMetal\Rui\analysis\2026-09_R14_CC/"
 # muestra = "Cell_R14"
 # folder_suffix = "_LiMetal_zg"
 # save = True
@@ -67,9 +67,9 @@ import scipy.integrate as integrate
 # # ########### insituDNP
 # # # directorio de datos
 # expns = np.concatenate((np.arange(12, 110), np.arange(120, 220)))
-# path = rf"{NMRDATA_LOCAL}\400dnp\2026-07-06_InSitu_cellTest-justNMR/"
+# path = rf"{NMRDATA}\400dnp\2026-07-06_InSitu_cellTest-justNMR/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2026-07_InSitu-NMR/"
+# savepath= rf"{HOME}\LiMetal\Bruker\analysis\2026-07_InSitu-NMR/"
 # muestra = "Cell_D2"
 # folder_suffix = "_LiMetal_zg"
 # save = True
@@ -83,7 +83,7 @@ import scipy.integrate as integrate
 expns = np.arange(20,290)
 path = rf"c:\Users\Santi\Documents\NMRdata\300neo\2026-10-08_safebatt_Gr-NMC_cellG8/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\SafeBatt\Analysis\2026-10_cellG8_NMR/"
+savepath= rf"{HOME}\SafeBatt\Analysis\2026-10_cellG8_NMR/"
 muestra = "Cell_G8"
 folder_suffix = "_LiMetal_zg"
 save = True

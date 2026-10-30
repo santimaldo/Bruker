@@ -8,7 +8,7 @@ Extrae y grafica espectros Bruker adquiridos a diferentes temperaturas
 (Variable Temperature experiment)
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams.update({'font.size': 12})
@@ -22,7 +22,7 @@ T_nominal = np.array([-19, -10, 0, 10, 20, 30, 40])
 
 path = rf"{NMRDATA}\500\2025-08-05_PEO-PTT-solid-electrolyte_VT/"
 save = True
-savepath_local = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2025-08_500MHz_VT/"
+savepath_local = rf"{HOME}\PolymerElectrolyte\Analysis\2025-08_500MHz_VT/"
 savepath_especifico = "LiTFSI-PEO-PTT"
 
 ppmRange = [-10, -150]

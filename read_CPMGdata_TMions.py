@@ -6,7 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
@@ -27,7 +27,7 @@ substract_offset = True
 #-------------------- directorios
 path = rf"{NMRDATA}\300old\2025-10-13_DRinsitu_LP57-MnTFSI/"
 # directorio de guradado
-savepath = rf"{PROJECTS}\TMions\Analysis\2025-10_in-situ_relaxation/"
+savepath = rf"{HOME}\TMions\Analysis\2025-10_in-situ_relaxation/"
 
 
 cpmgs = []

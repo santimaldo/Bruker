@@ -2,7 +2,7 @@
 Docstring for Exchange_Ramon_multi-fit
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import numpy as np
 import matplotlib.pyplot as plt
 from lmfit import Parameters, minimize, report_fit
@@ -21,7 +21,7 @@ temperatures = np.array([248.15,258.15,268.15,278.15,288.15,298.15,
                           308.15,318.15,328.15,338.15,348.15,
                           358.15,368.15,378.15,388.15,398.15,
                           408.15,418.15])
-savepath = rf"{PROJECTS}\DNP\Ramon\Exchange\spec/"
+savepath = rf"{HOME}\DNP\Ramon\Exchange\spec/"
 
 selected_experiments = selected_experiments[::10]
 temperatures = temperatures[::10]

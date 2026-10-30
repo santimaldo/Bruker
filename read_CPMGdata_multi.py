@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from paths import PROJECTS
+from paths import HOME
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
@@ -17,7 +17,7 @@ save = False
 expns = np.arange(35, 1200, 10)
 samples = [""] * len(expns)
 path = r"c:\Users\Santi\Documents\NMRdata\300neo\2026-08-28_ATMC1_Rui-R12_NMC-Cu_CC\\"
-savepath = rf"{PROJECTS}\LiMetal\Rui\analysis\2026-08_R12_CC\\"
+savepath = rf"{HOME}\LiMetal\Rui\analysis\2026-08_R12_CC\\"
 
 # ============================================================
 # LEER DATOS

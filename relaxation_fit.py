@@ -47,15 +47,15 @@ import numpy as np
 import pandas as pd
 
 import nmrtools as nt
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 from provenance import write_run_record
 
 #%% ========================== PARAMETERS ==================================
 #: Folder that contains the experiment numbers.
-PATH = rf"{NMRDATA_LOCAL}\500\2025-08-05_PEO-PTT-solid-electrolyte_VT"
+PATH = rf"{NMRDATA}\500\2025-08-05_PEO-PTT-solid-electrolyte_VT"
 
 #: Output folder for all experiments of this run.
-SAVEPATH = rf"{PROJECTS}\PolymerElectrolyte\Analysis\2025-08_500MHz_VT\T1_79Br"
+SAVEPATH = rf"{HOME}\PolymerElectrolyte\Analysis\2025-08_500MHz_VT\T1_79Br"
 
 #: ``"recovery"`` for T1 (saturation or inversion recovery) or ``"decay"``
 #: for T2 / CPMG-like decays.

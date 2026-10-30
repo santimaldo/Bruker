@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -27,7 +27,7 @@ import re
 
 # absolute = False
 # autoph = False
-# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-15_3.2mm_Kpopt-test/"
+# path  =rf"{NMRDATA}\400dnp\2026-08-15_3.2mm_Kpopt-test/"
 # # directorio de guradado
 # savepath= path
 # expns = [52] #
@@ -42,7 +42,7 @@ import re
 
 # absolute = False
 # autoph = False
-# path  =rf"{NMRDATA_LOCAL}\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
+# path  =rf"{NMRDATA}\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
 # # directorio de guradado
 # savepath= path
 # expns = [33] #
@@ -57,7 +57,7 @@ import re
 
 # absolute = False
 # autoph = False
-# path  =rf"{NMRDATA_LOCAL}\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
+# path  =rf"{NMRDATA}\400dnp\gabriel/2026-08-17_1.3mm_Gabriel_gf410_41/"
 # # directorio de guradado
 # savepath= path
 # expns = [74] #
@@ -72,7 +72,7 @@ import re
 
 # absolute = False
 # autoph = False
-# path  =rf"{NMRDATA_LOCAL}\400dnp\gabriel/2026-08-18_1.3mm_Gabriel_gf410_38/"
+# path  =rf"{NMRDATA}\400dnp\gabriel/2026-08-18_1.3mm_Gabriel_gf410_38/"
 # # directorio de guradado
 # savepath= path
 # expns = [16] #
@@ -94,9 +94,9 @@ import re
 
 absolute = False
 autoph = False
-path  =rf"{NMRDATA_LOCAL}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
+path  =rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
 # directorio de guradado
-savepath=rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+savepath=rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
 expns = [262] #
 muestra = "kpopt_p1-1us"
 save = False

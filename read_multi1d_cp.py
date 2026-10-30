@@ -8,7 +8,7 @@ Adicional: guarda espectros ajustados y componentes, grafica stack.
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -25,7 +25,7 @@ import re
 expns = [67,71,62,68,63,70,60,64,66,69]
 # expns = [69]  # para prueba
 path  = rf"{NMRDATA}\400dnp\2025-11-03_3.2mm_Debashis-dendrites/"
-savepath= rf"{PROJECTS}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
+savepath= rf"{HOME}\Supercaps\Analysis\2025-02_LiTFSI1M-aq_CA-cycles/"
 muestra = ""
 save = False
 

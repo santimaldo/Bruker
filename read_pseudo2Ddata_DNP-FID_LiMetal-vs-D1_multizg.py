@@ -6,7 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -22,18 +22,18 @@ import VoigtFit as vf
 # metal
 # expns = np.concatenate([np.arange(1, 60), np.arange(61, 100)])  # directorio de datos
 expns, sample = np.arange(20,29), 'Li dendrites + KBr'
-savepath= rf"{PROJECTS}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phase90then0/"
+savepath= rf"{HOME}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phase90then0/"
 Ns = np.arange(2,11)
 labels = [f'N = {N}' for N in Ns]
 
 expns, sample = np.arange(30,39), 'Li dendrites + KBr'
 expns[0] = 20
-savepath= rf"{PROJECTS}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phase90_then-loop-of-0-180/"
+savepath= rf"{HOME}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phase90_then-loop-of-0-180/"
 Ns = np.arange(2,11)
 labels = [f'N = {N}' for N in Ns]
 
 expns, sample = np.arange(40,54), 'Li dendrites + KBr'
-savepath= rf"{PROJECTS}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phases0_vsP1/"
+savepath= rf"{HOME}\DNP\Overhauser\analysis\2025-12_Enhancement_vs_D1/phases0_vsP1/"
 Ns = np.ones_like(expns) * 2
 
 npts = 38 # puntos a promediar

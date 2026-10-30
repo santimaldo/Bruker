@@ -6,7 +6,7 @@ Created on Thu Sep 15 12:10:32 2022
 @author: Santi
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 plt.rcParams['font.size'] = 12
@@ -56,7 +56,7 @@ save = False
 
 path = rf"{NMRDATA}\400dnp\2025-10-27_InSitu/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\Bruker\analysis\2025-10_InSitu/"
+savepath= rf"{HOME}\LiMetal\Bruker\analysis\2025-10_InSitu/"
 muestra = ""
 
 

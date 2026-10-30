@@ -12,7 +12,7 @@ Created on Thu Sep 15 12:10:32 2022
 #     if not _name.startswith("__"):
 #         del globals()[_name]
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
@@ -30,18 +30,18 @@ import re
 mT_per_bsms = (-1.1665e-2*1e-6*9.42)*1e3
 
 ################## end Functions #######################
-# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-17_1.3mm_Gabriel_gf410_41/"
+# path  =rf"{NMRDATA}\400dnp\2026-08-17_1.3mm_Gabriel_gf410_41/"
 # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # infos = []
 # infos.append(["cell41_5.2W", 33, 0])
 
 
-# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-18_1.3mm_Gabriel_gf410_38/"
+# path  =rf"{NMRDATA}\400dnp\2026-08-18_1.3mm_Gabriel_gf410_38/"
 # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # infos = []
 # infos.append(["cell38_5.2W", 16, 0])
 
-# # path  =rf"{NMRDATA_LOCAL}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46/"
+# # path  =rf"{NMRDATA}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46/"
 # # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # # infos = []
 # # infos.append(["cell46_5.2W", 17, 105.15])
@@ -51,7 +51,7 @@ mT_per_bsms = (-1.1665e-2*1e-6*9.42)*1e3
 # # infos.append(["cell46_1.0W", 88, 196.16])
 
 # # directorio de guradado
-# savepath_base= rf"{PROJECTS}\Gabriel\Analysis\2026-08_staticDNP/"
+# savepath_base= rf"{HOME}\Gabriel\Analysis\2026-08_staticDNP/"
 # plotRange = [300,-30]
 # # rango de integracion
 # ppmRanges = [[300, 15],
@@ -64,10 +64,10 @@ mT_per_bsms = (-1.1665e-2*1e-6*9.42)*1e3
 
 
 
-path  =rf"{NMRDATA_LOCAL}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
+path  =rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
 
 # # directorio de guradado
-# savepath_base= rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
+# savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
 # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 infos = []
 # infos.append(["kpopt_p1-4.35us_p90", 28, 0, -4750])
@@ -76,16 +76,16 @@ infos = []
 # fields_to_plot_mT = [0, 0.1, -0.1, -0.175, -0.3]
 
 # directorio de guradado
-savepath_base= rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
 # sample label, expn, "0 ppm"@bsms=0 (para calibrar), bsms@"0 mT"
 fields_to_plot_mT = [0.027, 0, -0.027, -0.083, -0.11, -0.137, -0.25, 0.15]
 infos = []
 infos.append(["kpopt_p1-4.35us_p90", 265, 0, -4750])
 # infos.append(["kpopt_p1-1us", 262, -98, -4750]) # -3750
 
-# path  =rf"{NMRDATA_LOCAL}\400dnp\2026-09-16_InSitu_cellTest-DNP/"
+# path  =rf"{NMRDATA}\400dnp\2026-09-16_InSitu_cellTest-DNP/"
 # # directorio de guradado
-# savepath_base= rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+# savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
 # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # fields_to_plot_mT = [0, -0.33]
 # infos = []
@@ -102,12 +102,12 @@ ppmRanges = [[300, 10],
 
 
 # ############ Gabrie g410_7
-# path  =rf"{NMRDATA_LOCAL}\400dnp/Gabriel/Gabriel_08_08_2025_gf410_7/"
+# path  =rf"{NMRDATA}\400dnp/Gabriel/Gabriel_08_08_2025_gf410_7/"
 # # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
 # infos = []
 # infos.append(["g410_7", 12, -4.61])
 # # directorio de guradado
-# savepath_base= rf"{PROJECTS}\Gabriel\Analysis\2025_results/"
+# savepath_base= rf"{HOME}\Gabriel\Analysis\2025_results/"
 # plotRange = [300,-30]
 # # rango de integracion
 # ppmRanges = [[300, 30],

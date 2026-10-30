@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
@@ -39,7 +39,7 @@ def extract_popt_array(expn=None, path=None):
 # parameter = "D 1"
 # path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # # directorio de guradado
-# savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-10ms/"
+# savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-10ms/"
 # sample = "IMECdendrites_KBr"
 # savefile = f"{sample}_cpLitoH_uW-ON_D1"
 # parameter_units = "s" # for the savefile
@@ -64,7 +64,7 @@ def extract_popt_array(expn=None, path=None):
 parameter = "D 1"
 path  =rf"{NMRDATA}/400dnp/3.2mm-Santi-IMECdendrites-2025-04-28/"
 # directorio de guradado
-savepath= rf"{PROJECTS}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-01ms/"
+savepath= rf"{HOME}\LiMetal\IMEC\DNP\2025-04-28_CP\IMECeLi_CP-vs-D1_P15-01ms/"
 sample = "IMECdendrites_KBr"
 savefile = f"{sample}_cpLitoH_uW-ON_D1"
 parameter_units = "s" # for the savefile

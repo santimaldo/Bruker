@@ -7,7 +7,7 @@ Created on Thu Sep 15 12:10:32 2022
 
 """
 
-from paths import NMRDATA_LOCAL, PROJECTS
+from paths import NMRDATA, HOME
 import nmrglue as ng
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -27,8 +27,8 @@ def sine(x, A, f, phi, C):
 absolute = False
 autophase = False
 
-path = rf"{NMRDATA_LOCAL}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
-savepath = rf"{PROJECTS}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
+path = rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
+savepath = rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
 
 # expn = 41999
 # # BSMS del experimento particular.
