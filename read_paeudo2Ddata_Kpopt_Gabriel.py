@@ -66,13 +66,13 @@ mT_per_bsms = (-1.1665e-2*1e-6*9.42)*1e3
 
 path  =rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
 
-# # directorio de guradado
+# # # directorio de guradado
 # savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
-# sample label, expn, "0 ppm"@bsms=0 (para calibrar)
-infos = []
+# # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
+# infos = []
 # infos.append(["kpopt_p1-4.35us_p90", 28, 0, -4750])
-# infos.append(["kpopt_p1-1us", 212, 0, -4750])
-# infos.append(["kpopt_p1-0.5us", 35, 0, -4750])
+# # infos.append(["kpopt_p1-1us", 212, 0, -4750])
+# # infos.append(["kpopt_p1-0.5us", 35, 0, -4750])
 # fields_to_plot_mT = [0, 0.1, -0.1, -0.175, -0.3]
 
 # directorio de guradado
@@ -80,8 +80,8 @@ savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
 # sample label, expn, "0 ppm"@bsms=0 (para calibrar), bsms@"0 mT"
 fields_to_plot_mT = [0.027, 0, -0.027, -0.083, -0.11, -0.137, -0.25, 0.15]
 infos = []
-infos.append(["kpopt_p1-4.35us_p90", 265, 0, -4750])
-# infos.append(["kpopt_p1-1us", 262, -98, -4750]) # -3750
+# infos.append(["kpopt_p1-4.35us_p90", 265, 0, -4750])
+infos.append(["kpopt_p1-1us", 262, -98, -4750]) # -3750
 
 # path  =rf"{NMRDATA}\400dnp\2026-09-16_InSitu_cellTest-DNP/"
 # # directorio de guradado
@@ -95,8 +95,8 @@ plotRange = [300,-50]
 # rango de integracion
 ppmRanges = [[300, 10],
              [0, -50],
-             [300, 230],
-             [230, 10],             
+             [300, 200],
+             [200, 10],             
 
             ]
 
@@ -162,7 +162,9 @@ for info in infos:
         spectra[kk]["ppm"] = ppmAxis
         spectra[kk]["bsms"] = bsms
         
-        height_BSMS[kk] = np.max(spec1d)
+        # maximo dentro de plotRange
+        in_plotRange = (ppmAxis <= max(plotRange)) & (ppmAxis >= min(plotRange))
+        height_BSMS[kk] = np.max(spec1d[in_plotRange])
         ###### start integrating the spectra=
         for ii, ppmRange in enumerate(ppmRanges):
             color = cmap(norm_ppmRange(ii))
@@ -332,13 +334,13 @@ for info in infos:
     ax_int.plot(df['integrals'], df["bsms_centred_mT"], 'o-', color="k",#cmap(norm_ppmRange(ii)),
                label=f"integral {ppmRanges[0][0]} to {ppmRanges[0][1]} ppm")
     print("Aca esta el plot temporal")
-    # ax_int.plot(20*integrals['integrals'][:,1], df["bsms_centred_mT"], 'o-', color="k", markerfacecolor="white",#cmap(norm_ppmRange(ii)),
-    #                    label=fr"20$\times$integral {ppmRanges[1][0]} to {ppmRanges[1][1]} ppm")
-    ax_int.plot(integrals['integrals'][:,2], df["bsms_centred_mT"], '^-', color="k",#cmap(norm_ppmRange(ii)),
-                   label=f"integral {ppmRanges[2][0]} to {ppmRanges[2][1]} ppm")
-    ax_int.plot(integrals['integrals'][:,3], df["bsms_centred_mT"], 'x-', color="k",#cmap(norm_ppmRange(ii)),
-                       label=f"integral {ppmRanges[3][0]} to {ppmRanges[3][1]} ppm")
-    ax_int.set(xlabel="Integral [a.u.]", ylabel=r"$\Delta B$ (mT)")
+    ax_int.plot(integrals['integrals'][:,1], df["bsms_centred_mT"], 'o-', color="k", markerfacecolor="white",#cmap(norm_ppmRange(ii)),
+                       label=fr"20$\times$integral {ppmRanges[1][0]} to {ppmRanges[1][1]} ppm")
+    # ax_int.plot(integrals['integrals'][:,2], df["bsms_centred_mT"], '^-', color="k",#cmap(norm_ppmRange(ii)),
+    #                label=f"integral {ppmRanges[2][0]} to {ppmRanges[2][1]} ppm")
+    # ax_int.plot(integrals['integrals'][:,3], df["bsms_centred_mT"], 'x-', color="k",#cmap(norm_ppmRange(ii)),
+    #                    label=f"integral {ppmRanges[3][0]} to {ppmRanges[3][1]} ppm")
+    # ax_int.set(xlabel="Integral [a.u.]", ylabel=r"$\Delta B$ (mT)")
     # for kk in range(len(ppmRanges)):
     #     integs = np.real(integrals['integrals'][:,kk])
     #     ax_int.plot(integs/max(integs), df["bsms_centred_mT"], 'o-',#cmap(norm_ppmRange(ii)),
@@ -396,4 +398,84 @@ for info in infos:
 
     fig_int.savefig(os.path.join(savepath, "2dMap_figure_zoom.png"))
     fig.savefig(os.path.join(savepath, "slices.png"))
+
+    #%%================================================================
+    # Same map, but with the global maximum of each spectrum on the side
+    #==================================================================
+    fig, (ax_height, ax_map) = plt.subplots(1,2,figsize=(10,5),
+                                            sharey=True,
+                                            gridspec_kw={'width_ratios':[1,3]})
+
+    ax_height.plot(height_BSMS, df["bsms_centred_mT"], 'o-', color="k",
+                   label=f"maximum {plotRange[0]} to {plotRange[1]} ppm")
+    ax_height.set(xlabel="Maximum [a.u.]", ylabel=r"$\Delta B$ (mT)")
+    ax_height.grid(alpha=.3)
+    ax_height.legend(fontsize=8, loc="upper right")
+
+    pcm = ax_map.pcolormesh(ppm_2D, bsms_2D, spec_2D,
+                            shading='auto', cmap='inferno',
+                            vmax=np.max(spec_2D)*vmax)
+    ax_map.set(xlim=(max(plotRange),min(plotRange)),
+            ylim=(max(bsms_1D),min(bsms_1D)),
+            xlabel=r"$\delta$ (ppm)")
+    ax_map.set_ylabel(r"$\Delta B$ (mT)")
+    ax_map.set_title(f'cell: {muestra}; expn {expn}')
+    ax_map.tick_params(labelbottom=True, labelleft=True)
+    ax_map.axhline(0, color="white", alpha=0.75, ls="--", lw=0.5)
+
+    fig.colorbar(pcm, ax=ax_map, label="NMR signal [a.u.]")
+
+    fig.tight_layout()
+    fig.savefig(os.path.join(savepath, "2dMap_figure_height.png"))
+
+    ax_map.set_ylim(0.5, -1.5)
+    ax_height.set_ylim(0.5, -1.5)
+    for idx, field_mT in enumerate(fields_to_plot_mT):
+        bsms_target = central_bsms + field_mT / mT_per_bsms
+        kk = np.argmin(np.abs(bsms_field - bsms_target))
+        field_mT_true = (spectra[kk]["bsms"]-central_bsms) * mT_per_bsms
+        ax_height.axhline(field_mT_true, color=tabcolors[idx], ls="--", alpha=.8)
+        ax_map.axhline(field_mT_true, color=tabcolors[idx], ls="--")
+    fig.savefig(os.path.join(savepath, "2dMap_figure_height_zoom.png"))
+
+    #%%================================================================
+    # Position (ppm) of the maximum in each integration range vs field
+    #==================================================================
+    ppm_of_max = np.zeros((len(bsms_field), len(ppmRanges)))
+    for kk in range(len(bsms_field)):
+        ppmAxis = spectra[kk]["ppm"]
+        spec1d = np.real(spectra[kk]["spec"])
+        for ii, ppmRange in enumerate(ppmRanges):
+            r1, r2 = [np.min(ppmRange), np.max(ppmRange)]
+            condition = (ppmAxis >= r1) & (ppmAxis <= r2)
+            ppm_of_max[kk, ii] = ppmAxis[condition][np.argmax(spec1d[condition])]
+
+    # one panel per range: ppm of max (left axis) and integral (right axis)
+    fig_pmax, axs_pmax = plt.subplots(nrows=len(ppmRanges), sharex=True,
+                                      figsize=(6, 3*len(ppmRanges)),
+                                      squeeze=False)
+    axs_pmax = axs_pmax[:,0]
+    for ii, ppmRange in enumerate(ppmRanges):
+        ax_pmax = axs_pmax[ii]
+        ax_pmax.plot(df["bsms_centred_mT"], ppm_of_max[:,ii], 'o-', color="tab:blue")
+        ax_pmax.set_ylabel(r"$\delta_{max}$ (ppm)", color="tab:blue")
+        ax_pmax.tick_params(axis="y", labelcolor="tab:blue")
+        ax_pmax.set_title(f"range {ppmRange[0]} to {ppmRange[1]} ppm", fontsize=10)
+        ax_pmax.grid(alpha=.3)
+
+        ax_integ = ax_pmax.twinx()
+        ax_integ.plot(df["bsms_centred_mT"], np.real(signal_BSMS[:,ii]), 's-',
+                      color="tab:red", markerfacecolor="white")
+        ax_integ.set_ylabel("Integral [a.u.]", color="tab:red")
+        ax_integ.tick_params(axis="y", labelcolor="tab:red")
+    axs_pmax[-1].set_xlabel(r"$\Delta B$ (mT)")
+    fig_pmax.suptitle(f'cell: {muestra}; expn {expn}')
+    fig_pmax.tight_layout()
+    fig_pmax.savefig(os.path.join(savepath, "ppm_of_max_vs_field.png"))
+
+    df_pmax = pd.DataFrame({"bsms": bsms_field,
+                            "bsms_centred_mT": df["bsms_centred_mT"]})
+    for ii, ppmRange in enumerate(ppmRanges):
+        df_pmax[f"ppm_of_max_{ppmRange[0]}_{ppmRange[1]}"] = ppm_of_max[:,ii]
+    df_pmax.to_csv(os.path.join(savepath, "ppm_of_max.csv"), index=False)
     #%%

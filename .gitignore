@@ -8,3 +8,5 @@ __pycache__/
 .idea/
 desktop.ini
 Thumbs.db
+
+*.png

@@ -8,7 +8,6 @@ this is for TRUE 2D data
 """
 
 from paths import NMRDATA, HOME
-import nmrglue as ng
 import matplotlib.pyplot as plt
 import numpy as np
 from Datos import *
