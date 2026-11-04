@@ -37,18 +37,35 @@ mT_per_bsms = (-1.1665e-2*1e-6*9.42)*1e3
 
 
 # path  =rf"{NMRDATA}\400dnp\2026-08-18_1.3mm_Gabriel_gf410_38/"
-# # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
+# # sample label, expn, "0 ppm"@bsms=0 (para calibrar), 0 mT @ bsms
 # infos = []
-# infos.append(["cell38_5.2W", 16, 0])
+# infos.append(["cell38_5.2W", 16, 0, -300])
+# bsms_on_off = [-300, 9900]
+# plotRange = [300,-50]
+# fields_to_plot_mT = None
+# # rango de integracion
+# ppmRanges = [[300, 10],
+#              [10, -50],
+#             ]
 
-# # path  =rf"{NMRDATA}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46/"
-# # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
-# # infos = []
-# # infos.append(["cell46_5.2W", 17, 105.15])
-# # infos.append(["cell46_4.0W", 78, 196.16])
-# # infos.append(["cell46_3.0W", 76, 196.16])
-# # infos.append(["cell46_2.0W", 84, 196.16])
-# # infos.append(["cell46_1.0W", 88, 196.16])
+
+path  =rf"{NMRDATA}\400dnp\2026-08-26_1.3mm_Gabriel_gf410_46/"
+# sample label, expn, "0 ppm"@bsms=0 (para calibrar), 0 mT @ bsms
+infos = []
+infos.append(["cell46_5.2W", 17, 105.15, -2400])
+# infos.append(["cell46_4.0W", 78, 196.16])
+# infos.append(["cell46_3.0W", 76, 196.16])
+# infos.append(["cell46_2.0W", 84, 196.16])
+# infos.append(["cell46_1.0W", 88, 196.16])
+bsms_on_off = [-2400, 9900]
+plotRange = [300,-50]
+fields_to_plot_mT = None
+# rango de integracion
+ppmRanges = [[300, 10],
+             [300,220],
+             [220, 10],
+            ]
+
 
 # # directorio de guradado
 # savepath_base= rf"{HOME}\Gabriel\Analysis\2026-08_staticDNP/"
@@ -61,44 +78,41 @@ mT_per_bsms = (-1.1665e-2*1e-6*9.42)*1e3
 #             ]
 
 
+# path  =rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
 
+# # # # directorio de guradado
+# # savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
+# # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
+# # infos = []
+# # infos.append(["kpopt_p1-4.35us_p90", 28, 0, -4750])
+# # # infos.append(["kpopt_p1-1us", 212, 0, -4750])
+# # # infos.append(["kpopt_p1-0.5us", 35, 0, -4750])
+# # fields_to_plot_mT = [0, 0.1, -0.1, -0.175, -0.3]
 
-
-path  =rf"{NMRDATA}\400dnp\2026-09-10_3.2mm_LiMetal_LiF_RC1/"
-
-# # # directorio de guradado
-# savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\10kHz/"
-# # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
-# infos = []
-# infos.append(["kpopt_p1-4.35us_p90", 28, 0, -4750])
-# # infos.append(["kpopt_p1-1us", 212, 0, -4750])
-# # infos.append(["kpopt_p1-0.5us", 35, 0, -4750])
-# fields_to_plot_mT = [0, 0.1, -0.1, -0.175, -0.3]
-
-# directorio de guradado
-savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
-# sample label, expn, "0 ppm"@bsms=0 (para calibrar), bsms@"0 mT"
-fields_to_plot_mT = [0.027, 0, -0.027, -0.083, -0.11, -0.137, -0.25, 0.15]
-infos = []
-# infos.append(["kpopt_p1-4.35us_p90", 265, 0, -4750])
-infos.append(["kpopt_p1-1us", 262, -98, -4750]) # -3750
-
-# path  =rf"{NMRDATA}\400dnp\2026-09-16_InSitu_cellTest-DNP/"
 # # directorio de guradado
 # savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
-# # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
-# fields_to_plot_mT = [0, -0.33]
+# # sample label, expn, "0 ppm"@bsms=0 (para calibrar), bsms@"0 mT"
+# fields_to_plot_mT = [0.027, 0, -0.027, -0.083, -0.11, -0.137, -0.25, 0.15]
 # infos = []
-# infos.append(["kpopt_expn_52", 52, 0])
+# # infos.append(["kpopt_p1-4.35us_p90", 265, 0, -4750])
+# infos.append(["kpopt_p1-1us", 262, -98, -4750]) # -3750
+# bsms_on_off = [-4759, 9000]
+# # path  =rf"{NMRDATA}\400dnp\2026-09-16_InSitu_cellTest-DNP/"
+# # # directorio de guradado
+# # savepath_base= rf"{HOME}\LiMetal\DNP\analysis\2026-09_Limetal_LiF\0kHz/"
+# # # sample label, expn, "0 ppm"@bsms=0 (para calibrar)
+# # fields_to_plot_mT = [0, -0.33]
+# # infos = []
+# # infos.append(["kpopt_expn_52", 52, 0])
 
-plotRange = [300,-50]
-# rango de integracion
-ppmRanges = [[300, 10],
-             [0, -50],
-             [300, 200],
-             [200, 10],             
+# plotRange = [300,-50]
+# # rango de integracion
+# ppmRanges = [[300, 10],
+#             #  [0, -50],
+#             #  [300, 200],
+#             #  [200, 10],             
+#             ]
 
-            ]
 
 
 # ############ Gabrie g410_7
@@ -330,22 +344,25 @@ for info in infos:
                                             sharey=True,
                                             gridspec_kw={'width_ratios':[1,3]})
 
-
-    ax_int.plot(df['integrals'], df["bsms_centred_mT"], 'o-', color="k",#cmap(norm_ppmRange(ii)),
+    integral_offOE = np.min(np.real(integrals['integrals'][:,0]))
+    ax_int.plot(df['integrals']/integral_offOE,
+                df["bsms_centred_mT"], 'o-', color="k",#cmap(norm_ppmRange(ii)),
                label=f"integral {ppmRanges[0][0]} to {ppmRanges[0][1]} ppm")
     print("Aca esta el plot temporal")
-    ax_int.plot(integrals['integrals'][:,1], df["bsms_centred_mT"], 'o-', color="k", markerfacecolor="white",#cmap(norm_ppmRange(ii)),
-                       label=fr"20$\times$integral {ppmRanges[1][0]} to {ppmRanges[1][1]} ppm")
-    # ax_int.plot(integrals['integrals'][:,2], df["bsms_centred_mT"], '^-', color="k",#cmap(norm_ppmRange(ii)),
-    #                label=f"integral {ppmRanges[2][0]} to {ppmRanges[2][1]} ppm")
-    # ax_int.plot(integrals['integrals'][:,3], df["bsms_centred_mT"], 'x-', color="k",#cmap(norm_ppmRange(ii)),
-    #                    label=f"integral {ppmRanges[3][0]} to {ppmRanges[3][1]} ppm")
-    # ax_int.set(xlabel="Integral [a.u.]", ylabel=r"$\Delta B$ (mT)")
+    # ax_int.plot(integrals['integrals'][:,1]/integral_offOE,
+    #             df["bsms_centred_mT"], 'o-', color="k", markerfacecolor="white",#cmap(norm_ppmRange(ii)),
+    #             label=fr"20$\times$integral {ppmRanges[1][0]} to {ppmRanges[1][1]} ppm")
+    ax_int.plot(integrals['integrals'][:,1]/integral_offOE, df["bsms_centred_mT"], 's-', color="k",#cmap(norm_ppmRange(ii)),
+                markerfacecolor="white",
+                label=f"integral {ppmRanges[1][0]} to {ppmRanges[1][1]} ppm")
+    ax_int.plot(integrals['integrals'][:,2]/integral_offOE, df["bsms_centred_mT"], 'x-', color="k",#cmap(norm_ppmRange(ii)),
+                label=f"integral {ppmRanges[2][0]} to {ppmRanges[2][1]} ppm")
+    #ax_int.set(xlabel="Integral/Integral(off-OE)", ylabel=r"$\Delta B$ (mT)")
     # for kk in range(len(ppmRanges)):
     #     integs = np.real(integrals['integrals'][:,kk])
     #     ax_int.plot(integs/max(integs), df["bsms_centred_mT"], 'o-',#cmap(norm_ppmRange(ii)),
     #                 label=f"integral {ppmRanges[kk][0]} to {ppmRanges[kk][1]} ppm")
-    # ax_int.set(xlabel="normalized integral", ylabel=r"$\Delta B$ (mT)")
+    ax_int.set(xlabel="normalized integral", ylabel=r"$\Delta B$ (mT)")
     
     ax_int.grid(alpha=.3)
     ax_int.legend(fontsize=8, loc="upper right")
@@ -367,24 +384,27 @@ for info in infos:
     fig.tight_layout()
     fig.savefig(os.path.join(savepath, "2dMap_figure.png"))
 
-    ax_map.set_ylim(0.2, -0.4) # este solia ser hasta -0.2
-    ax_int.set_ylim(0.2, -0.4) # este solia ser hasta -0.2
+    Blims = (0.75, -0.75) # (0.2, -0.4) # este solia ser hasta -0.2
+    Blims = (0.3, -0.3)
+    ax_map.set_ylim(Blims) # este solia ser hasta -0.2
+    ax_int.set_ylim(Blims) # este solia ser hasta -0.2
     fig_int = fig
     
 
     # espectros a fields_to_plot_mT
-    tabcolors = plt.rcParams['axes.prop_cycle'].by_key()['color']
-    fig, ax = plt.subplots(figsize=(6,3))
-    for idx, field_mT in enumerate(fields_to_plot_mT):
-        bsms_target = central_bsms + field_mT / mT_per_bsms
-        kk = np.argmin(np.abs(bsms_field - bsms_target))
-        bsms_true = spectra[kk]["bsms"]
-        field_mT_true = (bsms_true-central_bsms) * mT_per_bsms
-        ax.plot(spectra[kk]["ppm"], np.real(spectra[kk]["spec"]),
-                label=f"$\\Delta B$ = {field_mT_true:.3g} mT",
-                lw=2)
-        ax_int.axhline(field_mT_true, color=tabcolors[idx], ls="--", alpha=.8)
-        ax_map.axhline(field_mT_true, color=tabcolors[idx], ls="--")
+    if fields_to_plot_mT is not None:
+        tabcolors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+        fig, ax = plt.subplots(figsize=(6,3))
+        for idx, field_mT in enumerate(fields_to_plot_mT):
+            bsms_target = central_bsms + field_mT / mT_per_bsms
+            kk = np.argmin(np.abs(bsms_field - bsms_target))
+            bsms_true = spectra[kk]["bsms"]
+            field_mT_true = (bsms_true-central_bsms) * mT_per_bsms
+            ax.plot(spectra[kk]["ppm"], np.real(spectra[kk]["spec"]),
+                    label=f"$\\Delta B$ = {field_mT_true:.3g} mT",
+                    lw=2)
+            ax_int.axhline(field_mT_true, color=tabcolors[idx], ls="--", alpha=.8)
+            ax_map.axhline(field_mT_true, color=tabcolors[idx], ls="--")
 
     ax.set_xlim(max(plotRange), min(plotRange))
     ax.set_xlabel(r"$\delta$ (ppm)")
@@ -430,12 +450,13 @@ for info in infos:
 
     ax_map.set_ylim(0.5, -1.5)
     ax_height.set_ylim(0.5, -1.5)
-    for idx, field_mT in enumerate(fields_to_plot_mT):
-        bsms_target = central_bsms + field_mT / mT_per_bsms
-        kk = np.argmin(np.abs(bsms_field - bsms_target))
-        field_mT_true = (spectra[kk]["bsms"]-central_bsms) * mT_per_bsms
-        ax_height.axhline(field_mT_true, color=tabcolors[idx], ls="--", alpha=.8)
-        ax_map.axhline(field_mT_true, color=tabcolors[idx], ls="--")
+    if fields_to_plot_mT is not None:
+        for idx, field_mT in enumerate(fields_to_plot_mT):
+            bsms_target = central_bsms + field_mT / mT_per_bsms
+            kk = np.argmin(np.abs(bsms_field - bsms_target))
+            field_mT_true = (spectra[kk]["bsms"]-central_bsms) * mT_per_bsms
+            ax_height.axhline(field_mT_true, color=tabcolors[idx], ls="--", alpha=.8)
+            ax_map.axhline(field_mT_true, color=tabcolors[idx], ls="--")
     fig.savefig(os.path.join(savepath, "2dMap_figure_height_zoom.png"))
 
     #%%================================================================
@@ -479,3 +500,39 @@ for info in infos:
         df_pmax[f"ppm_of_max_{ppmRange[0]}_{ppmRange[1]}"] = ppm_of_max[:,ii]
     df_pmax.to_csv(os.path.join(savepath, "ppm_of_max.csv"), index=False)
     #%%
+    with plt.rc_context({"font.size": 16}):
+        fig, ax = plt.subplots(figsize=(8,6.5))
+        ax.plot(
+                df["bsms_centred_mT"],
+                df['integrals']/integral_offOE,
+                'o-', color="k", ms=8,
+                label=f"integral {ppmRanges[0][0]} to {ppmRanges[0][1]} ppm")    
+        ax.plot(df["bsms_centred_mT"],
+                integrals['integrals'][:,1]/integral_offOE,
+                's-', color="k", markerfacecolor="white",
+                label=f"integral {ppmRanges[1][0]} to {ppmRanges[1][1]} ppm")
+        ax.plot(df["bsms_centred_mT"],
+                integrals['integrals'][:,2]/integral_offOE,
+                'x-', color="k",
+                label=f"integral {ppmRanges[2][0]} to {ppmRanges[2][1]} ppm")
+
+        ax.set(ylabel="normalized integral", xlabel=r"$\Delta B$ (mT)")
+        ax.grid(alpha=.3)
+        ax.legend(fontsize=14)#, loc="upper right")
+        # ax.set_xlim(-1.25, 1.25)
+    # %%
+    with plt.rc_context({"font.size": 20}):
+        fig, ax = plt.subplots(figsize=(8,6.5))
+
+        bsms_on, bsms_off = bsms_on_off
+        idx_on = np.argmin(np.abs(df["bsms"]-bsms_on))
+        idx_off = np.argmin(np.abs(df["bsms"]-bsms_off))
+        ppm_off, spec_off = spectra[idx_off]["ppm"], np.real(spectra[idx_off]["spec"])
+        ppm_on, spec_on = spectra[idx_on]["ppm"], np.real(spectra[idx_on]["spec"])
+        ax.plot(ppm_off, spec_off/np.max(spec_off), '-', color="b", label=f"off-OE", lw=3)    
+        ax.plot(ppm_on, spec_on/np.max(spec_off), '-', color="r", label=f"on-OE", lw=3)
+        ax.set(xlabel=r"$^7$Li $\delta$ ppm", ylabel=r"Intensity [a.u.]")
+        ax.grid(alpha=.3)
+        ax.legend(fontsize=20, loc="upper right")
+        ax.set_xlim(plotRange)
+# %%
